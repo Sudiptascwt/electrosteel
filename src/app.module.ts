@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module'; // make sure this path is correct
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity'; 
+import { Certificate } from './home/entity/certificate.entity';
 import { AuthModule } from './auth/auth.module';
+import { HomeModule } from './home/home.module';
 
 @Module({
   imports: [
@@ -15,13 +17,14 @@ import { AuthModule } from './auth/auth.module';
       username: 'root',
       password: '',
       database: 'electrosteel',
-      entities: [User], 
+      entities: [User, Certificate], 
       synchronize: true, // for dev only
       // synchronize: false,
       logging: true,
     }),
     UsersModule,
     AuthModule,
+    HomeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

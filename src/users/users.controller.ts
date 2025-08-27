@@ -8,10 +8,6 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() body: { name: string; email: string; password: string }) {
-    return this.usersService.createUser(body.name, body.email, body.password);
-  }
 
   @Get()
   findAll() {

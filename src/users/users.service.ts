@@ -12,15 +12,8 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(name: string, email: string, password: string) {
-    const existingUser = await this.userRepository.findOne({ where: { email } });
-    if (existingUser) {
-      throw new BadRequestException('Email already exists');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = this.userRepository.create({ name, email, password: hashedPassword });
-    return this.userRepository.save(user);
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
   findAll() {
