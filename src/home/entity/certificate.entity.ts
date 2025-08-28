@@ -3,13 +3,14 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity()
 export class Certificate {
   @PrimaryGeneratedColumn()
-  latest_certifications_id: number;
+  id: number;
 
   @Column()
   title: string;
 
   @Column()
-  number: string;
+  iso_number: string;
+  unique: true
 
   // New Columns
   @Column({ nullable: true }) // Image is optional
