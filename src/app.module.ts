@@ -9,6 +9,9 @@ import { Banner } from './home/entity/banner.entity';
 import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
 import { BannerModule } from './home/banner/banner.module';
+import { Investor } from './home/entity/investor.entity';
+import { InvestorModule } from './home/investor/investor.module';
+import { CareModule } from './home/cares/care.module';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { BannerModule } from './home/banner/banner.module';
       username: 'root',
       password: '',
       database: 'electrosteel',
-      entities: [User, Certificate, Banner], // ✅ include Banner entity
+      entities: [User, Certificate, Banner, Investor], 
       synchronize: true, // only for dev
       logging: true,
     }),
@@ -27,6 +30,8 @@ import { BannerModule } from './home/banner/banner.module';
     AuthModule,
     HomeModule,
     BannerModule,
+    InvestorModule,
+    CareModule
   ],
   controllers: [AppController],
   providers: [AppService],
