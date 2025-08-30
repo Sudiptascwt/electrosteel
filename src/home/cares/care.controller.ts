@@ -1,75 +1,76 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFile, Put, Param, Delete, Get } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CareDto } from '../dto/care.dto';
-import { Care } from '../entity/care.entity'
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import {
+  Controller,
+  Post,
+  UseInterceptors,
+  UploadedFiles,
+  Body,
+  Put,
+  Param,
+  Get,
+  Delete,
+} from '@nestjs/common';
 import { CareService } from './care.service';
-import { get } from 'http';
+import { CareDto } from '../dto/care.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-
-@Controller('home/investor')
+@Controller('home/care')
 export class CareController {
-    constructor(private readonly CareService: CareService) {}
-    //create investor
-    @Post('create-investor')
-    @UseInterceptors(
-      FileInterceptor('file', {
-        storage: diskStorage({
-          destination: './uploads', 
-          filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-            const ext = extname(file.originalname);
-            cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-          },
-        }),
-      }),
-    )
-    async createInvestor(
-      @UploadedFile() file: Express.Multer.File,
-      @Body() data: CareDto,
-    ) {
-      // console.log('Saved file name:', file.filename);
-        return this.CareService.createCare(data, file);
-    }
-    //update investor
-    // @Put('update-investor/:id')
-    // @UseInterceptors(
-    //   FileInterceptor('file', {
-    //     storage: diskStorage({
-    //       destination: './uploads', 
-    //       filename: (req, file, cb) => {
-    //         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    //         const ext = extname(file.originalname);
-    //         cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-    //       },
-    //     }),
-    //   }),
-    // )
-    // async updateInvestor(
-    //     @Param('id') id: number,
-    //     @UploadedFile() file: Express.Multer.File,
-    //     @Body() data: InvestorDto,
-    // ) {
-    //     return this.CareService.updateInvestor(id, {
-    //     ...data,
-    //     });
-    // }
+  constructor(private readonly careService: CareService) {}
 
-    // //get all Investors
-    // @Get()
-    // async getAllInvestors() {
-    //     return this.CareService.getAllInvestors();
-    // }
-    // //get Investor by id
-    // @Get(':id')
-    // async getOne(@Param('id') id: number) {
-    //     return this.CareService.getInvestorById(id);
-    // }
+  @Post('create-care')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'video_image', maxCount: 1 },
+      { name: 'icon_image', maxCount: 1 },
+    ]),
+  )
+  async createCare(
+    @Body() data: CareDto,
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      video_image?: Express.Multer.File[];
+      icon_image?: Express.Multer.File[];
+    },
+  ) {
+    return this.careService.createCare(data, files);
+  }
+
+  @Put('update-care/:id')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'video_image', maxCount: 1 },
+      { name: 'icon_image', maxCount: 1 },
+    ]),
+  )
+  async updateCare(
+    @Param('id') id: number,
+    @Body() data: CareDto,
+    @UploadedFiles()
+    files: {
+      image?: Express.Multer.File[];
+      video_image?: Express.Multer.File[];
+      icon_image?: Express.Multer.File[];
+    },
+  ) {
+    return this.careService.updateCare(id, data, files);
+  }
+    //get all Cares
+    @Get()
+    async getAllCares() {
+        return this.careService.getAllCares();
+    }
+    //get Care by id
+    @Get(':id')
+    async getOne(@Param('id') id: number) {
+        return this.careService.getCareById(id);
+    }
     
-    // //delete Investor by id
-    // @Delete(':id')
-    // async delete(@Param('id') id: number) {
-    //     return this.CareService.deleteInvestor(id);
-    // }
+    //delete Care by id
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        return this.careService.deleteCare(id);
+    }
 }

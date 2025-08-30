@@ -12,6 +12,9 @@ import { BannerModule } from './home/banner/banner.module';
 import { Investor } from './home/entity/investor.entity';
 import { InvestorModule } from './home/investor/investor.module';
 import { CareModule } from './home/cares/care.module';
+import { Care } from './home/entity/care.entity';
+import { MilestoneModule } from './home/milestone/milestone.module';
+import { Milestone } from './home/entity/milestone.entity';
 
 @Module({
   imports: [
@@ -22,7 +25,7 @@ import { CareModule } from './home/cares/care.module';
       username: 'root',
       password: '',
       database: 'electrosteel',
-      entities: [User, Certificate, Banner, Investor], 
+      entities: [User, Certificate, Banner, Investor, Care, Milestone], 
       synchronize: true, // only for dev
       logging: true,
     }),
@@ -31,7 +34,8 @@ import { CareModule } from './home/cares/care.module';
     HomeModule,
     BannerModule,
     InvestorModule,
-    CareModule
+    CareModule,
+    MilestoneModule
   ],
   controllers: [AppController],
   providers: [AppService],

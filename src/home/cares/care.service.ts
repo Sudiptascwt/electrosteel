@@ -11,7 +11,7 @@ export class CareService {
     private readonly CareRepository: Repository<Care>, 
   ) {}
 
-  async createCare(data: CareDto, file: Express.Multer.File) {
+  async createCare(data: CareDto, files: any) {
     const existingInvestor = await this.CareRepository.findOne({
       where: { title: data.title },
     });
@@ -19,22 +19,90 @@ export class CareService {
     if (existingInvestor) {
       return {
         statusCode: 400,
-        message: 'This investor already exists',
+        message: 'This care already exists',
       };
     }
 
-    // if (file) {
-    //   data.pdf = file.filename;
-    // }
-    const newInvestor = this.CareRepository.create(data);
-    await this.CareRepository.save(newInvestor);
+    const care = this.CareRepository.create({
+      ...data,
+      image: files?.image ? files.image[0].filename : null,
+      video_image: files?.video_image ? files.video_image[0].filename : null,
+      icon_image: files?.icon_image ? files.icon_image[0].filename : null,
+    });
+    const newCare = this.CareRepository.create(care);
+    await this.CareRepository.save(newCare);
 
     return {
       statusCode: 201,
-      message: 'Care created successfully.',
-      data: newInvestor,
+      message: 'Investor created successfully.',
+      data: newCare,
     };
   }
+
+  // UPDATE CARE
+  async updateCare(id: number, data: CareDto, files: any) {
+    const care = await this.CareRepository.findOne({ where: { id } });
+
+    if (!care) {
+      throw new NotFoundException(`Care with ID ${id} not found`);
+    }
+
+    // Update fields and handle new images if uploaded
+    Object.assign(care, data);
+
+    if (files?.image) care.image = files.image[0].filename;
+    if (files?.video_image) care.video_image = files.video_image[0].filename;
+    if (files?.icon_image) care.icon_image = files.icon_image[0].filename;
+
+    const updatedCare = await this.CareRepository.save(care);
+
+    return {
+      statusCode: 200,
+      message: 'Care updated successfully.',
+      data: updatedCare,
+    };
+  }
+
+  // GET SINGLE CARE
+  async getCareById(id: number) {
+    const care = await this.CareRepository.findOne({ where: { id } });
+
+    if (!care) {
+      throw new NotFoundException(`Care with ID ${id} not found`);
+    }
+
+    return {
+      statusCode: 200,
+      message: 'Care fetched successfully.',
+      data: care,
+    };
+  }
+
+  // GET ALL CARES
+  async getAllCares() {
+    const cares = await this.CareRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+
+    return {
+      statusCode: 200,
+      message: 'Cares fetched successfully.',
+      data: cares,
+    };
+  }
+
+  async deleteCare(id: number) {
+  const result = await this.CareRepository.delete(id);
+  if (result.affected == 0) throw new NotFoundException(`care with ID ${id} not found`);
+
+  return {
+    statusCode: 200,
+    message: 'Care deleted successfully',
+  };
+}
+}
+
+
 
   // async updateInvestor(id: number, data: Partial<InvestorDto>) {
   //   const certificate = await this.investorRepository.findOne({ where: { id: id } });
@@ -97,13 +165,4 @@ export class CareService {
   //   };
   // }
 
-  // async deleteInvestor(id: number) {
-  //   const result = await this.investorRepository.delete(id);
-  //   if (result.affected == 0) throw new NotFoundException(`Banner with ID ${id} not found`);
 
-  //   return {
-  //     statusCode: 200,
-  //     message: 'Banner deleted successfully',
-  //   };
-  // }
-}
