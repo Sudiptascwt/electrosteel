@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { CareService } from './care.service';
-import { CareController } from './care.controller';
+import { InformationService } from './information.service';
+import { InformationController } from './information.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Care } from '../../entity/care.entity';
+import { Information } from '../../entity/information.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Care]),
+    TypeOrmModule.forFeature([Information]),
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads', // Folder where images will be saved
@@ -20,7 +20,7 @@ import { extname } from 'path';
       }),
     }),
   ],
-  providers: [CareService],
-  controllers: [CareController],
+  providers: [InformationService],
+  controllers: [InformationController],
 })
-export class CareModule {}
+export class InformationModule {}

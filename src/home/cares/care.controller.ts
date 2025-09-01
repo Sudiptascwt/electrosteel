@@ -10,7 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CareService } from './care.service';
-import { CareDto } from '../dto/care.dto';
+import { CareDto } from '../../dto/care.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';

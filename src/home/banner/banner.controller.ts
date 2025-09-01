@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseInterceptors, UploadedFile, Put, Param, Delete, Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { BannerDto } from '../dto/banner.dto';
-import { Banner } from '../entity/banner.entity';
+import { BannerDto } from '../../dto/banner.dto';
+import { Banner } from '../../entity/banner.entity';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { BannerService } from './banner.service';

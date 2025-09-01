@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { CertificateDto } from './dto/certificate.dto';
-import { Certificate } from './entity/certificate.entity';
+import { CertificateDto } from '../dto/certificate.dto';
+import { Certificate } from '../entity/certificate.entity';
 
 @Injectable()
 export class HomeService {

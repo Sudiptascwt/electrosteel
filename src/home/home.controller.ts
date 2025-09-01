@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UseInterceptors, UploadedFile, Put, Param, Delete, Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CertificateDto } from './dto/certificate.dto';
+import { CertificateDto } from '../dto/certificate.dto';
 import { HomeService } from './home.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';

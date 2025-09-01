@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseInterceptors, UploadedFile, Put, Param, Delete, Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { InvestorDto } from '../dto/investor.dto';
-import { Investor } from '../entity/investor.entity'
+import { InvestorDto } from '../../dto/investor.dto';
+import { Investor } from '../../entity/investor.entity'
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { InvestorService } from './investor.service';

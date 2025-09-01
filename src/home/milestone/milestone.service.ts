@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { MilestoneDto } from '../dto/milestone.dto';
-import { Milestone } from '../entity/milestone.entity';
-import { MilestoneImageDto } from '../dto/milestone_image.dto';
-import { MilestoneImage } from '../entity/milestone_image.entity';
+import { MilestoneDto } from '../../dto/milestone.dto';
+import { Milestone } from '../../entity/milestone.entity';
+import { MilestoneImageDto } from '../../dto/milestone_image.dto';
+import { MilestoneImage } from '../../entity/milestone_image.entity';
 
 @Injectable()
 export class MilestoneService {

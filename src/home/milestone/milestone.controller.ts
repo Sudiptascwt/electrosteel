@@ -10,8 +10,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { MilestoneService } from './milestone.service';
-import { MilestoneDto } from '../dto/milestone.dto';
-import { MilestoneImageDto } from '../dto/milestone_image.dto';
+import { MilestoneDto } from '../../dto/milestone.dto';
+import { MilestoneImageDto } from '../../dto/milestone_image.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { get } from 'http';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';

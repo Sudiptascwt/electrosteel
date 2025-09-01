@@ -4,18 +4,26 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
-import { Certificate } from './home/entity/certificate.entity';
-import { Banner } from './home/entity/banner.entity';
+import { Certificate } from './entity/certificate.entity';
+import { Banner } from './entity/banner.entity';
 import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
 import { BannerModule } from './home/banner/banner.module';
-import { Investor } from './home/entity/investor.entity';
+import { Investor } from './entity/investor.entity';
 import { InvestorModule } from './home/investor/investor.module';
 import { CareModule } from './home/cares/care.module';
-import { Care } from './home/entity/care.entity';
+import { Care } from './entity/care.entity';
 import { MilestoneModule } from './home/milestone/milestone.module';
-import { Milestone } from './home/entity/milestone.entity';
-import { MilestoneImage } from './home/entity/milestone_image.entity';
+import { Milestone } from './entity/milestone.entity';
+import { MilestoneImage } from './entity/milestone_image.entity';
+import { Advancement } from './entity/advancement.entity';
+import { AdvancementModule } from './home/advancements/advancement.module';
+import { GlobalPresence } from './entity/global_presense.entity';
+import { GlobalPresenceModule } from './home/global_presence/global_presense.module';
+import { AllCertificate } from './entity/all_certificates.entity';
+import { AllCertificatesModule } from './home/all_certificates/certificates.module';
+import { InformationModule } from './home/information/information.module';
+import { Information } from './entity/information.entity';
 
 @Module({
   imports: [
@@ -26,9 +34,10 @@ import { MilestoneImage } from './home/entity/milestone_image.entity';
       username: 'root',
       password: '',
       database: 'electrosteel',
-      entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage], 
-      // synchronize: true, // only for dev
-      synchronize: false, 
+      // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
+      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information], 
+      synchronize: true, // only for dev
+      // synchronize: false, 
       logging: true,
     }),
     UsersModule,
@@ -37,7 +46,11 @@ import { MilestoneImage } from './home/entity/milestone_image.entity';
     BannerModule,
     InvestorModule,
     CareModule,
-    MilestoneModule
+    MilestoneModule,
+    AdvancementModule,
+    GlobalPresenceModule,
+    AllCertificatesModule,
+    InformationModule
   ],
   controllers: [AppController],
   providers: [AppService],
