@@ -12,7 +12,14 @@ import {
 import { CareService } from './care.service';
 import { CareDto } from '../dto/care.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('home/care')
 export class CareController {
   constructor(private readonly careService: CareService) {}

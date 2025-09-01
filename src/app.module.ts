@@ -15,6 +15,7 @@ import { CareModule } from './home/cares/care.module';
 import { Care } from './home/entity/care.entity';
 import { MilestoneModule } from './home/milestone/milestone.module';
 import { Milestone } from './home/entity/milestone.entity';
+import { MilestoneImage } from './home/entity/milestone_image.entity';
 
 @Module({
   imports: [
@@ -25,8 +26,9 @@ import { Milestone } from './home/entity/milestone.entity';
       username: 'root',
       password: '',
       database: 'electrosteel',
-      entities: [User, Certificate, Banner, Investor, Care, Milestone], 
-      synchronize: true, // only for dev
+      entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage], 
+      // synchronize: true, // only for dev
+      synchronize: false, 
       logging: true,
     }),
     UsersModule,
