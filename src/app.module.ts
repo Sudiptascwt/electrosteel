@@ -24,6 +24,10 @@ import { AllCertificate } from './entity/all_certificates.entity';
 import { AllCertificatesModule } from './home/all_certificates/certificates.module';
 import { InformationModule } from './home/information/information.module';
 import { Information } from './entity/information.entity';
+import {InnerModule } from './inner/inner_banner/inner.module';
+import { InnerBanner } from './entity/inner_banner.entity';
+import { InnerSliderModule } from './inner/inner_slider_images/inner_slider_image.module'
+import { InnerFeature } from './entity/inner_feature.entity'
 
 @Module({
   imports: [
@@ -35,7 +39,7 @@ import { Information } from './entity/information.entity';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information], 
+      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information,InnerBanner, InnerFeature], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -50,7 +54,9 @@ import { Information } from './entity/information.entity';
     AdvancementModule,
     GlobalPresenceModule,
     AllCertificatesModule,
-    InformationModule
+    InformationModule,
+    InnerModule,
+    InnerSliderModule
   ],
   controllers: [AppController],
   providers: [AppService],

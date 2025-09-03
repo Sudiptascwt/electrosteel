@@ -6,6 +6,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,               // ✅ Add this
+    "moduleResolution": "node",            // ✅ Add this
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
