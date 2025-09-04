@@ -40,8 +40,8 @@ import { InnerFeature } from './entity/inner_feature.entity'
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
       entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information,InnerBanner, InnerFeature], 
-      synchronize: true, // only for dev
-      // synchronize: false, 
+      // synchronize: true, // only for dev
+      synchronize: false, 
       logging: true,
     }),
     UsersModule,

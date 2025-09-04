@@ -7,7 +7,7 @@ import {
     IntegerType,
   } from 'typeorm';
   
-  @Entity('inner_banners')
+  @Entity('inner_features')
   export class InnerFeature {
     @PrimaryGeneratedColumn()
     id: number;
