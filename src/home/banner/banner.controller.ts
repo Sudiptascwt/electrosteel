@@ -18,73 +18,91 @@ import { UserRole } from '../../users/user.entity';
 @Roles(UserRole.ADMIN)
 @Controller('home/banner')
 export class BannerController {
-    constructor(private readonly bannerService: BannerService) {}
-    //create cretificate for home banner
-    @Post('create-banner')
-    @UseInterceptors(
-      FileInterceptor('banner_image', {
-        storage: diskStorage({
-          destination: './uploads', 
-          filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-            const ext = extname(file.originalname);
-            cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-          },
-        }),
-      }),
-    )
-    async createBannerImage(
-      @UploadedFile() file: Express.Multer.File,
-      @Body() data: BannerDto,
-    ) {
-      // console.log('Saved file name:', file.filename);
-      return this.bannerService.createBannerImage({
-        ...data
-      });
-    }
-    //update banner for home banner
-    @Put('update-banner/:id')
-    @UseInterceptors(
-      FileInterceptor('banner_image', {
-        storage: diskStorage({
-          destination: './uploads', 
-          filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-            const ext = extname(file.originalname);
-            cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-          },
-        }),
-      }),
-    )
-    async updateCertificate(
-        @Param('id') id: number,
-        @UploadedFile() file: Express.Multer.File,
-        @Body() data: BannerDto,
-    ) {
-        return this.bannerService.updateBannerImage(id, {
-        ...data,
-        banner_image: file?.filename, 
-        });
-    }
-    //get all banners
-    @Get()
-    async getAllBanners() {
-        return this.bannerService.getAllBanners();
-    }
-    //get banner by id
-    @Get(':id')
-    async getOne(@Param('id') id: number) {
-        return this.bannerService.getBannerById(id);
-    }
-    //delete banner by id
-    @Delete(':id')
-    async delete(@Param('id') id: number) {
-        return this.bannerService.deleteBanner(id);
-    }
+  constructor(private readonly bannerService: BannerService) {}
 
-    //inactive banner by id
-    @Get('inactive/:id')
-    async get(@Param('id') id: number) {
-        return this.bannerService.inactiveBanner(id);
-    }
+  // Create Banner (Image or Video)
+  @Post('create-banner')
+  @UseInterceptors(
+    FileInterceptor('banner_media', {
+      storage: diskStorage({
+        destination: './uploads', // ✅ Store all in the same folder
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          cb(null, `banner-${uniqueSuffix}${ext}`);
+        },
+      }),
+    }),
+  )
+  async createBanner(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() data: BannerDto,
+  ) {
+    return this.bannerService.createBannerImage({
+      ...data,
+      banner_media: file?.filename,
+      media_type: this.getMediaType(file),
+    });
+  }
+
+  // Update Banner (Image or Video)
+  @Put('update-banner/:id')
+  @UseInterceptors(
+    FileInterceptor('banner_media', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          cb(null, `banner-${uniqueSuffix}${ext}`);
+        },
+      }),
+    }),
+  )
+  async updateBanner(
+    @Param('id') id: number,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() data: BannerDto,
+  ) {
+    return this.bannerService.updateBannerImage(id, {
+      ...data,
+      banner_media: file?.filename,
+      media_type: this.getMediaType(file),
+    });
+  }
+
+  // Get All Banners
+  @Get()
+  async getAllBanners() {
+    return this.bannerService.getAllBanners();
+  }
+
+  // Get Banner By ID
+  @Get(':id')
+  async getBannerById(@Param('id') id: number) {
+    return this.bannerService.getBannerById(id);
+  }
+
+  // Delete Banner
+  @Delete(':id')
+  async deleteBanner(@Param('id') id: number) {
+    return this.bannerService.deleteBanner(id);
+  }
+
+  // Inactivate Banner
+  @Get('inactive/:id')
+  async inactiveBanner(@Param('id') id: number) {
+    return this.bannerService.inactiveBanner(id);
+  }
+
+  // Helper function to detect file type
+  private getMediaType(file: Express.Multer.File): string {
+    if (!file) return null;
+    const ext = extname(file.originalname).toLowerCase();
+    return ['.mp4', '.webm', '.mov', '.avi'].includes(ext)
+      ? 'video'
+      : 'image';
+  }
 }

@@ -27,7 +27,17 @@ import { Information } from './entity/information.entity';
 import {InnerModule } from './inner/inner_banner/inner.module';
 import { InnerBanner } from './entity/inner_banner.entity';
 import { InnerSliderModule } from './inner/inner_slider_images/inner_slider_image.module'
-import { InnerFeature } from './entity/inner_feature.entity'
+import { InnerFeature } from './entity/inner_feature.entity';
+import { Statistic } from './entity/statistic.entity';
+import { StatisticModule } from './home/statistic/statistic.module';
+import { Product } from './entity/product.entity';
+import { ProductModule } from './home/products/product.module';
+import { SectionElectrosteelModule } from './home/section_electrosteel/section_electrosteel.module';
+import { SectionElectrosteel } from './entity/section_electrosteel.entity';
+import { VideoSectionModule } from './home/video_section/video_section.module';
+import { VideoSection } from './entity/home_video_section.entity';
+import { Testimonial } from './entity/home_testimonial.entity';
+import { TestimonialModule } from './home/testimonial/testimonial.module';
 
 @Module({
   imports: [
@@ -39,9 +49,9 @@ import { InnerFeature } from './entity/inner_feature.entity'
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information,InnerBanner, InnerFeature], 
-      // synchronize: true, // only for dev
-      synchronize: false, 
+      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information,InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial], 
+      synchronize: true, // only for dev
+      // synchronize: false, 
       logging: true,
     }),
     UsersModule,
@@ -56,7 +66,12 @@ import { InnerFeature } from './entity/inner_feature.entity'
     AllCertificatesModule,
     InformationModule,
     InnerModule,
-    InnerSliderModule
+    InnerSliderModule,
+    StatisticModule,
+    ProductModule,
+    SectionElectrosteelModule,
+    VideoSectionModule,
+    TestimonialModule
   ],
   controllers: [AppController],
   providers: [AppService],

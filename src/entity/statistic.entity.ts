@@ -6,37 +6,40 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('banners')
-export class Banner {
+@Entity('statistics')
+export class Statistic {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;
 
+  @Column({ type: 'int' })
+  page_id: number;
+
   @Column({ type: 'varchar', length: 255, nullable: true })
-  banner_sub_title: string;
+  number: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  number_video: string;
 
   @Column({ type: 'text', nullable: true })  
-  description: string;
+  pipes_title: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  banner_media: string;
+  pipes_number: string;
 
-  @Column({ type: 'varchar', length: 20, default: 'image' })
-  media_type: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  overview_image: string;
 
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // banner_image: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  overview_title: string;
 
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // url: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  overview_sub_title: string;
 
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // url2: string;
-
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // alt_tag: string;
+  @Column({ type: 'text', nullable: true })
+  description: string;
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

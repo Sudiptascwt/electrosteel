@@ -3,11 +3,11 @@ import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt } from 'class-validator'
 export class BannerDto {
   @IsOptional()
   @IsInt()
-  banner_id?: number;
+  id?: number;
 
   @IsNotEmpty({ message: 'Banner title is required' })
   @IsString()
-  banner_title: string;
+  title: string;
 
   @IsOptional()
   @IsString()
@@ -19,23 +19,11 @@ export class BannerDto {
 
   @IsOptional()
   @IsString()
-  alise?: string;
+  banner_media?: string;
 
   @IsOptional()
   @IsString()
-  banner_image?: string;
-
-  @IsOptional()
-  @IsUrl({}, { message: 'URL must be a valid link' })
-  url?: string;
-
-  @IsOptional()
-  @IsUrl({}, { message: 'URL2 must be a valid link' })
-  url2?: string;
-
-  @IsOptional()
-  @IsString()
-  alt_tag?: string;
+  media_type?: string;
 
   @IsOptional()
   status?: number;

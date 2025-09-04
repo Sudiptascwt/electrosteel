@@ -12,16 +12,6 @@ export class BannerService {
   ) {}
 
   async createBannerImage(data: BannerDto) {
-    const existingBanner = await this.bannerRepository.findOne({
-      where: { banner_title: data.banner_title },
-    });
-
-    if (existingBanner) {
-      return {
-        statusCode: 400,
-        message: 'Banner with this title already exists',
-      };
-    }
     const newBanner = this.bannerRepository.create(data);
     await this.bannerRepository.save(newBanner);
 
@@ -33,17 +23,17 @@ export class BannerService {
   }
 
   async updateBannerImage(id: number, data: Partial<BannerDto>) {
-    const certificate = await this.bannerRepository.findOne({ where: { banner_id: id } });
+    const banner = await this.bannerRepository.findOne({ where: { id: id } });
 
-    if (!certificate) {
+    if (!banner) {
       throw new NotFoundException('Banner image not found.');
     }
 
-    if (data.banner_title) {
+    if (data.title) {
       const isoExists = await this.bannerRepository.findOne({
         where: {
-          banner_title: data.banner_title,
-          banner_id: Not(id),
+          title: data.title,
+          id: Not(id),
         },
       });
 
@@ -57,16 +47,16 @@ export class BannerService {
     await this.bannerRepository.update(id, data);
     return {
       statusCode: 200,
-      message: 'Certificate updated successfully',
+      message: 'Banner updated successfully',
     };
   }
 
   async getAllBanners() {
-    return this.bannerRepository.find({ order: { banner_id: 'ASC' } });
+    return this.bannerRepository.find({ order: { id: 'ASC' } });
   }
 
   async getBannerById(id: number) {
-    const banner = await this.bannerRepository.findOne({ where: { banner_id: id } });
+    const banner = await this.bannerRepository.findOne({ where: { id: id } });
     if (!banner) throw new NotFoundException(`Banner with ID ${id} not found`);
     return banner;
   }
