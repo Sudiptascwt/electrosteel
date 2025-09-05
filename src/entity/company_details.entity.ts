@@ -1,21 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('products') 
-export class Product {
+@Entity('company_details') 
+export class CompanyDetails {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   page_id: number;
 
-  @Column()
-  title: string;
-
   @Column({ nullable: true })
   image: string;
-
-  @Column({ nullable: true })
-  description: string;
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

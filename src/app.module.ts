@@ -10,20 +10,12 @@ import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
 import { BannerModule } from './home/banner/banner.module';
 import { Investor } from './entity/investor.entity';
-import { InvestorModule } from './home/investor/investor.module';
-import { CareModule } from './home/cares/care.module';
 import { Care } from './entity/care.entity';
 import { MilestoneModule } from './home/milestone/milestone.module';
 import { Milestone } from './entity/milestone.entity';
 import { MilestoneImage } from './entity/milestone_image.entity';
 import { Advancement } from './entity/advancement.entity';
 import { AdvancementModule } from './home/advancements/advancement.module';
-import { GlobalPresence } from './entity/global_presense.entity';
-import { GlobalPresenceModule } from './home/global_presence/global_presense.module';
-import { AllCertificate } from './entity/all_certificates.entity';
-import { AllCertificatesModule } from './home/all_certificates/certificates.module';
-import { InformationModule } from './home/information/information.module';
-import { Information } from './entity/information.entity';
 import {InnerModule } from './inner/inner_banner/inner.module';
 import { InnerBanner } from './entity/inner_banner.entity';
 import { InnerSliderModule } from './inner/inner_slider_images/inner_slider_image.module'
@@ -38,6 +30,12 @@ import { VideoSectionModule } from './home/video_section/video_section.module';
 import { VideoSection } from './entity/home_video_section.entity';
 import { Testimonial } from './entity/home_testimonial.entity';
 import { TestimonialModule } from './home/testimonial/testimonial.module';
+import { SocialSectionModule } from './home/social_section/social_section.module';
+import { SocialSection } from './entity/social_section.entity';
+import { Advertisement } from './entity/advertisement.entity';
+import { AdvertisementModule } from './home/advertisement/advertisement.module';
+import { Image } from './entity/image_file.entity';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -49,7 +47,7 @@ import { TestimonialModule } from './home/testimonial/testimonial.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, Investor, Care, MilestoneImage, Advancement, GlobalPresence, AllCertificate, Information,InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -58,20 +56,18 @@ import { TestimonialModule } from './home/testimonial/testimonial.module';
     AuthModule,
     HomeModule,
     BannerModule,
-    InvestorModule,
-    CareModule,
     MilestoneModule,
     AdvancementModule,
-    GlobalPresenceModule,
-    AllCertificatesModule,
-    InformationModule,
     InnerModule,
     InnerSliderModule,
     StatisticModule,
     ProductModule,
     SectionElectrosteelModule,
     VideoSectionModule,
-    TestimonialModule
+    TestimonialModule,
+    SocialSectionModule,
+    AdvertisementModule,
+    ImageModule
   ],
   controllers: [AppController],
   providers: [AppService],

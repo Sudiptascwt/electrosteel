@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('products') 
-export class Product {
+@Entity('social_sections') 
+export class SocialSection {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,10 +12,13 @@ export class Product {
   title: string;
 
   @Column({ nullable: true })
-  image: string;
+  year: string;
 
   @Column({ nullable: true })
   description: string;
+
+  @Column({ nullable: true })
+  image: string;
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

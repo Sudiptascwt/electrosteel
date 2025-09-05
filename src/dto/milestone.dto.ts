@@ -7,6 +7,14 @@ export class MilestoneDto {
 
     @IsOptional()
     @IsString()
+    name?: string;
+
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @IsOptional()
+    @IsString()
     description?: string;
 
     @IsOptional()

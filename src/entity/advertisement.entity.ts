@@ -1,21 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('products') 
-export class Product {
+@Entity('social_sections') 
+export class Advertisement {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   page_id: number;
 
-  @Column()
-  title: string;
-
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
 
-  @Column({ nullable: true })
-  description: string;
+
+
+
+
+
+  
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

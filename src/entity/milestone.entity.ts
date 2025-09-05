@@ -6,6 +6,12 @@ export class Milestone {
     id: number;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
+    name: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    title: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
     year: string;
 
     @Column({ type: 'text', nullable: true })

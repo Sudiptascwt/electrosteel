@@ -22,56 +22,24 @@ export class BannerController {
 
   // Create Banner (Image or Video)
   @Post('create-banner')
-  @UseInterceptors(
-    FileInterceptor('banner_media', {
-      storage: diskStorage({
-        destination: './uploads', // ✅ Store all in the same folder
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          cb(null, `banner-${uniqueSuffix}${ext}`);
-        },
-      }),
-    }),
-  )
-  async createBanner(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() data: BannerDto,
-  ) {
+  async createBanner(@Body() data: BannerDto) {
     return this.bannerService.createBannerImage({
       ...data,
-      banner_media: file?.filename,
-      media_type: this.getMediaType(file),
+      // banner_media: data.banner_media || null, 
+      // media_type: data.media_type,
     });
   }
 
   // Update Banner (Image or Video)
   @Put('update-banner/:id')
-  @UseInterceptors(
-    FileInterceptor('banner_media', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          cb(null, `banner-${uniqueSuffix}${ext}`);
-        },
-      }),
-    }),
-  )
-  async updateBanner(
-    @Param('id') id: number,
-    @UploadedFile() file: Express.Multer.File,
-    @Body() data: BannerDto,
-  ) {
+  async updateBanner(@Param('id') id: number, @Body() data: BannerDto) {
     return this.bannerService.updateBannerImage(id, {
       ...data,
-      banner_media: file?.filename,
-      media_type: this.getMediaType(file),
+      // banner_media: data.banner_media || null,
+      // media_type: data.media_type || null
     });
   }
+
 
   // Get All Banners
   @Get()
