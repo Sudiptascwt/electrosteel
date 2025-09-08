@@ -36,6 +36,18 @@ import { Advertisement } from './entity/advertisement.entity';
 import { AdvertisementModule } from './home/advertisement/advertisement.module';
 import { Image } from './entity/image_file.entity';
 import { ImageModule } from './image/image.module';
+import { officeDetails } from './entity/office_section.entity';
+import { OfficeDetailsModule } from './office_details/office_details.module';
+import { IndiaOfficeDetailsModule } from './india_office_details/india_office_details.module';
+import { IndiaOfficeDetails } from './entity/india_office_details.entity';
+import { ContactDetails } from './entity/contact_details.entity';
+import { ContactDetailsModule } from './contact_details/contact_details.module';
+import { product_applications } from './entity/product_application.entity';
+import { ProductApplicationsModule } from './products/product.module';
+import { product_application_images } from './entity/product_application_images.entity';
+import { ProductType } from './entity/product_type.entity';
+import { ProductTypeModule } from './products/product_types/product_type.module';
+import { SocialPlatform } from './entity/social_platform.entity';
 
 @Module({
   imports: [
@@ -47,7 +59,7 @@ import { ImageModule } from './image/image.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -67,7 +79,12 @@ import { ImageModule } from './image/image.module';
     TestimonialModule,
     SocialSectionModule,
     AdvertisementModule,
-    ImageModule
+    ImageModule,
+    OfficeDetailsModule,
+    IndiaOfficeDetailsModule,
+    ContactDetailsModule,
+    ProductApplicationsModule,
+    ProductTypeModule
   ],
   controllers: [AppController],
   providers: [AppService],
