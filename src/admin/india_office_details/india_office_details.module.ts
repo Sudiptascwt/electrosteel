@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { IndiaOfficeDetails } from '../entity/india_office_details.entity';
+import { IndiaOfficeDetails } from '../../entity/india_office_details.entity';
 import { IndiaOfficeDetailsController } from './india_office_details.controller';
 import { IndiaOfficeDetailsService } from './india_office_details.service';
 

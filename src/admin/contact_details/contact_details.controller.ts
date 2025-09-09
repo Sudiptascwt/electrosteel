@@ -12,8 +12,8 @@ import { ContactDetailsService } from './contact_details.service';
 import {
   CreateContactDetailsDto,
   UpdateContactDetailsDto,
-} from '../dto/contact_details.dto';
-import { SocialPlatformDto } from '../dto/social_platform.dto'
+} from '../../dto/contact_details.dto';
+import { SocialPlatformDto } from '../../dto/social_platform.dto'
 
 
 @Controller() // <-- No prefix here (important)

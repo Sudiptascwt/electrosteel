@@ -37,23 +37,25 @@ import { AdvertisementModule } from './home/advertisement/advertisement.module';
 import { Image } from './entity/image_file.entity';
 import { ImageModule } from './image/image.module';
 import { officeDetails } from './entity/office_section.entity';
-import { OfficeDetailsModule } from './office_details/office_details.module';
-import { IndiaOfficeDetailsModule } from './india_office_details/india_office_details.module';
+import { OfficeDetailsModule } from './admin/office_details/office_details.module';
+import { IndiaOfficeDetailsModule } from './admin/india_office_details/india_office_details.module';
 import { IndiaOfficeDetails } from './entity/india_office_details.entity';
 import { ContactDetails } from './entity/contact_details.entity';
-import { ContactDetailsModule } from './contact_details/contact_details.module';
+import { ContactDetailsModule } from './admin/contact_details/contact_details.module';
 import { product_applications } from './entity/product_application.entity';
 import { ProductApplicationsModule } from './products/product.module';
 import { product_application_images } from './entity/product_application_images.entity';
 import { ProductType } from './entity/product_type.entity';
 import { ProductTypeModule } from './products/product_types/product_type.module';
 import { SocialPlatform } from './entity/social_platform.entity';
-import { ManufacturingModule } from './manufacturing_unit/manufacturing_unit.module';
+import { ManufacturingModule } from './admin/manufacturing_unit/manufacturing_unit.module';
 import { ManufacturingUnit } from './entity/manufacturing.entity';
 import { ProductBrochuresModule } from './products/product_brochures/product_brochures.module';
 import { ProductBrochures } from './entity/product_brochures.entity';
 import { Facility } from './entity/facility.entity';
-import { FacilityModule } from './facility/facility.module'
+import { FacilityModule } from './admin/facility/facility.module';
+import { MetaTag } from './entity/meta_tag.entity';
+import { MetaTagModule } from './admin/meta_tag/meta_tag.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -64,7 +66,7 @@ import { FacilityModule } from './facility/facility.module'
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -92,7 +94,8 @@ import { FacilityModule } from './facility/facility.module'
     ProductTypeModule,
     ManufacturingModule,
     ProductBrochuresModule,
-    FacilityModule
+    FacilityModule,
+    MetaTagModule
   ],
   controllers: [AppController],
   providers: [AppService],

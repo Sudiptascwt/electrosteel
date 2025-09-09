@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Facility } from '../entity/facility.entity';
-import { FacilityDto } from '../dto/facility.dto';
+import { Facility } from '../../entity/facility.entity';
+import { FacilityDto } from '../../dto/facility.dto';
 
 @Injectable()
 export class FacilityService {

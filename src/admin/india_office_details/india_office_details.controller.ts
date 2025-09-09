@@ -10,7 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { IndiaOfficeDetailsService } from './india_office_details.service';
-import {IndiaOfficeDetailsDto} from '../dto/india_office_details.dto';
+import {IndiaOfficeDetailsDto} from '../../dto/india_office_details.dto';
 
 @Controller('india-office-details')
 export class IndiaOfficeDetailsController {

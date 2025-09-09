@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { OfficeDetailsService } from './office_details.service';
-import { OfficeDetailsDto } from '../dto/office_section.dto';
+import { OfficeDetailsDto } from '../../dto/office_section.dto';
 
 @Controller('office-details')
 export class OfficeDetailsController {

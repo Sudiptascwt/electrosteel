@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ContactDetails } from '../entity/contact_details.entity';
-import { CreateContactDetailsDto, UpdateContactDetailsDto } from '../dto/contact_details.dto';
+import { ContactDetails } from '../../entity/contact_details.entity';
+import { CreateContactDetailsDto, UpdateContactDetailsDto } from '../../dto/contact_details.dto';
 import { SocialPlatform } from 'src/entity/social_platform.entity';
-import { SocialPlatformDto } from '../dto/social_platform.dto';
+import { SocialPlatformDto } from '../../dto/social_platform.dto';
 
 @Injectable()
 export class ContactDetailsService {

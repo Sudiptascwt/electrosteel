@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { officeDetails } from '../entity/office_section.entity';
-import { OfficeDetailsDto } from '../dto/office_section.dto';
+import { officeDetails } from '../../entity/office_section.entity';
+import { OfficeDetailsDto } from '../../dto/office_section.dto';
 
 @Injectable()
 export class OfficeDetailsService {

@@ -9,23 +9,23 @@ import {
   ParseIntPipe,
   HttpStatus,
 } from '@nestjs/common';
-import { FacilityService } from './facility.service';
-import { FacilityDto } from '../dto/facility.dto';
+import { ManufacturingService } from './manufacturing_unit.service';
+import {ManufacturingUnitDto} from '../../dto/manufacturing.dto';
 import { UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../role/roles.guard';
-import { Roles } from '../role/roles.decorator';
-import { UserRole } from '../users/user.entity';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
-@Controller('facility')
-export class FacilityController {
-  constructor(private readonly ManufacturingService: FacilityService) {}
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
+@Controller('manufacturing-unit')
+export class ManufacturingController {
+  constructor(private readonly ManufacturingService: ManufacturingService) {}
 
   // CREATE
   @Post()
-  async create(@Body() createDto: FacilityDto) {
+  async create(@Body() createDto: ManufacturingUnitDto) {
     const data = await this.ManufacturingService.create(createDto);
     return {
       statusCode: HttpStatus.CREATED,
@@ -60,7 +60,7 @@ export class FacilityController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: FacilityDto,
+    @Body() updateDto: ManufacturingUnitDto,
   ) {
     const data = await this.ManufacturingService.update(id, updateDto);
     return {
