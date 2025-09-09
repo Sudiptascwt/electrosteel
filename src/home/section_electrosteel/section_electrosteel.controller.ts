@@ -9,7 +9,14 @@ import {
 } from '@nestjs/common';
 import { SectionElectrosteelService } from './section_electrosteel.service';
 import { SectionElectrosteelDto } from '../../dto/section_electrosteel.dto';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('home/section-electrosteel')
 export class SectionElectrosteelController {
   constructor(private readonly service: SectionElectrosteelService) {}

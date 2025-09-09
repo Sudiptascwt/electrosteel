@@ -20,8 +20,8 @@ import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('home/statistic')
 export class StatisticController {
   constructor(private readonly statisticService: StatisticService) {}

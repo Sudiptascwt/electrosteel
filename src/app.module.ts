@@ -48,7 +48,12 @@ import { product_application_images } from './entity/product_application_images.
 import { ProductType } from './entity/product_type.entity';
 import { ProductTypeModule } from './products/product_types/product_type.module';
 import { SocialPlatform } from './entity/social_platform.entity';
-
+import { ManufacturingModule } from './manufacturing_unit/manufacturing_unit.module';
+import { ManufacturingUnit } from './entity/manufacturing.entity';
+import { ProductBrochuresModule } from './products/product_brochures/product_brochures.module';
+import { ProductBrochures } from './entity/product_brochures.entity';
+import { Facility } from './entity/facility.entity';
+import { FacilityModule } from './facility/facility.module'
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -59,7 +64,7 @@ import { SocialPlatform } from './entity/social_platform.entity';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -84,7 +89,10 @@ import { SocialPlatform } from './entity/social_platform.entity';
     IndiaOfficeDetailsModule,
     ContactDetailsModule,
     ProductApplicationsModule,
-    ProductTypeModule
+    ProductTypeModule,
+    ManufacturingModule,
+    ProductBrochuresModule,
+    FacilityModule
   ],
   controllers: [AppController],
   providers: [AppService],

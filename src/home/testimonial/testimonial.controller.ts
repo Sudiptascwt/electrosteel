@@ -9,7 +9,14 @@ import {
 } from '@nestjs/common';
 import { TestimonialService } from './testimonial.service';
 import { TestimonialDto } from '../../dto/home_testimonial.dto';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('home/video-section')
 export class   TestimonialController {
   constructor(private readonly service:  TestimonialService) {}
