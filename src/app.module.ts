@@ -56,6 +56,22 @@ import { Facility } from './entity/facility.entity';
 import { FacilityModule } from './admin/facility/facility.module';
 import { MetaTag } from './entity/meta_tag.entity';
 import { MetaTagModule } from './admin/meta_tag/meta_tag.module';
+import { PipeArt } from './entity/pipe_art.entity';
+import { PipeArtModule } from './admin/pipe_art/pipe_art.module';
+import { PipeArtDetail } from './entity/pipe_art_details.entity';
+import { Subsidiaries } from './entity/subsidiaries.entity';
+import { SubsidiariesModule } from './admin/subsidiaries/subsidiaries.module';
+import { Conduct } from './entity/conduct.entity';
+import { ConductModule } from './admin/conduct/conduct.module';
+import { CsrKey } from './entity/csr_key.entity';
+import { CsrKeyModule } from './admin/community_development/csr_key/csr_key.module';
+import { Report } from './entity/reports.entity';
+import { ReportModule } from './admin/community_development/reports/reports.module';
+import { Vision } from './entity/vision.entity';
+import { AboutModule } from './admin/about/vision/vision.module';
+import { Directors } from './entity/director.entity';
+import { DirectorModule } from './admin/about/directors/director.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -66,7 +82,7 @@ import { MetaTagModule } from './admin/meta_tag/meta_tag.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -95,7 +111,14 @@ import { MetaTagModule } from './admin/meta_tag/meta_tag.module';
     ManufacturingModule,
     ProductBrochuresModule,
     FacilityModule,
-    MetaTagModule
+    MetaTagModule,
+    PipeArtModule,
+    SubsidiariesModule,
+    ConductModule,
+    CsrKeyModule,
+    ReportModule,
+    AboutModule,
+    DirectorModule
   ],
   controllers: [AppController],
   providers: [AppService],

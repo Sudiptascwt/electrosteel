@@ -5,19 +5,19 @@ export class SocialPlatform {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type:'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   instagram: string;
 
-  @Column({ type:'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   linkedin: string;
 
-  @Column({ type:'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   twitter: string;
 
-  @Column({ type:'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   youtube: string;
 
-  @Column({ type:'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   facebook: string;
 
   @CreateDateColumn()

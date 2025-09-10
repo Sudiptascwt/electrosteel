@@ -14,8 +14,14 @@ import {
   UpdateContactDetailsDto,
 } from '../../dto/contact_details.dto';
 import { SocialPlatformDto } from '../../dto/social_platform.dto'
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller() // <-- No prefix here (important)
 export class ContactDetailsController {
   constructor(

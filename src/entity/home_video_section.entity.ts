@@ -14,7 +14,7 @@ export class VideoSection {
   @Column({ nullable: true })
   video: string;
 
-  @Column({ type:'text',nullable: true })
+  @Column({ type: 'longtext',nullable: true })
   description: string;
 
   @Column({ type: 'tinyint', default: 1 })

@@ -17,7 +17,7 @@ export class SectionElectrosteel {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ type:'text',nullable: true })
+  @Column({ type: 'longtext',nullable: true })
   description: string;
     
   @Column({ nullable: true })

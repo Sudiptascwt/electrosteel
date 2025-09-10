@@ -9,8 +9,8 @@ import {
   ParseIntPipe,
   HttpStatus,
 } from '@nestjs/common';
-import { MetaTagService } from './meta_tag.service';
-import { MetaTagDto } from '../../dto/meta_tag.dto';
+import { SubsidiariesService } from './subsidiaries.service';
+import { SubsidiariesDto } from '../../dto/subsidiaries.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
@@ -19,14 +19,14 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-@Controller('meta-tag')
-export class MetaTagController {
-  constructor(private readonly MetaTagService: MetaTagService) {}
+@Controller('subsidiaries')
+export class SubsidiariesController {
+  constructor(private readonly SubsidiariesService: SubsidiariesService) {}
 
   // CREATE
   @Post()
-  async create(@Body() createDto: MetaTagDto) {
-    const data = await this.MetaTagService.create(createDto);
+  async create(@Body() createDto: SubsidiariesDto) {
+    const data = await this.SubsidiariesService.create(createDto);
     return {
       statusCode: HttpStatus.CREATED,
       message: 'Meta tag created successfully',
@@ -37,7 +37,7 @@ export class MetaTagController {
   // GET ALL
   @Get()
   async findAll() {
-    const data = await this.MetaTagService.findAll();
+    const data = await this.SubsidiariesService.findAll();
     return {
       statusCode: HttpStatus.OK,
       message: 'All Meta tags fetched successfully',
@@ -48,7 +48,7 @@ export class MetaTagController {
   // GET BY ID
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.MetaTagService.findById(id);
+    const data = await this.SubsidiariesService.findById(id);
     return {
       statusCode: HttpStatus.OK,
       message: 'Meta tag fetched successfully',
@@ -60,9 +60,9 @@ export class MetaTagController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: MetaTagDto,
+    @Body() updateDto: SubsidiariesDto,
   ) {
-    const data = await this.MetaTagService.update(id, updateDto);
+    const data = await this.SubsidiariesService.update(id, updateDto);
     return {
       statusCode: HttpStatus.OK,
       message: 'Meta tag updated successfully',
@@ -73,7 +73,7 @@ export class MetaTagController {
   // DELETE
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.MetaTagService.delete(id);
+    await this.SubsidiariesService.delete(id);
     return {
       statusCode: HttpStatus.OK,
       message: 'Meta tag deleted successfully',

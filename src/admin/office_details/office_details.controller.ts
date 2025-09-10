@@ -1,7 +1,14 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { OfficeDetailsService } from './office_details.service';
 import { OfficeDetailsDto } from '../../dto/office_section.dto';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('office-details')
 export class OfficeDetailsController {
     constructor(private readonly officeDetailsService: OfficeDetailsService) {}
