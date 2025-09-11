@@ -23,7 +23,7 @@ export class Statistic {
   @Column({ type: 'varchar', length: 255, nullable: true })
   number_video: string;
 
-  @Column({ type: 'text', nullable: true })  
+  @Column({ type: 'longtext', nullable: true })  
   pipes_title: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -38,7 +38,7 @@ export class Statistic {
   @Column({ type: 'varchar', length: 255, nullable: true })
   overview_sub_title: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   description: string;
 
   @Column({ type: 'tinyint', default: 1 })

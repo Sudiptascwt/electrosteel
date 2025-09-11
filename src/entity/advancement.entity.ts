@@ -14,7 +14,7 @@ export class Advancement {
   @Column({ type: 'varchar', length: 255, nullable: true })
   pdf: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   description: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

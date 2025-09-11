@@ -12,16 +12,16 @@ export class Subsidiaries {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
-  @Column({ type: 'text', nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   country_link: string;  
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   country_style: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   country_name: string;
 
-  @Column({type: 'text', nullable: true })
+  @Column({type: 'longtext', nullable: true })
   description: string;
 
   @UpdateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

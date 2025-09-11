@@ -11,10 +11,10 @@ export class ProductBrochures {
     @Column({ type: 'varchar', length: 255, nullable: true })
     sub_title: string;
     
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     image: string;
     
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     pdf: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

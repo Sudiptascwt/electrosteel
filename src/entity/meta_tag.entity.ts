@@ -5,16 +5,16 @@ export class MetaTag {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     meta_title: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     meta_keyword: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     meta_description: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     page_name: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

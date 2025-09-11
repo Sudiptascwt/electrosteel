@@ -14,7 +14,7 @@ export class officeDetails {
     @Column({ type: 'varchar', length: 255, nullable: true })
     google_map_link: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     address: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

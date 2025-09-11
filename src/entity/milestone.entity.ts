@@ -14,7 +14,7 @@ export class Milestone {
     @Column({ type: 'varchar', length: 255, nullable: true })
     year: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     description: string;
 
     @Column({

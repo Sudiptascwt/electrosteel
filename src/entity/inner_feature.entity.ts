@@ -18,13 +18,13 @@ import {
     @Column({ type: 'varchar', length: 255 })
     feature_title: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     description?: string;
   
     @Column({ type: 'varchar', length: 255, nullable: true })
     video?: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     banner_sub_title?: string;
 
     @Column({ type: 'tinyint', default: 1 })

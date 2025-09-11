@@ -29,7 +29,7 @@ export class PipeArtDetail {
   @Column({ name: 'content_image', type: 'varchar', length: 255, nullable: true })
   content_image: string;
 
-  @Column({ name: 'description', type: 'text', nullable: true })
+  @Column({ name: 'description', type: 'longtext', nullable: true })
   description: string;
 
   @Column({ name: 'add_image', type: 'varchar', length: 255, nullable: true })

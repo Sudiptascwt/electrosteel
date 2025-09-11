@@ -14,13 +14,13 @@ import {
     @Column({ type: 'varchar', length: 255 })
     banner_title: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     description?: string;
   
     @Column({ type: 'varchar', length: 255, nullable: true })
     banner_image?: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     banner_sub_title?: string;
   
     @Column({ type: 'varchar', length: 255, nullable: true })
@@ -32,7 +32,7 @@ import {
     @Column({ type: 'varchar', length: 255, nullable: true })
     video_title?: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     video_description?: string;
   
     @Column({ type: 'varchar', length: 255, nullable: true })
@@ -41,10 +41,10 @@ import {
     @Column({ type: 'varchar', length: 255, nullable: true })
     sliding_image?: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     sliding_description?: string;
   
-    @Column({ type: 'text', nullable: true })
+    @Column({ type: 'longtext', nullable: true })
     sliding_address?: string;
   
     @Column({ type: 'tinyint', default: 1 })

@@ -12,13 +12,13 @@ export class Vision {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
-  @Column({ type: 'text', nullable: false })
+  @Column({ type: 'longtext', nullable: false })
   heading: string;  
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   image: string;
 
-  @Column({type: 'text', nullable: true })
+  @Column({type: 'longtext', nullable: true })
   description: string;
 
   @UpdateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

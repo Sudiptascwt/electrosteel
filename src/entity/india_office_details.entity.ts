@@ -14,7 +14,7 @@ export class IndiaOfficeDetails {
   @Column({ type: 'varchar', length: 255, nullable: true })
   city?: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   address?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

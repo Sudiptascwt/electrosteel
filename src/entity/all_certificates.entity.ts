@@ -17,7 +17,7 @@ export class AllCertificate {
   @Column({ type: 'datetime', nullable: true })
   date: Date;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   description: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

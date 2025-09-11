@@ -17,7 +17,7 @@ export class Banner {
   @Column({ type: 'varchar', length: 255, nullable: true })
   banner_sub_title: string;
 
-  @Column({ type: 'text', nullable: true })  
+  @Column({ type: 'longtext', nullable: true })  
   description: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

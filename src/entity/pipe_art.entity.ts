@@ -19,7 +19,7 @@ export class PipeArt {
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   url: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })

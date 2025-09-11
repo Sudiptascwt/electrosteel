@@ -9,7 +9,7 @@ export class Testimonial {
   @Column()
   name: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'longtext' })
   message: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

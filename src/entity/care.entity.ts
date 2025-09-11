@@ -8,10 +8,10 @@ export class Care {
   @Column({ type: 'varchar', length: 255, nullable: true })
   title: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   description: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'longtext', nullable: true })
   alise: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

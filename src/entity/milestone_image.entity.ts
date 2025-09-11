@@ -8,7 +8,7 @@ export class MilestoneImage {
     @Column({ type: 'varchar', length: 255, nullable: true })
     title: string;
 
-    @Column({ type: 'text', nullable: true }) 
+    @Column({ type: 'longtext', nullable: true }) 
     image: string;
 
     @Column({

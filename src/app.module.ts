@@ -71,6 +71,21 @@ import { Vision } from './entity/vision.entity';
 import { AboutModule } from './admin/about/vision/vision.module';
 import { Directors } from './entity/director.entity';
 import { DirectorModule } from './admin/about/directors/director.module';
+import { BoardCommitteType } from './entity/board_committee_type.entity';
+import { BoardCommitteTypeModule } from './admin/about/board_committee/board_committee.module';
+import { BoardCommitteDetails } from './entity/board_committe_details.entity';
+import { StockYard } from './entity/stockyard.entity';
+import { StockYardModule } from './admin/about/stockyard/stockyard.module';
+import { Policies } from './entity/policies.entity';
+import { PoliciesModule } from './admin/policies/policies.module';
+import { NewsLetter } from './entity/news_letter.entity';
+import { NewsLetterModule } from './admin/digital/news_letter/news_letter.module';
+import { Event } from './entity/event.entity';
+import { EventModule } from './admin/digital/event/event.module';
+import { Content } from './entity/content.entity';
+import { ContentModule } from './admin/digital/content/content.module';
+import { ElectrosteelSlider } from './entity/electrosteel_slider.entity';
+import { CareerModule } from './admin/career/career.module';
 
 @Module({
   imports: [
@@ -82,7 +97,7 @@ import { DirectorModule } from './admin/about/directors/director.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -118,7 +133,14 @@ import { DirectorModule } from './admin/about/directors/director.module';
     CsrKeyModule,
     ReportModule,
     AboutModule,
-    DirectorModule
+    DirectorModule,
+    BoardCommitteTypeModule,
+    StockYardModule,
+    PoliciesModule,
+    NewsLetterModule,
+    EventModule,
+    ContentModule,
+    CareerModule
   ],
   controllers: [AppController],
   providers: [AppService],
