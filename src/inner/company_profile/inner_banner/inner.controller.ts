@@ -11,22 +11,22 @@ import {
     UseGuards,
   } from '@nestjs/common';
   import { InnerService } from './inner.service';
-  import { InnerBannerDto } from '../../dto/inner_banner.dto';
+  import { InnerBannerDto } from '../../../dto/inner_banner.dto';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { diskStorage } from 'multer';
   import { extname } from 'path';
-  import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
-  import { RolesGuard } from '../../role/roles.guard';
-  import { Roles } from '../../role/roles.decorator';
-  import { UserRole } from '../../users/user.entity';
+  import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
+  import { RolesGuard } from '../../../role/roles.guard';
+  import { Roles } from '../../../role/roles.decorator';
+  import { UserRole } from '../../../users/user.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-  @Controller('inner-banners')
+  @Controller('about/company-profile/banners')
   export class InnerController {
     constructor(private readonly InnerService: InnerService) {}
   
-    @Post('create-banner')
+    @Post()
     create(@Body() data: InnerBannerDto) {
       return this.InnerService.createInnerBanner(data);
     }
@@ -41,7 +41,7 @@ import {
       return this.InnerService.getInnerBanner(+id);
     }
 
-    @Put('update-banner/:id')
+    @Put(':id')
     update(
       @Param('id') id: string,
       @Body() data: Partial<InnerBannerDto>, 

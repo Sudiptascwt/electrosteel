@@ -16,10 +16,11 @@ import { Milestone } from './entity/milestone.entity';
 import { MilestoneImage } from './entity/milestone_image.entity';
 import { Advancement } from './entity/advancement.entity';
 import { AdvancementModule } from './home/advancements/advancement.module';
-import {InnerModule } from './inner/inner_banner/inner.module';
+import {InnerModule } from './inner/company_profile/inner_banner/inner.module';
 import { InnerBanner } from './entity/inner_banner.entity';
-import { InnerSliderModule } from './inner/inner_slider_images/inner_slider_image.module'
+import { InnerSliderModule } from './inner/company_profile/inner_slider_images/inner_slider_image.module'
 import { InnerFeature } from './entity/inner_feature.entity';
+import { FeatureModule } from './inner/company_profile/feature/feature.module';
 import { Statistic } from './entity/statistic.entity';
 import { StatisticModule } from './home/statistic/statistic.module';
 import { Product } from './entity/product.entity';
@@ -64,7 +65,7 @@ import { SubsidiariesModule } from './admin/subsidiaries/subsidiaries.module';
 import { Conduct } from './entity/conduct.entity';
 import { ConductModule } from './admin/conduct/conduct.module';
 import { CsrKey } from './entity/csr_key.entity';
-import { CsrKeyModule } from './admin/community_development/csr_key/csr_key.module';
+import { CsrKeyModule } from './admin/community_development/csr_key/csr.module';
 import { Report } from './entity/reports.entity';
 import { ReportModule } from './admin/community_development/reports/reports.module';
 import { Vision } from './entity/vision.entity';
@@ -86,6 +87,12 @@ import { Content } from './entity/content.entity';
 import { ContentModule } from './admin/digital/content/content.module';
 import { ElectrosteelSlider } from './entity/electrosteel_slider.entity';
 import { CareerModule } from './admin/career/career.module';
+import { AllBanner } from './entity/all_page_banner_image.entity';
+import { AllBannerModule } from './admin/all_pages_banner_image/all_pages_banner_image.module';
+import { CorporateProfile } from './entity/corporate_profile.entity';
+import { CorporateProfileModule } from './inner/corporate_profile/corporate_profile.module';
+import { CsrOverview } from './entity/csr_overview.entity';
+import { CsrReportContent } from './entity/report_content.entity';
 
 @Module({
   imports: [
@@ -97,7 +104,7 @@ import { CareerModule } from './admin/career/career.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -140,7 +147,10 @@ import { CareerModule } from './admin/career/career.module';
     NewsLetterModule,
     EventModule,
     ContentModule,
-    CareerModule
+    CareerModule,
+    AllBannerModule,
+    CorporateProfileModule,
+    FeatureModule
   ],
   controllers: [AppController],
   providers: [AppService],

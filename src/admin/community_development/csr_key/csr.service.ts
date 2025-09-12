@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CsrKey } from '../../../entity/csr_key.entity';
 import { CsrKeyDto } from '../../../dto/csr_key.dto';
+import { CsrOverview } from 'src/entity/csr_overview.entity';
+import { CsrOverviewDto } from 'src/dto/csr_overview.dto';
 
 @Injectable()
 export class CsrKeyService {
     constructor(
         @InjectRepository(CsrKey)
         private readonly CsrKeyRepository: Repository<CsrKey>,
+        @InjectRepository(CsrOverview)
+        private readonly CsrOverviewRepository: Repository<CsrOverview>,
     ) {}
 
     // ------------------- PIPE ART CRUD -------------------
@@ -100,6 +104,97 @@ export class CsrKeyService {
             status: true,
             statusCode: HttpStatus.OK,
             message: 'CsrKey deleted successfully'
+        };
+    }
+
+    ///////////////////csr overview////////////////////
+      // CREATE PIPE ART
+    async createCsrOverview(createDto: CsrOverviewDto) {
+        const newCsrKey = this.CsrOverviewRepository.create(createDto);
+        const savedCsrKey = await this.CsrOverviewRepository.save(newCsrKey);
+
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Csr overview created successfully',
+            data: savedCsrKey,
+        };
+    }
+
+    // GET ALL PIPE ARTS WITH DETAILS
+    async findAllCsrOverviews() {
+        const data = await this.CsrOverviewRepository.find({
+        });
+
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: data.length > 0 ? 'Csr overview details fetched successfully' : 'No Csr overview details found',
+            data,
+        };
+    }
+
+    // GET PIPE ART BY ID WITH DETAILS
+    async findCsrOverviewById(id: number) {
+        const CsrKey = await this.CsrOverviewRepository.findOne({
+            where: { id }
+        });
+
+        if (!CsrKey) {
+            throw new NotFoundException({
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+                message: `Csr overview with ID ${id} not found`,
+            });
+        }
+
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Csr overview fetched successfully',
+            data: CsrKey,
+        };
+    }
+
+    // UPDATE PIPE ART
+    async updateCsrOverview(id: number, updateDto: CsrOverviewDto) {
+        const CsrKey = await this.CsrOverviewRepository.findOne({ where: { id } });
+
+        if (!CsrKey) {
+            throw new NotFoundException({
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+                message: `Csr overview with ID ${id} not found`,
+            });
+        }
+
+        Object.assign(CsrKey, updateDto);
+        const updatedCsrKey = await this.CsrOverviewRepository.save(CsrKey);
+
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Csr overview updated successfully',
+            data: updatedCsrKey,
+        };
+    }
+
+    // DELETE PIPE ART
+    async deleteCsrOverview(id: number) {
+        const result = await this.CsrOverviewRepository.delete(id);
+
+        if (result.affected === 0) {
+            throw new NotFoundException({
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+                message: `Csr overview with ID ${id} not found`,
+            });
+        }
+
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Csr overview deleted successfully'
         };
     }
 }

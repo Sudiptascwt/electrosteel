@@ -5,6 +5,9 @@ export class officeDetails {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
+    @Column({ type: 'text' })
+    banner_image: string;
+
     @Column({ type: 'varchar', length: 255, nullable: true })
     office_type: string;
 

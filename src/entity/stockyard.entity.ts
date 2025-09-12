@@ -11,6 +11,9 @@ export class StockYard {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'text' })
+  banner_image: string;
+
   @Column({ type: 'varchar', length: 255 })
   title: string;
 

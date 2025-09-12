@@ -1,23 +1,30 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not } from 'typeorm';
-import { InnerBanner } from '../../entity/inner_banner.entity';
-import { InnerBannerDto } from '../../dto/inner_banner.dto';
+import { InnerBanner } from '../../../entity/inner_banner.entity';
+import { InnerBannerDto } from '../../../dto/inner_banner.dto';
 
 @Injectable()
-export class InnerSliderService {
+export class InnerService {
   constructor(
     @InjectRepository(InnerBanner)
-    private readonly innerSliderRepository: Repository<InnerBanner>,
+    private readonly innerBannerRepository: Repository<InnerBanner>,
   ) {}
 
-  async createInnerSlider(data: InnerBannerDto) {
-    const existing = await this.innerSliderRepository.findOne({
+  async createInnerBanner(data: InnerBannerDto) {
+    const existing = await this.innerBannerRepository.findOne({
       where: { banner_title: data.banner_title },
     });
 
-    const newBanner = this.innerSliderRepository.create(data);
-    await this.innerSliderRepository.save(newBanner);
+    if (existing) {
+      return {
+        statusCode: 400,
+        message: 'InnerBanner with this title already exists',
+      };
+    }
+
+    const newBanner = this.innerBannerRepository.create(data);
+    await this.innerBannerRepository.save(newBanner);
 
     return {
       statusCode: 201,
@@ -26,13 +33,13 @@ export class InnerSliderService {
     };
   }
 
-  async updateInnerSlider(id: number, data: Partial<InnerBannerDto>) {
-    const banner = await this.innerSliderRepository.findOne({ where: { id } });
+  async updateInnerBanner(id: number, data: Partial<InnerBannerDto>) {
+    const banner = await this.innerBannerRepository.findOne({ where: { id } });
 
     if (!banner) throw new NotFoundException('InnerBanner not found');
 
     if (data.banner_title) {
-      const exists = await this.innerSliderRepository.findOne({
+      const exists = await this.innerBannerRepository.findOne({
         where: {
           banner_title: data.banner_title,
           id: Not(id),
@@ -47,7 +54,7 @@ export class InnerSliderService {
       }
     }
 
-    await this.innerSliderRepository.update(id, data);
+    await this.innerBannerRepository.update(id, data);
 
     return {
       statusCode: 200,
@@ -55,12 +62,12 @@ export class InnerSliderService {
     };
   }
 
-  async deleteInnerSlider(id: number) {
-    const banner = await this.innerSliderRepository.findOne({ where: { id } });
+  async deleteInnerBanner(id: number) {
+    const banner = await this.innerBannerRepository.findOne({ where: { id } });
 
     if (!banner) throw new NotFoundException('InnerBanner not found');
 
-    await this.innerSliderRepository.delete(id);
+    await this.innerBannerRepository.delete(id);
 
     return {
       statusCode: 200,
@@ -68,8 +75,8 @@ export class InnerSliderService {
     };
   }
 
-  async getInnerSlider(id: number) {
-    const banner = await this.innerSliderRepository.findOne({ where: { id } });
+  async getInnerBanner(id: number) {
+    const banner = await this.innerBannerRepository.findOne({ where: { id } });
 
     if (!banner) throw new NotFoundException('InnerBanner not found');
 
@@ -80,8 +87,8 @@ export class InnerSliderService {
     };
   }
 
-  async getAllInnerSliders() {
-    const banners = await this.innerSliderRepository.find();
+  async getAllInnerBanners() {
+    const banners = await this.innerBannerRepository.find();
     return {
       statusCode: 200,
       message: 'InnerBanners fetched successfully',

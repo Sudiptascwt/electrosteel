@@ -1,6 +1,10 @@
 import { IsString, IsOptional } from 'class-validator';
 
 export class StockYardDto {
+
+  @IsString()
+  banner_image: string;
+
   @IsString()
   title: string;
 

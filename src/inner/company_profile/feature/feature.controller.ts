@@ -11,22 +11,22 @@ import {
     UseGuards,
   } from '@nestjs/common';
   import { FeatureService } from './feature.service';
-  import { InnerFeatureDto } from '../../dto/inner_feature.dto';
+  import { InnerFeatureDto } from '../../../dto/inner_feature.dto';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { diskStorage } from 'multer';
   import { extname } from 'path';
-  import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
-  import { RolesGuard } from '../../role/roles.guard';
-  import { Roles } from '../../role/roles.decorator';
-  import { UserRole } from '../../users/user.entity';
+  import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
+  import { RolesGuard } from '../../../role/roles.guard';
+  import { Roles } from '../../../role/roles.decorator';
+  import { UserRole } from '../../../users/user.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-  @Controller('inner-banners')
+  @Controller('about/company-profile/feature')
   export class FeatureController {
     constructor(private readonly FeatureService: FeatureService) {}
   
-    @Post('create-banner')
+    @Post()
     create(@Body() data: InnerFeatureDto) {
       return this.FeatureService.createInnerFeature(data);
     }
@@ -41,7 +41,7 @@ import {
       return this.FeatureService.getInnerFeature(+id);
     }
 
-    @Put('update-banner/:id')
+    @Put(':id')
     update(
       @Param('id') id: string,
       @Body() data: Partial<InnerFeatureDto>, 

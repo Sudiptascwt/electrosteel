@@ -5,6 +5,10 @@ export class OfficeDetailsDto {
     @IsString()
     office_type: string;
 
+    @IsNotEmpty()
+    @IsString()
+    banner_image: string;
+
     @IsOptional()
     @IsString()
     contact_title?: string;
