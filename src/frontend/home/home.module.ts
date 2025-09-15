@@ -6,9 +6,10 @@ import { Advancement } from 'src/entity/advancement.entity';
 import { SocialSection } from 'src/entity/social_section.entity';
 import { Banner } from 'src/entity/banner.entity';
 import { SectionElectrosteel } from 'src/entity/section_electrosteel.entity';
+import { Advertisement } from 'src/entity/advertisement.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel])],
+  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel, Advertisement])],
   controllers: [HomeController],
   providers: [HomeService],
 })

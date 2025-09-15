@@ -5,6 +5,7 @@ import { Advancement } from 'src/entity/advancement.entity';
 import { SocialSection } from 'src/entity/social_section.entity';
 import { Banner } from 'src/entity/banner.entity';
 import { SectionElectrosteel } from 'src/entity/section_electrosteel.entity';
+import { Advertisement } from '../../entity/advertisement.entity';
 
 @Injectable()
 export class HomeService {
@@ -20,6 +21,9 @@ export class HomeService {
 
     @InjectRepository(SectionElectrosteel)
     private readonly electrosteelRepo: Repository<SectionElectrosteel>,
+
+    @InjectRepository(Advertisement)
+    private readonly AdvertisementRepo: Repository<Advertisement>,
   ) {}
 
   async getHomeData() {
@@ -27,12 +31,14 @@ export class HomeService {
     const socials = await this.socialRepo.find();
     const advancements = await this.advancementRepo.find();
     const electrosteels = await this.electrosteelRepo.find();
+    const advertisements = await this.AdvertisementRepo.find();
 
     return {
       banners,
       socials,
       advancements,
       electrosteels,
+      advertisements
     };
   }
 }
