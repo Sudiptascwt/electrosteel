@@ -14,7 +14,7 @@ import { SubsidiariesDto } from '../../dto/subsidiaries.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
-import { UserRole } from '../../users/user.entity';
+import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { SubsidiariesPageDto } from 'src/dto/subsidiaries_page.dto';
 

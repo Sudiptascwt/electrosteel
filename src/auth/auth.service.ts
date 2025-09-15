@@ -1,7 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { UsersService } from '../admin/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as speakeasy from 'speakeasy';
+import * as qrcode from 'qrcode';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +12,64 @@ export class AuthService {
     private readonly jwtService: JwtService, // inject JWT service
   ) {}
 
-  async login(email: string, password: string) {
+
+async generate2FASecret(userId: number) {
+  const secret = speakeasy.generateSecret({
+    name: `MyApp (${userId})`,
+  });
+
+  // Save secret temporarily in DB (not enabled yet)
+  await this.usersService.update(userId, {
+    twoFASecret: secret.base32,
+    isTwoFAEnabled: false,
+  });
+
+  const qrCodeUrl = await qrcode.toDataURL(secret.otpauth_url);
+  return { secret: secret.base32, qrCodeUrl };
+}
+
+async verify2FA(userId: number, token: string) {
+  const user = await this.usersService.findById(userId);
+  if (!user || !user.twoFASecret) {
+    throw new BadRequestException('2FA not enabled');
+  }
+
+  const isValid = speakeasy.totp.verify({
+    secret: user.twoFASecret,
+    encoding: 'base32',
+    token,
+    window: 1,
+  });
+
+  if (!isValid) throw new UnauthorizedException('Invalid 2FA code');
+
+  return { status: true, message: '2FA verified successfully' };
+}
+
+  // async login(email: string, password: string) {
+  //   const user = await this.usersService.findByEmail(email);
+
+  //   if (!user) {
+  //     throw new UnauthorizedException('Invalid email or password');
+  //   }
+
+  //   const passwordMatch = await bcrypt.compare(password, user.password);
+  //   if (!passwordMatch) {
+  //     throw new UnauthorizedException('Invalid email or password');
+  //   }
+
+  //   const payload = { sub: user.id, email: user.email, role: user.role }; 
+  //   const token = this.jwtService.sign(payload);
+
+  //   return {
+  //     id: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     role: user.role,
+  //     access_token: token,
+  //   };
+  // }
+  async login(email: string, password: string, totp: string) {
     const user = await this.usersService.findByEmail(email);
 
     if (!user) {
@@ -22,7 +81,22 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const payload = { sub: user.id, email: user.email, role: user.role }; 
+    if (!user.twoFASecret) {
+      throw new UnauthorizedException('2FA not setup for this account');
+    }
+
+    const isValid = speakeasy.totp.verify({
+      secret: user.twoFASecret,
+      encoding: 'base32',
+      token: totp,
+      window: 1, // ±30s window
+    });
+
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid 2FA code');
+    }
+
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const token = this.jwtService.sign(payload);
 
     return {

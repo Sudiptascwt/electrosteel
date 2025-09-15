@@ -4,12 +4,12 @@ import { ReportDto } from '../../../dto/reports.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
-import { UserRole } from '../../../users/user.entity';
+import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CsrReportContentDto } from 'src/dto/report_content.dto';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller()
 export class ReportController {
     constructor(private readonly ReportService: ReportService) {}
@@ -56,7 +56,7 @@ export class ReportController {
     }
 
     // Get all Report
-    @Get('report/content')
+    @Get('report/content/all')
     async findAllReportContents() {
         return this.ReportService.findAllReportContents();
     }

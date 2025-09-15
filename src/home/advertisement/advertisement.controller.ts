@@ -12,7 +12,7 @@ import { AdvertisementDto } from '../../dto/advertisement.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
-import { UserRole } from '../../users/user.entity';
+import { UserRole } from '../../admin/users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 

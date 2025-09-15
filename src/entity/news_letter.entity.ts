@@ -12,6 +12,9 @@ export class NewsLetter {
   id: number;
 
   @Column({ type: 'longtext' })
+  banner_image: string;
+
+  @Column({ type: 'longtext' })
   year: string;
 
   @Column({ type: 'longtext' })

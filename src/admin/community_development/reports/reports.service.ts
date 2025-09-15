@@ -152,7 +152,7 @@ export class ReportService {
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'Report content fetched successfully' : 'No Report found',
+            message: data.length > 0 ? 'Report contents fetched successfully' : 'No Report found',
             data,
         };
     }

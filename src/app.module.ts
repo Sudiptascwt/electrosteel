@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './admin/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
+import { User } from './admin/users/user.entity';
 import { Certificate } from './entity/certificate.entity';
 import { Banner } from './entity/banner.entity';
 import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
+import { HomesModule } from './home/home.module';
 import { BannerModule } from './home/banner/banner.module';
 import { Investor } from './entity/investor.entity';
 import { Care } from './entity/care.entity';
@@ -93,6 +93,11 @@ import { CorporateProfile } from './entity/corporate_profile.entity';
 import { CorporateProfileModule } from './inner/corporate_profile/corporate_profile.module';
 import { CsrOverview } from './entity/csr_overview.entity';
 import { CsrReportContent } from './entity/report_content.entity';
+import { LatestElectrosteel } from './entity/latest_electrosteel.entity';
+import { LatestElectrosteelModule } from './admin/digital/latest_electrosteel/latest_electrosteel.module';
+import { DigitalVideos } from './entity/digital_videos.entity';
+import { DigitalVideosModule } from './admin/digital/videos/video.module';
+import { HomeModule } from './frontend/home/home.module';
 
 @Module({
   imports: [
@@ -104,14 +109,14 @@ import { CsrReportContent } from './entity/report_content.entity';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent ], 
+      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
     }),
     UsersModule,
     AuthModule,
-    HomeModule,
+    HomesModule,
     BannerModule,
     MilestoneModule,
     AdvancementModule,
@@ -150,7 +155,10 @@ import { CsrReportContent } from './entity/report_content.entity';
     CareerModule,
     AllBannerModule,
     CorporateProfileModule,
-    FeatureModule
+    FeatureModule,
+    LatestElectrosteelModule,
+    DigitalVideosModule,
+    HomeModule
   ],
   controllers: [AppController],
   providers: [AppService],

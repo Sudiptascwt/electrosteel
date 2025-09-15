@@ -1,22 +1,22 @@
 import { Controller, Post, Body, UseInterceptors, UploadedFile, Put, Param, Delete, Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CertificateDto } from '../dto/certificate.dto';
-import { HomeService } from './home.service';
+import { HomesService } from './home.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../role/roles.guard';
 import { Roles } from '../role/roles.decorator';
-import { UserRole } from '../users/user.entity';
+import { UserRole } from '../admin/users/user.entity';
 
 
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-@Controller('home')
-export class HomeController {
-    constructor(private readonly homeService: HomeService) {}
+@Controller('homes')
+export class HomesController {
+    constructor(private readonly homeService: HomesService) {}
     //create cretificate for home banner
     @Post('create-certificate')
     @UseInterceptors(

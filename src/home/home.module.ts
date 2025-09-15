@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { HomeService } from './home.service';
-import { HomeController } from './home.controller';
+import { HomesService } from './home.service';
+import { HomesController } from './home.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Certificate } from '../entity/certificate.entity';
 
@@ -8,7 +8,7 @@ import { Certificate } from '../entity/certificate.entity';
   imports: [
     TypeOrmModule.forFeature([Certificate]), 
   ],
-  providers: [HomeService],
-  controllers: [HomeController]
+  providers: [HomesService],
+  controllers: [HomesController]
 })
-export class HomeModule {}
+export class HomesModule {}

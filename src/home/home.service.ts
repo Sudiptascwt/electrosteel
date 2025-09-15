@@ -5,7 +5,7 @@ import { CertificateDto } from '../dto/certificate.dto';
 import { Certificate } from '../entity/certificate.entity';
 
 @Injectable()
-export class HomeService {
+export class HomesService {
     constructor(
     @InjectRepository(Certificate)
     private readonly certificateRepository: Repository<Certificate>, 

@@ -4,7 +4,7 @@ import { EventDto } from '../../../dto/event.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
-import { UserRole } from '../../../users/user.entity';
+import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -15,7 +15,7 @@ export class EventController {
 
     // Create committee type
     @Post()
-    async create(@Body() createDto: EventDto) {
+    async create(@Body() createDto: EventDto) { 
         return this.Eventervice.create(createDto);
     }
 

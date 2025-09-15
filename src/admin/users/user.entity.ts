@@ -26,4 +26,10 @@ export class User {
     default: UserRole.DIRECTOR, // default role is director
   })
   role: UserRole;
+
+  @Column({ nullable: true })
+  twoFASecret: string;  // base32 secret for TOTP
+
+  @Column({ default: false })
+  isTwoFAEnabled: boolean;
 }

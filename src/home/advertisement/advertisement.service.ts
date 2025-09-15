@@ -19,7 +19,7 @@ export class AdvertisementService {
 
   async update(id: number, data: Partial<AdvertisementDto>) {
     const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Section not found');
+    if (!section) throw new NotFoundException('advertisement not found');
     Object.assign(section, data);
     const saved = await this.repo.save(section);
     return { statusCode: 200, message: 'Advertisement updated successfully', data: saved };

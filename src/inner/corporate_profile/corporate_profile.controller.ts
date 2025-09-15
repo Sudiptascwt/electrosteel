@@ -4,7 +4,7 @@ import { CreateLifeElectrosteelContentDto } from 'src/dto/life_electrosteel_cont
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
-import { UserRole } from '../../users/user.entity';
+import { UserRole } from '../../admin/users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CorporateProfileDto } from 'src/dto/corporate_profile.dto';
 

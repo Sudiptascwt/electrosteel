@@ -23,4 +23,12 @@ export class UsersService {
   findOne(id: number) {
     return this.userRepository.findOne({ where: { id } });
   }
+  async findById(id: number): Promise<User> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
+  async update(id: number, fields: Partial<User>): Promise<User> {
+    await this.userRepository.update(id, fields);
+    return this.findById(id);
+  }
 }

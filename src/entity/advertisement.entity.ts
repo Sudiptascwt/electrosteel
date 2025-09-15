@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('social_sections') 
+@Entity('advertisement') 
 export class Advertisement {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,13 +10,6 @@ export class Advertisement {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
-
-
-
-
-
-
-  
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

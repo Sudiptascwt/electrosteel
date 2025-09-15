@@ -15,5 +15,5 @@ export class ContentDto {
 
   @IsOptional()
   @IsString()
-  url: string;
+  description: string;
 }

@@ -31,6 +31,9 @@ export class Content {
   @Column({ type: 'longtext' })
   description: string;
 
+  @Column({ type: 'longtext' })
+  image: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
