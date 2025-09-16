@@ -1,40 +1,39 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('cares')
-export class Care {
+@Entity('business_enquiry')
+export class BusinessEnquiry {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  title: string;
+  name : string;
 
   @Column({ type: 'longtext', nullable: true })
   description: string;
 
   @Column({ type: 'longtext', nullable: true })
-  alise: string;
+  company_name: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  image: string;
+  email: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  phone_number: string;
+
+  @Column({ type: 'longtext' })
+  address: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  video_image: string;
+  country: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  icon_image: string;
+  state: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  link: string;
+  @Column({ type: 'text', nullable: true })
+  city: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  plan_type: string;
-
-  @Column({
-    type: 'enum',
-    enum: ['0', '1'],
-    default: '1',
-  })
-  status: '0' | '1';
+  @Column({ type: 'longtext', nullable: true  })
+  query: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;

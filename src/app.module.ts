@@ -101,6 +101,11 @@ import { HomeModule } from './frontend/home/home.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonBanner } from './entity/common_banner.entity';
 import { CommonBannerModule } from './admin/common_banner_all_pages/common_banner.module';
+import { BusinessEnquiry } from './entity/business_enquery.entity';
+import { EnquiryModule } from './frontend/enquiry/enquiry.module';
+import { ShareholderEnquiry } from './entity/shareholder_enquiry.entity';
+import { EmploymentForm } from './entity/employment_form.entity';
+import { EmploymentFormModule } from './admin/employment_form/employment_form.module';
 
 @Module({
   imports: [
@@ -115,7 +120,7 @@ import { CommonBannerModule } from './admin/common_banner_all_pages/common_banne
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -165,7 +170,9 @@ import { CommonBannerModule } from './admin/common_banner_all_pages/common_banne
     LatestElectrosteelModule,
     DigitalVideosModule,
     HomeModule,
-    CommonBannerModule
+    CommonBannerModule,
+    EnquiryModule,
+    EmploymentFormModule
   ],
   controllers: [AppController],
   providers: [AppService],

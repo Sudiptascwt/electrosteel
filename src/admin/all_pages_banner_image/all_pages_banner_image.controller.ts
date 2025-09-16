@@ -19,8 +19,8 @@ import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('page-key-value')
 export class AllBannerController {
   constructor(private readonly AllBannerService: AllBannerService) {}

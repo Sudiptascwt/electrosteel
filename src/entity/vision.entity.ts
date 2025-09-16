@@ -21,9 +21,9 @@ export class Vision {
   @Column({type: 'longtext', nullable: true })
   description: string;
 
-  @UpdateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;
 
-  @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 }

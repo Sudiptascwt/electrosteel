@@ -8,8 +8,8 @@ import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CsrOverviewDto } from 'src/dto/csr_overview.dto';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller()
 export class CsrKeyController {
     constructor(private readonly CsrKeyService: CsrKeyService) {}

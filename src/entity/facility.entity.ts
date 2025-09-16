@@ -17,9 +17,9 @@ export class Facility {
     @Column({ type: 'varchar', length: 255, nullable: true })
     div_id: string;
 
-    @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+    @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
     modifiedAt: Date;
 }

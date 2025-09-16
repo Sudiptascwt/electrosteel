@@ -24,9 +24,9 @@ export class Milestone {
     })
     status: number;
 
-    @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+    @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
     modifiedAt: Date;
 }

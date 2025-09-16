@@ -22,10 +22,10 @@ export class PipeArt {
   @Column({ type: 'longtext', nullable: true })
   url: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+  @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 
   // ✅ Relation with PipeArtDetail

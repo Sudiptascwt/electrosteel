@@ -18,10 +18,10 @@ export class product_application_images {
     })
     image_type: 'application' | 'overview';
 
-    @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+    @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
     modifiedAt: Date;
 }
 

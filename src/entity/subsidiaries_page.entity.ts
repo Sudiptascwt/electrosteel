@@ -24,9 +24,9 @@ export class SubsidiariesPage {
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
 
-  @UpdateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;
 
-  @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 }

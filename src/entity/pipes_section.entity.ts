@@ -14,9 +14,9 @@ export class ProductBrochures {
     @Column({ type:'longtext'})
     pipes_laid_description: string
     
-    @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+    @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
     modifiedAt: Date;
 }

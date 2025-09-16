@@ -29,9 +29,9 @@ export class Information {
   })
   status: 0 | 1;
 
-  @CreateDateColumn({ type: 'datetime', nullable: true })
+  @CreateDateColumn({ type: 'datetime' })
   created_at?: Date;
 
-  @UpdateDateColumn({ type: 'datetime', nullable: true })
+  @UpdateDateColumn({ type: 'datetime' })
   modified_at?: Date;
 }

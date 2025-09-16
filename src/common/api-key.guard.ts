@@ -17,10 +17,3 @@ export class ApiKeyGuard implements CanActivate {
     return true;
   }
 }
-
-
-// @UseGuards(ApiKeyGuard)
-// @Get('frontend-data')
-// getFrontendData() {
-//   return { message: 'Only frontend with correct API key can access this' };
-// }

@@ -41,6 +41,6 @@ export class PipeArtDetail {
   @Column({ name: 'right_image', type: 'varchar', length: 255, nullable: true })
   right_image: string;
 
-  @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 }

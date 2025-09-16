@@ -35,9 +35,9 @@ export class IndiaOfficeDetails {
   @Column({ type: 'varchar', length: 255, nullable: true })
   google_map_link?: string;
 
-  @CreateDateColumn({ type: 'datetime', nullable: true })
+  @CreateDateColumn({ type: 'datetime'})
   created_at?: Date;
 
-  @UpdateDateColumn({ type: 'datetime', nullable: true })
+  @UpdateDateColumn({ type: 'datetime'})
   modified_at?: Date;
 }

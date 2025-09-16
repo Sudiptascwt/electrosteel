@@ -20,8 +20,8 @@ import {
   import { Roles } from '../../../role/roles.decorator';
   import { UserRole } from '../../../admin/users/user.entity';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
   @Controller('about/company-profile/slider')
   export class InnerSliderController {
     constructor(private readonly InnerSliderService: InnerSliderService) {}

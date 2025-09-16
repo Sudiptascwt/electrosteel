@@ -30,9 +30,9 @@ export class BoardCommitteDetails {
   @Column({ type: 'varchar', nullable: true })
   position: string; 
 
-  @UpdateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;
 
-  @UpdateDateColumn({ name: 'modified_at', type: 'datetime', nullable: true })
+  @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 }
