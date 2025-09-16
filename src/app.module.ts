@@ -98,9 +98,15 @@ import { LatestElectrosteelModule } from './admin/digital/latest_electrosteel/la
 import { DigitalVideos } from './entity/digital_videos.entity';
 import { DigitalVideosModule } from './admin/digital/videos/video.module';
 import { HomeModule } from './frontend/home/home.module';
+import { ConfigModule } from '@nestjs/config';
+import { CommonBanner } from './entity/common_banner.entity';
+import { CommonBannerModule } from './admin/common_banner_all_pages/common_banner.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, 
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -109,7 +115,7 @@ import { HomeModule } from './frontend/home/home.module';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -158,7 +164,8 @@ import { HomeModule } from './frontend/home/home.module';
     FeatureModule,
     LatestElectrosteelModule,
     DigitalVideosModule,
-    HomeModule
+    HomeModule,
+    CommonBannerModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,9 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Req, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UsersService } from '../admin/users/users.service';
+import { ChangePasswordDto } from 'src/dto/change_password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -48,6 +49,21 @@ export class AuthController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Login successful',
+      data: result,
+    };
+  }
+
+  @Post('change-password')
+  async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
+    if (changePasswordDto.new_password !== changePasswordDto.confirm_new_password) {
+      throw new BadRequestException('New password and confirm password do not match');
+    }
+
+    const result = await this.authService.changePassword(changePasswordDto);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Password changed successfully',
       data: result,
     };
   }

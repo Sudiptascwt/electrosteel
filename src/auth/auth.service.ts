@@ -1,15 +1,22 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../admin/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import * as speakeasy from 'speakeasy';
 import * as qrcode from 'qrcode';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from 'src/admin/users/user.entity';
+import { ChangePasswordDto } from 'src/dto/change_password.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService, // inject JWT service
+
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>, 
   ) {}
 
 
@@ -106,5 +113,29 @@ async verify2FA(userId: number, token: string) {
       role: user.role,
       access_token: token,
     };
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto) {
+    const { email, old_password, new_password,confirm_new_password } = changePasswordDto;
+
+    const user = await this.usersService.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isMatch = await bcrypt.compare(old_password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Old password is incorrect');
+    }
+    if (new_password!=confirm_new_password) {
+      throw new BadRequestException('Entered new password and confirmed new password are not correct.');
+    }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+
+    user.password = hashedPassword;
+    await this.userRepository.save(user);
+
+    return { email: user.email };
   }
 }

@@ -6,6 +6,10 @@ import { SocialSection } from 'src/entity/social_section.entity';
 import { Banner } from 'src/entity/banner.entity';
 import { SectionElectrosteel } from 'src/entity/section_electrosteel.entity';
 import { Advertisement } from '../../entity/advertisement.entity';
+import { Milestone } from 'src/entity/milestone.entity';
+import { Statistic } from 'src/entity/statistic.entity';
+import { Testimonial } from 'src/entity/home_testimonial.entity';
+import { VideoSection } from '../../entity/home_video_section.entity'
 
 @Injectable()
 export class HomeService {
@@ -24,6 +28,18 @@ export class HomeService {
 
     @InjectRepository(Advertisement)
     private readonly AdvertisementRepo: Repository<Advertisement>,
+
+    @InjectRepository(Milestone)
+    private readonly MilestoneRepo: Repository<Milestone>,
+
+    @InjectRepository(Statistic)
+    private readonly StatisticRepo: Repository<Statistic>,
+
+    @InjectRepository(Testimonial)
+    private readonly TestimonialRepo: Repository<Testimonial>,
+
+    @InjectRepository(VideoSection)
+    private readonly VideoSectionRepo: Repository<VideoSection>,
   ) {}
 
   async getHomeData() {
@@ -32,13 +48,21 @@ export class HomeService {
     const advancements = await this.advancementRepo.find();
     const electrosteels = await this.electrosteelRepo.find();
     const advertisements = await this.AdvertisementRepo.find();
+    const milestones = await this.MilestoneRepo.find();
+    const statistics = await this.StatisticRepo.find();
+    const testimonial = await this.TestimonialRepo.find();
+    const video_sections = await this.VideoSectionRepo.find();
 
     return {
       banners,
       socials,
       advancements,
       electrosteels,
-      advertisements
+      advertisements,
+      milestones,
+      statistics,
+      testimonial,
+      video_sections
     };
   }
 }

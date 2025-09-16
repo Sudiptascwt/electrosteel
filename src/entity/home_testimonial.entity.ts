@@ -6,11 +6,17 @@ export class Testimonial {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ type: 'text' })
+  main_title: string;
+
+  @Column({ type: 'text' })
+  date: string;
+
+  @Column({ type: 'text' })
+  sub_title: string;
 
   @Column({ type: 'longtext' })
-  message: string;
+  description: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
