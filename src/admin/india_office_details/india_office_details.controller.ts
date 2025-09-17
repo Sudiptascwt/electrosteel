@@ -11,7 +11,14 @@ import {
 } from '@nestjs/common';
 import { IndiaOfficeDetailsService } from './india_office_details.service';
 import {IndiaOfficeDetailsDto} from '../../dto/india_office_details.dto';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../../role/roles.guard';
+import { Roles } from '../../role/roles.decorator';
+import { UserRole } from '../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('india-office-details')
 export class IndiaOfficeDetailsController {
   constructor(private readonly indiaOfficeService: IndiaOfficeDetailsService) {}

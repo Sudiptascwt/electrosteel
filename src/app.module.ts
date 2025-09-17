@@ -106,6 +106,14 @@ import { EnquiryModule } from './frontend/enquiry/enquiry.module';
 import { ShareholderEnquiry } from './entity/shareholder_enquiry.entity';
 import { EmploymentForm } from './entity/employment_form.entity';
 import { EmploymentFormModule } from './admin/employment_form/employment_form.module';
+import { QualityResults } from './entity/quaterly_results.entity';
+import { QualityResultsModule } from './admin/investors/quaterly_results/quaterly_results.module';
+import { AnnualReports } from './entity/annual_reports.entity';
+import { AnnualReportsModule } from './admin/investors/annual_reports/annual_reports.module';
+import { SubsidiariesAccount } from './entity/accounts_of_subsidiaries.entity';
+import { SubsidiariesAccountModule } from './admin/investors/subsidiaries_account/subsidiaries_account.module';
+import { AccountOfJointVenture } from './entity/accounts_of_joint_venture.entity';
+import { AccountOfJointVentureModule } from './admin/investors/accounts_of_joint_venture/accounts_of_joint_venture.module';
 
 @Module({
   imports: [
@@ -120,7 +128,7 @@ import { EmploymentFormModule } from './admin/employment_form/employment_form.mo
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -172,7 +180,11 @@ import { EmploymentFormModule } from './admin/employment_form/employment_form.mo
     HomeModule,
     CommonBannerModule,
     EnquiryModule,
-    EmploymentFormModule
+    EmploymentFormModule,
+    QualityResultsModule,
+    AnnualReportsModule,
+    SubsidiariesAccountModule,
+    AccountOfJointVentureModule
   ],
   controllers: [AppController],
   providers: [AppService],
