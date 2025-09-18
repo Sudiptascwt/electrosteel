@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('meta_tags')
 export class MetaTag {
     @PrimaryGeneratedColumn({ name: 'id' })
-    id: number;
+  id: number;
 
     @Column({ type: 'longtext', nullable: true })
     meta_title: string;

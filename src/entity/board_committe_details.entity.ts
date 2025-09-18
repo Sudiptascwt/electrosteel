@@ -11,7 +11,7 @@ import { BoardCommitteType } from "./board_committee_type.entity";
 @Entity('board_committee_details')
 export class BoardCommitteDetails {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+id: number;
 
   // relation to BoardCommitteType
   @ManyToOne(() => BoardCommitteType, { eager: true })  // eager loads the type

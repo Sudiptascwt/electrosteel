@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('home_testimonial')
 export class Testimonial {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'text' })
   main_title: string;

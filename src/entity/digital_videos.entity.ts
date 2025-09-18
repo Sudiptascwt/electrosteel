@@ -11,7 +11,7 @@ import {
 @Entity('digital_videos')
 export class DigitalVideos {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'text' })
   title: string;

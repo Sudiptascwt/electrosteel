@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('section_electro_stell') 
 export class SectionElectrosteel {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column()
   page_id: number;

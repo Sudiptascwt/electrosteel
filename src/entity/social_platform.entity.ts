@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('social_platforms') 
 export class SocialPlatform {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'longtext', nullable: true })
   instagram: string;

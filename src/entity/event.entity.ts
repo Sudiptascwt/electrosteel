@@ -9,7 +9,7 @@ import {
 @Entity('events')
 export class Event {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'text' })
   title: string;

@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('conduct') 
 export class Conduct {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ length:255, nullable: false })
   title: string;

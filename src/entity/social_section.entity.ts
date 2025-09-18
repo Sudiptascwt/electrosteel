@@ -11,17 +11,14 @@ export class SocialSection {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ type:'longtext', nullable: true })
   year: string;
 
-  @Column({ nullable: true })
+  @Column({ type:'longtext',nullable: true })
   description: string;
 
-  @Column({ nullable: true })
+  @Column({ type:'longtext',nullable: true })
   image: string;
-
-  @Column({ type: 'tinyint', default: 1 })
-  status: number;
 
   @CreateDateColumn()
   created_at: Date;

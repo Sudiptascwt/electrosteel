@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('advertisement') 
 export class Advertisement {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column()
   page_id: number;

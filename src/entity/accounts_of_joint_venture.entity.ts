@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('accounts_of_joint_venture') 
 export class AccountOfJointVenture {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type:'varchar', length:'255', nullable: true })
   start_date: string;

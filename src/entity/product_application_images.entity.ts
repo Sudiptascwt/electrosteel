@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('product_application_images')
 export class product_application_images {
     @PrimaryGeneratedColumn({ name: 'id' })
-    id: number;
+  id: number;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     title: string;
@@ -58,7 +58,7 @@ export class product_application_images {
 // @Entity('product_application_images')
 // export class ProductApplicationImages {
 //   @PrimaryGeneratedColumn()
-//   id: number;
+// id: number;
 
 //   @Column()
 //   application_id: number;

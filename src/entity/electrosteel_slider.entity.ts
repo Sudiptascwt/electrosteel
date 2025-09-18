@@ -9,7 +9,7 @@ import {
 @Entity('electrosteel_slider')
 export class ElectrosteelSlider {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'longtext' })
   title: string;

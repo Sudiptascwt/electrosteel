@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeor
 @Entity('files')
 export class Image {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column()
   filename: string;

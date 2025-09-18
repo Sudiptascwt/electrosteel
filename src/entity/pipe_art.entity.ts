@@ -11,7 +11,7 @@ import { PipeArtDetail } from "./pipe_art_details.entity";
 @Entity('pipe_art')
 export class PipeArt {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   title: string;

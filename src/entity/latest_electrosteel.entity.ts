@@ -9,7 +9,7 @@ import {
 @Entity('latest_electrosteel')
 export class LatestElectrosteel {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'longtext' })
   page_meta_key: string;

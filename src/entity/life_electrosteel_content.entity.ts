@@ -9,7 +9,7 @@ import {
 @Entity('life_electrosteel_content')
 export class LifeElectrosteelContent {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'longtext' })
   title: string;

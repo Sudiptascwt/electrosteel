@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('home_video_section') 
 export class VideoSection {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column()
   page_id: number;

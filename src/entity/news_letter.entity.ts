@@ -9,7 +9,7 @@ import {
 @Entity('news_letter')
 export class NewsLetter {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'longtext' })
   banner_image: string;

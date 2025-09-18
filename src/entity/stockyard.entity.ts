@@ -9,7 +9,7 @@ import {
 @Entity('stockyard')
 export class StockYard {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'text' })
   banner_image: string;

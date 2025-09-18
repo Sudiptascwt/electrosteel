@@ -10,7 +10,7 @@ import {
   @Entity('inner_features')
   export class InnerFeature {
     @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
     @Column({ type: 'int' })
     page_id: number;

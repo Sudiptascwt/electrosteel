@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('india_office_details')
 export class IndiaOfficeDetails {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   title?: string;

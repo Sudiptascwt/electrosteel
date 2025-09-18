@@ -10,7 +10,7 @@ import {
 @Entity('vision')
 export class Vision {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+id: number;
 
   @Column({ type: 'longtext', nullable: false })
   heading: string;  

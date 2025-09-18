@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity()
 export class CommonBanner {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({type:'varchar', length:'255'})
   page_name: string;

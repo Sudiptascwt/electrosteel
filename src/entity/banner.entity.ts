@@ -9,7 +9,7 @@ import {
 @Entity('banners')
 export class Banner {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;
@@ -25,18 +25,6 @@ export class Banner {
 
   @Column({ type: 'varchar', length: 20, default: 'image' })
   media_type: string;
-
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // banner_image: string;
-
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // url: string;
-
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // url2: string;
-
-  // @Column({ type: 'varchar', length: 255, nullable: true })
-  // alt_tag: string;
 
   @Column({ type: 'tinyint', default: 1 })
   status: number;

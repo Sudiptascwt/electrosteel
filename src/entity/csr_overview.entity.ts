@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('csr_overview') 
 export class CsrOverview {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type:'longtext'})
   title_description: string;

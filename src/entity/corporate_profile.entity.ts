@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('corporate_profile') 
 export class CorporateProfile {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({ type:'longtext' })
   page_meta_key: string;

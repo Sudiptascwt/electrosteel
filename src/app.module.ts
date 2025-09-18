@@ -107,13 +107,27 @@ import { ShareholderEnquiry } from './entity/shareholder_enquiry.entity';
 import { EmploymentForm } from './entity/employment_form.entity';
 import { EmploymentFormModule } from './admin/employment_form/employment_form.module';
 import { QualityResults } from './entity/quaterly_results.entity';
-import { QualityResultsModule } from './admin/investors/quaterly_results/quaterly_results.module';
+import { QualityResultsModule } from './admin/investors/financials/quaterly_results/quaterly_results.module';
 import { AnnualReports } from './entity/annual_reports.entity';
-import { AnnualReportsModule } from './admin/investors/annual_reports/annual_reports.module';
+import { AnnualReportsModule } from './admin/investors/reports-and_account/annual_reports/annual_reports.module';
 import { SubsidiariesAccount } from './entity/accounts_of_subsidiaries.entity';
-import { SubsidiariesAccountModule } from './admin/investors/subsidiaries_account/subsidiaries_account.module';
+import { SubsidiariesAccountModule } from './admin/investors/reports-and_account/subsidiaries_account/subsidiaries_account.module';
 import { AccountOfJointVenture } from './entity/accounts_of_joint_venture.entity';
-import { AccountOfJointVentureModule } from './admin/investors/accounts_of_joint_venture/accounts_of_joint_venture.module';
+import { AccountOfJointVentureModule } from './admin/investors/reports-and_account/accounts_of_joint_venture/accounts_of_joint_venture.module';
+import { NcltMeeting } from './entity/nclt_meetings.entity';
+import { NcltFinalOrder } from './entity/nclt_final_order.entity';
+import { NcltModule } from './admin/investors/nclt/nclt.module';
+import { Blogs } from './entity/blogs.entity';
+import { BlogsModule } from './admin/blogs/blogs.module';
+import { SrikalahasthiAppointmentletter } from './entity/srikalahasthi_appointment_letter.entity';
+import { SrikalahasthiCodeOfConductInsiders } from './entity/srikalahasthi_code_of_conduct_insiders.entity';
+import { SrikalahasthiComittee } from './entity/srikalahasthi_comittee.entity';
+import { srikalahasthiCodeOfConduct } from './entity/srikalahasthi_code_of_conduct.entity';
+import { srikalahasthiDirectorsResignation } from './entity/srikalahasthi_directors_resignation.entity';
+import { SrikalahasthiFamiliarizationProgramme } from './entity/srikalahasthi_familiarization_programme.entity';
+import { SrikalahasthiInvestorContact } from './entity/srikalahasthi_investor_contact.entity';
+import { SrikalahasthiNotices } from './entity/srikalahasthi_notices.entity';
+import { SrikalahasthiPolicies } from './entity/srikalahasthi_policies.entity';
 
 @Module({
   imports: [
@@ -128,7 +142,7 @@ import { AccountOfJointVentureModule } from './admin/investors/accounts_of_joint
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, srikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies   ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -184,7 +198,9 @@ import { AccountOfJointVentureModule } from './admin/investors/accounts_of_joint
     QualityResultsModule,
     AnnualReportsModule,
     SubsidiariesAccountModule,
-    AccountOfJointVentureModule
+    AccountOfJointVentureModule,
+    NcltModule,
+    BlogsModule
   ],
   controllers: [AppController],
   providers: [AppService],

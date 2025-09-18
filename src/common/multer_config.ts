@@ -24,6 +24,7 @@ export const bannerMulterOptions = {
       'video/avi',
       'video/mov',
       'video/mkv',
+      'application/pdf'
     ];
 
     if (allowedMimes.includes(file.mimetype)) {

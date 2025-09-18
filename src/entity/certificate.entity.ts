@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity()
 export class Certificate {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column()
   title: string;

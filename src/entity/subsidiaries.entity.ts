@@ -10,7 +10,7 @@ import {
 @Entity('subsidiaries')
 export class Subsidiaries {
   @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+id: number;
 
   @Column({ type: 'longtext', nullable: false })
   country_link: string;  

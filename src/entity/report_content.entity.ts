@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('csr_report_content') 
 export class CsrReportContent {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
 
   @Column({type: 'longtext', nullable: true })
   page_meta_key: string;

@@ -12,7 +12,7 @@ import { Event } from './event.entity';
 @Entity('contents')
 export class Content {
   @PrimaryGeneratedColumn()
-  id: number;
+id: number;
   
   @Column({ type: 'int' })
   event_id: number;

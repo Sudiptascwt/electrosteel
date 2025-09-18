@@ -9,7 +9,7 @@ import {
   @Entity('inner_banners')
   export class InnerBanner {
     @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
   
     @Column({ type: 'varchar', length: 255 })
     banner_title: string;
