@@ -123,11 +123,26 @@ import { SrikalahasthiAppointmentletter } from './entity/srikalahasthi_appointme
 import { SrikalahasthiCodeOfConductInsiders } from './entity/srikalahasthi_code_of_conduct_insiders.entity';
 import { SrikalahasthiComittee } from './entity/srikalahasthi_comittee.entity';
 import { srikalahasthiCodeOfConduct } from './entity/srikalahasthi_code_of_conduct.entity';
-import { srikalahasthiDirectorsResignation } from './entity/srikalahasthi_directors_resignation.entity';
+import { SrikalahasthiDirectorsResignation } from './entity/srikalahasthi_directors_resignation.entity';
 import { SrikalahasthiFamiliarizationProgramme } from './entity/srikalahasthi_familiarization_programme.entity';
 import { SrikalahasthiInvestorContact } from './entity/srikalahasthi_investor_contact.entity';
 import { SrikalahasthiNotices } from './entity/srikalahasthi_notices.entity';
 import { SrikalahasthiPolicies } from './entity/srikalahasthi_policies.entity';
+import { Srikalahasthi } from './entity/Srikalahasthi.entity';
+import { SrikalahasthiModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_pipes.module';
+import { ShareHoldingInformation } from './entity/share_holding_information.entity';
+import { ShareHoldingInformationModule } from './admin/investors/shareholding_information/shareholding_information.module';
+import { SrikalahasthiPoliciesModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_policies/srikalahasthi_policies.module';
+import { SrikalahasthiNoticesModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_notices/srikalahasthi_notices.module';
+import { SrikalahasthiInvestorContactModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_investor_contact/srikalahasthi_investor_contact.module';
+import { SrikalahasthiFamiliarizationProgrammeModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_familiarization_programme/srikalahasthi_familiarization_programme.module';
+import { SrikalahasthiDirectorsResignationModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_directors_resignation/srikalahasthi_directors_resignation.module';
+import { SrikalahasthiCommiteeModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_comittee/srikalahasthi_comittee.module';
+import { SrikalahasthiCodeOfConductInsidersModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_code_of_conduct_insiders/srikalahasthi_code_of_conduct_insiders.module';
+import { srikalahasthi_appointment_letterModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_appointment_letter/srikalahasthi_appointment_letter.module';
+import { NewsPaperPublication } from './entity/newspaper_publication.entity';
+import { NewspaperPublicationModule } from './admin/investors/newspaper_publication/newspaper_publication.module';
+
 
 @Module({
   imports: [
@@ -142,7 +157,7 @@ import { SrikalahasthiPolicies } from './entity/srikalahasthi_policies.entity';
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, srikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies   ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication ], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -200,7 +215,18 @@ import { SrikalahasthiPolicies } from './entity/srikalahasthi_policies.entity';
     SubsidiariesAccountModule,
     AccountOfJointVentureModule,
     NcltModule,
-    BlogsModule
+    BlogsModule,
+    ShareHoldingInformationModule,
+    SrikalahasthiModule,
+    SrikalahasthiPoliciesModule,
+    SrikalahasthiNoticesModule,
+    SrikalahasthiInvestorContactModule,
+    SrikalahasthiFamiliarizationProgrammeModule,
+    SrikalahasthiDirectorsResignationModule,
+    SrikalahasthiCommiteeModule,
+    SrikalahasthiCodeOfConductInsidersModule,
+    srikalahasthi_appointment_letterModule,
+    NewspaperPublicationModule
   ],
   controllers: [AppController],
   providers: [AppService],

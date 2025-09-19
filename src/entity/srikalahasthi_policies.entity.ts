@@ -8,10 +8,10 @@ export class SrikalahasthiPolicies {
   @Column()
   srikalahasthi_pipe_id: number;
 
-  @Column({type:'text',})
+  @Column({type:'text' })
   page_name: string;
 
-  @Column({type:'text',})
+  @Column({type:'text' })
   page_subname: string;
 
   @Column({ type:'text', nullable: true })

@@ -1,25 +1,25 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Srikalahasthi } from '../../../../entity/Srikalahasthi.entity';
-import { SrikalahasthiDto } from '../../../../dto/Srikalahasthi.dto';
+import { SrikalahasthiNotices } from '../../../../../entity/srikalahasthi_notices.entity';
+import { SrikalahasthiNoticesDto } from '../../../../../dto/srikalahasthi_notices.dto';
 
 @Injectable()
-export class SrikalahasthiService {
+export class SrikalahasthiNoticesService {
   constructor(
-    @InjectRepository(Srikalahasthi)
-    private readonly SrikalahasthiRepo: Repository<Srikalahasthi>,
+    @InjectRepository(SrikalahasthiNotices)
+    private readonly SrikalahasthiRepo: Repository<SrikalahasthiNotices>,
   ) {}
 
-    //////////srikalahasthi pipes/////////////
+    //////////srikalahasthi notice/////////////
     // CREATE
-    async create(createDto: SrikalahasthiDto) {
+    async create(createDto: SrikalahasthiNoticesDto) {
     const office = this.SrikalahasthiRepo.create(createDto);
     const data = await this.SrikalahasthiRepo.save(office);
 
     return {
         statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi pipes created successfully',
+        message: 'srikalahasthi notice created successfully',
         data,
     };
     }
@@ -29,7 +29,7 @@ export class SrikalahasthiService {
         const data = await this.SrikalahasthiRepo.find();
         return {
         statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi pipes fetched successfully',
+        message: 'All srikalahasthi notice fetched successfully',
         data,
         };
     }
@@ -38,7 +38,7 @@ export class SrikalahasthiService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi pipes with ID ${id} not found`);
+        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
         }
         return {
         statusCode: HttpStatus.OK,
@@ -48,7 +48,7 @@ export class SrikalahasthiService {
     }
 
     // UPDATE
-    async update(id: number, updateDto: SrikalahasthiDto) {
+    async update(id: number, updateDto: SrikalahasthiNoticesDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
             throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
@@ -60,7 +60,7 @@ export class SrikalahasthiService {
 
         return {
             statusCode: HttpStatus.OK,
-            message: 'srikalahasthi pipes updated successfully',
+            message: 'srikalahasthi notice updated successfully',
             data: updatedEntity,
         };
     }
@@ -70,14 +70,14 @@ export class SrikalahasthiService {
     async delete(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi pipes with ID ${id} not found`);
+        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
         }
 
         await this.SrikalahasthiRepo.remove(office);
 
         return {
         statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipes deleted successfully',
+        message: 'srikalahasthi notice deleted successfully',
         };
     }
 }
