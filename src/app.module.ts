@@ -142,7 +142,21 @@ import { SrikalahasthiCodeOfConductInsidersModule } from './admin/investors/amal
 import { srikalahasthi_appointment_letterModule } from './admin/investors/amalgamation/srikalahasthi_pipes/srikalahasthi_appointment_letter/srikalahasthi_appointment_letter.module';
 import { NewsPaperPublication } from './entity/newspaper_publication.entity';
 import { NewspaperPublicationModule } from './admin/investors/newspaper_publication/newspaper_publication.module';
-
+import { CorporateGovernance } from './entity/corporate_governance.entity';
+import { CorporateGovernanceModule } from './admin/investors/corporate_governance/corporate_governance.module';
+import { ShareholderMerger } from './entity/shareholding_merger.entity';
+import { ShareholdingMergerModule } from './admin/investors/shareholding_merger/shareholding_merger.module';
+import { Notices } from './entity/notices.entity';
+import { NoticesModule } from './admin/investors/notices/notices.module';
+import { Notices160 } from './entity/160_notice.entity';
+import { Notices160Module } from './admin/investors/160_notices/160_notices.module';
+import { VotingResults } from './entity/voting_results.entity';
+import { Voting_resultsModule } from './admin/investors/voting_results/voting_results.module';
+import { IepfSuspense } from './entity/iepf_suspense.entity';
+import { IepfSuspenseModule } from './admin/investors/iepf_suspense/iepf_suspense.module';
+import { UnclaimedDividends } from './entity/unclaimed_dividends.entity';
+import { UnclaimedDividendsModule } from './admin/investors/unclaimed_dividends/unclaimed_dividends.module';
+import { UnclaimedDividendsImages } from './entity/unclaimed_dividends_images.entity';  
 
 @Module({
   imports: [
@@ -157,7 +171,7 @@ import { NewspaperPublicationModule } from './admin/investors/newspaper_publicat
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication ], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -226,7 +240,14 @@ import { NewspaperPublicationModule } from './admin/investors/newspaper_publicat
     SrikalahasthiCommiteeModule,
     SrikalahasthiCodeOfConductInsidersModule,
     srikalahasthi_appointment_letterModule,
-    NewspaperPublicationModule
+    NewspaperPublicationModule,
+    CorporateGovernanceModule,
+    ShareholdingMergerModule,
+    NoticesModule,
+    Notices160Module,
+    Voting_resultsModule,
+    IepfSuspenseModule,
+    UnclaimedDividendsModule
   ],
   controllers: [AppController],
   providers: [AppService],

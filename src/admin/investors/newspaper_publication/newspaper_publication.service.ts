@@ -60,7 +60,7 @@ export class NewspaperPublicationService {
 
         return {
             statusCode: HttpStatus.OK,
-            message: 'NewspaperPublication pipes updated successfully',
+            message: 'NewspaperPublication updated successfully',
             data: updatedEntity,
         };
     }
