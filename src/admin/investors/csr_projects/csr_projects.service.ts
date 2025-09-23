@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AnnualReturn } from '../../../entity/annual_return.entity';
-import { AnnualReturnDto } from '../../../dto/annual_return.dto';
+import { CsrProjects } from '../../../entity/csr_projects.entity';
+import { CsrProjectsDto } from '../../../dto/csr_projects.dto';
 
 @Injectable()
-export class AnnualReturnService {
+export class CsrProjectsService {
   constructor(
-    @InjectRepository(AnnualReturn)
-    private readonly AnnualReturnRepo: Repository<AnnualReturn>,
+    @InjectRepository(CsrProjects)
+    private readonly CsrProjectsRepo: Repository<CsrProjects>,
   ) {}
 
-    //////////AnnualReturn/////////////
+    //////////CsrProjects/////////////
     // CREATE
-    async create(createDto: AnnualReturnDto) {
-        const share_holding_information = this.AnnualReturnRepo.create(createDto);
-        const data = await this.AnnualReturnRepo.save(share_holding_information);
+    async create(createDto: CsrProjectsDto) {
+        const share_holding_information = this.CsrProjectsRepo.create(createDto);
+        const data = await this.CsrProjectsRepo.save(share_holding_information);
 
         return {
             statusCode: HttpStatus.CREATED,
@@ -26,7 +26,7 @@ export class AnnualReturnService {
 
     // GET ALL
     async findAll() {
-        const data = await this.AnnualReturnRepo.find();
+        const data = await this.CsrProjectsRepo.find();
         return {
             statusCode: HttpStatus.OK,
             message: 'Annual return fetched successfully',
@@ -36,9 +36,9 @@ export class AnnualReturnService {
 
     // GET BY ID
     async findById(id: number) {
-        const share_holding_information = await this.AnnualReturnRepo.findOne({ where: { id } });
+        const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`AnnualReturn with ID ${id} not found`);
+            throw new NotFoundException(`CsrProjects with ID ${id} not found`);
         }
         return {
             statusCode: HttpStatus.OK,
@@ -48,15 +48,15 @@ export class AnnualReturnService {
     }
 
     // UPDATE
-    async update(id: number, updateDto: AnnualReturnDto) {
-        const entity = await this.AnnualReturnRepo.findOneBy({ id });
+    async update(id: number, updateDto: CsrProjectsDto) {
+        const entity = await this.CsrProjectsRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`AnnualReturn with id ${id} not found`);
+            throw new NotFoundException(`CsrProjects with id ${id} not found`);
         }
 
         Object.assign(entity, updateDto);
 
-        const updatedEntity = await this.AnnualReturnRepo.save(entity);
+        const updatedEntity = await this.CsrProjectsRepo.save(entity);
 
         return {
             statusCode: HttpStatus.OK,
@@ -68,12 +68,12 @@ export class AnnualReturnService {
 
     // DELETE
     async delete(id: number) {
-        const share_holding_information = await this.AnnualReturnRepo.findOne({ where: { id } });
+        const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`AnnualReturn with ID ${id} not found`);
+        throw new NotFoundException(`CsrProjects with ID ${id} not found`);
         }
 
-        await this.AnnualReturnRepo.remove(share_holding_information);
+        await this.CsrProjectsRepo.remove(share_holding_information);
 
         return {
             statusCode: HttpStatus.OK,
