@@ -89,8 +89,7 @@ export class OfficeDetailsService {
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Office details deleted successfully',
-            data: null,
+            message: 'Office details deleted successfully'
         };
     }
 }

@@ -1,46 +1,37 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-// import { FooterDto } from '../../dto/advertisement.dto';
-// import { Footer } from
-import { Advertisement } from 'src/entity/advertisement.entity';
-import { AdvertisementDto } from 'src/dto/advertisement.dto';
+import { officeDetails } from 'src/entity/office_section.entity';
+import { SocialPlatform } from 'src/entity/social_platform.entity';
+import { FooterBelowImages } from 'src/entity/footer_below_images.entity';
+import { FooterBelowImagesDto } from 'src/dto/footer_below_images.dto';
 
 @Injectable()
 export class FooterService {
   constructor(
-    @InjectRepository(Advertisement)
-    private readonly repo: Repository<Advertisement>,
+    @InjectRepository(officeDetails)
+    private readonly repo: Repository<officeDetails>,
+    @InjectRepository(SocialPlatform)
+    private readonly SocialPlatformrepo: Repository<SocialPlatform>,
+    @InjectRepository(FooterBelowImages)
+    private readonly FooterBelowImagesrepo: Repository<FooterBelowImages>,
   ) {}
 
-  async create(data: AdvertisementDto) {
-    const section = this.repo.create(data);
-    const saved = await this.repo.save(section);
-    return { statusCode: 201, message: 'Advertisement created successfully', data: saved };
+  async getFooterDetails() {
+    const offices = await this.repo.find({});
+    const social_platforms = await this.SocialPlatformrepo.find({});
+    const footer_below_images = await this.FooterBelowImagesrepo.find({});
+    return { statusCode: 200, message: 'Footer details fetched successfully', data: { offices, social_platforms,footer_below_images } };
   }
 
-  async update(id: number, data: Partial<AdvertisementDto>) {
-    const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Section not found');
-    Object.assign(section, data);
-    const saved = await this.repo.save(section);
-    return { statusCode: 200, message: 'Advertisement updated successfully', data: saved };
-  }
+  async addFooterBerlowImages(dto: FooterBelowImagesDto) {
+    const createdImage = this.FooterBelowImagesrepo.create(dto);
+    await this.FooterBelowImagesrepo.save(createdImage);
 
-  async getAll() {
-    const sections = await this.repo.find({ order: { created_at: 'DESC' } });
-    return { statusCode: 200, message: 'Advertisements fetched successfully', data: sections };
-  }
-
-  async getById(id: number) {
-    const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Advertisement not found');
-    return { statusCode: 200, message: 'Advertisement fetched successfully', data: section };
-  }
-
-  async delete(id: number) {
-    const result = await this.repo.delete(id);
-    if (result.affected === 0) throw new NotFoundException('Advertisement not found');
-    return { statusCode: 200, message: 'Advertisement deleted successfully' };
+    return {
+      statusCode: 201,
+      message: 'Footer below image added successfully',
+      data: createdImage,
+    };
   }
 }

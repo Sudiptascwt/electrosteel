@@ -7,36 +7,19 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
-import { FooterService } from './Footer.service';
-// import { FooterDto } from '../../dto/Footer.dto';
-import { AdvertisementDto } from 'src/dto/advertisement.dto';
+import { FooterService } from './footer.service';
+import { FooterBelowImagesDto } from 'src/dto/footer_below_images.dto';
 
-@Controller('home/Footer')
+@Controller('footer-section')
 export class FooterController {
   constructor(private readonly service: FooterService) {}
-
-  @Post('create-Footer')
-  async create(@Body() data: AdvertisementDto) {
-    return this.service.create(data);
-  }
-
-  @Put('update-Footer/:id')
-  async update(@Param('id') id: number, @Body() data: Partial<AdvertisementDto>) {
-    return this.service.update(id, data);
-  }
-
   @Get()
-  async getAll() {
-    return this.service.getAll();
+  async getFooterDetails() {
+    return this.service.getFooterDetails();
   }
 
-  @Get(':id')
-  async getById(@Param('id') id: number) {
-    return this.service.getById(id);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id') id: number) {
-    return this.service.delete(id);
+  @Post()
+  async addFooterBerlowImages(@Body() dto: FooterBelowImagesDto) {
+    return this.service.addFooterBerlowImages(dto);
   }
 }
