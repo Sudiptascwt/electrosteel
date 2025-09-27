@@ -179,6 +179,8 @@ import { QualityModule } from './frontend/quality/quality.module';
 import { AllCertificate } from './entity/all_certificates.entity';
 import { QualityFeaturesModule } from './admin/quality_features/quality_features.module';
 import { CareersModule } from './frontend/careers/careers.module';
+import { FrontendFacilityModule } from './frontend/facility/facility.module';
+import { StockyardsModule } from './frontend/about/stockyards/stockyards.module'
   
 
 @Module({
@@ -281,7 +283,9 @@ import { CareersModule } from './frontend/careers/careers.module';
     JolsadhanaModule,
     QualityModule,
     QualityFeaturesModule,
-    CareersModule
+    CareersModule,
+    FrontendFacilityModule,
+    StockyardsModule
   ],
   controllers: [AppController],
   providers: [AppService],
