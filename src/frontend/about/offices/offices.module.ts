@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OfficesController } from './Offices.controller';
 import { OfficesService } from './Offices.service';
-import { IndiaOfficeDetails } from 'src/entity/india_office_details.entity';
+import { IndiaOfficeDetails } from 'src/entity/office_details.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([IndiaOfficeDetails])],

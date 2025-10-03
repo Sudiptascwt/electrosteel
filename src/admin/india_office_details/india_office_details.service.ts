@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IndiaOfficeDetails } from '../../entity/india_office_details.entity';
+import { IndiaOfficeDetails } from '../../entity/office_details.entity';
 import { IndiaOfficeDetailsDto } from '../../dto/india_office_details.dto';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class IndiaOfficeDetailsService {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'India office details created successfully',
+      message: 'Office created successfully',
       data,
     };
   }
@@ -28,7 +28,7 @@ export class IndiaOfficeDetailsService {
     const data = await this.indiaOfficeRepo.find();
     return {
       statusCode: HttpStatus.OK,
-      message: 'India office details fetched successfully',
+      message: 'All Offices fetched successfully',
       data,
     };
   }
@@ -37,11 +37,11 @@ export class IndiaOfficeDetailsService {
   async findById(id: number) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`India office details with ID ${id} not found`);
+      throw new NotFoundException(`Office details with ID ${id} not found`);
     }
     return {
       statusCode: HttpStatus.OK,
-      message: 'India office details fetched successfully',
+      message: 'Office details fetched successfully',
       data: office,
     };
   }
@@ -50,7 +50,7 @@ export class IndiaOfficeDetailsService {
   async update(id: number, updateDto: IndiaOfficeDetailsDto) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`India office details with ID ${id} not found`);
+      throw new NotFoundException(`Office with ID ${id} not found`);
     }
 
     Object.assign(office, updateDto);
@@ -58,7 +58,7 @@ export class IndiaOfficeDetailsService {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'India office details updated successfully',
+      message: 'Office updated successfully',
       data,
     };
   }
@@ -67,14 +67,14 @@ export class IndiaOfficeDetailsService {
   async delete(id: number) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`India office details with ID ${id} not found`);
+      throw new NotFoundException(`Office with ID ${id} not found`);
     }
 
     await this.indiaOfficeRepo.remove(office);
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'India office details deleted successfully',
+      message: 'Office deleted successfully',
     };
   }
 }

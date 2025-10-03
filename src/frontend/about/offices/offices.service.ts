@@ -1,24 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { IndiaOfficeDetails } from 'src/entity/india_office_details.entity';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { IndiaOfficeDetails } from 'src/entity/office_details.entity';
 
 
 @Injectable()
 export class OfficesService {
   constructor(
     @InjectRepository(IndiaOfficeDetails)
-    private readonly StockYardRepo: Repository<IndiaOfficeDetails>,
+    private readonly OfficeRepo: Repository<IndiaOfficeDetails>,
   ) {}
+  //get the offices by type
+    async getOfficesData(country?: string) {
+      let whereClause: FindOptionsWhere<IndiaOfficeDetails> = {};
 
-  async getIndianOfficesData() {
-    const IndianOffices = await this.StockYardRepo.find();
-    return {
-      statusCode: 200,
-      message: IndianOffices.length > 0 
-        ? 'Indian Offices fetched successfully' 
-        : 'No Indian Offices found',
-      data: IndianOffices,
-    };
-  }
+      if (country) {
+        whereClause = { country } as FindOptionsWhere<IndiaOfficeDetails>;
+      }
+
+      const offices = await this.OfficeRepo.find({ where: whereClause });
+
+      return {
+        statusCode: 200,
+        message:
+          offices.length > 0
+            ? 'Offices fetched successfully'
+            : 'No Offices found',
+        data: offices,
+      };
+    }
 }

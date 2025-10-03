@@ -17,9 +17,9 @@ import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
-@Controller('india-office-details')
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
+@Controller('all-type-office-details')
 export class IndiaOfficeDetailsController {
   constructor(private readonly indiaOfficeService: IndiaOfficeDetailsService) {}
 
@@ -27,33 +27,21 @@ export class IndiaOfficeDetailsController {
   @Post()
   async create(@Body() createDto: IndiaOfficeDetailsDto) {
     const data = await this.indiaOfficeService.create(createDto);
-    return {
-      statusCode: HttpStatus.CREATED,
-      message: 'India office details created successfully',
-      data,
-    };
+    return data;
   }
 
   // GET ALL
   @Get()
   async findAll() {
     const data = await this.indiaOfficeService.findAll();
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'India office details fetched successfully',
-      data,
-    };
+    return data
   }
 
   // GET BY ID
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.indiaOfficeService.findById(id);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'India office details fetched successfully',
-      data,
-    };
+    return data;
   }
 
   // UPDATE
@@ -63,20 +51,12 @@ export class IndiaOfficeDetailsController {
     @Body() updateDto: IndiaOfficeDetailsDto,
   ) {
     const data = await this.indiaOfficeService.update(id, updateDto);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'India office details updated successfully',
-      data,
-    };
+    return data;
   }
 
   // DELETE
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.indiaOfficeService.delete(id);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'India office details deleted successfully',
-    };
+    return await this.indiaOfficeService.delete(id);
   }
 }

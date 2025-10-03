@@ -23,4 +23,9 @@ export class CareersController {
   async getCareerData() {
     return this.CareerService.getCareerData();
   }
+
+  @Get('fraud-alert')
+  async getFraudAlertData() {
+    return this.CareerService.getFraudAlertData();
+  }
 }

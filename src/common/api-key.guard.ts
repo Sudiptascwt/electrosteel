@@ -5,7 +5,6 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 export class ApiKeyGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    console.log("process.env.API_KEY",process.env.API_KEY);
     
     if (!process.env.API_KEY) {
       throw new UnauthorizedException('API Key not configured on server');

@@ -55,27 +55,6 @@ export class ReportService {
         };
     }
 
-    // UPDATE
-    // async update(id: number, updateDto: ReportDto) {
-    //     const Report = await this.ReportRepository.findOne({ where: { id } });
-    //     if (!Report) {
-    //         throw new NotFoundException({
-    //             status: false,
-    //             statusCode: HttpStatus.NOT_FOUND,
-    //             message: `Report with ID ${id} not found`,
-    //         });
-    //     }
-
-    //     Object.assign(Report, updateDto);
-    //     const updatedReport = await this.ReportRepository.save(Report);
-
-    //     return {
-    //         status: true,
-    //         statusCode: HttpStatus.OK,
-    //         message: 'Report updated successfully',
-    //         data: updatedReport,
-    //     };
-    // }
     async update(id: number, updateDto: ReportDto) {
         const report = await this.ReportRepository.findOne({ where: { id } });
 

@@ -7,6 +7,10 @@ export class IndiaOfficeDetailsDto {
 
     @IsOptional()
     @IsString()
+    country?: string;
+
+    @IsOptional()
+    @IsString()
     direction?: string;
 
     @IsOptional()

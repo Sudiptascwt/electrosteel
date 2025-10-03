@@ -40,7 +40,7 @@ import { ImageModule } from './image/image.module';
 import { officeDetails } from './entity/office_section.entity';
 import { OfficeDetailsModule } from './admin/office_details/office_details.module';
 import { IndiaOfficeDetailsModule } from './admin/india_office_details/india_office_details.module';
-import { IndiaOfficeDetails } from './entity/india_office_details.entity';
+import { IndiaOfficeDetails } from './entity/office_details.entity';
 import { ContactDetails } from './entity/contact_details.entity';
 import { ContactDetailsModule } from './admin/contact_details/contact_details.module';
 import { product_applications } from './entity/product_application.entity';
@@ -180,7 +180,16 @@ import { AllCertificate } from './entity/all_certificates.entity';
 import { QualityFeaturesModule } from './admin/quality_features/quality_features.module';
 import { CareersModule } from './frontend/careers/careers.module';
 import { FrontendFacilityModule } from './frontend/facility/facility.module';
-import { StockyardsModule } from './frontend/about/stockyards/stockyards.module'
+import { StockyardsModule } from './frontend/about/stockyards/stockyards.module';
+import { FrontendSubsidiariesModule } from './frontend/about/subsidiaries/subsidiaries.module';
+import { FrontendJolsadhanaModule } from './frontend/jolsadhana/jolsadhana.module';
+import { OfficesModule } from './frontend/about/offices/offices.module';
+import { CsrModule } from './frontend/csr/csr.module';
+import { FrontendLatestElectrosteelModule } from './frontend/digital/latest_electrosteel/latest_electrosteel.module';
+import { FrontendNewsletterModule } from './frontend/digital/news_letters/news_letters.module';
+import { FrontendEventsModule } from './frontend/digital/events/events.module';
+import { FrontendVideosModule } from './frontend/digital/videos/videos.module';
+import { FrontendCommonbannerModule } from './frontend/common_banner/common_banner.module';
   
 
 @Module({
@@ -285,7 +294,16 @@ import { StockyardsModule } from './frontend/about/stockyards/stockyards.module'
     QualityFeaturesModule,
     CareersModule,
     FrontendFacilityModule,
-    StockyardsModule
+    StockyardsModule,
+    FrontendSubsidiariesModule,
+    FrontendJolsadhanaModule,
+    OfficesModule,
+    CsrModule,
+    FrontendLatestElectrosteelModule,
+    FrontendNewsletterModule,
+    FrontendEventsModule,
+    FrontendVideosModule,
+    FrontendCommonbannerModule
   ],
   controllers: [AppController],
   providers: [AppService],

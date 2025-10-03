@@ -7,9 +7,10 @@ import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FraudAlertDto } from 'src/dto/fraud_alert.dto';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
 @Controller('career')
 export class CareerController {
     constructor(private readonly ElectrosteelSliderService: CareerService) {}
@@ -79,5 +80,41 @@ export class CareerController {
     async deleteLifeContent(@Param('id', ParseIntPipe) id: number) {
         return this.ElectrosteelSliderService.deleteLifeContent(id);
     }
+
+
+
+    /////////career fraud alert//////////////
+    @Post('career-fraud-alert')
+    async createFraudAlert(@Body() createDto: FraudAlertDto) {
+        return this.ElectrosteelSliderService.createFraudAlert(createDto);
+    }
+
+    // Get all career-life-contents
+    @Get('career-fraud-alert')
+    async findFraudAlert() {
+        return this.ElectrosteelSliderService.findFraudAlert();
+    }
+
+    // Get career-life-content by ID
+    @Get('career-fraud-alert/:id')
+    async findFraudAlertById(@Param('id', ParseIntPipe) id: number) {
+        return this.ElectrosteelSliderService.findFraudAlertById(id);
+    }
+
+    // Update career-life-content
+    @Put('career-fraud-alert/:id')
+    async updateFraudAlert(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() updateDto: FraudAlertDto
+    ) {
+        return this.ElectrosteelSliderService.updateFraudAlert(id, updateDto);
+    }
+
+    // Delete career-life-content
+    @Delete('career-fraud-alert/:id')
+    async deleteFraudAlert(@Param('id', ParseIntPipe) id: number) {
+        return this.ElectrosteelSliderService.deleteFraudAlert(id);
+    }
+
 
 }

@@ -18,8 +18,8 @@ import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { SubsidiariesPageDto } from 'src/dto/subsidiaries_page.dto';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
 @Controller('subsidiaries')
 export class SubsidiariesController {
   constructor(private readonly SubsidiariesService: SubsidiariesService) {}
