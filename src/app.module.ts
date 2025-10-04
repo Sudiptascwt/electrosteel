@@ -190,7 +190,17 @@ import { FrontendNewsletterModule } from './frontend/digital/news_letters/news_l
 import { FrontendEventsModule } from './frontend/digital/events/events.module';
 import { FrontendVideosModule } from './frontend/digital/videos/videos.module';
 import { FrontendCommonbannerModule } from './frontend/common_banner/common_banner.module';
-  
+import { FrontendQuartelyResultModule } from './frontend/investors/quarterly_results/quarterly_results.module';
+import { FrontendAnnualReportsModule } from './frontend/investors/annual_reports/annual_reports.module';
+import { FrontendAccountofJointVentureModule } from './frontend/investors/account_of_joint_venture/account_of_joint_venture.module';
+import { FrontendCodeOfConductModule } from './frontend/investors/code_of_conduct/code_of_conduct.module';
+import { FrontendNcltMeetingsModule } from './frontend/investors/nclt_meetings/nclt_meetings.module';
+import { FrontendNcltFinalOrderModule } from './frontend/investors/nclt_final_order/nclt_final_order.module';
+import { Regulation } from './entity/regulation.entity';
+import { RegulationModule } from './admin/investors/regulation_37/regulation_37.module';
+import { FrontendRegulationModule } from './frontend/investors/regulation/regulation.module';
+import { FrontendShareHoldingPatternModule } from './frontend/investors/shareholding_pattern/shareholding_pattern.module';
+import { FrontendNewsPaperPublicationModule } from './frontend/investors/news_paper_publication/news_paper_publication.module';
 
 @Module({
   imports: [
@@ -205,7 +215,7 @@ import { FrontendCommonbannerModule } from './frontend/common_banner/common_bann
       password: '',
       database: 'electrosteel',
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation], 
       synchronize: true, // only for dev
       // synchronize: false, 
       logging: true,
@@ -303,7 +313,17 @@ import { FrontendCommonbannerModule } from './frontend/common_banner/common_bann
     FrontendNewsletterModule,
     FrontendEventsModule,
     FrontendVideosModule,
-    FrontendCommonbannerModule
+    FrontendCommonbannerModule,
+    FrontendQuartelyResultModule,
+    FrontendAnnualReportsModule,
+    FrontendAccountofJointVentureModule,
+    FrontendCodeOfConductModule,
+    FrontendNcltMeetingsModule,
+    FrontendNcltFinalOrderModule,
+    RegulationModule,
+    FrontendRegulationModule,
+    FrontendShareHoldingPatternModule,
+    FrontendNewsPaperPublicationModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -17,9 +17,9 @@ import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
-@Controller('quality-results')
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
+@Controller('regulation')
 export class RegulationController {
   constructor(private readonly RegulationService: RegulationService) {}
 

@@ -25,7 +25,7 @@ export class RegulationService {
 
     return {
         statusCode: HttpStatus.CREATED,
-        message: 'Quality result created successfully',
+        message: 'Regulation 37 created successfully',
         data,
     };
     }
@@ -35,7 +35,7 @@ export class RegulationService {
     const data = await this.RegulationRepo.find();
     return {
     statusCode: HttpStatus.OK,
-    message: 'Quality result fetched successfully',
+    message: 'Regulation 37 fetched successfully',
     data,
     };
     }
@@ -44,11 +44,11 @@ export class RegulationService {
     async findById(id: number) {
         const office = await this.RegulationRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+        throw new NotFoundException(`Regulation 37 with ID ${id} not found`);
         }
         return {
         statusCode: HttpStatus.OK,
-        message: 'Quality result fetched successfully',
+        message: 'Regulation 37 fetched successfully',
         data: office,
         };
     }
@@ -67,7 +67,7 @@ export class RegulationService {
         const data = await this.RegulationRepo.findOneBy({ id });
         return {
             statusCode: HttpStatus.OK,
-            message: 'Quality result updated successfully',
+            message: 'Regulation 37 updated successfully',
             data,
         };
     }
@@ -76,14 +76,14 @@ export class RegulationService {
     async delete(id: number) {
         const office = await this.RegulationRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+        throw new NotFoundException(`Regulation 37 with ID ${id} not found`);
         }
 
         await this.RegulationRepo.remove(office);
 
         return {
         statusCode: HttpStatus.OK,
-        message: 'Quality result deleted successfully',
+        message: 'Regulation 37 deleted successfully',
         };
     }
 }

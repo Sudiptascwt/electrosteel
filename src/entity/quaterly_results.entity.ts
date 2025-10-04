@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('quality_results') 
 export class QualityResults {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type:'varchar', length:'255', nullable: true })
   start_date: string;
@@ -11,7 +11,7 @@ id: number;
   @Column({ type:'varchar', length:'255', nullable: true })
   end_date: string;
 
-  @Column({ type:'longtext' })
+  @Column({ type:'longtext' }) 
   title: string;
 
   @Column({ type:'longtext' })

@@ -115,6 +115,4 @@ export class CareerController {
     async deleteFraudAlert(@Param('id', ParseIntPipe) id: number) {
         return this.ElectrosteelSliderService.deleteFraudAlert(id);
     }
-
-
 }
