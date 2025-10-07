@@ -8,7 +8,7 @@ import { FrontendShareHoldingPatternService } from './shareholding_pattern.servi
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/shareholding-pattern')
+@Controller('frontend/investor/shareholding-pattern')
 export class FrontendShareHoldingPatternController {
   constructor(private readonly ShareHoldingPatternService: FrontendShareHoldingPatternService) {}
 

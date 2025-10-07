@@ -7,7 +7,7 @@ import { FrontendAccountofJointVentureService } from './account_of_joint_venture
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/account-of-joint-venture')
+@Controller('frontend/investor/account-of-joint-venture')
 export class FrontendAccountofJointVentureController {
   constructor(private readonly AccountofJointVentureService: FrontendAccountofJointVentureService) {}
 

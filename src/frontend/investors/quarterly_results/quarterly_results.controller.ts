@@ -8,7 +8,7 @@ import { FrontendQuartelyResultService } from './quarterly_results.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/quaterly_result')
+@Controller('frontend/investor/quaterly_result')
 export class FrontendQuartelyResultController {
   constructor(private readonly QuartelyResultService: FrontendQuartelyResultService) {}
 

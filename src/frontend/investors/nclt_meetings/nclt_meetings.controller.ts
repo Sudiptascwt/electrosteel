@@ -7,7 +7,7 @@ import { FrontendNcltMeetingsService } from './nclt_meetings.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/nclt-meetings')
+@Controller('frontend/investor/nclt-meetings')
 export class FrontendNcltMeetingsController {
   constructor(private readonly NcltMeetingsService: FrontendNcltMeetingsService) {}
 

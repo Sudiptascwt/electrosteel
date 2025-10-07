@@ -8,7 +8,7 @@ import { FrontendAnnualReportsService } from './annual_reports.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/annual-report')
+@Controller('frontend/investor/annual-report')
 export class FrontendAnnualReportsController {
   constructor(private readonly AnnualReportsService: FrontendAnnualReportsService) {}
 

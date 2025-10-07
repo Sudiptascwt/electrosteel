@@ -8,7 +8,7 @@ import { FrontendNewsPaperPublicationService } from './news_paper_publication.se
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/newspaper-publication')
+@Controller('frontend/investor/newspaper-publication')
 export class FrontendNewsPaperPublicationController {
   constructor(private readonly NewsPaperPublicationService: FrontendNewsPaperPublicationService) {}
 

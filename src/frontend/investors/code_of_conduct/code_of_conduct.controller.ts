@@ -11,12 +11,12 @@ import { ApiKeyGuard } from 'src/common/api-key.guard';
 export class FrontendCodeOfConductController {
   constructor(private readonly CodeOfConductService: FrontendCodeOfConductService) {}
 
-  @Get('frontend/code-of-conduct')
+  @Get('frontend/investor/code-of-conduct')
   async getCodeOfConductData() {
     return this.CodeOfConductService.getCodeOfConductData();
   }
   //get policies data
-  @Get('frontend/policies')
+  @Get('frontend/investor/policies')
   async getPoliciesData() {
     return this.CodeOfConductService.getPoliciesData();
   }

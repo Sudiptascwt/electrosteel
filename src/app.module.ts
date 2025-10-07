@@ -201,6 +201,27 @@ import { RegulationModule } from './admin/investors/regulation_37/regulation_37.
 import { FrontendRegulationModule } from './frontend/investors/regulation/regulation.module';
 import { FrontendShareHoldingPatternModule } from './frontend/investors/shareholding_pattern/shareholding_pattern.module';
 import { FrontendNewsPaperPublicationModule } from './frontend/investors/news_paper_publication/news_paper_publication.module';
+import { FrontendcorporateGovernanceModule } from './frontend/investors/corporate_governance/corporate_governance.module';
+import { FrontendShareholderMergerModule } from './frontend/investors/shareholder_merger/shareholder_merger.module';
+import { FrontendNoticesModule } from './frontend/investors/notices/notices.module';
+import { frontend_160_notice_module } from './frontend/investors/160_notices/160_notices.module';
+import { FrontendVotingResultsModule } from './frontend/investors/voting_results/voting_results.module';
+import { FrontendIepfSuspenseModule } from './frontend/investors/iepf_suspense_account/iepf_suspense_account.module';
+import { FrontendUnclaimedDividendModule } from './frontend/investors/unclaimed_dividends/unclaimed_dividends.module';
+import { FrontendAnnualReturnModule } from './frontend/investors/annual_return/annual_return.module';
+import { FrontendInvestorRelationModule } from './frontend/investors/investor_relations/investor_relations.module';
+import { FrontendCreditRatingsModule } from './frontend/investors/credit_ratings/credit_ratings.module';
+import { FrontendInvestorPresentationDocumentsModule } from './frontend/investors/investor_presentation_and_documents/investor_presentation_and_documents.module';
+import { FrontendCsrProjectModule } from './frontend/investors/csr_projects/csr_projects.module';
+///activity logs
+import { LoggingMiddleware } from './common/activity-logs/logging.middleware'
+import { ActivityLogSubscriber } from './common/activity-logs/activity-log.subscriber';
+import { AllExceptionsFilter } from './common/activity-logs/all-exceptions.filter';
+import { ActivityLog } from './entity/activity-log.entity'
+import { MiddlewareConsumer, NestModule } from '@nestjs/common';
+
+
+
 
 @Module({
   imports: [
@@ -221,12 +242,14 @@ import { FrontendNewsPaperPublicationModule } from './frontend/investors/news_pa
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
       logging: true,
+      subscribers: [ActivityLogSubscriber],
     }),
+    TypeOrmModule.forFeature([ActivityLog]),
     UsersModule,
     AuthModule,
     HomesModule,
@@ -330,9 +353,26 @@ import { FrontendNewsPaperPublicationModule } from './frontend/investors/news_pa
     RegulationModule,
     FrontendRegulationModule,
     FrontendShareHoldingPatternModule,
-    FrontendNewsPaperPublicationModule
+    FrontendNewsPaperPublicationModule,
+    FrontendcorporateGovernanceModule,
+    FrontendShareholderMergerModule,
+    FrontendNoticesModule,
+    frontend_160_notice_module,
+    FrontendVotingResultsModule,
+    FrontendIepfSuspenseModule,
+    FrontendUnclaimedDividendModule,
+    FrontendAnnualReturnModule,
+    FrontendInvestorRelationModule,
+    FrontendCreditRatingsModule,
+    FrontendInvestorPresentationDocumentsModule,
+    FrontendCsrProjectModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('*'); // all routes
+  }
+}

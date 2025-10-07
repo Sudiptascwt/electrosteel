@@ -7,7 +7,7 @@ import { FrontendNcltFinalOrderService } from './nclt_final_order.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)
-@Controller('frontend/nclt-final-order')
+@Controller('frontend/investor/nclt-final-order')
 export class FrontendNcltFinalOrderController {
   constructor(private readonly NcltFinalOrderService: FrontendNcltFinalOrderService) {}
 
