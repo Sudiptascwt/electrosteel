@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { StockYard } from '../../../entity/stockYard.entity';
-import { StockYardDto } from '../../../dto/stockYard.dto';
+import { StockYard } from '../../../entity/stockyard.entity';
+import { StockYardDto } from '../../../dto/stockyard.dto';
 import { BoardCommitteDetails } from 'src/entity/board_committe_details.entity';
 import { BoardCommitteDetailsDto } from 'src/dto/board_committe_details.dto';
 
