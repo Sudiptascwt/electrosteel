@@ -3,7 +3,7 @@ import {
   Get,
   UseGuards,
 } from '@nestjs/common';
-import { FrontendSubsidiariesService } from './Subsidiaries.service';
+import { FrontendSubsidiariesService } from './subsidiaries.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)

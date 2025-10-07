@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BusinessEnquiry } from '../../entity/business_enquery.entity';
-import { EnquiryController } from './Enquiry.controller';
-import { EnquiryService } from './Enquiry.service';
+import { EnquiryController } from './enquiry.controller';
+import { EnquiryService } from './enquiry.service';
 import { ShareholderEnquiry } from 'src/entity/shareholder_enquiry.entity';
 import { CareerEnquiry } from 'src/entity/career_enquiry.entity';
 

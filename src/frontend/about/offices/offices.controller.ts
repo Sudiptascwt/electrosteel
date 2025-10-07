@@ -4,7 +4,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { OfficesService } from './Offices.service';
+import { OfficesService } from './offices.service';
 import { ApiKeyGuard } from 'src/common/api-key.guard';
 
 @UseGuards(ApiKeyGuard)

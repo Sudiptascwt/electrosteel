@@ -10,7 +10,7 @@ import {
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
-import { EnquiryService } from './Enquiry.service';
+import { EnquiryService } from './enquiry.service';
 import { BusinessEnquiryDto } from '../../dto/business_enquery.dto';
 import { ApiKeyGuard } from 'src/common/api-key.guard'; 
 import { ShareholderEnquiryDto } from 'src/dto/shareholder_enquiry.dto';

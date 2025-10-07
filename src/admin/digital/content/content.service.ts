@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Content } from '../../../entity/content.entity';
-import { ContentDto } from '../../../dto/Content.dto';
+import { ContentDto } from '../../../dto/content.dto';
 @Injectable()
 export class ContentService {
     constructor(

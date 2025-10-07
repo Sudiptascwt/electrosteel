@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NcltMeeting } from '../../../entity/nclt_meetings.entity';
-import { NcltController } from './Nclt.controller';
-import { NcltService } from './Nclt.service';
+import { NcltController } from './nclt.controller';
+import { NcltService } from './nclt.service';
 import { NcltFinalOrder } from '../../../entity/nclt_final_order.entity';
 
 @Module({

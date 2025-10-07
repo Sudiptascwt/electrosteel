@@ -1,5 +1,5 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe, BadRequestException } from '@nestjs/common';
-import { PoliciesService } from './Policies.service';
+import { PoliciesService } from './policies.service';
 import { PoliciesDto } from '../../dto/policies.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';

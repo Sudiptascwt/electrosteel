@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe, BadRequestException } from '@nestjs/common';
-import { StockYardService } from './StockYard.service';
-import { StockYardDto } from '../../../dto/StockYard.dto';
+import { StockYardService } from './stockyard.service';
+import { StockYardDto } from '../../../dto/stockyard.dto';
 import { BoardCommitteDetailsDto } from 'src/dto/board_committe_details.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../role/roles.guard';

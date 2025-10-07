@@ -10,7 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
-import { BlogsDto } from '../../dto/Blogs.dto';
+import { BlogsDto } from '../../dto/blogs.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';

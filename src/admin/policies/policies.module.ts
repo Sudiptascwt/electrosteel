@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Policies } from '../../entity/policies.entity';
-import { PoliciesService } from './Policies.service';
-import { PoliciesController } from './Policies.controller';
+import { PoliciesService } from './policies.service';
+import { PoliciesController } from './policies.controller';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Policies])],

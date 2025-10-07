@@ -11,7 +11,7 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDto } from '../../dto/Product.dto';
+import { ProductDto } from '../../dto/product.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { get } from 'http';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';

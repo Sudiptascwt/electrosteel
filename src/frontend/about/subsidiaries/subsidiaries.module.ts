@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FrontendSubsidiariesController } from './Subsidiaries.controller';
-import { FrontendSubsidiariesService } from './Subsidiaries.service';
+import { FrontendSubsidiariesController } from './subsidiaries.controller';
+import { FrontendSubsidiariesService } from './subsidiaries.service';
 import { Subsidiaries } from 'src/entity/subsidiaries.entity';
 
 @Module({

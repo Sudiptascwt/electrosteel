@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
   HttpStatus,
 } from '@nestjs/common';
-import { NcltService } from './Nclt.service';
+import { NcltService } from './nclt.service';
 import { NcltMeetingDto } from '../../../dto/nclt_meetings.dto';
 import { NcltFinalOrderDto } from 'src/dto/nclt_final_order.dto';
 import { UseGuards } from '@nestjs/common';
