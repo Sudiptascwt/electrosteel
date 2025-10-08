@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductBrochures } from '../../entity/product_brochures.entity';
-import { ProductBrochuresDto } from '../../dto/product_brochures.dto';
+import { ProductBrochures } from '../../../entity/product_brochures.entity';
+import { ProductBrochuresDto } from '../../../dto/product_brochures.dto';
 
 @Injectable()
 export class ProductBrochuresService {

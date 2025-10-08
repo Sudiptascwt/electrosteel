@@ -44,14 +44,14 @@ import { IndiaOfficeDetails } from './entity/office_details.entity';
 import { ContactDetails } from './entity/contact_details.entity';
 import { ContactDetailsModule } from './admin/contact_details/contact_details.module';
 import { product_applications } from './entity/product_application.entity';
-import { ProductApplicationsModule } from './products/product.module';
+import { ProductApplicationsModule } from './admin/products/product.module';
 import { product_application_images } from './entity/product_application_images.entity';
 import { ProductType } from './entity/product_type.entity';
-import { ProductTypeModule } from './products/product_types/product_type.module';
+import { ProductTypeModule } from './admin/products/product_types/product_type.module';
 import { SocialPlatform } from './entity/social_platform.entity';
 import { ManufacturingModule } from './admin/manufacturing_unit/manufacturing_unit.module';
 import { ManufacturingUnit } from './entity/manufacturing.entity';
-import { ProductBrochuresModule } from './products/product_brochures/product_brochures.module';
+import { ProductBrochuresModule } from './admin/products/product_brochures/product_brochures.module';
 import { ProductBrochures } from './entity/product_brochures.entity';
 import { Facility } from './entity/facility.entity';
 import { FacilityModule } from './admin/facility/facility.module';
@@ -219,6 +219,9 @@ import { ActivityLogSubscriber } from './common/activity-logs/activity-log.subsc
 import { AllExceptionsFilter } from './common/activity-logs/all-exceptions.filter';
 import { ActivityLog } from './entity/activity-log.entity'
 import { MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { ProductDuctileIronModule } from './admin/products/product_duc_iron/product_ductile_iron_pipes.module';
+import { DuctileIronPipesOverview } from './entity/ductile_iron_pipes_overview.entity';
+import { DuctileIronPipeDetails } from './entity/ductile_iron_pipes_details.entity';
 
 
 
@@ -242,7 +245,7 @@ import { MiddlewareConsumer, NestModule } from '@nestjs/common';
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, IndiaOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -365,7 +368,8 @@ import { MiddlewareConsumer, NestModule } from '@nestjs/common';
     FrontendInvestorRelationModule,
     FrontendCreditRatingsModule,
     FrontendInvestorPresentationDocumentsModule,
-    FrontendCsrProjectModule
+    FrontendCsrProjectModule,
+    ProductDuctileIronModule
   ],
   controllers: [AppController],
   providers: [AppService],

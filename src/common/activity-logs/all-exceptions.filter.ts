@@ -1,4 +1,4 @@
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { ActivityLog } from '../../entity/activity-log.entity';
 import { Request, Response } from 'express';
@@ -14,24 +14,28 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const repo = this.dataSource.getRepository(ActivityLog);
 
-    // await repo.save({
-    //   userId: req.user?.id ?? null, // use ?? for null fallback
-    //   action: 'ERROR',
-    //   model: null,
-    //   data: { message: exception.message, stack: exception.stack, url: req.url },
-    //   ip: req.ip ?? req.connection.remoteAddress ?? '',
-    //   createdAt: new Date(),
-    // });
-    await repo.save({
+    // Log the error
+    try {
+      await repo.save({
         userId: req.user?.id ?? null,
         action: 'ERROR',
         model: null,
         data: { message: exception.message, stack: exception.stack, url: req.url },
         ip: req.ip || req.socket?.remoteAddress || '',
-        createdAt: new Date(),
-    });
+        created_at: new Date(),
+      });
+    } catch (err) {
+      console.error('Error saving activity log:', err);
+    }
 
+    // Determine status and response
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      const response = exception.getResponse();
+      return res.status(status).json(response);
+    }
 
-    res.status(500).json({ message: 'Internal Server Error' });
+    // Fallback for unknown errors
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
   }
 }

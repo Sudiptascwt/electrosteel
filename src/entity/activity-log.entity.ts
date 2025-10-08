@@ -21,5 +21,5 @@ export class ActivityLog {
   ip: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 }

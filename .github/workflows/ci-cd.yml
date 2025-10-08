@@ -1,0 +1,44 @@
+name: NestJS CI/CD for Render
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      # 3️⃣ Install dependencies
+      - run: npm install
+
+      # 4️⃣ Lint code
+      - run: npm run lint
+
+      # 5️⃣ Run tests with coverage
+      - run: npm run test:cov
+
+      # 6️⃣ Optional: Security scan
+      - name: Security scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/ci
+
+      # 7️⃣ Optional: Secret scan
+      - name: Detect secrets
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          scan: "repo"
+          verbose: true
+
+# CD is handled automatically by Render, so no deploy steps are needed here
