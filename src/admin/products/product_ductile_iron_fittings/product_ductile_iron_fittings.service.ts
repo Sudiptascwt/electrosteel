@@ -12,7 +12,7 @@ import { PipesJointing } from 'src/entity/pipes_jointing.entity';
 import { PipesJointingDetails } from 'src/entity/pipes_jointing_details.entity';
 
 @Injectable()
-export class ProductDuctileIronService {
+export class ProductDuctileIronFittingsService {
   constructor(
     @InjectRepository(DuctileIronPipeDetails)
     private readonly DuctileIronPipeDetailsRepo: Repository<DuctileIronPipeDetails>,

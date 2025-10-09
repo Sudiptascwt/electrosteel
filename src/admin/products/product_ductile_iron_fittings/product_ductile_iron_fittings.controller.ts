@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProductDuctileIronService } from './product_ductile_iron_pipes.service';
+import { ProductDuctileIronFittingsService } from './product_ductile_iron_fittings.service';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
@@ -19,11 +19,11 @@ import { DuctileIronDetailsDto } from 'src/dto/ductile_iron_pipes_details.dto';
 import { DuctileIronPipeApplicationsDto } from 'src/dto/ductile_iron_pipes_application.dto';
 import { PipesJointingDto } from 'src/dto/pipes_jointing.dto';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
-@Controller('product/ductile-iron-pipes')
-export class ProductDuctileIronController {
-  constructor(private readonly productService: ProductDuctileIronService) {}
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
+@Controller('product/ductile-iron-fittings')
+export class ProductDuctileIronFittingsController {
+  constructor(private readonly productService: ProductDuctileIronFittingsService) {}
 
   // CREATE
   @Post('overview')
