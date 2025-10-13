@@ -16,6 +16,8 @@ import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { DuctileIronFittingsOverviewDto } from 'src/dto/ductile_iron_fittings_overview.dto';
 import { DuctileIronFittingsDetailsDto } from 'src/dto/ductile_iron_fittings_details.dto';
+import { DuctileIronFittingsApplicationsDto } from 'src/dto/ductile_iron_fittings_application.dto';
+import { FittingsPipesJointingDto } from 'src/dto/ductile_iron_fittings_pipe_jointing.dto';
 
 // @UseGuards(JwtAuthGuard, RolesGuard)
 // @Roles(UserRole.ADMIN)
@@ -89,72 +91,72 @@ export class ProductDuctileIronFittingsController {
     async deleteDetails(@Param('id', ParseIntPipe) id: number) {
       return await this.productService.deleteDetails(id);
     }
-    ///////////////// application//////////////////
-    // // CREATE
-    // @Post('applications')
-    // async createApplication(@Body() createDto: DuctileIronPipeApplicationsDto) {
-    //   return await this.productService.createApplication(createDto);
-    // }
+    /////////////// application//////////////////
+    // CREATE
+    @Post('applications')
+    async createApplication(@Body() createDto: DuctileIronFittingsApplicationsDto) {
+      return await this.productService.createApplication(createDto);
+    }
   
-    // // GET ALL
-    // @Get('applications')
-    // async findAllApplications() {
-    //   return await this.productService.findAllApplications();
-    // }
+    // GET ALL
+    @Get('applications')
+    async findAllApplications() {
+      return await this.productService.findAllApplications();
+    }
   
-    // // GET BY ID
-    // @Get('applications/:id')
-    // async findApplicationById(@Param('id', ParseIntPipe) id: number) {
-    //   return await this.productService.findApplicationById(id);
-    // }
+    // GET BY ID
+    @Get('applications/:id')
+    async findApplicationById(@Param('id', ParseIntPipe) id: number) {
+      return await this.productService.findApplicationById(id);
+    }
   
-    // // UPDATE
-    // @Put('applications/:id')
-    // async updateApplication(
-    //   @Param('id', ParseIntPipe) id: number,
-    //   @Body() updateDto: DuctileIronPipeApplicationsDto,
-    // ) {
-    //   return await this.productService.updateApplication(id, updateDto);
-    // }
+    // UPDATE
+    @Put('applications/:id')
+    async updateApplication(
+      @Param('id', ParseIntPipe) id: number,
+      @Body() updateDto: DuctileIronFittingsApplicationsDto,
+    ) {
+      return await this.productService.updateApplication(id, updateDto);
+    }
   
-    // // DELETE
-    // @Delete('applications/:id')
-    // async deleteApplication(@Param('id', ParseIntPipe) id: number) {
-    //   return await this.productService.deleteApplication(id);
-    // }
+    // DELETE
+    @Delete('applications/:id')
+    async deleteApplication(@Param('id', ParseIntPipe) id: number) {
+      return await this.productService.deleteApplication(id);
+    }
   
     // ///////////////// pipes jointing//////////////////
-    // // CREATE
-    // @Post('pipe-jointing')
-    // async createPipeJointing(@Body() createDto: PipesJointingDto) {
-    //   return await this.productService.createPipeJointing(createDto);
-    // }
+    // CREATE
+    @Post('pipe-jointing')
+    async createPipeJointing(@Body() createDto: FittingsPipesJointingDto) {
+      return await this.productService.createPipeJointing(createDto);
+    }
   
-    // // GET ALL
-    // @Get('pipe-jointing')
-    // async findAllPipeJointings() {
-    //   return await this.productService.findAllPipeJointings();
-    // }
+    // GET ALL
+    @Get('pipe-jointing')
+    async findAllPipeJointings() {
+      return await this.productService.findAllPipeJointings();
+    }
   
-    // // GET BY ID
-    // @Get('pipe-jointing/:id')
-    // async findPipeJointingById(@Param('id', ParseIntPipe) id: number) {
-    //   return await this.productService.findPipeJointingById(id);
-    // }
+    // GET BY ID
+    @Get('pipe-jointing/:id')
+    async findPipeJointingById(@Param('id', ParseIntPipe) id: number) {
+      return await this.productService.findPipeJointingById(id);
+    }
   
-    // // UPDATE
-    // @Put('pipe-jointing/:id')
-    // async updatePipeJointing(
-    //   @Param('id', ParseIntPipe) id: number,
-    //   @Body() updateDto: PipesJointingDto,
-    // ) {
-    //   return await this.productService.updatePipeJointing(id, updateDto);
-    // }
+    // UPDATE
+    @Put('pipe-jointing/:id')
+    async updatePipeJointing(
+      @Param('id', ParseIntPipe) id: number,
+      @Body() updateDto: FittingsPipesJointingDto,
+    ) {
+      return await this.productService.updatePipeJointing(id, updateDto);
+    }
   
-    // // DELETE
-    // @Delete('pipe-jointing/:id')
-    // async deletePipeJointing(@Param('id', ParseIntPipe) id: number) {
-    //   return await this.productService.deletePipeJointing(id);
-    // }
+    // DELETE
+    @Delete('pipe-jointing/:id')
+    async deletePipeJointing(@Param('id', ParseIntPipe) id: number) {
+      return await this.productService.deletePipeJointing(id);
+    }
 }
 
