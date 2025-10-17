@@ -20,7 +20,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         userId: req.user?.id ?? null,
         action: 'ERROR',
         model: null,
-        data: { message: exception.message, stack: exception.stack, url: req.url },
+        data: JSON.stringify({
+          message: exception.message,
+          stack: exception.stack,
+          url: req.url,
+        }),
         ip: req.ip || req.socket?.remoteAddress || '',
         created_at: new Date(),
       });

@@ -43,12 +43,12 @@ export class LoggingMiddleware implements NestMiddleware {
             userId: req.user?.id ?? null,
             action: 'REQUEST',
             model: null,
-            data: {
-            method: req.method,
-            url: req.originalUrl,
-            body: req.body,
-            query: req.query,
-            },
+            data: JSON.stringify({
+                method: req.method,
+                url: req.originalUrl,
+                body: req.body,
+                query: req.query,
+            }),
             ip: req.ip,
             created_at: new Date(),
         });

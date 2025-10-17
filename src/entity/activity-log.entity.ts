@@ -14,8 +14,8 @@ export class ActivityLog {
   @Column({ nullable: true })
   model: string;
 
-  @Column({ type: 'json', nullable: true })
-  data: any;
+  @Column({ type: 'text', nullable: true })
+  data: string;
 
   @Column({ nullable: true })
   ip: string;
