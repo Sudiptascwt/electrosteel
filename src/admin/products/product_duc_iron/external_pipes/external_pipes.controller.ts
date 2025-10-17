@@ -1,5 +1,5 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
-import { ExternalPipesService } from './External_pipes.service';
+import { ExternalPipesService } from './external_pipes.service';
 import { ExternalPipesDto } from 'src/dto/pipes_external.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../../role/roles.guard';

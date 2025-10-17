@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExternalPipes } from '../../../../entity/pipes_external.entity';
-import { ExternalPipesService } from './External_pipes.service';
+import { ExternalPipesService } from './external_pipes.service';
 import { ExternalPipesController } from './External_pipes.controller';
 
 @Module({
