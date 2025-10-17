@@ -17,16 +17,16 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-@Controller('home/video-section')
-export class   TestimonialController {
+@Controller('home/testimonial')
+export class TestimonialController {
   constructor(private readonly service:  TestimonialService) {}
 
-  @Post('create-video-section')
-  async create(@Body() data:   TestimonialDto) {
+  @Post()
+  async create(@Body() data: TestimonialDto) {
     return this.service.create(data);
   }
 
-  @Put('update-video-section/:id')
+  @Put(':id')
   async update(@Param('id') id: number, @Body() data: Partial<  TestimonialDto>) {
     return this.service.update(id, data);
   }

@@ -19,8 +19,8 @@ import { DuctileIronFittingsDetailsDto } from 'src/dto/ductile_iron_fittings_det
 import { DuctileIronFittingsApplicationsDto } from 'src/dto/ductile_iron_fittings_application.dto';
 import { FittingsPipesJointingDto } from 'src/dto/ductile_iron_fittings_pipe_jointing.dto';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('product/ductile-iron-fittings')
 export class ProductDuctileIronFittingsController {
   constructor(private readonly productService: ProductDuctileIronFittingsService) {}

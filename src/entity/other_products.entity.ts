@@ -1,12 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('products') 
-export class Product {
+@Entity('other_products') 
+export class OtherProducts {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  page_id: number;
 
   @Column()
   title: string;
@@ -16,9 +13,6 @@ export class Product {
 
   @Column({ nullable: true })
   description: string;
-
-  @Column({ type: 'tinyint', default: 1 })
-  status: number;
 
   @CreateDateColumn()
   created_at: Date;
