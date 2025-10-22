@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not } from 'typeorm';
 import { InnerFeature } from '../../../entity/inner_feature.entity';
@@ -12,77 +12,121 @@ export class FeatureService {
   ) {}
 
   async createInnerFeature(data: InnerFeatureDto) {
+    try{
+      const newFeature = this.InnerFeatureRepository.create(data);
+      await this.InnerFeatureRepository.save(newFeature);
 
-    const newFeature = this.InnerFeatureRepository.create(data);
-    await this.InnerFeatureRepository.save(newFeature);
-
-    return {
-      statusCode: 201,
-      message: 'InnerFeature created successfully',
-      data: newFeature,
-    };
+      return {
+        statusCode: 201,
+        message: 'InnerFeature created successfully',
+        data: newFeature,
+      };
+    } catch (error) {
+        return {
+          status: false,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Something went wrong while creating Inner feature data',
+          error: error.message,
+        };
+    }
   }
 
   async updateInnerFeature(id: number, data: Partial<InnerFeatureDto>) {
-    const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
+    try{
+      const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-    if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) throw new NotFoundException('InnerFeature not found');
 
-    if (data.feature_title) {
-      const exists = await this.InnerFeatureRepository.findOne({
-        where: {
-            feature_title: data.feature_title,
-          id: Not(id),
-        },
-      });
+      if (data.feature_title) {
+        const exists = await this.InnerFeatureRepository.findOne({
+          where: {
+              feature_title: data.feature_title,
+            id: Not(id),
+          },
+        });
 
-      if (exists) {
-        return {
-          statusCode: 400,
-          message: 'Another InnerFeature with this title already exists',
-        };
+        if (exists) {
+          return {
+            statusCode: 400,
+            message: 'Another InnerFeature with this title already exists',
+          };
+        }
       }
+
+      await this.InnerFeatureRepository.update(id, data);
+
+      return {
+        statusCode: 200,
+        message: 'InnerFeature updated successfully',
+      };
+    } catch (error) {
+        return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while updating Inner feature data',
+            error: error.message,
+        };
     }
-
-    await this.InnerFeatureRepository.update(id, data);
-
-    return {
-      statusCode: 200,
-      message: 'InnerFeature updated successfully',
-    };
   }
 
   async deleteInnerFeature(id: number) {
-    const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
+    try{
+      const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-    if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) throw new NotFoundException('InnerFeature not found');
 
-    await this.InnerFeatureRepository.delete(id);
+      await this.InnerFeatureRepository.delete(id);
 
-    return {
-      statusCode: 200,
-      message: 'InnerFeature deleted successfully',
-    };
+      return {
+        statusCode: 200,
+        message: 'InnerFeature deleted successfully',
+      };
+    } catch (error) {
+        return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while deleting Inner feature data',
+            error: error.message,
+        };
+    }
   }
 
   async getInnerFeature(id: number) {
-    const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
+    try{
+      const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-    if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) throw new NotFoundException('InnerFeature not found');
 
-    return {
-      statusCode: 200,
-      message: 'InnerFeature fetched successfully',
-      data: Feature,
-    };
+      return {
+        statusCode: 200,
+        message: 'InnerFeature fetched successfully',
+        data: Feature,
+      }
+    } catch (error) {
+        return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while deleting Inner feature data',
+            error: error.message,
+        };
+    }
   }
 
   async getAllInnerFeatures() {
-    const Features = await this.InnerFeatureRepository.find();
-    return {
-      statusCode: 200,
-      message: 'InnerFeatures fetched successfully',
-      data: Features,
-    };
+    try{
+      const Features = await this.InnerFeatureRepository.find();
+      return {
+        statusCode: 200,
+        message: 'InnerFeatures fetched successfully',
+        data: Features,
+      };
+    } catch (error) {
+        return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while deleting Inner feature data',
+            error: error.message,
+        };
+    }
   }
 }
