@@ -31,4 +31,30 @@ export class FrontendShareHoldingPatternService {
             throw error;
         }
     }
+
+    //get share holding pattern by dates
+    async getShareHoldingPatternsByDates(start_date: string, end_date: string) {
+        try {
+            console.log("start_date",start_date);
+            console.log("end_date",end_date);
+            
+            const shareholding_patterns = await this.ShareHoldingPatternRepo
+            .createQueryBuilder('share_holding_information')
+            .where('share_holding_information.start_date >= :start_date', { start_date })
+            .andWhere('share_holding_information.end_date <= :end_date', { end_date })
+            .orderBy('share_holding_information.id', 'DESC')
+            .getMany();
+
+            return {
+                statusCode: 200,
+                message: shareholding_patterns.length > 0
+                    ? 'Share holding patterns fetched successfully'
+                    : 'No Share holding patterns found',
+                data: shareholding_patterns,
+            };
+        } catch (error) {
+            console.error('Error fetching shareholding patterns:', error);
+            throw error;
+        }
+    }
 }

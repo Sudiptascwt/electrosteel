@@ -17,4 +17,12 @@ export class FrontendNewsPaperPublicationController {
   async getNewsPaperPublicationsData() {
     return this.NewsPaperPublicationService.getNewsPaperPublicationsData();
   }
+
+  @Get('by-dates')
+  async getNewsPaperPublicationsDataByDates(
+    @Query('from_date') from_date: string,
+    @Query('to_date') to_date: string,
+  ) {
+    return this.NewsPaperPublicationService.getNewsPaperPublicationsDataByDates(from_date, to_date);
+  }
 }

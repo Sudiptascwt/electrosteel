@@ -5,10 +5,10 @@ import {
   OneToMany,
   UpdateDateColumn,
 } from "typeorm";
-import { UnclaimedDividendsImages } from "./unclaimed_dividends_images.entity";
+import { DisclosureImages } from "./disclosure_images.entity";
 
-@Entity('unclaimed_dividends')
-export class UnclaimedDividends {
+@Entity('disclosure')
+export class Disclosure {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
@@ -21,6 +21,6 @@ export class UnclaimedDividends {
   @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;
 
-  @OneToMany(() => UnclaimedDividendsImages, image => image.unclaimedDividend)
-  images: UnclaimedDividendsImages[];
+  @OneToMany(() => DisclosureImages, image => image.Disclosure)
+  images: DisclosureImages[];
 }

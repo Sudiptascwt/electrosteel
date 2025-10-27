@@ -25,4 +25,20 @@ export class FrontendUnclaimedDividendService {
       data: UnclaimedDividend,
     };
   }
+
+  //get unclaimed dividend by year
+  async getUnclaimedDividendById(id: number) {
+    const result = await this.UnclaimedDividendRepo.find({
+      relations: ['images'],
+      where: { id }
+    });
+
+    return {
+      statusCode: 200,
+      message: result.length > 0 
+        ? 'Unclaimed dividends data fetched successfully' 
+        : 'No unclaimed dividends data found',
+      data: result,
+    };
+  }
 }

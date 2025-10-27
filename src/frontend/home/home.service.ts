@@ -54,15 +54,24 @@ export class HomeService {
     const video_sections = await this.VideoSectionRepo.find();
 
     return {
-      banners,
-      socials,
-      advancements,
-      electrosteels,
-      advertisements,
-      milestones,
-      statistics,
-      testimonial,
-      video_sections
+      statusCode: 200,
+      message:
+        banners?.length > 0 ||
+        socials?.length > 0 ||
+        advancements?.length > 0
+          ? "Home data fetched successfully"
+          : "No home data found",
+      data: {
+        banners,
+        socials,
+        advancements,
+        electrosteels,
+        advertisements,
+        milestones,
+        statistics,
+        testimonial,
+        video_sections,
+      },
     };
   }
 }
