@@ -17,4 +17,8 @@ export class OfficesController {
   async getOfficesData(@Query('country') country?: string) {
     return this.OfficesService.getOfficesData(country);
   }
+  @Get('india')
+  async getIndiaOfficesData() {
+    return this.OfficesService.getIndiaOfficesData();
+  }
 }
