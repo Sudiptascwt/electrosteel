@@ -3,7 +3,6 @@ import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm
 export class CreateDisclosuretableAndDisclosureimagetable1761573068100 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // 1️⃣ Create disclosure table
     await queryRunner.createTable(
       new Table({
         name: 'disclosure',
@@ -36,7 +35,6 @@ export class CreateDisclosuretableAndDisclosureimagetable1761573068100 implement
       true,
     );
 
-    // 2️⃣ Create disclosure_images table (make sure disclosure_id exists here)
     await queryRunner.createTable(
       new Table({
         name: 'disclosure_images', // or disclosure_images
