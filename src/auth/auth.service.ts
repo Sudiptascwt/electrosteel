@@ -88,28 +88,26 @@ async login(email: string, password: string, totp: string) {
     throw new UnauthorizedException('Invalid email or password');
   }
 
-  // 🧩 1. If user has NOT enabled 2FA → block login
-  if (!user.isTwoFAEnabled || !user.twoFASecret) {
-    throw new UnauthorizedException('2FA not set up for this account. Please contact admin.');
-  }
+  // if (!user.isTwoFAEnabled || !user.twoFASecret) {
+  //   throw new UnauthorizedException('2FA not set up for this account. Please contact admin.');
+  // }
 
-  // 🧩 2. Require TOTP code
-  if (!totp) {
-    throw new UnauthorizedException('TOTP code is required for login');
-  }
+  // if (!totp) {
+  //   throw new UnauthorizedException('TOTP code is required for login');
+  // }
 
-  const isValid = speakeasy.totp.verify({
-    secret: user.twoFASecret,
-    encoding: 'base32',
-    token: totp,
-    window: 1, // allow ±30s clock drift
-  });
+  // const isValid = speakeasy.totp.verify({
+  //   secret: user.twoFASecret,
+  //   encoding: 'base32',
+  //   token: totp,
+  //   window: 1, // allow ±30s clock drift
+  // });
 
-  if (!isValid) {
-    throw new UnauthorizedException('Invalid TOTP code');
-  }
+  // if (!isValid) {
+  //   throw new UnauthorizedException('Invalid TOTP code');
+  // }
 
-  // 🧩 3. Generate JWT on success
+ 
   const payload = { sub: user.id, email: user.email, role: user.role };
   const token = this.jwtService.sign(payload, { expiresIn: '1h' });
 
