@@ -9,8 +9,8 @@ import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FraudAlertDto } from 'src/dto/fraud_alert.dto';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('career')
 export class CareerController {
     constructor(private readonly ElectrosteelSliderService: CareerService) {}

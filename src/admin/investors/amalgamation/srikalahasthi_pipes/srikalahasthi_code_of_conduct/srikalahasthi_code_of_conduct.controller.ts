@@ -17,8 +17,8 @@ import { Roles } from '../../../../../role/roles.decorator';
 import { UserRole } from '../../../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('srikalahasthi-code-of-conduct-insiders')
 export class srikalahasthiCodeOfConductController {
   constructor(private readonly srikalahasthiCodeOfConductService: srikalahasthiCodeOfConductService) {}
