@@ -14,41 +14,56 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './common/activity-logs/all-exceptions.filter';
 import { DataSource } from 'typeorm';
 import helmet from 'helmet';
-import csurf from 'csurf';
-import cookieParser from 'cookie-parser'; 
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Swagger config
+  // 🧠 1️⃣ Enable CORS before any other middleware
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',         // frontend local dev
+      'https://yourfrontenddomain.com' // production frontend domain
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // allow cookies / Authorization headers
+  });
+
+  // 🧾 2️⃣ Swagger config
   const config = new DocumentBuilder()
     .setTitle('Electrosteel API')
     .setDescription('API documentation for Electrosteel project')
     .setVersion('1.0')
-    .addBearerAuth() // If you have JWT auth
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  // **Add global exception filter here**
+  // ⚙️ 3️⃣ Global Exception Filter
   app.useGlobalFilters(new AllExceptionsFilter(app.get(DataSource)));
-  // app.use(helmet());
+
+  // 🛡️ 4️⃣ Security headers with Helmet
   app.use(helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"], // only allow scripts from your domain
+        scriptSrc: ["'self'"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },
     },
   }));
+
+  // 🍪 5️⃣ Parse cookies for CSRF / JWT tokens
   app.use(cookieParser());
-  // // app.use(csurf({ cookie: true }));
-  // app.use('/api', csurf({ ignoreMethods: ['GET', 'POST', 'PUT', 'DELETE'] }));
 
+  // ⚠️ 6️⃣ Optional: CSRF protection (can enable later)
+  // app.use(csurf({ cookie: true }));
 
+  // 🚀 7️⃣ Start the server
   await app.listen(3000);
+  console.log(`🚀 Server running on http://localhost:3000`);
 }
 bootstrap();

@@ -36,6 +36,7 @@ async generate2FASecret(userId: number) {
 }
 
 async verify2FA(userId: number, token: string) {
+  
   const user = await this.usersService.findById(userId);
   if (!user || !user.twoFASecret) {
     throw new BadRequestException('2FA not enabled');
