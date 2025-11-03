@@ -21,10 +21,7 @@ async function bootstrap() {
 
   // 🧠 1️⃣ Enable CORS before any other middleware
   app.enableCors({
-    origin: [
-      'http://localhost:3000',         // frontend local dev
-      'https://yourfrontenddomain.com' // production frontend domain
-    ],
+  origin: ['http://localhost:3000'], 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // allow cookies / Authorization headers
