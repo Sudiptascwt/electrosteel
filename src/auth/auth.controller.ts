@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Req, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Req, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -12,31 +12,41 @@ export class AuthController {
 
   @Post('2fa/enable')
   // @UseGuards(JwtAuthGuard) // user must be logged in
-  async enable2FA(@Req() req) {
-    const userId = req.user.id;
+  async enable2FA(@Body() body: { userId: number }) {
+    const { userId } = body;
+
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
     const data = await this.authService.generate2FASecret(userId);
+
     return {
       status: true,
       message: 'Scan this QR code in Google Authenticator',
-      data
+      data, // { secret, qrCodeUrl }
     };
   }
 
   @Post('2fa/verify-setup')
   // @UseGuards(JwtAuthGuard)
-  async verify2FASetup(@Req() req, @Body() body: { totp: string }) {
-    const userId = req.user.id;
-    const { totp } = body;
+  async verify2FASetup(@Body() body: { userId: number; totp: string }) {
+    const { userId, totp } = body;
+
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
 
     const result = await this.authService.verify2FA(userId, totp);
 
-    // Mark 2FA as fully enabled
     await this.usersService.update(userId, { isTwoFAEnabled: true });
 
     return {
       status: true,
       message: '2FA setup verified successfully',
-      data: result
+      data: result,
     };
   }
 
