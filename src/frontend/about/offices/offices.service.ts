@@ -10,7 +10,7 @@ export class OfficesService {
     @InjectRepository(IndiaOfficeDetails)
     private readonly OfficeRepo: Repository<IndiaOfficeDetails>,
   ) {}
-  //get the offices by type
+    //get the offices by type
     async getOfficesData(country?: string) {
       let whereClause: FindOptionsWhere<IndiaOfficeDetails> = {};
 
@@ -27,6 +27,21 @@ export class OfficesService {
             ? 'Offices fetched successfully'
             : 'No Offices found',
         data: offices,
+      };
+    }
+
+    //get India offices data
+    async getIndiaOfficesData() {
+      const indiaOffices = await this.OfficeRepo.find({
+        where: { country: 'India' },
+      });
+      return {
+        statusCode: 200,
+        message:
+          indiaOffices.length > 0
+            ? 'India Offices fetched successfully'
+            : 'No India Offices found',
+        data: indiaOffices,
       };
     }
 }

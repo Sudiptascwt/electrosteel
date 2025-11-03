@@ -19,7 +19,7 @@ export class StockyardsService {
       message: stockyards.length > 0 
         ? 'Stockyards fetched successfully' 
         : 'No stockyards found',
-      data: stockyards,
+      data: stockyards
     };
   }
 }

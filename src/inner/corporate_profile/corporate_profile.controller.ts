@@ -8,8 +8,8 @@ import { UserRole } from '../../admin/users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CorporateProfileDto } from 'src/dto/corporate_profile.dto';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
 @Controller('about/corporate-profile')
 export class CorporateProfileController {
     constructor(private readonly CorporateProfileService: CorporateProfileService) {}

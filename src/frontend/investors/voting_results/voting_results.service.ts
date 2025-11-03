@@ -21,4 +21,18 @@ export class FrontendVotingResultsService {
       data: VotingResults,
     };
   }
+  //get voting results by dates
+  async getVotingResultsByDates(from_date: string, to_date: string) {
+    const votingResults = await this.VotingResultsRepo.createQueryBuilder('voting_results')
+      .where('voting_results.from_date >= :from_date', { from_date })
+      .andWhere('voting_results.to_date <= :to_date', { to_date })
+      .getMany(); 
+    return {
+      statusCode: 200,
+      message: votingResults.length > 0 
+        ? 'Voting results fetched successfully' 
+        : 'No voting result found for the given date range',
+      data: votingResults,
+    };
+  }
 }

@@ -22,4 +22,12 @@ export class FooterController {
   async addFooterBerlowImages(@Body() dto: FooterBelowImagesDto) {
     return this.service.addFooterBerlowImages(dto);
   }
+
+  @Put(':id')
+  async updateFooterBelowImages(
+    @Param ('id') id: number,
+    @Body() dto: FooterBelowImagesDto,
+  ){
+    return this.service.updateFooterBelowImages(id, dto);
+  }
 }

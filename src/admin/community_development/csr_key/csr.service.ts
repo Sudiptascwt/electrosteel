@@ -15,9 +15,9 @@ export class CsrKeyService {
         private readonly CsrOverviewRepository: Repository<CsrOverview>,
     ) {}
 
-    // ------------------- PIPE ART CRUD -------------------
+    // ------------------- CSR CRUD -------------------
 
-    // CREATE PIPE ART
+    // CREATE CSR
     async create(createDto: CsrKeyDto) {
         const newCsrKey = this.CsrKeyRepository.create(createDto);
         const savedCsrKey = await this.CsrKeyRepository.save(newCsrKey);
@@ -30,42 +30,76 @@ export class CsrKeyService {
         };
     }
 
-    // GET ALL PIPE ARTS WITH DETAILS
+    // GET ALL CSRS WITH DETAILS
     async findAll() {
-        const data = await this.CsrKeyRepository.find({
-        });
+        const data = await this.CsrKeyRepository.find();
+
+        if (!data || data.length === 0) {
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'No CsrKey details found',
+                data: [],
+            };
+        }
+        const grouped = Object.values(
+            data.reduce((acc, item) => {
+                if (!acc[item.id]) {
+                    acc[item.id] = {
+                        id: item.id,
+                        created_at: item.created_at,
+                        updated_at: item.updated_at,
+                    };
+                }
+                acc[item.id][item.page_meta_key] = item.page_meta_value;
+                return acc;
+            }, {})
+        );
 
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'CsrKey details fetched successfully' : 'No CsrKey details found',
-            data,
+            message: 'CsrKey details fetched successfully',
+            data: grouped,
         };
     }
 
-    // GET PIPE ART BY ID WITH DETAILS
+    // GET CSR BY ID WITH DETAILS
     async findById(id: number) {
-        const CsrKey = await this.CsrKeyRepository.findOne({
-            where: { id }
-        });
+        const records = await this.CsrKeyRepository.find({ where: { id } });
 
-        if (!CsrKey) {
+        if (!records || records.length === 0) {
             throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `CsrKey with ID ${id} not found`,
+            status: false,
+            statusCode: HttpStatus.NOT_FOUND,
+            message: `CsrKey with ID ${id} not found`,
             });
         }
+
+        const grouped = Object.values(
+            records.reduce((acc, item) => {
+            if (!acc[item.id]) {
+                acc[item.id] = {
+                id: item.id,
+                created_at: item.created_at,
+                updated_at: item.updated_at,
+                };
+            }
+            acc[item.id][item.page_meta_key] = item.page_meta_value;
+            return acc;
+            }, {})
+        );
 
         return {
             status: true,
             statusCode: HttpStatus.OK,
             message: 'CsrKey fetched successfully',
-            data: CsrKey,
+            data: grouped, 
         };
     }
 
-    // UPDATE PIPE ART
+
+    // UPDATE CSR
     async update(id: number, updateDto: CsrKeyDto) {
         const CsrKey = await this.CsrKeyRepository.findOne({ where: { id } });
 
@@ -88,7 +122,36 @@ export class CsrKeyService {
         };
     }
 
-    // DELETE PIPE ART
+    // async updateCsrOverviewByMetaKey(updateDto: CsrKeyDto) {
+    // const { page_meta_key, page_meta_value } = updateDto;
+
+
+    // const existingRecord = await this.CsrKeyRepository.findOne({
+    //     where: { page_meta_key },
+    // });
+
+    // if (!existingRecord) {
+    //     throw new NotFoundException({
+    //     status: false,
+    //     statusCode: HttpStatus.NOT_FOUND,
+    //     message: `CSR overview with meta key '${page_meta_key}' not found`,
+    //     });
+    // }
+
+    // existingRecord.page_meta_value = page_meta_value;
+
+    // const updatedRecord = await this.CsrOverviewRepository.save(existingRecord);
+
+    // return {
+    //     status: true,
+    //     statusCode: HttpStatus.OK,
+    //     message: `CSR overview updated successfully for meta key '${page_meta_key}'`,
+    //     data: updatedRecord,
+    // };
+    // }
+
+    // DELETE CSR
+    
     async delete(id: number) {
         const result = await this.CsrKeyRepository.delete(id);
 
@@ -108,20 +171,20 @@ export class CsrKeyService {
     }
 
     ///////////////////csr overview////////////////////
-      // CREATE PIPE ART
+      // CREATE CSR
     async createCsrOverview(createDto: CsrOverviewDto) {
-        const newCsrKey = this.CsrOverviewRepository.create(createDto);
-        const savedCsrKey = await this.CsrOverviewRepository.save(newCsrKey);
+        const newCsrOverview = this.CsrOverviewRepository.create(createDto);
+        const savedCsrOverview = await this.CsrOverviewRepository.save(newCsrOverview);
 
         return {
             status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Csr overview created successfully',
-            data: savedCsrKey,
+            data: savedCsrOverview,
         };
     }
 
-    // GET ALL PIPE ARTS WITH DETAILS
+    // GET ALL CSRS WITH DETAILS
     async findAllCsrOverviews() {
         const data = await this.CsrOverviewRepository.find({
         });
@@ -134,13 +197,13 @@ export class CsrKeyService {
         };
     }
 
-    // GET PIPE ART BY ID WITH DETAILS
+    // GET CSR Overview BY ID WITH DETAILS
     async findCsrOverviewById(id: number) {
-        const CsrKey = await this.CsrOverviewRepository.findOne({
+        const CsrOverview = await this.CsrOverviewRepository.findOne({
             where: { id }
         });
 
-        if (!CsrKey) {
+        if (!CsrOverview) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
@@ -156,11 +219,11 @@ export class CsrKeyService {
         };
     }
 
-    // UPDATE PIPE ART
+    // UPDATE CSR
     async updateCsrOverview(id: number, updateDto: CsrOverviewDto) {
-        const CsrKey = await this.CsrOverviewRepository.findOne({ where: { id } });
+        const CsrOverview = await this.CsrOverviewRepository.findOne({ where: { id } });
 
-        if (!CsrKey) {
+        if (!CsrOverview) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
@@ -168,8 +231,8 @@ export class CsrKeyService {
             });
         }
 
-        Object.assign(CsrKey, updateDto);
-        const updatedCsrKey = await this.CsrOverviewRepository.save(CsrKey);
+        Object.assign(CsrOverview, updateDto);
+        const updatedCsrKey = await this.CsrOverviewRepository.save(CsrOverview);
 
         return {
             status: true,
@@ -178,8 +241,9 @@ export class CsrKeyService {
             data: updatedCsrKey,
         };
     }
+    
 
-    // DELETE PIPE ART
+    // DELETE CSR
     async deleteCsrOverview(id: number) {
         const result = await this.CsrOverviewRepository.delete(id);
 

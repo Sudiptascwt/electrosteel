@@ -9,7 +9,7 @@ export class CommonBannerService {
     constructor(
         @InjectRepository(CommonBanner)
         private readonly CommonBannerRepository: Repository<CommonBanner>,
-    ) {}
+    ) { }
 
     // CREATE
     async create(createDto: CommonBannerDto) {
@@ -26,32 +26,84 @@ export class CommonBannerService {
 
     // GET ALL
     async findAll() {
-        const data = await this.CommonBannerRepository.find();
+    const data = await this.CommonBannerRepository.find();
+
+    if (!data || data.length === 0) {
         return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'Banner fetched successfully' : 'Banner not found',
-            data,
+        status: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'Banner not found',
+        data: [],
         };
+    }
+
+    const grouped = Object.values(
+        data.reduce((acc, item) => {
+        if (!acc[item.id]) {
+            acc[item.id] = {
+            id: item.id,
+            page_name: item.page_name,
+            created_at: item.created_at,
+            modified_at: item.modified_at,
+            };
+        }
+        acc[item.id][item.meta_key] = item.meta_value;
+        return acc;
+        }, {})
+    );
+
+    return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Banner fetched successfully',
+        data: grouped, 
+    };
     }
 
     // GET BY ID
     async findById(id: number) {
-        const CommonBanner = await this.CommonBannerRepository.findOne({ where: { id } });
-        if (!CommonBanner) {
+        try {
+            const banners = await this.CommonBannerRepository.find({ where: { id } });
+
+            if (!banners || banners.length === 0) {
+                throw new NotFoundException({
+                    status: false,
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: `Banner with ID ${id} not found`,
+                });
+            }
+
+            const grouped = Object.values(
+                banners.reduce((acc, item) => {
+                    if (!acc[item.id]) {
+                        acc[item.id] = {
+                            id: item.id,
+                            page_name: item.page_name,
+                            created_at: item.created_at,
+                            modified_at: item.modified_at,
+                        };
+                    }
+                    acc[item.id][item.meta_key] = item.meta_value;
+                    return acc;
+                }, {})
+            );
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Banner fetched successfully',
+                data: grouped,
+            };
+        }
+        catch (error) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
                 message: `Banner with ID ${id} not found`,
-            });
-        }
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Banner fetched successfully',
-            data: CommonBanner,
+            })
         };
     }
+
 
     // UPDATE
     async update(id: number, updateDto: CommonBannerDto) {
@@ -96,7 +148,7 @@ export class CommonBannerService {
     //banner fetch by page name
     async findByPageName(pageName: string): Promise<CommonBannerDto[]> {
         return this.CommonBannerRepository.find({
-        where: { page_name: pageName },
+            where: { page_name: pageName },
         });
     }
 }

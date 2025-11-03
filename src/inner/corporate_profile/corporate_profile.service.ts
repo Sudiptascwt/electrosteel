@@ -24,81 +24,129 @@ export class CorporateProfileService {
             data: savedCorporateProfile,
         };
         } catch (error) {
-        return {
-            status: false,
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Something went wrong while creating Corporate profile data',
-            error: error.message,
-        };
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while creating Corporate profile data',
+                error: error.message,
+            };
         }
   }
 
     // GET ALL
     async findAll() {
-        const data = await this.CorporateProfileRepository.find();
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'Corporate profile datas fetched successfully' : 'No Corporate profile datas found',
-            data,
-        };
+        try {
+            const data = await this.CorporateProfileRepository.find();
+            const result = data.map(item => ({
+                [item.page_meta_key]: item.page_meta_value
+            }));
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: data.length > 0 ? 'Corporate profile datas fetched successfully' : 'No Corporate profile datas found',
+                data: result,
+            };
+        } catch (error) {
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while fetching Corporate profile data',
+                error: error.message,
+            }
+        }
     }
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.CorporateProfileRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
+        try {
+            const About = await this.CorporateProfileRepository.findOne({ where: { id } });
+            if (!About) {
+                throw new NotFoundException({
+                    status: false,
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: `Corporate profile data with ID ${id} not found`,
+                });
+            }
+            const result = {
+                [About.page_meta_key]: About.page_meta_value
+            };
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Corporate profile data fetched successfully',
+                data: result,
+            };
+        } catch (error) {
+            return {
                 status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Corporate profile data with ID ${id} not found`,
-            });
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while fetching Corporate profile data',
+                error: error.message,
+            };
         }
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Corporate profile data fetched successfully',
-            data: About,
-        };
     }
 
     // UPDATE
     async update(id: number, updateDto: CorporateProfileDto) {
-        const About = await this.CorporateProfileRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
+        try {
+            const About = await this.CorporateProfileRepository.findOne({ where: { id } });
+            if (!About) {
+                throw new NotFoundException({
+                    status: false,
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: `Corporate profile data with ID ${id} not found`,
+                });
+            }
+
+            Object.assign(About, updateDto);
+            const updatedAbout = await this.CorporateProfileRepository.save(About);
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Corporate profile data updated successfully',
+                data: updatedAbout,
+            };
+        } catch (error) {
+            return {
                 status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Corporate profile data with ID ${id} not found`,
-            });
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while updating Corporate profile data',
+                error: error.message,
+            };
         }
-
-        Object.assign(About, updateDto);
-        const updatedAbout = await this.CorporateProfileRepository.save(About);
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Corporate profile data updated successfully',
-            data: updatedAbout,
-        };
     }
 
     // DELETE
     async delete(id: number) {
-        const result = await this.CorporateProfileRepository.delete(id);
-        if (result.affected === 0) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Corporate profile data with ID ${id} not found`,
-            });
-        }
+        try {
+            const result = await this.CorporateProfileRepository.delete(id);
 
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Corporate profile data deleted successfully'
-        };
+            if (result.affected === 0) {
+                // Proper 404
+                throw new NotFoundException(`Corporate profile data with ID ${id} not found`);
+            }
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Corporate profile data deleted successfully',
+            };
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                return {
+                    status: false,
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: error.message,
+                };
+            }
+
+            console.error(error); 
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while deleting Corporate profile data',
+            };
+        }
     }
 }

@@ -19,11 +19,11 @@ export class CreateActivityLogsTable1759845501059 implements MigrationInterface 
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);
-}
+    }
 
-public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE activity_logs`);
-}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`DROP TABLE activity_logs`);
+    }
 
 
 }
