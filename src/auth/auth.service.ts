@@ -76,44 +76,50 @@ async verify2FA(userId: number, token: string) {
   //     access_token: token,
   //   };
   // }
-  async login(email: string, password: string, totp: string) {
-    const user = await this.usersService.findByEmail(email);
+async login(email: string, password: string, totp: string) {
+  const user = await this.usersService.findByEmail(email);
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    if (!user.twoFASecret) {
-      throw new UnauthorizedException('2FA not setup for this account');
-    }
-
-    const isValid = speakeasy.totp.verify({
-      secret: user.twoFASecret,
-      encoding: 'base32',
-      token: totp,
-      window: 1, // ±30s window
-    });
-
-    if (!isValid) {
-      throw new UnauthorizedException('Invalid 2FA code');
-    }
-
-    const payload = { sub: user.id, email: user.email, role: user.role };
-    const token = this.jwtService.sign(payload);
-
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      access_token: token,
-    };
+  if (!user) {
+    throw new UnauthorizedException('Invalid email or password');
   }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    throw new UnauthorizedException('Invalid email or password');
+  }
+
+  // 🧩 1. If user has NOT enabled 2FA → block login
+  if (!user.isTwoFAEnabled || !user.twoFASecret) {
+    throw new UnauthorizedException('2FA not set up for this account. Please contact admin.');
+  }
+
+  // 🧩 2. Require TOTP code
+  if (!totp) {
+    throw new UnauthorizedException('TOTP code is required for login');
+  }
+
+  const isValid = speakeasy.totp.verify({
+    secret: user.twoFASecret,
+    encoding: 'base32',
+    token: totp,
+    window: 1, // allow ±30s clock drift
+  });
+
+  if (!isValid) {
+    throw new UnauthorizedException('Invalid TOTP code');
+  }
+
+  // 🧩 3. Generate JWT on success
+  const payload = { sub: user.id, email: user.email, role: user.role };
+  const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+
+  return {
+    status: true,
+    message: 'Login successful (2FA verified)',
+    access_token: token,
+  };
+}
+
 
   async changePassword(changePasswordDto: ChangePasswordDto) {
     const { email, old_password, new_password,confirm_new_password } = changePasswordDto;

@@ -11,7 +11,7 @@ export class AuthController {
   
 
   @Post('2fa/enable')
-  @UseGuards(JwtAuthGuard) // user must be logged in
+  // @UseGuards(JwtAuthGuard) // user must be logged in
   async enable2FA(@Req() req) {
     const userId = req.user.id;
     const data = await this.authService.generate2FASecret(userId);
@@ -23,7 +23,7 @@ export class AuthController {
   }
 
   @Post('2fa/verify-setup')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async verify2FASetup(@Req() req, @Body() body: { totp: string }) {
     const userId = req.user.id;
     const { totp } = body;
