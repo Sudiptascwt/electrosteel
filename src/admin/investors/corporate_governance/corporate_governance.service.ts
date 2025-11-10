@@ -14,23 +14,25 @@ export class CorporateGovernanceService {
     //////////CorporateGovernance pipes/////////////
     // CREATE
     async create(createDto: CorporateGovernanceDto) {
-    const share_holding_information = this.CorporateGovernanceRepo.create(createDto);
-    const data = await this.CorporateGovernanceRepo.save(share_holding_information);
+        const share_holding_information = this.CorporateGovernanceRepo.create(createDto);
+        const data = await this.CorporateGovernanceRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'CorporateGovernance created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'CorporateGovernance created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.CorporateGovernanceRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'CorporateGovernance fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'CorporateGovernance fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class CorporateGovernanceService {
     async findById(id: number) {
         const share_holding_information = await this.CorporateGovernanceRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`CorporateGovernance with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CorporateGovernance with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'CorporateGovernance fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'CorporateGovernance fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -51,7 +59,12 @@ export class CorporateGovernanceService {
     async update(id: number, updateDto: CorporateGovernanceDto) {
         const entity = await this.CorporateGovernanceRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`CorporateGovernance with id ${id} not found`);
+            throw new NotFoundException({
+                message: `CorporateGovernance with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class CorporateGovernanceService {
         const updatedEntity = await this.CorporateGovernanceRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'CorporateGovernance pipes updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class CorporateGovernanceService {
     async delete(id: number) {
         const share_holding_information = await this.CorporateGovernanceRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`CorporateGovernance with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CorporateGovernance with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.CorporateGovernanceRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'CorporateGovernance deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'CorporateGovernance deleted successfully',
         };
     }
 }

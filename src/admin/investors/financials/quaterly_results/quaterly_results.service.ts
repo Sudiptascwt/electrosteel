@@ -13,43 +13,51 @@ export class QualityResultsService {
 
     // CREATE
     async create(createDto: QualityResultsDto) {
-    if (Array.isArray(createDto.title)) {
-        createDto.title = createDto.title.join(',');
-    }
-    if (Array.isArray(createDto.pdf)) {
-        createDto.pdf = createDto.pdf.join(',');
-    }
+        if (Array.isArray(createDto.title)) {
+            createDto.title = createDto.title.join(',');
+        }
+        if (Array.isArray(createDto.pdf)) {
+            createDto.pdf = createDto.pdf.join(',');
+        }
 
-    const office = this.QualityResultsRepo.create(createDto);
-    const data = await this.QualityResultsRepo.save(office);
+        const office = this.QualityResultsRepo.create(createDto);
+        const data = await this.QualityResultsRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Quality result created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Quality result created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
-    const data = await this.QualityResultsRepo.find();
-    return {
-    statusCode: HttpStatus.OK,
-    message: 'Quality result fetched successfully',
-    data,
-    };
+        const data = await this.QualityResultsRepo.find();
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Quality result fetched successfully',
+            data,
+        };
     }
 
     // GET BY ID
     async findById(id: number) {
         const office = await this.QualityResultsRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Quality result with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Quality result fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Quality result fetched successfully',
+            data: office,
         };
     }
 
@@ -66,6 +74,7 @@ export class QualityResultsService {
 
         const data = await this.QualityResultsRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Quality result updated successfully',
             data,
@@ -76,14 +85,20 @@ export class QualityResultsService {
     async delete(id: number) {
         const office = await this.QualityResultsRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Quality result with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.QualityResultsRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Quality result deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Quality result deleted successfully',
         };
     }
 }

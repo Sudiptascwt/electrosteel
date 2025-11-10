@@ -25,7 +25,15 @@ export class FacilityService {
 
   async findById(id: number): Promise<Facility> {
     const unit = await this.FacilityRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('Facility unit not found');
+    // if (!unit) throw new NotFoundException('Facility unit not found');
+    if (!unit) {
+      throw new NotFoundException({
+        message: 'Facility unit not found',
+        error: 'Not Found',
+        statusCode: 404,
+        status: false,
+      });
+    }
     return unit;
   }
 
@@ -38,7 +46,12 @@ export class FacilityService {
   async delete(id: number): Promise<void> {
     const result = await this.FacilityRepo.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException('Facility unit not found');
+      throw new NotFoundException({
+        message: 'Facility unit not found',
+        error: 'Not Found',
+        statusCode: 404,
+        status: false,
+      });
     }
   }
 }

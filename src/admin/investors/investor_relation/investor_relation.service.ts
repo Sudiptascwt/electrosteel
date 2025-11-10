@@ -26,6 +26,7 @@ export class InvestorRelationService {
         const data = await this.InvestorRelationRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Investor relation created successfully',
             data,
@@ -36,6 +37,7 @@ export class InvestorRelationService {
     async findAll() {
         const data = await this.InvestorRelationRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor relation fetched successfully',
             data,
@@ -46,9 +48,15 @@ export class InvestorRelationService {
     async findById(id: number) {
         const share_holding_information = await this.InvestorRelationRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`InvestorRelation with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `InvestorRelation with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor relation fetched successfully',
             data: share_holding_information,
@@ -59,7 +67,12 @@ export class InvestorRelationService {
     async update(id: number, updateDto: InvestorRelationDto) {
         const entity = await this.InvestorRelationRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`InvestorRelation with id ${id} not found`);
+            throw new NotFoundException({
+                message: `InvestorRelation with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -67,6 +80,7 @@ export class InvestorRelationService {
         const updatedEntity = await this.InvestorRelationRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor relation updated successfully',
             data: updatedEntity,
@@ -78,12 +92,18 @@ export class InvestorRelationService {
     async delete(id: number) {
         const share_holding_information = await this.InvestorRelationRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`InvestorRelation with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `InvestorRelation with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.InvestorRelationRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor relation deleted successfully',
         };
@@ -94,6 +114,7 @@ export class InvestorRelationService {
         const data = await this.AuthorisedKmpRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Authorised kmp created successfully',
             data,
@@ -104,6 +125,7 @@ export class InvestorRelationService {
     async findAllAuthorisedKmps() {
         const data = await this.AuthorisedKmpRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Authorised kmp fetched successfully',
             data,
@@ -114,9 +136,15 @@ export class InvestorRelationService {
     async findAuthorisedKmpById(id: number) {
         const share_holding_information = await this.AuthorisedKmpRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`Authorised kmp with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Authorised kmp with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Authorised kmp fetched successfully',
             data: share_holding_information,
@@ -127,7 +155,12 @@ export class InvestorRelationService {
     async updateAuthorisedKmp(id: number, updateDto: AuthorisedKmpDto) {
         const entity = await this.AuthorisedKmpRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Authorised kmp with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Authorised kmp with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -135,6 +168,7 @@ export class InvestorRelationService {
         const updatedEntity = await this.AuthorisedKmpRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Authorised kmp updated successfully',
             data: updatedEntity,
@@ -145,12 +179,18 @@ export class InvestorRelationService {
     async deleteAuthorisedKmp(id: number) {
         const share_holding_information = await this.AuthorisedKmpRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Authorised kmp with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Authorised kmp with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.AuthorisedKmpRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Authorised kmp deleted successfully',
         };
@@ -161,6 +201,7 @@ export class InvestorRelationService {
         const data = await this.InvestorStockInfoRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Investor stock info created successfully',
             data,
@@ -171,6 +212,7 @@ export class InvestorRelationService {
     async findAllInvestorStockInfos() {
         const data = await this.InvestorStockInfoRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor stock info fetched successfully',
             data,
@@ -181,9 +223,15 @@ export class InvestorRelationService {
     async findInvestorStockInfoById(id: number) {
         const share_holding_information = await this.InvestorStockInfoRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`Authorised kmp with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Investor stock info with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor stock info fetched successfully',
             data: share_holding_information,
@@ -194,7 +242,12 @@ export class InvestorRelationService {
     async updateInvestorStockInfo(id: number, updateDto: InvestorStockInfoDto) {
         const entity = await this.InvestorStockInfoRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Investor stock info with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Investor stock info with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -202,6 +255,7 @@ export class InvestorRelationService {
         const updatedEntity = await this.InvestorStockInfoRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor stock info updated successfully',
             data: updatedEntity,
@@ -212,12 +266,18 @@ export class InvestorRelationService {
     async deleteInvestorStockInfo(id: number) {
         const share_holding_information = await this.InvestorStockInfoRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Investor stock info with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Investor stock info with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.InvestorStockInfoRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor stock info deleted successfully',
         };

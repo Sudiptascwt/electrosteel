@@ -14,23 +14,25 @@ export class Notices160Service {
     //////////Notices160 pipes/////////////
     // CREATE
     async create(createDto: Notices160Dto) {
-    const share_holding_information = this.Notices160Repo.create(createDto);
-    const data = await this.Notices160Repo.save(share_holding_information);
+        const share_holding_information = this.Notices160Repo.create(createDto);
+        const data = await this.Notices160Repo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: '160 Notice created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: '160 Notice created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.Notices160Repo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All 160 Notices fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All 160 Notices fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class Notices160Service {
     async findById(id: number) {
         const share_holding_information = await this.Notices160Repo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Notices160 with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Notice with id ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false,
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: '160 Notice fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -51,7 +59,12 @@ export class Notices160Service {
     async update(id: number, updateDto: Notices160Dto) {
         const entity = await this.Notices160Repo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Notice with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Notice with id ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false,
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,12 +72,12 @@ export class Notices160Service {
         const updatedEntity = await this.Notices160Repo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: '160 Notice updated successfully',
             data: updatedEntity,
         };
     }
-
 
     // DELETE
     async delete(id: number) {
@@ -76,8 +89,9 @@ export class Notices160Service {
         await this.Notices160Repo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: '160 Notice deleted successfully',
         };
     }
 }

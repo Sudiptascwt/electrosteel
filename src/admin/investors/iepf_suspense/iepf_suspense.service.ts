@@ -14,23 +14,25 @@ export class IepfSuspenseService {
     //////////IepfSuspense pipes/////////////
     // CREATE
     async create(createDto: IepfSuspenseDto) {
-    const share_holding_information = this.IepfSuspenseRepo.create(createDto);
-    const data = await this.IepfSuspenseRepo.save(share_holding_information);
+        const share_holding_information = this.IepfSuspenseRepo.create(createDto);
+        const data = await this.IepfSuspenseRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: '160 Notice created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Iepf suspense details created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.IepfSuspenseRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All 160 Notices fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All Iepf suspense details fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class IepfSuspenseService {
     async findById(id: number) {
         const share_holding_information = await this.IepfSuspenseRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`IepfSuspense with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `IepfSuspense details with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Iepf suspense details fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -59,8 +67,9 @@ export class IepfSuspenseService {
         const updatedEntity = await this.IepfSuspenseRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
-            message: '160 Notice updated successfully',
+            message: 'Iepf suspense details updated successfully',
             data: updatedEntity,
         };
     }
@@ -70,14 +79,20 @@ export class IepfSuspenseService {
     async delete(id: number) {
         const share_holding_information = await this.IepfSuspenseRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`IepfSuspense with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `IepfSuspense details with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.IepfSuspenseRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'IepfSuspense details deleted successfully',
         };
     }
 }

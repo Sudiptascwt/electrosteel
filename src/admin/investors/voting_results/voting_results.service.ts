@@ -14,20 +14,22 @@ export class VotingResultsService {
     //////////VotingResults pipes/////////////
     // CREATE
     async create(createDto: VotingResultsDto) {
-    const share_holding_information = this.VotingResultsRepo.create(createDto);
-    const data = await this.VotingResultsRepo.save(share_holding_information);
+        const share_holding_information = this.VotingResultsRepo.create(createDto);
+        const data = await this.VotingResultsRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Voting result created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Voting result created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.VotingResultsRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'VotingResults fetched successfully',
             data,
@@ -38,9 +40,15 @@ export class VotingResultsService {
     async findById(id: number) {
         const share_holding_information = await this.VotingResultsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Voting result with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Voting result with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Voting result fetched successfully',
             data: share_holding_information,
@@ -51,7 +59,12 @@ export class VotingResultsService {
     async update(id: number, updateDto: VotingResultsDto) {
         const entity = await this.VotingResultsRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Voting result with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Voting result with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class VotingResultsService {
         const updatedEntity = await this.VotingResultsRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Voting result updated successfully',
             data: updatedEntity,
@@ -70,12 +84,18 @@ export class VotingResultsService {
     async delete(id: number) {
         const share_holding_information = await this.VotingResultsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Voting results with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Voting result with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.VotingResultsRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Voting result deleted successfully',
         };

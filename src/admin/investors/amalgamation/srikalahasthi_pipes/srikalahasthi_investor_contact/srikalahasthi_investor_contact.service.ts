@@ -14,23 +14,25 @@ export class SrikalahasthiInvestorContactService {
     //////////srikalahasthi notice/////////////
     // CREATE
     async create(createDto: SrikalahasthiInvestorContactDto) {
-    const office = this.SrikalahasthiRepo.create(createDto);
-    const data = await this.SrikalahasthiRepo.save(office);
+        const office = this.SrikalahasthiRepo.create(createDto);
+        const data = await this.SrikalahasthiRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi notice created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Srikalahasthi investor contact created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.SrikalahasthiRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi notice fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All srikalahasthi investor contacts fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,13 @@ export class SrikalahasthiInvestorContactService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
+        throw new NotFoundException(`Srikalahasthi investor contact with ID ${id} not found`);
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Srikalahasthi investor contact fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +54,7 @@ export class SrikalahasthiInvestorContactService {
     async update(id: number, updateDto: SrikalahasthiInvestorContactDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
+            throw new NotFoundException(`Srikalahasthi investor contact with id ${id} not found`);
         }
 
         Object.assign(entity, updateDto);
@@ -59,8 +62,9 @@ export class SrikalahasthiInvestorContactService {
         const updatedEntity = await this.SrikalahasthiRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
-            message: 'srikalahasthi notice updated successfully',
+            message: 'Srikalahasthi investor contact updated successfully',
             data: updatedEntity,
         };
     }
@@ -70,14 +74,20 @@ export class SrikalahasthiInvestorContactService {
     async delete(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi investor contact with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.SrikalahasthiRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Srikalahasthi investor contact deleted successfully',
         };
     }
 }

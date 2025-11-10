@@ -17,6 +17,7 @@ export class OtherProductsService {
     const data = await this.DuctileIronFittingsOverviewRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Other product created successfully.',
       data,
@@ -26,6 +27,7 @@ export class OtherProductsService {
   async findAllOtherProducts() {
     const data = await this.DuctileIronFittingsOverviewRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Other product fetched successfully',
       data,
@@ -36,9 +38,15 @@ export class OtherProductsService {
   async findOtherProductById(id: number) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Other product with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Other product with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Other product details fetched fetched successfully',
       data: app,
@@ -48,15 +56,20 @@ export class OtherProductsService {
   // UPDATE
   async updateOtherProduct(id: number, updateDto: OtherProductsDto) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
-    if (!app)
-       {
-      throw new NotFoundException(`Other product with ID ${id} not found`);
+    if (!app) {
+      throw new NotFoundException({
+          message: `Other product with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.DuctileIronFittingsOverviewRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Other product details updated successfully',
       data,
@@ -67,12 +80,18 @@ export class OtherProductsService {
   async deleteOtherProduct(id: number) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Other product with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Other product with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     await this.DuctileIronFittingsOverviewRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Other product deleted successfully',
     };

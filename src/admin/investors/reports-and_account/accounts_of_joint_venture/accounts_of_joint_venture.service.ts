@@ -24,19 +24,21 @@ export class AccountOfJointVentureService {
         const data = await this.AccountOfJointVentureRepo.save(office);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Annual Report created successfully',
             data,
         };
-        }
+    }
 
         // GET ALL
     async findAll() {
         const data = await this.AccountOfJointVentureRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report fetched successfully',
+            data,
         };
     }
 
@@ -44,12 +46,18 @@ export class AccountOfJointVentureService {
     async findById(id: number) {
         const office = await this.AccountOfJointVentureRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Annual Report with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Annual Report with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report fetched successfully',
+            data: office,
         };
     }
 
@@ -66,6 +74,7 @@ export class AccountOfJointVentureService {
 
         const data = await this.AccountOfJointVentureRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual Report updated successfully',
             data,
@@ -76,14 +85,20 @@ export class AccountOfJointVentureService {
     async delete(id: number) {
         const office = await this.AccountOfJointVentureRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Annual Report with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Annual Report with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.AccountOfJointVentureRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report deleted successfully',
         };
     }
 }

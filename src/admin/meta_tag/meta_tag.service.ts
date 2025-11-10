@@ -30,7 +30,14 @@ export class MetaTagService {
 
   async findById(id: number): Promise<MetaTag> {
     const unit = await this.MetaTagRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('MetaTag unit not found');
+    if (!unit) {
+      throw new NotFoundException({
+          message: `MetaTag unit not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
+    }
     return unit;
   }
 
@@ -43,7 +50,12 @@ export class MetaTagService {
   async delete(id: number): Promise<void> {
     const result = await this.MetaTagRepo.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException('MetaTag unit not found');
+      throw new NotFoundException({
+          message: `MetaTag unit not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
   }
 }

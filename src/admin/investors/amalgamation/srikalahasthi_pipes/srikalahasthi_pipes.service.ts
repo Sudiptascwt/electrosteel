@@ -18,6 +18,7 @@ export class SrikalahasthiService {
     const data = await this.SrikalahasthiRepo.save(office);
 
     return {
+        status: true,
         statusCode: HttpStatus.CREATED,
         message: 'srikalahasthi pipes created successfully',
         data,
@@ -28,9 +29,10 @@ export class SrikalahasthiService {
     async findAll() {
         const data = await this.SrikalahasthiRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi pipes fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All srikalahasthi pipes fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class SrikalahasthiService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi pipes with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi pipe fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +59,12 @@ export class SrikalahasthiService {
     async update(id: number, updateDto: SrikalahasthiDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class SrikalahasthiService {
         const updatedEntity = await this.SrikalahasthiRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'srikalahasthi pipes updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class SrikalahasthiService {
     async delete(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi pipes with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.SrikalahasthiRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipes deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi pipes deleted successfully',
         };
     }
 }

@@ -13,43 +13,50 @@ export class RegulationService {
 
     // CREATE
     async create(createDto: RegulationsDto) {
-    if (Array.isArray(createDto.title)) {
-        createDto.title = createDto.title.join(',');
-    }
-    if (Array.isArray(createDto.pdf)) {
-        createDto.pdf = createDto.pdf.join(',');
-    }
+        if (Array.isArray(createDto.title)) {
+            createDto.title = createDto.title.join(',');
+        }
+        if (Array.isArray(createDto.pdf)) {
+            createDto.pdf = createDto.pdf.join(',');
+        }
 
-    const office = this.RegulationRepo.create(createDto);
-    const data = await this.RegulationRepo.save(office);
+        const office = this.RegulationRepo.create(createDto);
+        const data = await this.RegulationRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Regulation 37 created successfully',
-        data,
-    };
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: 'Regulation 37 created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
-    const data = await this.RegulationRepo.find();
-    return {
-    statusCode: HttpStatus.OK,
-    message: 'Regulation 37 fetched successfully',
-    data,
-    };
+        const data = await this.RegulationRepo.find();
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Regulation 37 fetched successfully',
+            data,
+        };
     }
 
     // GET BY ID
     async findById(id: number) {
         const office = await this.RegulationRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Regulation 37 with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Regulation 37 with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Regulation 37 fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Regulation 37 fetched successfully',
+            data: office,
         };
     }
 
@@ -66,6 +73,7 @@ export class RegulationService {
 
         const data = await this.RegulationRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Regulation 37 updated successfully',
             data,
@@ -76,14 +84,20 @@ export class RegulationService {
     async delete(id: number) {
         const office = await this.RegulationRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Regulation 37 with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Regulation 37 with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.RegulationRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Regulation 37 deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Regulation 37 deleted successfully',
         };
     }
 }

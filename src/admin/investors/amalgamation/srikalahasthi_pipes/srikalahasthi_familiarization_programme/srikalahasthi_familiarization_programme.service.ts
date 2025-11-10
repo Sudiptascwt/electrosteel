@@ -18,6 +18,7 @@ export class SrikalahasthiFamiliarizationProgrammeService {
         const data = await this.SrikalahasthiRepo.save(office);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Srikalahasthi familiarization programme created successfully',
             data,
@@ -28,9 +29,10 @@ export class SrikalahasthiFamiliarizationProgrammeService {
     async findAll() {
         const data = await this.SrikalahasthiRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All Srikalahasthi familiarization programme fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All Srikalahasthi familiarization programme fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class SrikalahasthiFamiliarizationProgrammeService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Srikalahasthi familiarization programme with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi familiarization programme with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi familiarization programme fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +59,12 @@ export class SrikalahasthiFamiliarizationProgrammeService {
     async update(id: number, updateDto: SrikalahasthiFamiliarizationProgrammeDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi familiarization programme with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class SrikalahasthiFamiliarizationProgrammeService {
         const updatedEntity = await this.SrikalahasthiRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Srikalahasthi familiarization programme updated successfully',
             data: updatedEntity,
@@ -76,8 +90,9 @@ export class SrikalahasthiFamiliarizationProgrammeService {
         await this.SrikalahasthiRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Srikalahasthi familiarization programme deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Srikalahasthi familiarization programme deleted successfully',
         };
     }
 }

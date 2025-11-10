@@ -18,6 +18,7 @@ export class InvestorDocumentsService {
         const data = await this.InvestorDocumentsRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Investor document created successfully',
             data,
@@ -28,6 +29,7 @@ export class InvestorDocumentsService {
     async findAll() {
         const data = await this.InvestorDocumentsRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor documents fetched successfully',
             data,
@@ -38,9 +40,15 @@ export class InvestorDocumentsService {
     async findById(id: number) {
         const share_holding_information = await this.InvestorDocumentsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`InvestorDocuments with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `InvestorDocuments with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor document fetched successfully',
             data: share_holding_information,
@@ -51,7 +59,12 @@ export class InvestorDocumentsService {
     async update(id: number, updateDto: InvestorDocumentsDto) {
         const entity = await this.InvestorDocumentsRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`InvestorDocuments with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Investor documents with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class InvestorDocumentsService {
         const updatedEntity = await this.InvestorDocumentsRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor document updated successfully',
             data: updatedEntity,
@@ -70,12 +84,18 @@ export class InvestorDocumentsService {
     async delete(id: number) {
         const share_holding_information = await this.InvestorDocumentsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`InvestorDocuments with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Investor document with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.InvestorDocumentsRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Investor document deleted successfully',
         };

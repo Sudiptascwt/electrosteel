@@ -24,6 +24,7 @@ export class AnnualReportsService {
         const data = await this.AnnualReportsRepo.save(office);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Annual Report created successfully',
             data,
@@ -34,9 +35,10 @@ export class AnnualReportsService {
     async findAll() {
         const data = await this.AnnualReportsRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report fetched successfully',
+            data,
         };
     }
 
@@ -44,12 +46,18 @@ export class AnnualReportsService {
     async findById(id: number) {
         const office = await this.AnnualReportsRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Annual Report with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Annual Report with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report fetched successfully',
+            data: office,
         };
     }
 
@@ -66,6 +74,7 @@ export class AnnualReportsService {
 
         const data = await this.AnnualReportsRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual Report updated successfully',
             data,
@@ -76,14 +85,20 @@ export class AnnualReportsService {
     async delete(id: number) {
         const office = await this.AnnualReportsRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Annual Report with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Annual Report with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.AnnualReportsRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Annual Report deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Annual Report deleted successfully',
         };
     }
 }

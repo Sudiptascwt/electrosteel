@@ -18,30 +18,32 @@ export class NcltService {
     //////////Nclt meeting/////////////
     // CREATE
     async create(createDto: NcltMeetingDto) {
-    if (Array.isArray(createDto.title)) {
-        createDto.title = createDto.title.join(',');
-    }
-    if (Array.isArray(createDto.pdf)) {
-        createDto.pdf = createDto.pdf.join(',');
-    }
+        if (Array.isArray(createDto.title)) {
+            createDto.title = createDto.title.join(',');
+        }
+        if (Array.isArray(createDto.pdf)) {
+            createDto.pdf = createDto.pdf.join(',');
+        }
 
-    const office = this.NcltRepo.create(createDto);
-    const data = await this.NcltRepo.save(office);
+        const office = this.NcltRepo.create(createDto);
+        const data = await this.NcltRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Nclt meeting created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Nclt meeting created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.NcltRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Nclt meeting fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Nclt meeting fetched successfully',
+            data,
         };
     }
 
@@ -49,12 +51,18 @@ export class NcltService {
     async findById(id: number) {
         const office = await this.NcltRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Nclt meeting with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Nclt meeting with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Nclt meeting fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Nclt meeting fetched successfully',
+            data: office,
         };
     }
 
@@ -71,6 +79,7 @@ export class NcltService {
 
         const data = await this.NcltRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Nclt meeting updated successfully',
             data,
@@ -81,14 +90,20 @@ export class NcltService {
     async delete(id: number) {
         const office = await this.NcltRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Nclt meeting with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Nclt meeting with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.NcltRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Nclt meeting deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Nclt meeting deleted successfully',
         };
     }
 
@@ -106,6 +121,7 @@ export class NcltService {
         const data = await this.NcltFinalOrderRepo.save(office);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Nclt final order created successfully',
             data,
@@ -116,9 +132,10 @@ export class NcltService {
     async findAllNcltFinalOrders() {
         const data = await this.NcltFinalOrderRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All Nclt final orders fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All Nclt final orders fetched successfully',
+            data,
         };
     }
 
@@ -126,12 +143,18 @@ export class NcltService {
     async findNcltFinalOrderById(id: number) {
         const office = await this.NcltFinalOrderRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Nclt final order with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Nclt final order with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Nclt final order fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Nclt final order fetched successfully',
+            data: office,
         };
     }
 
@@ -148,6 +171,7 @@ export class NcltService {
 
         const data = await this.NcltFinalOrderRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Nclt final order updated successfully',
             data,
@@ -158,14 +182,20 @@ export class NcltService {
     async deleteNcltFinalOrder(id: number) {
         const office = await this.NcltFinalOrderRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Nclt final order with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Nclt final order with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.NcltFinalOrderRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Nclt final order deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Nclt final order deleted successfully',
         };
     }
 }

@@ -14,23 +14,25 @@ export class SrikalahasthiPoliciesService {
     //////////srikalahasthi policy/////////////
     // CREATE
     async create(createDto: SrikalahasthiPoliciesDto) {
-    const office = this.SrikalahasthiRepo.create(createDto);
-    const data = await this.SrikalahasthiRepo.save(office);
+        const office = this.SrikalahasthiRepo.create(createDto);
+        const data = await this.SrikalahasthiRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi policy created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'srikalahasthi policy created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.SrikalahasthiRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi policy fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All srikalahasthi policy fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class SrikalahasthiPoliciesService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi policy with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi policy with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi pipe fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +59,12 @@ export class SrikalahasthiPoliciesService {
     async update(id: number, updateDto: SrikalahasthiPoliciesDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi policy with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class SrikalahasthiPoliciesService {
         const updatedEntity = await this.SrikalahasthiRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'srikalahasthi policy updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class SrikalahasthiPoliciesService {
     async delete(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi policy with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi policy with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.SrikalahasthiRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi policy deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi policy deleted successfully',
         };
     }
 }

@@ -14,23 +14,25 @@ export class ShareholdingMergerService {
     //////////ShareholdingMerger/////////////
     // CREATE
     async create(createDto: ShareholderMergerDto) {
-    const share_holding_information = this.ShareholdingMergerRepo.create(createDto);
-    const data = await this.ShareholdingMergerRepo.save(share_holding_information);
+        const share_holding_information = this.ShareholdingMergerRepo.create(createDto);
+        const data = await this.ShareholdingMergerRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'ShareholdingMerger created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'ShareholdingMerger created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.ShareholdingMergerRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'ShareholdingMerger fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'ShareholdingMerger fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class ShareholdingMergerService {
     async findById(id: number) {
         const share_holding_information = await this.ShareholdingMergerRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`ShareholdingMerger with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `ShareholdingMerger with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'ShareholdingMerger fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'ShareholdingMerger fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -51,7 +59,12 @@ export class ShareholdingMergerService {
     async update(id: number, updateDto: ShareholderMergerDto) {
         const entity = await this.ShareholdingMergerRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`ShareholdingMerger with id ${id} not found`);
+            throw new NotFoundException({
+                message: `ShareholdingMerger with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class ShareholdingMergerService {
         const updatedEntity = await this.ShareholdingMergerRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'ShareholdingMerger updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class ShareholdingMergerService {
     async delete(id: number) {
         const share_holding_information = await this.ShareholdingMergerRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`ShareholdingMerger with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `ShareholdingMerger with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.ShareholdingMergerRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'ShareholdingMerger deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'ShareholdingMerger deleted successfully',
         };
     }
 }

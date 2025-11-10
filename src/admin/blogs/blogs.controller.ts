@@ -28,6 +28,7 @@ export class BlogsController {
   async create(@Body() createDto: BlogsDto) {
     const data = await this.BlogsService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Blog created successfully',
       data,
@@ -39,6 +40,7 @@ export class BlogsController {
   async findAll() {
     const data = await this.BlogsService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All Blogs fetched successfully',
       data,
@@ -50,6 +52,7 @@ export class BlogsController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.BlogsService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Blog fetched successfully',
       data,
@@ -64,6 +67,7 @@ export class BlogsController {
   ) {
     const data = await this.BlogsService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Blog updated successfully',
       data,
@@ -75,6 +79,7 @@ export class BlogsController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.BlogsService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Blog deleted successfully',
     };
@@ -85,6 +90,7 @@ export class BlogsController {
   async findBlogByName(@Param('category') category: string) {
     const data = await this.BlogsService.findBlogByName(category);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Blog fetched successfully',
       data,

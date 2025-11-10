@@ -28,6 +28,7 @@ export class MetaTagController {
   async create(@Body() createDto: MetaTagDto) {
     const data = await this.MetaTagService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Meta tag created successfully',
       data,
@@ -39,6 +40,7 @@ export class MetaTagController {
   async findAll() {
     const data = await this.MetaTagService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All Meta tags fetched successfully',
       data,
@@ -50,6 +52,7 @@ export class MetaTagController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.MetaTagService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Meta tag fetched successfully',
       data,
@@ -64,6 +67,7 @@ export class MetaTagController {
   ) {
     const data = await this.MetaTagService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Meta tag updated successfully',
       data,
@@ -75,6 +79,7 @@ export class MetaTagController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.MetaTagService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Meta tag deleted successfully',
     };

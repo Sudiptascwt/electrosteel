@@ -14,23 +14,25 @@ export class srikalahasthi_appointment_letterService {
     //////////srikalahasthi_appointment_letter pipes/////////////
     // CREATE
     async create(createDto: AppointmentletterDto) {
-    const office = this.srikalahasthi_appointment_letterRepo.create(createDto);
-    const data = await this.srikalahasthi_appointment_letterRepo.save(office);
+        const office = this.srikalahasthi_appointment_letterRepo.create(createDto);
+        const data = await this.srikalahasthi_appointment_letterRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi_appointment_letter pipes created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'srikalahasthi_appointment_letter pipes created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.srikalahasthi_appointment_letterRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi_appointment_letter pipes fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All srikalahasthi_appointment_letter pipes fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,17 @@ export class srikalahasthi_appointment_letterService {
     async findById(id: number) {
         const office = await this.srikalahasthi_appointment_letterRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi_appointment_letter pipes with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi_appointment_letter pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi_appointment_letter pipe fetched successfully',
-        data: office,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi_appointment_letter pipe fetched successfully',
+            data: office,
         };
     }
 
@@ -51,13 +58,17 @@ export class srikalahasthi_appointment_letterService {
     async update(id: number, updateDto: AppointmentletterDto) {
         const entity = await this.srikalahasthi_appointment_letterRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`srikalahasthi_appointment_letter with id ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi_appointment_letter pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
 
         const updatedEntity = await this.srikalahasthi_appointment_letterRepo.save(entity);
-
         return {
             statusCode: HttpStatus.OK,
             message: 'srikalahasthi_appointment_letter pipes updated successfully',
@@ -70,11 +81,15 @@ export class srikalahasthi_appointment_letterService {
     async delete(id: number) {
         const office = await this.srikalahasthi_appointment_letterRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi_appointment_letter pipes with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi_appointment_letter pipes with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.srikalahasthi_appointment_letterRepo.remove(office);
-
         return {
         statusCode: HttpStatus.OK,
         message: 'srikalahasthi_appointment_letter pipes deleted successfully',

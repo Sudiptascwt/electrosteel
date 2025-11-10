@@ -18,6 +18,7 @@ export class srikalahasthiCodeOfConductService {
         const data = await this.srikalahasthiCodeOfConductRepo.save(office);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Srikalahasthi code of conduct created successfully',
             data,
@@ -28,9 +29,10 @@ export class srikalahasthiCodeOfConductService {
     async findAll() {
         const data = await this.srikalahasthiCodeOfConductRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All Srikalahasthi code of conduct fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All Srikalahasthi code of conduct fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class srikalahasthiCodeOfConductService {
     async findById(id: number) {
         const office = await this.srikalahasthiCodeOfConductRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Srikalahasthi code of conduct with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi code of conduct with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthiCodeOfConduct pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthiCodeOfConduct pipe fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +59,12 @@ export class srikalahasthiCodeOfConductService {
     async update(id: number, updateDto: SrikalahasthiCodeOfConductDto) {
         const entity = await this.srikalahasthiCodeOfConductRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`srikalahasthiCodeOfConduct with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi code of conduct with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class srikalahasthiCodeOfConductService {
         const updatedEntity = await this.srikalahasthiCodeOfConductRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Srikalahasthi code of conduct updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class srikalahasthiCodeOfConductService {
     async delete(id: number) {
         const office = await this.srikalahasthiCodeOfConductRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Srikalahasthi code of conduct with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Srikalahasthi code of conduct with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.srikalahasthiCodeOfConductRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Srikalahasthi code of conduct deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Srikalahasthi code of conduct deleted successfully',
         };
     }
 }

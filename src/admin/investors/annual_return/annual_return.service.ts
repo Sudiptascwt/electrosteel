@@ -18,6 +18,7 @@ export class AnnualReturnService {
         const data = await this.AnnualReturnRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Annual return created successfully',
             data,
@@ -28,6 +29,7 @@ export class AnnualReturnService {
     async findAll() {
         const data = await this.AnnualReturnRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return fetched successfully',
             data,
@@ -38,9 +40,15 @@ export class AnnualReturnService {
     async findById(id: number) {
         const share_holding_information = await this.AnnualReturnRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`AnnualReturn with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `AnnualReturn with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return fetched successfully',
             data: share_holding_information,
@@ -51,7 +59,12 @@ export class AnnualReturnService {
     async update(id: number, updateDto: AnnualReturnDto) {
         const entity = await this.AnnualReturnRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`AnnualReturn with id ${id} not found`);
+            throw new NotFoundException({
+                message: `AnnualReturn with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class AnnualReturnService {
         const updatedEntity = await this.AnnualReturnRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return updated successfully',
             data: updatedEntity,
@@ -70,12 +84,18 @@ export class AnnualReturnService {
     async delete(id: number) {
         const share_holding_information = await this.AnnualReturnRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`AnnualReturn with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `AnnualReturn with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.AnnualReturnRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return deleted successfully',
         };

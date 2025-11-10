@@ -14,23 +14,25 @@ export class NewspaperPublicationService {
     //////////NewspaperPublication pipes/////////////
     // CREATE
     async create(createDto: NewsPaperPublicationDto) {
-    const share_holding_information = this.NewspaperPublicationRepo.create(createDto);
-    const data = await this.NewspaperPublicationRepo.save(share_holding_information);
+        const share_holding_information = this.NewspaperPublicationRepo.create(createDto);
+        const data = await this.NewspaperPublicationRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'NewspaperPublication created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'NewspaperPublication created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.NewspaperPublicationRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'NewspaperPublication fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'NewspaperPublication fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class NewspaperPublicationService {
     async findById(id: number) {
         const share_holding_information = await this.NewspaperPublicationRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`NewspaperPublication with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `NewspaperPublication with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'NewspaperPublication fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'NewspaperPublication fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -51,7 +59,12 @@ export class NewspaperPublicationService {
     async update(id: number, updateDto: NewsPaperPublicationDto) {
         const entity = await this.NewspaperPublicationRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`NewspaperPublication with id ${id} not found`);
+            throw new NotFoundException({
+                message: `NewspaperPublication with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class NewspaperPublicationService {
         const updatedEntity = await this.NewspaperPublicationRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'NewspaperPublication updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class NewspaperPublicationService {
     async delete(id: number) {
         const share_holding_information = await this.NewspaperPublicationRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`NewspaperPublication with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `NewspaperPublication with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.NewspaperPublicationRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'NewspaperPublication deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'NewspaperPublication deleted successfully',
         };
     }
 }

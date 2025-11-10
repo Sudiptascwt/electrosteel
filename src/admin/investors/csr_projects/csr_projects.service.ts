@@ -18,6 +18,7 @@ export class CsrProjectsService {
         const data = await this.CsrProjectsRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Annual return created successfully',
             data,
@@ -28,6 +29,7 @@ export class CsrProjectsService {
     async findAll() {
         const data = await this.CsrProjectsRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return fetched successfully',
             data,
@@ -38,9 +40,15 @@ export class CsrProjectsService {
     async findById(id: number) {
         const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`CsrProjects with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CsrProjects with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return fetched successfully',
             data: share_holding_information,
@@ -51,7 +59,12 @@ export class CsrProjectsService {
     async update(id: number, updateDto: CsrProjectsDto) {
         const entity = await this.CsrProjectsRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`CsrProjects with id ${id} not found`);
+            throw new NotFoundException({
+                message: `CsrProjects with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class CsrProjectsService {
         const updatedEntity = await this.CsrProjectsRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return updated successfully',
             data: updatedEntity,
@@ -70,12 +84,18 @@ export class CsrProjectsService {
     async delete(id: number) {
         const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`CsrProjects with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CsrProjects with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.CsrProjectsRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Annual return deleted successfully',
         };

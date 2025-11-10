@@ -14,23 +14,25 @@ export class NoticesService {
     //////////Notices pipes/////////////
     // CREATE
     async create(createDto: NoticesDto) {
-    const share_holding_information = this.NoticesRepo.create(createDto);
-    const data = await this.NoticesRepo.save(share_holding_information);
+        const share_holding_information = this.NoticesRepo.create(createDto);
+        const data = await this.NoticesRepo.save(share_holding_information);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Notice created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Notice created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.NoticesRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Notices fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Notices fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class NoticesService {
     async findById(id: number) {
         const share_holding_information = await this.NoticesRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Notices with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Notices with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Notice fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Notice fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -51,7 +59,12 @@ export class NoticesService {
     async update(id: number, updateDto: NoticesDto) {
         const entity = await this.NoticesRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Notice with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Notices with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class NoticesService {
         const updatedEntity = await this.NoticesRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Notice updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class NoticesService {
     async delete(id: number) {
         const share_holding_information = await this.NoticesRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Notices with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Notices with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.NoticesRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Notice deleted successfully',
         };
     }
 }

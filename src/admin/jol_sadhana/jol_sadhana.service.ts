@@ -17,6 +17,7 @@ export class JolsadhanaService {
     const data = await this.indiaOfficeRepo.save(office);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Jolsadhana created successfully',
       data,
@@ -27,6 +28,7 @@ export class JolsadhanaService {
   async findAll() {
     const data = await this.indiaOfficeRepo.find();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Jolsadhana fetched successfully',
       data,
@@ -37,9 +39,15 @@ export class JolsadhanaService {
   async findById(id: number) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`Jolsadhana with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Jolsadhana with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Jolsadhana fetched successfully',
       data: office,
@@ -50,13 +58,19 @@ export class JolsadhanaService {
   async update(id: number, updateDto: JolsadhanaDto) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`Jolsadhana with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Jolsadhana with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     Object.assign(office, updateDto);
     const data = await this.indiaOfficeRepo.save(office);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Jolsadhana updated successfully',
       data,
@@ -67,12 +81,18 @@ export class JolsadhanaService {
   async delete(id: number) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
-      throw new NotFoundException(`Jolsadhana with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Jolsadhana with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     await this.indiaOfficeRepo.remove(office);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Jolsadhana deleted successfully',
     };

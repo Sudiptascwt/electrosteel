@@ -13,43 +13,51 @@ export class SubsidiariesAccountService {
 
     // CREATE
     async create(createDto: SubsidiariesAccountDto) {
-    if (Array.isArray(createDto.title)) {
-        createDto.title = createDto.title.join(',');
-    }
-    if (Array.isArray(createDto.pdf)) {
-        createDto.pdf = createDto.pdf.join(',');
-    }
+        if (Array.isArray(createDto.title)) {
+            createDto.title = createDto.title.join(',');
+        }
+        if (Array.isArray(createDto.pdf)) {
+            createDto.pdf = createDto.pdf.join(',');
+        }
 
-    const office = this.SubsidiariesAccountRepo.create(createDto);
-    const data = await this.SubsidiariesAccountRepo.save(office);
+        const office = this.SubsidiariesAccountRepo.create(createDto);
+        const data = await this.SubsidiariesAccountRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Quality result created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Subsidiaries account created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
-    const data = await this.SubsidiariesAccountRepo.find();
-    return {
-    statusCode: HttpStatus.OK,
-    message: 'Quality result fetched successfully',
-    data,
-    };
+        const data = await this.SubsidiariesAccountRepo.find();
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Subsidiaries account fetched successfully',
+            data,
+        };
     }
 
     // GET BY ID
     async findById(id: number) {
         const office = await this.SubsidiariesAccountRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Subsidiaries account with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Quality result fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Subsidiaries account fetched successfully',
+            data: office,
         };
     }
 
@@ -66,8 +74,9 @@ export class SubsidiariesAccountService {
 
         const data = await this.SubsidiariesAccountRepo.findOneBy({ id });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
-            message: 'Quality result updated successfully',
+            message: 'Subsidiaries account updated successfully',
             data,
         };
     }
@@ -76,14 +85,20 @@ export class SubsidiariesAccountService {
     async delete(id: number) {
         const office = await this.SubsidiariesAccountRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`Quality result with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Subsidiaries account with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.SubsidiariesAccountRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Quality result deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Subsidiaries account deleted successfully',
         };
     }
 }

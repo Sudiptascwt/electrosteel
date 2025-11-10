@@ -22,6 +22,7 @@ export class ProductApplicationsService {
     const data = await this.productAppRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Product application created successfully',
       data,
@@ -32,6 +33,7 @@ export class ProductApplicationsService {
   async findAll() {
     const data = await this.productAppRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product applications fetched successfully',
       data,
@@ -42,9 +44,15 @@ export class ProductApplicationsService {
   async findById(id: number) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product application fetched successfully',
       data: app,
@@ -55,13 +63,19 @@ export class ProductApplicationsService {
   async update(id: number, updateDto: ProductApplicationDto) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.productAppRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product application updated successfully',
       data,
@@ -72,12 +86,18 @@ export class ProductApplicationsService {
   async delete(id: number) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     await this.productAppRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product application deleted successfully',
     };
@@ -90,8 +110,9 @@ export class ProductApplicationsService {
     const data = await this.productAppImgRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
-      message: 'Product application created successfully',
+      message: 'Product application image created successfully',
       data,
     };
   }
@@ -99,15 +120,21 @@ export class ProductApplicationsService {
   async updateApplicationImage(id: number, updateDto: ProductApplicationImageDto) {
     const app = await this.productAppImgRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application image with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.productAppImgRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
-      message: 'Product application updated successfully',
+      message: 'Product application image updated successfully',
       data,
     };
   }
@@ -116,8 +143,9 @@ export class ProductApplicationsService {
   async findAllApplicationImages() {
     const data = await this.productAppImgRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
-      message: 'Product applications fetched successfully',
+      message: 'Product application images fetched successfully',
       data,
     };
   }
@@ -126,9 +154,15 @@ export class ProductApplicationsService {
   async findApplicationImageById(id: number) {
     const app = await this.productAppImgRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application image with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product application image fetched successfully',
       data: app,
@@ -137,12 +171,18 @@ export class ProductApplicationsService {
   async deleteApplicationImage(id: number) {
     const app = await this.productAppImgRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Product application image with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     await this.productAppImgRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product application image deleted successfully',
     };

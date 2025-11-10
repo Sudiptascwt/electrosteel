@@ -18,6 +18,7 @@ export class CreditRatingsService {
         const data = await this.CreditRatingsRepo.save(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Credit ratings created successfully',
             data,
@@ -28,6 +29,7 @@ export class CreditRatingsService {
     async findAll() {
         const data = await this.CreditRatingsRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Credit ratings fetched successfully',
             data,
@@ -38,9 +40,15 @@ export class CreditRatingsService {
     async findById(id: number) {
         const share_holding_information = await this.CreditRatingsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`CreditRatings with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CreditRatings with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Credit ratings fetched successfully',
             data: share_holding_information,
@@ -51,7 +59,12 @@ export class CreditRatingsService {
     async update(id: number, updateDto: CreditRatingsDto) {
         const entity = await this.CreditRatingsRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`CreditRatings with id ${id} not found`);
+            throw new NotFoundException({
+                message: `CreditRatings with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class CreditRatingsService {
         const updatedEntity = await this.CreditRatingsRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Credit ratings updated successfully',
             data: updatedEntity,
@@ -70,12 +84,18 @@ export class CreditRatingsService {
     async delete(id: number) {
         const share_holding_information = await this.CreditRatingsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`CreditRatings with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `CreditRatings with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.CreditRatingsRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Credit ratings deleted successfully',
         };

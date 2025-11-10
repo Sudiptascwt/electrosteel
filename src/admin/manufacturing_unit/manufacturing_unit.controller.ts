@@ -28,6 +28,7 @@ export class ManufacturingController {
   async create(@Body() createDto: ManufacturingUnitDto) {
     const data = await this.ManufacturingService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Manufacturing unit details created successfully',
       data,
@@ -39,6 +40,7 @@ export class ManufacturingController {
   async findAll() {
     const data = await this.ManufacturingService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details fetched successfully',
       data,
@@ -50,6 +52,7 @@ export class ManufacturingController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.ManufacturingService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details fetched successfully',
       data,
@@ -64,6 +67,7 @@ export class ManufacturingController {
   ) {
     const data = await this.ManufacturingService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details updated successfully',
       data,
@@ -75,6 +79,7 @@ export class ManufacturingController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.ManufacturingService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details deleted successfully',
     };

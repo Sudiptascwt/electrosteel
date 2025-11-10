@@ -30,6 +30,7 @@ export class AllBannerController {
   async create(@Body() createDto: AllBannerDto) {
     const data = await this.AllBannerService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'page meta created successfully',
       data,
@@ -41,6 +42,7 @@ export class AllBannerController {
   async findAll() {
     const data = await this.AllBannerService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'page meta fetched successfully',
       data,
@@ -52,6 +54,7 @@ export class AllBannerController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.AllBannerService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'page meta fetched successfully',
       data,
@@ -66,6 +69,7 @@ export class AllBannerController {
   ) {
     const data = await this.AllBannerService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'page meta updated successfully',
       data,
@@ -77,6 +81,7 @@ export class AllBannerController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.AllBannerService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'page meta deleted successfully',
     };
@@ -93,6 +98,7 @@ export class AllBannerController {
       };
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'page meta fetched successfully',
       data,

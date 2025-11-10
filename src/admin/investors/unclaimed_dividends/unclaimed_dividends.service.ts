@@ -37,6 +37,7 @@ export class UnclaimedDividendsService {
         }
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Dividend created successfully',
             data: savedDividend,
@@ -48,9 +49,10 @@ export class UnclaimedDividendsService {
     async findAll() {
         const data = await this.UnclaimedDividendsRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All 160 Notices fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All dividends fetched successfully',
+            data,
         };
     }
 
@@ -58,12 +60,18 @@ export class UnclaimedDividendsService {
     async findById(id: number) {
         const share_holding_information = await this.UnclaimedDividendsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`UnclaimedDividends with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `UnclaimedDividends with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice fetched successfully',
-        data: share_holding_information,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Dividend fetched successfully',
+            data: share_holding_information,
         };
     }
 
@@ -93,6 +101,7 @@ export class UnclaimedDividendsService {
         }
         
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Dividend created successfully',
             data: savedDividend,
@@ -104,14 +113,20 @@ export class UnclaimedDividendsService {
     async delete(id: number) {
         const share_holding_information = await this.UnclaimedDividendsRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`UnclaimedDividends with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `UnclaimedDividends with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.UnclaimedDividendsRepo.remove(share_holding_information);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: '160 Notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Dividend deleted successfully',
         };
     }
 }

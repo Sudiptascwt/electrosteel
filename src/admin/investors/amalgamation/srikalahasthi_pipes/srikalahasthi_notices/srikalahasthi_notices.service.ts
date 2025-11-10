@@ -14,23 +14,25 @@ export class SrikalahasthiNoticesService {
     //////////srikalahasthi notice/////////////
     // CREATE
     async create(createDto: SrikalahasthiNoticesDto) {
-    const office = this.SrikalahasthiRepo.create(createDto);
-    const data = await this.SrikalahasthiRepo.save(office);
+        const office = this.SrikalahasthiRepo.create(createDto);
+        const data = await this.SrikalahasthiRepo.save(office);
 
-    return {
-        statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi notice created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'srikalahasthi notice created successfully',
+            data,
+        };
     }
 
     // GET ALL
     async findAll() {
         const data = await this.SrikalahasthiRepo.find();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All srikalahasthi notice fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All srikalahasthi notice fetched successfully',
+            data,
         };
     }
 
@@ -38,12 +40,18 @@ export class SrikalahasthiNoticesService {
     async findById(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi notice with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi pipe fetched successfully',
-        data: office,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi pipe fetched successfully',
+            data: office,
         };
     }
 
@@ -51,7 +59,12 @@ export class SrikalahasthiNoticesService {
     async update(id: number, updateDto: SrikalahasthiNoticesDto) {
         const entity = await this.SrikalahasthiRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Srikalahasthi with id ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi notice with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -59,6 +72,7 @@ export class SrikalahasthiNoticesService {
         const updatedEntity = await this.SrikalahasthiRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'srikalahasthi notice updated successfully',
             data: updatedEntity,
@@ -70,14 +84,20 @@ export class SrikalahasthiNoticesService {
     async delete(id: number) {
         const office = await this.SrikalahasthiRepo.findOne({ where: { id } });
         if (!office) {
-        throw new NotFoundException(`srikalahasthi notice with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `srikalahasthi notice with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.SrikalahasthiRepo.remove(office);
 
         return {
-        statusCode: HttpStatus.OK,
-        message: 'srikalahasthi notice deleted successfully',
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'srikalahasthi notice deleted successfully',
         };
     }
 }

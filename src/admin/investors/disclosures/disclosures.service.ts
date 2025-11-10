@@ -41,6 +41,7 @@ export class DisclosuresService {
         }
 
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Disclosure created successfully',
             data: savedDisclosure,
@@ -51,6 +52,7 @@ export class DisclosuresService {
     async findAll() {
         const data = await this.DisclosuresRepo.find({ relations: ['images'] });
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'All disclosures fetched successfully',
             data,
@@ -64,9 +66,15 @@ export class DisclosuresService {
         relations: ['images'],
         });
         if (!disclosure_data) {
-            throw new NotFoundException(`Disclosures with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Disclosures with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Disclosure data fetched successfully',
             data: disclosure_data,
@@ -79,10 +87,12 @@ export class DisclosuresService {
 
         const disclosure = await this.DisclosuresRepo.findOneBy({id});
         if(!disclosure){
-            return {
-                statusCode: HttpStatus.NOT_FOUND,
-                message: 'Disclosure not found'
-            }
+            throw new NotFoundException({
+                message: `Disclosures with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         disclosure.name= name;
         const savedDisclosure = await this.DisclosuresRepo.save(disclosure);
@@ -99,6 +109,7 @@ export class DisclosuresService {
         }
         
         return {
+            status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Disclosure updated successfully',
             data: savedDisclosure,
@@ -109,12 +120,18 @@ export class DisclosuresService {
     async delete(id: number) {
         const disclosure_data = await this.DisclosuresRepo.findOne({ where: { id } });
         if (!disclosure_data) {
-            throw new NotFoundException(`Disclosures with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Disclosures with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.DisclosuresRepo.remove(disclosure_data);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Disclosure data deleted successfully',
         };
@@ -123,28 +140,30 @@ export class DisclosuresService {
     ///////////////// other disclosures /////////////// 
     // CREATE
     async createOtherClosure(createDto: OtherDisclosureDto) {
-    try {
-        const record = this.OtherDisclosureRepo.create(createDto);
-        const data = await this.OtherDisclosureRepo.save(record);
+        try {
+            const record = this.OtherDisclosureRepo.create(createDto);
+            const data = await this.OtherDisclosureRepo.save(record);
 
-        console.log("record:", record);
-        console.log("data:", data);
+            // console.log("record:", record);
+            // console.log("data:", data);
 
-        return {
-        statusCode: HttpStatus.CREATED,
-        message: 'Other disclosure created successfully',
-        data,
-        };
-    } catch (error) {
-        console.error('Error creating other disclosure:', error);
-        throw new InternalServerErrorException(error.message);
-    }
+            return {
+                status: true,
+                statusCode: HttpStatus.CREATED,
+                message: 'Other disclosure created successfully',
+                data,
+            };
+        } catch (error) {
+            console.error('Error creating other disclosure:', error);
+            throw new InternalServerErrorException(error.message);
+        }
     }
 
     // GET ALL
     async findAllOtherClosures() {
         const data = await this.OtherDisclosureRepo.find();
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Other disclosures data fetched successfully',
             data,
@@ -155,9 +174,15 @@ export class DisclosuresService {
     async findOtherClosureById(id: number) {
         const share_holding_information = await this.OtherDisclosureRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-            throw new NotFoundException(`Other disclosure with ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Other disclosure with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Other disclosure fetched successfully',
             data: share_holding_information,
@@ -168,7 +193,12 @@ export class DisclosuresService {
     async updateOtherClosure(id: number, updateDto: OtherDisclosureDto) {
         const entity = await this.OtherDisclosureRepo.findOneBy({ id });
         if (!entity) {
-            throw new NotFoundException(`Other disclosure with id ${id} not found`);
+            throw new NotFoundException({
+                message: `Other disclosure with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         Object.assign(entity, updateDto);
@@ -176,6 +206,7 @@ export class DisclosuresService {
         const updatedEntity = await this.OtherDisclosureRepo.save(entity);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Other disclosure updated successfully',
             data: updatedEntity,
@@ -186,12 +217,18 @@ export class DisclosuresService {
     async deleteOtherClosure(id: number) {
         const share_holding_information = await this.OtherDisclosureRepo.findOne({ where: { id } });
         if (!share_holding_information) {
-        throw new NotFoundException(`Other disclosure ID ${id} not found`);
+            throw new NotFoundException({
+                message: `Other disclosure with ID ${id} not found`,
+                error: 'Not Found',
+                statusCode: 404,
+                status: false
+            });
         }
 
         await this.OtherDisclosureRepo.remove(share_holding_information);
 
         return {
+            status: true,
             statusCode: HttpStatus.OK,
             message: 'Other disclosure deleted successfully',
         };

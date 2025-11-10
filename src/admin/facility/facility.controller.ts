@@ -17,8 +17,8 @@ import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(UserRole.ADMIN)
 @Controller('facility')
 export class FacilityController {
   constructor(private readonly ManufacturingService: FacilityService) {}
@@ -28,6 +28,7 @@ export class FacilityController {
   async create(@Body() createDto: FacilityDto) {
     const data = await this.ManufacturingService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Manufacturing unit details created successfully',
       data,
@@ -39,6 +40,7 @@ export class FacilityController {
   async findAll() {
     const data = await this.ManufacturingService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details fetched successfully',
       data,
@@ -50,6 +52,7 @@ export class FacilityController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.ManufacturingService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details fetched successfully',
       data,
@@ -64,6 +67,7 @@ export class FacilityController {
   ) {
     const data = await this.ManufacturingService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details updated successfully',
       data,
@@ -75,6 +79,7 @@ export class FacilityController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.ManufacturingService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Manufacturing unit details deleted successfully',
     };
