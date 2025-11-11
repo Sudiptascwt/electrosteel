@@ -127,10 +127,10 @@ export class FeatureService {
       }
     } catch (error) {
         return {
-            status: false,
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Something went wrong while deleting Inner feature data',
-            error: error.message,
+          status: false,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Something went wrong while deleting Inner feature data',
+          error: error.message,
         };
     }
   }
