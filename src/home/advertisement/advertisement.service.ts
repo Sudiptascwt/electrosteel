@@ -8,37 +8,111 @@ import { AdvertisementDto } from '../../dto/advertisement.dto';
 export class AdvertisementService {
   constructor(
     @InjectRepository(Advertisement)
-    private readonly repo: Repository<Advertisement>,
+    private readonly advertisementRepository: Repository<Advertisement>,
   ) {}
 
+  /**
+   * Create a new advertisement
+   */
   async create(data: AdvertisementDto) {
-    const section = this.repo.create(data);
-    const saved = await this.repo.save(section);
-    return { statusCode: 201, message: 'Advertisement created successfully', data: saved };
+    const newAd = this.advertisementRepository.create(data);
+    const savedAd = await this.advertisementRepository.save(newAd);
+
+    return {
+      status: true,
+      statusCode: 201,
+      message: 'Advertisement created successfully',
+      data: savedAd,
+    };
   }
 
+  /**
+   * Update existing advertisement by ID
+   */
   async update(id: number, data: Partial<AdvertisementDto>) {
-    const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('advertisement not found');
-    Object.assign(section, data);
-    const saved = await this.repo.save(section);
-    return { statusCode: 200, message: 'Advertisement updated successfully', data: saved };
+    const existingAd = await this.advertisementRepository.findOne({ where: { id } });
+
+    if (!existingAd) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Advertisement not found',
+        data: [],
+      };
+    }
+
+    Object.assign(existingAd, data);
+    const updatedAd = await this.advertisementRepository.save(existingAd);
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Advertisement updated successfully',
+      data: updatedAd,
+    };
   }
 
+  /**
+   * Get all advertisements (sorted by latest)
+   */
   async getAll() {
-    const sections = await this.repo.find({ order: { created_at: 'DESC' } });
-    return { statusCode: 200, message: 'Advertisements fetched successfully', data: sections };
+    const advertisements = await this.advertisementRepository.find({
+      order: { created_at: 'DESC' },
+    });
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: advertisements.length
+        ? 'Advertisements fetched successfully'
+        : 'No advertisements found',
+      data: advertisements,
+    };
   }
 
+  /**
+   * Get advertisement by ID
+   */
   async getById(id: number) {
-    const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Advertisement not found');
-    return { statusCode: 200, message: 'Advertisement fetched successfully', data: section };
+    const advertisement = await this.advertisementRepository.findOne({ where: { id } });
+
+    if (!advertisement) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Advertisement not found',
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Advertisement fetched successfully',
+      data: [advertisement],
+    };
   }
 
+  /**
+   * Delete advertisement by ID
+   */
   async delete(id: number) {
-    const result = await this.repo.delete(id);
-    if (result.affected === 0) throw new NotFoundException('Advertisement not found');
-    return { statusCode: 200, message: 'Advertisement deleted successfully' };
+    const result = await this.advertisementRepository.delete(id);
+
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Advertisement not found',
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Advertisement deleted successfully',
+      data: [],
+    };
   }
 }

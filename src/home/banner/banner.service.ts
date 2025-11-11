@@ -1,92 +1,152 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 import { BannerDto } from '../../dto/banner.dto';
 import { Banner } from '../../entity/banner.entity';
 
 @Injectable()
 export class BannerService {
-    constructor(
+  constructor(
     @InjectRepository(Banner)
-    private readonly bannerRepository: Repository<Banner>, 
+    private readonly bannerRepository: Repository<Banner>,
   ) {}
 
+  /**
+   * Create new banner
+   */
   async createBannerImage(data: BannerDto) {
     const newBanner = this.bannerRepository.create(data);
     await this.bannerRepository.save(newBanner);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Banner created successfully',
       data: newBanner,
     };
   }
 
+  /**
+   * Update banner by ID
+   */
   async updateBannerImage(id: number, data: Partial<BannerDto>) {
-    const banner = await this.bannerRepository.findOne({ where: { id: id } });
+    const banner = await this.bannerRepository.findOne({ where: { id } });
 
     if (!banner) {
-      throw new NotFoundException('Banner image not found.');
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Banner image not found',
+        data: [],
+      };
     }
 
     if (data.title) {
-      const isoExists = await this.bannerRepository.findOne({
-        where: {
-          title: data.title,
-          id: Not(id),
-        },
+      const existingBanner = await this.bannerRepository.findOne({
+        where: { title: data.title, id: Not(id) },
       });
 
-      if (isoExists) {
+      if (existingBanner) {
         return {
+          status: false,
           statusCode: 400,
-          message: 'Another banner image already exists.',
+          message: 'Another banner image with this title already exists',
+          data: [],
         };
       }
     }
+
     await this.bannerRepository.update(id, data);
+    const updatedBanner = await this.bannerRepository.findOne({ where: { id } });
+
     return {
+      status: true,
       statusCode: 200,
       message: 'Banner updated successfully',
+      data: updatedBanner,
     };
   }
 
+  /**
+   * Get all banners
+   */
   async getAllBanners() {
-    return this.bannerRepository.find({ order: { id: 'ASC' } });
+    const banners = await this.bannerRepository.find({ order: { id: 'ASC' } });
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: banners.length ? 'Banners fetched successfully' : 'No banners found',
+      data: banners,
+    };
   }
 
+  /**
+   * Get banner by ID
+   */
   async getBannerById(id: number) {
-    const banner = await this.bannerRepository.findOne({ where: { id: id } });
-    if (!banner) throw new NotFoundException(`Banner with ID ${id} not found`);
-    return banner;
+    const banner = await this.bannerRepository.findOne({ where: { id } });
+
+    if (!banner) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Banner with ID ${id} not found`,
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Banner fetched successfully',
+      data: [banner],
+    };
   }
 
+  /**
+   * Delete banner by ID
+   */
   async deleteBanner(id: number) {
     const result = await this.bannerRepository.delete(id);
-    if (result.affected === 0) throw new NotFoundException(`Banner with ID ${id} not found`);
+
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Banner with ID ${id} not found`,
+        data: [],
+      };
+    }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Banner deleted successfully',
+      data: [],
     };
   }
 
+  /**
+   * Inactivate banner by ID
+   */
   async inactiveBanner(id: number) {
     const result = await this.bannerRepository.update(id, { status: 0 });
-    if (result.affected === 0) throw new NotFoundException(`Banner with ID ${id} not found`);
+
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Banner with ID ${id} not found`,
+        data: [],
+      };
+    }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Banner inactivated successfully',
+      data: [],
     };
   }
-
-
-
-
-
-
-
-
-
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdvancementDto } from '../../dto/advancement.dto';
@@ -13,32 +13,45 @@ export class AdvancementService {
     private readonly advancementRepository: Repository<Advancement>,
   ) {}
 
-  // CREATE
+  /**
+   * Create a new Advancement
+   */
   async createAdvancement(data: AdvancementDto) {
     const existing = await this.advancementRepository.findOne({ where: { title: data.title } });
+
     if (existing) {
       return {
+        status: false,
         statusCode: 400,
         message: `Advancement with title "${data.title}" already exists.`,
+        data: [],
       };
     }
 
     const newAdvancement = this.advancementRepository.create(data);
-    await this.advancementRepository.save(newAdvancement);
+    const savedAdvancement = await this.advancementRepository.save(newAdvancement);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Advancement created successfully.',
-      data: newAdvancement,
+      data: savedAdvancement,
     };
   }
 
-
-  // UPDATE
+  /**
+   * Update an existing Advancement
+   */
   async updateAdvancement(id: number, data: AdvancementDto) {
     const advancement = await this.advancementRepository.findOne({ where: { id } });
+
     if (!advancement) {
-      throw new NotFoundException(`Advancement with ID ${id} not found`);
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Advancement with ID ${id} not found.`,
+        data: [],
+      };
     }
 
     // Remove old files if new files are uploaded
@@ -55,41 +68,65 @@ export class AdvancementService {
     const updatedAdvancement = await this.advancementRepository.save(advancement);
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Advancement updated successfully.',
       data: updatedAdvancement,
     };
   }
 
-  // GET ALL
+  /**
+   * Get all Advancements
+   */
   async getAllAdvancements() {
-    const advancements = await this.advancementRepository.find();
+    const advancements = await this.advancementRepository.find({ order: { id: 'DESC' } });
+
     return {
+      status: true,
       statusCode: 200,
+      message: advancements.length
+        ? 'Advancements fetched successfully.'
+        : 'No advancements found.',
       data: advancements,
     };
   }
 
-  // GET ONE
+  /**
+   * Get single Advancement by ID
+   */
   async getAdvancementById(id: number) {
     const advancement = await this.advancementRepository.findOne({ where: { id } });
 
     if (!advancement) {
-      throw new NotFoundException(`Advancement with ID ${id} not found`);
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Advancement with ID ${id} not found.`,
+        data: [],
+      };
     }
 
     return {
+      status: true,
       statusCode: 200,
-      data: advancement,
+      message: 'Advancement fetched successfully.',
+      data: [advancement],
     };
   }
 
-  // DELETE
+  /**
+   * Delete an Advancement by ID
+   */
   async deleteAdvancement(id: number) {
     const advancement = await this.advancementRepository.findOne({ where: { id } });
 
     if (!advancement) {
-      throw new NotFoundException(`Advancement with ID ${id} not found`);
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Advancement with ID ${id} not found.`,
+        data: [],
+      };
     }
 
     // Remove uploaded files
@@ -105,8 +142,10 @@ export class AdvancementService {
     await this.advancementRepository.delete(id);
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Advancement deleted successfully.',
+      data: [],
     };
   }
 }
