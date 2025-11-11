@@ -29,6 +29,7 @@ export class ProductDuctileIronFittingsService {
     const data = await this.DuctileIronFittingsOverviewRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Ductile iron fittings overview created successfully.',
       data,
@@ -38,6 +39,7 @@ export class ProductDuctileIronFittingsService {
   async findAllOverviews() {
     const data = await this.DuctileIronFittingsOverviewRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings overview fetched successfully',
       data,
@@ -48,9 +50,14 @@ export class ProductDuctileIronFittingsService {
   async findOverviewById(id: number) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings overview with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product fetched successfully',
       data: app,
@@ -61,14 +68,19 @@ export class ProductDuctileIronFittingsService {
   async updateOverview(id: number, updateDto: DuctileIronFittingsOverviewDto) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
     if (!app)
-       {
-      throw new NotFoundException(`Ductile iron fittings overview with ID ${id} not found`);
+    {
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings overview with ID ${id} not found`,
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.DuctileIronFittingsOverviewRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings overview updated successfully',
       data,
@@ -79,12 +91,17 @@ export class ProductDuctileIronFittingsService {
   async deleteOverview(id: number) {
     const app = await this.DuctileIronFittingsOverviewRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings overview with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings overview with ID ${id} not found`,
+      });
     }
 
     await this.DuctileIronFittingsOverviewRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings overview deleted successfully',
     };
@@ -97,8 +114,8 @@ export class ProductDuctileIronFittingsService {
     const data = await this.DuctileIronFittingsDetailsRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
-      
       message: 'Ductile iron fittings details created successfully.',
       data,
     };
@@ -107,6 +124,7 @@ export class ProductDuctileIronFittingsService {
   async findAllDetails() {
     const data = await this.DuctileIronFittingsDetailsRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings details fetched successfully',
       data,
@@ -117,9 +135,14 @@ export class ProductDuctileIronFittingsService {
   async findDetailsById(id: number) {
     const app = await this.DuctileIronFittingsDetailsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings details with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings details with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings details fetched successfully',
       data: app,
@@ -130,13 +153,18 @@ export class ProductDuctileIronFittingsService {
   async updateDetails(id: number, updateDto: DuctileIronFittingsDetailsDto) {
     const app = await this.DuctileIronFittingsDetailsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings details with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings details with ID ${id} not found`,
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.DuctileIronFittingsDetailsRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings details updated successfully',
       data,
@@ -147,12 +175,17 @@ export class ProductDuctileIronFittingsService {
   async deleteDetails(id: number) {
     const app = await this.DuctileIronFittingsDetailsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings details with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings details with ID ${id} not found`,
+      });
     }
-
+ 
     await this.DuctileIronFittingsDetailsRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings details deleted successfully',
     };
@@ -165,8 +198,8 @@ export class ProductDuctileIronFittingsService {
     const data = await this.DuctileIronFittingsApplicationsRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
-      
       message: 'Ductile iron fittings application created successfully.',
       data,
     };
@@ -175,6 +208,7 @@ export class ProductDuctileIronFittingsService {
   async findAllApplications() {
     const data = await this.DuctileIronFittingsApplicationsRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All ductile iron fittings applications fetched successfully',
       data,
@@ -185,9 +219,14 @@ export class ProductDuctileIronFittingsService {
   async findApplicationById(id: number) {
     const app = await this.DuctileIronFittingsApplicationsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings application with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings application with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings application fetched successfully',
       data: app,
@@ -198,13 +237,18 @@ export class ProductDuctileIronFittingsService {
   async updateApplication(id: number, updateDto: DuctileIronFittingsApplicationsDto) {
     const app = await this.DuctileIronFittingsApplicationsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings application with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings application with ID ${id} not found`,
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.DuctileIronFittingsApplicationsRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings application updated successfully',
       data,
@@ -215,12 +259,17 @@ export class ProductDuctileIronFittingsService {
   async deleteApplication(id: number) {
     const app = await this.DuctileIronFittingsApplicationsRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings application with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings application with ID ${id} not found`,
+      });
     }
 
     await this.DuctileIronFittingsApplicationsRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings application deleted successfully',
     };
@@ -233,8 +282,8 @@ export class ProductDuctileIronFittingsService {
     const data = await this.FittingsPipesJointingRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
-      
       message: 'Ductile iron fittings pipe jointing created successfully.',
       data,
     };
@@ -243,6 +292,7 @@ export class ProductDuctileIronFittingsService {
   async findAllPipeJointings() {
     const data = await this.FittingsPipesJointingRepo.find({ order: { id: 'DESC' }, relations: ['details'] });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All ductile iron fittings pipe jointings fetched successfully',
       data,
@@ -253,9 +303,14 @@ export class ProductDuctileIronFittingsService {
   async findPipeJointingById(id: number) {
     const app = await this.FittingsPipesJointingRepo.findOne({ where: { id },relations: ['details'], });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings pipe jointing with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings pipe jointing with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings pipe jointing fetched successfully',
       data: app,
@@ -266,13 +321,18 @@ export class ProductDuctileIronFittingsService {
   async updatePipeJointing(id: number, updateDto: FittingsPipesJointingDto) {
     const app = await this.FittingsPipesJointingRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings pipe jointing with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings pipe jointing with ID ${id} not found`,
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.FittingsPipesJointingRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings pipe jointing updated successfully',
       data,
@@ -283,12 +343,17 @@ export class ProductDuctileIronFittingsService {
   async deletePipeJointing(id: number) {
     const app = await this.FittingsPipesJointingRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Ductile iron fittings pipe jointing with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Ductile iron fittings pipe jointing with ID ${id} not found`,
+      });
     }
 
     await this.FittingsPipesJointingRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Ductile iron fittings pipe jointing deleted successfully',
     };

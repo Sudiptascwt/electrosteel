@@ -27,6 +27,7 @@ export class EnquiryController {
   async create(@Body() createDto: BusinessEnquiryDto) {
     const data = await this.EnquiryService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Business enquiry created successfully',
       data,
@@ -38,6 +39,7 @@ export class EnquiryController {
   async findAll() {
     const data = await this.EnquiryService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Business enquiry details fetched successfully',
       data,
@@ -49,6 +51,7 @@ export class EnquiryController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.EnquiryService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Business enquiry details fetched successfully',
       data,
@@ -84,6 +87,7 @@ export class EnquiryController {
   async createShareHolderEnquiry(@Body() createDto: ShareholderEnquiryDto) {
     const data = await this.EnquiryService.createShareHolderEnquiry(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Shareholder enquiry created successfully',
       data,
@@ -95,6 +99,7 @@ export class EnquiryController {
   async findAllShareHolderEnquiries() {
     const data = await this.EnquiryService.findAllShareHolderEnquiries();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All Shareholder enquiry details fetched successfully',
       data,
@@ -106,6 +111,7 @@ export class EnquiryController {
   async findShareHolderEnquiryById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.EnquiryService.findShareHolderEnquiryById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Shareholder enquiry details fetched successfully',
       data,
@@ -117,6 +123,7 @@ export class EnquiryController {
   async createCareerEnquiry(@Body() createDto: CareerEnquiryDto) {
     const data = await this.EnquiryService.createCareerEnquiry(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Career enquiry created successfully',
       data,
@@ -128,6 +135,7 @@ export class EnquiryController {
   async findAllCareerEnquiries() {
     const data = await this.EnquiryService.findAllCareerEnquiries();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All Career enquiry details fetched successfully',
       data,
@@ -139,6 +147,7 @@ export class EnquiryController {
   async findCareerEnquiryById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.EnquiryService.findCareerEnquiryById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Career enquiry details fetched successfully',
       data,

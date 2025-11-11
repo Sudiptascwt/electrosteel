@@ -23,9 +23,10 @@ export class FrontendGlobalPresenceController {
     async findAll() {
         const data = await this.GlobalPresenceService.findAll();
         return {
-        statusCode: HttpStatus.OK,
-        message: 'All global presence fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All global presence fetched successfully',
+            data,
         };
     }
     // GET ALL
@@ -33,9 +34,10 @@ export class FrontendGlobalPresenceController {
     async findById(@Param('id', ParseIntPipe) id: number) {
         const data = await this.GlobalPresenceService.findById(id);
         return {
-        statusCode: HttpStatus.OK,
-        message: 'Global presence fetched successfully',
-        data,
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Global presence fetched successfully',
+            data,
         };
     }
 }

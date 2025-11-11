@@ -29,6 +29,7 @@ export class SubsidiariesController {
   async create(@Body() createDto: SubsidiariesDto) {
     const data = await this.SubsidiariesService.create(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Subsidiaries created successfully',
       data,
@@ -40,8 +41,9 @@ export class SubsidiariesController {
   async findAll() {
     const data = await this.SubsidiariesService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
-      message: 'All Subsidiariess fetched successfully',
+      message: 'All Subsidiarieses fetched successfully',
       data,
     };
   }
@@ -51,6 +53,7 @@ export class SubsidiariesController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.SubsidiariesService.findById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries fetched successfully',
       data,
@@ -65,6 +68,7 @@ export class SubsidiariesController {
   ) {
     const data = await this.SubsidiariesService.update(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries updated successfully',
       data,
@@ -76,6 +80,7 @@ export class SubsidiariesController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.SubsidiariesService.delete(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries deleted successfully',
     };
@@ -90,6 +95,7 @@ export class SubsidiariesController {
   async createSubsdiariesPage(@Body() createDto: SubsidiariesPageDto) {
     const data = await this.SubsidiariesService.createSubsdiariesPage(createDto);
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Subsidiaries page created successfully',
       data,
@@ -101,6 +107,7 @@ export class SubsidiariesController {
   async findAllSubsdiariesPage() {
     const data = await this.SubsidiariesService.findAllSubsdiariesPage();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'All Subsidiariess pages fetched successfully',
       data,
@@ -112,6 +119,7 @@ export class SubsidiariesController {
   async findSubsdiariesPageById(@Param('id', ParseIntPipe) id: number) {
     const data = await this.SubsidiariesService.findSubsdiariesPageById(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries page fetched successfully',
       data,
@@ -126,6 +134,7 @@ export class SubsidiariesController {
   ) {
     const data = await this.SubsidiariesService.updateSubsdiariesPage(id, updateDto);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries page updated successfully',
       data,
@@ -137,6 +146,7 @@ export class SubsidiariesController {
   async deleteSubsdiariesPage(@Param('id', ParseIntPipe) id: number) {
     await this.SubsidiariesService.deleteSubsdiariesPage(id);
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Subsidiaries page deleted successfully',
     };

@@ -32,7 +32,13 @@ export class EnquiryService {
 
   async findById(id: number): Promise<BusinessEnquiry> {
     const unit = await this.EnquiryRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('Enquiry unit not found');
+    if (!unit) {
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Enquiry unit not found`,
+      });
+    }
     return unit;
   }
   ///////shareholder/////////
@@ -47,7 +53,13 @@ export class EnquiryService {
 
   async findShareHolderEnquiryById(id: number): Promise<ShareholderEnquiry> {
     const unit = await this.ShareholderRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('Shareholder enquiry unit not found');
+    if (!unit) {
+      throw new NotFoundException({
+        status: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Shareholder enquiry unit not found`,
+      });
+    }
     return unit;
   }
   ////////career/////////
@@ -62,7 +74,13 @@ export class EnquiryService {
 
   async findCareerEnquiryById(id: number): Promise<CareerEnquiry> {
     const unit = await this.CareerEnquiryRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('Shareholder enquiry unit not found');
+    if (!unit) {
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Shareholder enquiry unit not found`,
+      });
+    }
     return unit;
   }
 }

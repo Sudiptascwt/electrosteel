@@ -18,6 +18,7 @@ export class ProductTypeService {
     const data = await this.productAppRepo.save(newApp);
 
     return {
+      status: true,
       statusCode: HttpStatus.CREATED,
       message: 'Product created successfully',
       data,
@@ -28,6 +29,7 @@ export class ProductTypeService {
   async findAll() {
     const data = await this.productAppRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product fetched successfully',
       data,
@@ -38,9 +40,14 @@ export class ProductTypeService {
   async findById(id: number) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+        status: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Product application with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product fetched successfully',
       data: app,
@@ -51,13 +58,18 @@ export class ProductTypeService {
   async update(id: number, updateDto: ProductTypeDto) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+        status: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Product application with ID ${id} not found`,
+      });
     }
 
     Object.assign(app, updateDto);
     const data = await this.productAppRepo.save(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product updated successfully',
       data,
@@ -68,12 +80,17 @@ export class ProductTypeService {
   async delete(id: number) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Product application with ID ${id} not found`);
+      throw new NotFoundException({
+        status: false,
+        statusCode: HttpStatus.NOT_FOUND,
+        message: `Product application with ID ${id} not found`,
+      });
     }
 
     await this.productAppRepo.remove(app);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Product deleted successfully',
     };

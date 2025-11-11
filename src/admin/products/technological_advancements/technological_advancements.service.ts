@@ -17,6 +17,7 @@ export class TechnologicalAdvancementsService {
   async findAll() {
     const data = await this.productAppRepo.find({ order: { id: 'DESC' } });
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Technological advancement fetched successfully',
       data,
@@ -27,9 +28,14 @@ export class TechnologicalAdvancementsService {
   async findById(id: number) {
     const app = await this.productAppRepo.findOne({ where: { id } });
     if (!app) {
-      throw new NotFoundException(`Technological advancement with ID ${id} not found`);
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Technological advancement with ID ${id} not found`,
+      });
     }
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Technological advancement fetched successfully',
       data: app,

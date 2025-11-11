@@ -19,7 +19,11 @@ export class FrontendGlobalPresenceService {
     async findById(id: number) {
         const global_presence = await this.GlobalPresenceRepo.findOne({where:{id}});    
         if (!global_presence) {
-            throw new NotFoundException(`Global presence with ID ${id} not found`);
+            throw new NotFoundException({
+              status: false,
+              statusCode: HttpStatus.NOT_FOUND,
+              message: `Global presence with ID ${id} not found`,
+            });
         }
         return global_presence;
     }

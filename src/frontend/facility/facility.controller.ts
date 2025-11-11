@@ -23,6 +23,7 @@ export class FrontendFacilityController {
   async findAll() {
     const data = await this.FacilityService.findAll();
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Facilities fetched successfully',
       data,

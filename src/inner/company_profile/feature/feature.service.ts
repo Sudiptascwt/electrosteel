@@ -17,6 +17,7 @@ export class FeatureService {
       await this.InnerFeatureRepository.save(newFeature);
 
       return {
+        status: true,
         statusCode: 201,
         message: 'InnerFeature created successfully',
         data: newFeature,
@@ -35,7 +36,13 @@ export class FeatureService {
     try{
       const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-      if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) {
+        throw new NotFoundException({
+            status: false,
+            statusCode: HttpStatus.NOT_FOUND,
+            message: `InnerFeature not found`,
+        });
+      }
 
       if (data.feature_title) {
         const exists = await this.InnerFeatureRepository.findOne({
@@ -47,6 +54,7 @@ export class FeatureService {
 
         if (exists) {
           return {
+            status: false,
             statusCode: 400,
             message: 'Another InnerFeature with this title already exists',
           };
@@ -56,6 +64,7 @@ export class FeatureService {
       await this.InnerFeatureRepository.update(id, data);
 
       return {
+        status: true,
         statusCode: 200,
         message: 'InnerFeature updated successfully',
       };
@@ -73,11 +82,18 @@ export class FeatureService {
     try{
       const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-      if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) {
+        throw new NotFoundException({
+            status: false,
+            statusCode: HttpStatus.NOT_FOUND,
+            message: `InnerFeature not found`,
+        });
+      }
 
       await this.InnerFeatureRepository.delete(id);
 
       return {
+        status: true,
         statusCode: 200,
         message: 'InnerFeature deleted successfully',
       };
@@ -95,9 +111,16 @@ export class FeatureService {
     try{
       const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
 
-      if (!Feature) throw new NotFoundException('InnerFeature not found');
+      if (!Feature) {
+        throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `InnerFeature not found`,
+        });
+      }
 
       return {
+        status: true,
         statusCode: 200,
         message: 'InnerFeature fetched successfully',
         data: Feature,
@@ -116,6 +139,7 @@ export class FeatureService {
     try{
       const Features = await this.InnerFeatureRepository.find();
       return {
+        status: true,
         statusCode: 200,
         message: 'InnerFeatures fetched successfully',
         data: Features,

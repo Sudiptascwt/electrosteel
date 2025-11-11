@@ -69,7 +69,13 @@ export class SubsidiariesService {
 
   async findSubsdiariesPageById(id: number): Promise<SubsidiariesPage> {
     const unit = await this.SubsidiariesPageRepo.findOne({ where: { id } });
-    if (!unit) throw new NotFoundException('Subsidiaries page not found');
+    if (!unit) {
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Subsidiaries not found`,
+      });
+    }
     return unit;
   }
 
@@ -82,7 +88,11 @@ export class SubsidiariesService {
   async deleteSubsdiariesPage(id: number): Promise<void> {
     const result = await this.SubsidiariesPageRepo.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException('Subsidiaries page not found');
+      throw new NotFoundException({
+          status: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: `Subsidiaries not found`,
+      });
     }
   }
 }

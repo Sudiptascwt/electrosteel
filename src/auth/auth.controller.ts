@@ -24,6 +24,7 @@ export class AuthController {
 
     return {
       status: true,
+      statusCode: HttpStatus.OK,
       message: 'Scan this QR code in Google Authenticator',
       data, // { secret, qrCodeUrl }
     };
@@ -45,6 +46,7 @@ export class AuthController {
 
     return {
       status: true,
+      statusCode: HttpStatus.OK,
       message: '2FA setup verified successfully',
       data: result,
     };
@@ -57,6 +59,7 @@ export class AuthController {
     const result = await this.authService.login(loginDto.email, loginDto.password, loginDto.totp);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Login successful',
       data: result,
@@ -72,6 +75,7 @@ export class AuthController {
     const result = await this.authService.changePassword(changePasswordDto);
 
     return {
+      status: true,
       statusCode: HttpStatus.OK,
       message: 'Password changed successfully',
       data: result,
