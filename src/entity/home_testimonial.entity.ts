@@ -4,25 +4,30 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('home_testimonial')
 export class Testimonial {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
-  @Column({ type: 'text' })
-  main_title: string;
+  // @Column({ type: 'text' })
+  // main_title: string;
 
-  @Column({ type: 'text' })
-  date: string;
+  // @Column({ type: 'text' })
+  // date: string;
 
-  @Column({ type: 'text' })
-  sub_title: string;
+  // @Column({ type: 'text' })
+  // sub_title: string;
 
-  @Column({ type: 'longtext' })
-  description: string;
+  // @Column({ type: 'longtext' })
+  // description: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  image: string;
+  // @Column({ type: 'varchar', length: 255, nullable: true })
+  // image: string;
 
-  @Column({ type: 'tinyint', default: 1 })
-  status: number;
+  // @Column({ type: 'tinyint', default: 1 })
+  // status: number;
+  @Column({ type: 'longtext'})
+  meta_key: string;
+
+  @Column({ type:'longtext' })
+  meta_value: string
 
   @CreateDateColumn()
   created_at: Date;

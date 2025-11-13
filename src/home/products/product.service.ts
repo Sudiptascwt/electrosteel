@@ -1,75 +1,118 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ProductDto } from '../../dto/product.dto';
 import { Product } from '../../entity/product.entity';
 
 @Injectable()
 export class ProductService {
-    constructor(
+  constructor(
     @InjectRepository(Product)
-    private readonly ProductRepository: Repository<Product>, 
+    private readonly productRepository: Repository<Product>,
   ) {}
-  async createProduct(data: ProductDto): Promise<{ statusCode: number; message: string; data: Product }> {
-    const product = this.ProductRepository.create(data);
-    const saved = await this.ProductRepository.save(product);
+
+  /**
+   * Create new product
+   */
+  async createProduct(data: ProductDto) {
+    const newProduct = this.productRepository.create(data);
+    const savedProduct = await this.productRepository.save(newProduct);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Product created successfully',
-      data: saved,
+      data: savedProduct,
     };
   }
 
-  // Update product
-  async updateProduct(id: number, data: Partial<ProductDto>): Promise<{ statusCode: number; message: string; data: Product }> {
-    const product = await this.ProductRepository.findOne({ where: { id } });
-    if (!product) throw new NotFoundException('Product not found');
+  /**
+   * Update existing product
+   */
+  async updateProduct(id: number, data: Partial<ProductDto>) {
+    const product = await this.productRepository.findOne({ where: { id } });
 
-    Object.assign(product, data); // merge partial fields
-    const saved = await this.ProductRepository.save(product);
+    if (!product) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Product not found',
+        data: [],
+      };
+    }
+
+    Object.assign(product, data);
+    const updatedProduct = await this.productRepository.save(product);
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Product updated successfully',
-      data: saved,
+      data: updatedProduct,
     };
   }
-  // GET SINGLE Product
-  async getProductById(id: number) {
-    const Product = await this.ProductRepository.findOne({ where: { id } });
 
-    if (!Product) {
-      throw new NotFoundException(`Product with ID ${id} not found`);
+  /**
+   * Get single product by ID
+   */
+  async getProductById(id: number) {
+    const product = await this.productRepository.findOne({ where: { id } });
+
+    if (!product) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Product with ID ${id} not found`,
+        data: [],
+      };
     }
 
     return {
+      status: true,
       statusCode: 200,
-      message: 'Product fetched successfully.',
-      data: Product,
+      message: 'Product fetched successfully',
+      data: [product],
     };
   }
 
-  // GET ALL ProductS
+  /**
+   * Get all products
+   */
   async getAllProducts() {
-    const Products = await this.ProductRepository.find({
+    const products = await this.productRepository.find({
       order: { created_at: 'DESC' },
     });
 
     return {
+      status: true,
       statusCode: 200,
-      message: 'Products fetched successfully.',
-      data: Products,
+      message: products.length
+        ? 'Products fetched successfully'
+        : 'No products found',
+      data: products,
     };
   }
 
+  /**
+   * Delete product by ID
+   */
   async deleteProduct(id: number) {
-  const result = await this.ProductRepository.delete(id);
-  if (result.affected == 0) throw new NotFoundException(`Product with ID ${id} not found`);
+    const result = await this.productRepository.delete(id);
 
-  return {
-    statusCode: 200,
-    message: 'Product deleted successfully',
-  };
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: `Product with ID ${id} not found`,
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Product deleted successfully',
+      data: [],
+    };
   }
 }

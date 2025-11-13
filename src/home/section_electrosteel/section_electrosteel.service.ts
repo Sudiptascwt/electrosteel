@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SectionElectrosteel } from '../../entity/section_electrosteel.entity';
@@ -11,34 +11,104 @@ export class SectionElectrosteelService {
     private readonly repo: Repository<SectionElectrosteel>,
   ) {}
 
+  /**
+   * Create a new section
+   */
   async create(data: SectionElectrosteelDto) {
     const section = this.repo.create(data);
     const saved = await this.repo.save(section);
-    return { statusCode: 201, message: 'Section created successfully', data: saved };
+
+    return {
+      status: true,
+      statusCode: 201,
+      message: 'Section created successfully',
+      data: saved,
+    };
   }
 
+  /**
+   * Update section by ID
+   */
   async update(id: number, data: Partial<SectionElectrosteelDto>) {
     const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Section not found');
+
+    if (!section) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Section not found',
+        data: [],
+      };
+    }
+
     Object.assign(section, data);
     const saved = await this.repo.save(section);
-    return { statusCode: 200, message: 'Section updated successfully', data: saved };
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Section updated successfully',
+      data: saved,
+    };
   }
 
+  /**
+   * Get all sections
+   */
   async getAll() {
     const sections = await this.repo.find({ order: { created_at: 'DESC' } });
-    return { statusCode: 200, message: 'Sections fetched successfully', data: sections };
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: sections.length ? 'Sections fetched successfully' : 'No sections found',
+      data: sections,
+    };
   }
 
+  /**
+   * Get section by ID
+   */
   async getById(id: number) {
     const section = await this.repo.findOne({ where: { id } });
-    if (!section) throw new NotFoundException('Section not found');
-    return { statusCode: 200, message: 'Section fetched successfully', data: section };
+
+    if (!section) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Section not found',
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Section fetched successfully',
+      data: [section],
+    };
   }
 
+  /**
+   * Delete section by ID
+   */
   async delete(id: number) {
     const result = await this.repo.delete(id);
-    if (result.affected === 0) throw new NotFoundException('Section not found');
-    return { statusCode: 200, message: 'Section deleted successfully' };
+
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Section not found',
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Section deleted successfully',
+      data: [],
+    };
   }
 }

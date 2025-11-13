@@ -6,9 +6,6 @@ export class SectionElectrosteel {
 id: number;
 
   @Column()
-  page_id: number;
-
-  @Column()
   name: string;
 
   @Column()

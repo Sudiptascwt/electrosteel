@@ -15,6 +15,22 @@ export class BannerService {
    * Create new banner
    */
   async createBannerImage(data: BannerDto) {
+    // Check duplicate title
+    if (data.title) {
+      const exists = await this.bannerRepository.findOne({
+        where: { title: data.title },
+      });
+
+      if (exists) {
+        return {
+          status: false,
+          statusCode: 400,
+          message: `Banner with title '${data.title}' already exists`,
+          data: [],
+        };
+      }
+    }
+
     const newBanner = this.bannerRepository.create(data);
     await this.bannerRepository.save(newBanner);
 
@@ -26,6 +42,8 @@ export class BannerService {
     };
   }
 
+
+
   /**
    * Update banner by ID
    */
@@ -36,36 +54,39 @@ export class BannerService {
       return {
         status: false,
         statusCode: 404,
-        message: 'Banner image not found',
+        message: 'Banner not found',
         data: [],
       };
     }
 
+    // Check duplicate title
     if (data.title) {
-      const existingBanner = await this.bannerRepository.findOne({
+      const exists = await this.bannerRepository.findOne({
         where: { title: data.title, id: Not(id) },
       });
 
-      if (existingBanner) {
+      if (exists) {
         return {
           status: false,
           statusCode: 400,
-          message: 'Another banner image with this title already exists',
+          message: `Another banner with title '${data.title}' already exists`,
           data: [],
         };
       }
     }
 
     await this.bannerRepository.update(id, data);
-    const updatedBanner = await this.bannerRepository.findOne({ where: { id } });
+    const updated = await this.bannerRepository.findOne({ where: { id } });
 
     return {
       status: true,
       statusCode: 200,
       message: 'Banner updated successfully',
-      data: updatedBanner,
+      data: updated,
     };
   }
+
+
 
   /**
    * Get all banners
@@ -123,29 +144,6 @@ export class BannerService {
       status: true,
       statusCode: 200,
       message: 'Banner deleted successfully',
-      data: [],
-    };
-  }
-
-  /**
-   * Inactivate banner by ID
-   */
-  async inactiveBanner(id: number) {
-    const result = await this.bannerRepository.update(id, { status: 0 });
-
-    if (result.affected === 0) {
-      return {
-        status: false,
-        statusCode: 404,
-        message: `Banner with ID ${id} not found`,
-        data: [],
-      };
-    }
-
-    return {
-      status: true,
-      statusCode: 200,
-      message: 'Banner inactivated successfully',
       data: [],
     };
   }

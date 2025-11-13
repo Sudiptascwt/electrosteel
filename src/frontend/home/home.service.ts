@@ -9,7 +9,8 @@ import { Advertisement } from '../../entity/advertisement.entity';
 import { Milestone } from 'src/entity/milestone.entity';
 import { Statistic } from 'src/entity/statistic.entity';
 import { Testimonial } from 'src/entity/home_testimonial.entity';
-import { VideoSection } from '../../entity/home_video_section.entity'
+import { VideoSection } from '../../entity/home_video_section.entity';
+import { Product } from 'src/entity/product.entity';
 
 @Injectable()
 export class HomeService {
@@ -40,6 +41,9 @@ export class HomeService {
 
     @InjectRepository(VideoSection)
     private readonly VideoSectionRepo: Repository<VideoSection>,
+
+    @InjectRepository(Product)
+    private readonly ProductRepo: Repository<Product>,
   ) {}
 
   async getHomeData() {
@@ -52,7 +56,8 @@ export class HomeService {
     const statistics = await this.StatisticRepo.find();
     const testimonial = await this.TestimonialRepo.find();
     const video_sections = await this.VideoSectionRepo.find();
-
+    const product_details = await this .ProductRepo.find();
+    
     return {
       statusCode: 200,
       message:
@@ -71,6 +76,7 @@ export class HomeService {
         statistics,
         testimonial,
         video_sections,
+        products: product_details
       },
     };
   }

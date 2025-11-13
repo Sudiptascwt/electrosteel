@@ -23,21 +23,15 @@ export class BannerController {
   // Create Banner (Image or Video)
   @Post('create-banner')
   async createBanner(@Body() data: BannerDto) {
-    return this.bannerService.createBannerImage({
-      ...data,
-      // banner_media: data.banner_media || null, 
-      // media_type: data.media_type,
-    });
+    return this.bannerService.createBannerImage(data);
   }
 
-  // Update Banner (Image or Video)
   @Put('update-banner/:id')
-  async updateBanner(@Param('id') id: number, @Body() data: BannerDto) {
-    return this.bannerService.updateBannerImage(id, {
-      ...data,
-      // banner_media: data.banner_media || null,
-      // media_type: data.media_type || null
-    });
+  async updateBanner(
+    @Param('id') id: number,
+    @Body() data: Partial<BannerDto>,
+  ) {
+    return this.bannerService.updateBannerImage(id, data);
   }
 
 
@@ -58,13 +52,6 @@ export class BannerController {
   async deleteBanner(@Param('id') id: number) {
     return this.bannerService.deleteBanner(id);
   }
-
-  // Inactivate Banner
-  @Get('inactive/:id')
-  async inactiveBanner(@Param('id') id: number) {
-    return this.bannerService.inactiveBanner(id);
-  }
-
   // Helper function to detect file type
   private getMediaType(file: Express.Multer.File): string {
     if (!file) return null;

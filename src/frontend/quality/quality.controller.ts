@@ -11,11 +11,11 @@ export class QualityController {
     // Get all office details
     @Get('quality-certificates')
     async findAllNoType() {
-    return this.QualityService.findAll();
+        return this.QualityService.findAll();
     }
 
     @Get('quality-certificates/:type')
     async findAllByType(@Param('type') type: string) {
-    return this.QualityService.findAll(type);
+        return this.QualityService.findAll(type);
     }
 }

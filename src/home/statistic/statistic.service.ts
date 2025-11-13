@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Statistic } from '../../entity/statistic.entity';
@@ -11,54 +11,104 @@ export class StatisticService {
     private readonly statisticRepository: Repository<Statistic>,
   ) {}
 
-  async createStatistic(data: Partial<StatisticDto>): Promise<{ statusCode: number; data: Statistic, message: string }> {
+  /**
+   * Create a new statistic
+   */
+  async createStatistic(data: Partial<StatisticDto>) {
     const stat = this.statisticRepository.create(data);
     const saved = await this.statisticRepository.save(stat);
+
     return {
+      status: true,
       statusCode: 201,
+      message: 'Statistic created successfully.',
       data: saved,
-      message: 'Statistic created successfully.'
     };
   }
 
-  async updateStatistic(id: number, data: Partial<StatisticDto>): Promise<{ statusCode: number; data: Statistic, message: string }> {
+  /**
+   * Update an existing statistic
+   */
+  async updateStatistic(id: number, data: Partial<StatisticDto>) {
     const stat = await this.statisticRepository.findOne({ where: { id } });
-    if (!stat) throw new NotFoundException({ statusCode: 404, message: 'Statistic not found' });
+
+    if (!stat) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Statistic not found.',
+        data: [],
+      };
+    }
 
     Object.assign(stat, data);
     const updated = await this.statisticRepository.save(stat);
+
     return {
+      status: true,
       statusCode: 200,
+      message: 'Statistic updated successfully.',
       data: updated,
-      message: 'Statistic updated successfully.'
     };
   }
 
-  async getAllStatistics(): Promise<{ statusCode: number; data: Statistic[], message: string }> {
+  /**
+   * Get all statistics
+   */
+  async getAllStatistics() {
     const stats = await this.statisticRepository.find({ order: { created_at: 'DESC' } });
+
     return {
+      status: true,
       statusCode: 200,
+      message: stats.length ? 'Statistics fetched successfully.' : 'No statistics found.',
       data: stats,
-      message: 'Statistics fetched successfully.'
     };
   }
 
-  async getStatisticById(id: number): Promise<{ statusCode: number; data: Statistic, message: string }> {
+  /**
+   * Get statistic by ID
+   */
+  async getStatisticById(id: number) {
     const stat = await this.statisticRepository.findOne({ where: { id } });
-    if (!stat) throw new NotFoundException({ statusCode: 404, message: 'Statistic not found' });
+
+    if (!stat) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Statistic not found.',
+        data: [],
+      };
+    }
+
     return {
+      status: true,
       statusCode: 200,
-      data: stat,
-      message: 'Statistics fetched successfully.'
+      message: 'Statistic fetched successfully.',
+      data: [stat],
     };
   }
 
-  async deleteStatistic(id: number): Promise<{ statusCode: number; message: string, }> {
+  /**
+   * Delete statistic by ID
+   */
+  async deleteStatistic(id: number) {
     const result = await this.statisticRepository.delete(id);
-    if (result.affected === 0) throw new NotFoundException({ statusCode: 404, message: 'Statistic not found' });
+
+    if (result.affected === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'Statistic not found.',
+        data: [],
+      };
+    }
+
     return {
+      status: true,
       statusCode: 200,
-      message: 'Statistic deleted successfully',
+      message: 'Statistic deleted successfully.',
+      data: [],
     };
   }
 }

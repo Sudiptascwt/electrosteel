@@ -20,16 +20,18 @@ export class MilestoneService {
       where: { year: data.year },
     });
 
-    if (existingYearMilestone) {
-      return {
-        statusCode: 400,
-        message: 'Milestone for this year already exists.',
-      };
-    }
+    // if (existingYearMilestone) {
+    //   return {
+    //     status: false,
+    //     statusCode: 400,
+    //     message: 'Milestone for this year already exists.',
+    //   };
+    // }
     const newMilestone = this.MilestoneRepository.create(data);
     await this.MilestoneRepository.save(newMilestone);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Milestone created successfully.',
       data: newMilestone,
@@ -41,7 +43,12 @@ export class MilestoneService {
     const milestone = await this.MilestoneRepository.findOne({ where: { id } });
 
     if (!milestone) {
-      throw new NotFoundException(`Milestone with ID ${id} not found`);
+      throw new NotFoundException({
+          message: `Milestone with ID ${id} not found`,
+          error: 'Not Found',
+          statusCode: 404,
+          status: false
+      });
     }
 
     Object.assign(milestone, data);
@@ -49,6 +56,7 @@ export class MilestoneService {
     const updatedMilestone = await this.MilestoneRepository.save(milestone);
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestone updated successfully.',
       data: updatedMilestone,
@@ -60,10 +68,16 @@ export class MilestoneService {
     const milestone = await this.MilestoneRepository.findOne({ where: { id } });
 
     if (!milestone) {
-      throw new NotFoundException(`Milestone with ID ${id} not found`);
+      throw new NotFoundException({
+        message: `Milestone with ID ${id} not found`,
+        error: 'Not Found',
+        statusCode: 404,
+        status: false
+      });
     }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestone fetched successfully.',
       data: milestone,
@@ -77,6 +91,7 @@ export class MilestoneService {
     });
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestones fetched successfully.',
       data: milestones,
@@ -84,13 +99,20 @@ export class MilestoneService {
   }
 
   async deleteMilestone(id: number) {
-  const result = await this.MilestoneRepository.delete(id);
-  if (result.affected == 0) throw new NotFoundException(`care with ID ${id} not found`);
-
-  return {
-    statusCode: 200,
-    message: 'Milestone deleted successfully',
-  };
+    const result = await this.MilestoneRepository.delete(id);
+    if (result.affected == 0) {
+      throw new NotFoundException({
+        message: `Milestone with ID ${id} not found`,
+        error: 'Not Found',
+        statusCode: 404,
+        status: false
+      });
+    }
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Milestone deleted successfully',
+    };
   }
 
   /////milestone image upload//
@@ -100,16 +122,18 @@ export class MilestoneService {
       where: { title: data.title },
     });
 
-    if (existingYearMilestoneTitle) {
-      return {
-        statusCode: 400,
-        message: 'Milestone title already exists.',
-      };
-    }
+    // if (existingYearMilestoneTitle) {
+    //   return {
+    //     status: false,
+    //     statusCode: 400,
+    //     message: 'Milestone title already exists.',
+    //   };
+    // }
     const newMilestoneImage = this.MilestoneImageRepository.create(data);
     await this.MilestoneImageRepository.save(newMilestoneImage);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Milestone Image created successfully.',
       data: newMilestoneImage,
@@ -121,11 +145,17 @@ export class MilestoneService {
   async updateMilestoneImage(id: number, image: Express.Multer.File) {
     const milestone = await this.MilestoneImageRepository.findOne({ where: { id } }); 
     if (!milestone) {
-      throw new NotFoundException(`Milestone with ID ${id} not found`);
+      throw new NotFoundException({
+        message: `Milestone with ID ${id} not found`,
+        error: 'Not Found',
+        statusCode: 404,
+        status: false
+      });
     }
     milestone.image = image ? image.filename : milestone.image;
     await this.MilestoneRepository.save(milestone);
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestone image updated successfully',
       data: milestone,
@@ -138,10 +168,16 @@ export class MilestoneService {
     const milestone = await this.MilestoneImageRepository.findOne({ where: { id } });
 
     if (!milestone) {
-      throw new NotFoundException(`Milestone with ID ${id} not found`);
+      throw new NotFoundException({
+        message: `Milestone with ID ${id} not found`,
+        error: 'Not Found',
+        statusCode: 404,
+        status: false
+      });
     }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestone fetched successfully.',
       data: milestone,
@@ -155,6 +191,7 @@ export class MilestoneService {
     });
 
     return {
+      status: true,
       statusCode: 200,
       message: 'Milestones fetched successfully.',
       data: milestones,
@@ -162,13 +199,19 @@ export class MilestoneService {
   }
 
   async deleteMilestoneImage(id: number) {
-  const result = await this.MilestoneImageRepository.delete(id);
-  if (result.affected == 0) throw new NotFoundException(`care with ID ${id} not found`);
-
-  return {
-    statusCode: 200,
-    message: 'Milestone deleted successfully',
-  };
+    const result = await this.MilestoneImageRepository.delete(id);
+    if (result.affected == 0){
+      throw new NotFoundException({
+        message: `Milestone with ID ${id} not found`,
+        error: 'Not Found',
+        statusCode: 404,
+        status: false
+      });
+    } 
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Milestone deleted successfully',
+    };
   }
-
 }

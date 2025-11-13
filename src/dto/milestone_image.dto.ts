@@ -9,8 +9,8 @@ export class MilestoneImageDto {
     @IsString()
     image?: string;
 
-    @IsOptional()
-    @IsNumber()
-    @IsIn([0, 1]) // Only allow 0 or 1
-    status?: number;
+    // @IsOptional()
+    // @IsNumber()
+    // @IsIn([0, 1]) // Only allow 0 or 1
+    // status?: number;
 }
