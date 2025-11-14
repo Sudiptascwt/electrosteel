@@ -9,7 +9,7 @@ import {
 @Entity('banners')
 export class Banner {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255 })
   title: string;

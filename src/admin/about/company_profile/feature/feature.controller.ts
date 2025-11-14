@@ -11,14 +11,14 @@ import {
     UseGuards,
   } from '@nestjs/common';
   import { FeatureService } from './feature.service';
-  import { InnerFeatureDto } from '../../../dto/inner_feature.dto';
+  import { InnerFeatureDto } from '../../../../dto/inner_feature.dto';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { diskStorage } from 'multer';
   import { extname } from 'path';
-  import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
-  import { RolesGuard } from '../../../role/roles.guard';
-  import { Roles } from '../../../role/roles.decorator';
-  import { UserRole } from '../../../admin/users/user.entity';
+  import { JwtAuthGuard } from '../../../../auth/jwt-auth.guard';
+  import { RolesGuard } from '../../../../role/roles.guard';
+  import { Roles } from '../../../../role/roles.decorator';
+  import { UserRole } from '../../../users/user.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)

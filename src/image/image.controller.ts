@@ -36,44 +36,56 @@ export class ImageController {
     };
 
     const saved = await this.ImageService.create(fileData);
-    return { statusCode: 201, message: 'File uploaded', data: saved };
+    return { status:true, statusCode: 201, message: 'File uploaded', data: saved };
   }
 
   @Get()
-  findAll() {
-    return this.ImageService.findAll();
+  async findAll() {
+    const data = await this.ImageService.findAll();
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Images fetched successfully',
+      data,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.ImageService.findOne(id);
+  async findOne(@Param('id') id: number) {
+    const data = await this.ImageService.findOne(id);
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Image fetched successfully',
+      data,
+    };
   }
 
-@Put('update-image/:id')
-@UseInterceptors(FileInterceptor('file', bannerMulterOptions))
-async update(
+  @Put('update-image/:id')
+  @UseInterceptors(FileInterceptor('file', bannerMulterOptions))
+  async update(
   @Param('id') id: number,
   @UploadedFile() file: Express.Multer.File,
   @Body() body: ImageDto,
-) {
-  const updateData: Partial<Image> = {
-    ...body,
-  };
+  ) {
+    const updateData: Partial<Image> = {
+      ...body,
+    };
 
-  if (file) {
-    updateData.filename = file.filename;
-    updateData.path = file.path;
-    updateData.mimetype = file.mimetype;
+    if (file) {
+      updateData.filename = file.filename;
+      updateData.path = file.path;
+      updateData.mimetype = file.mimetype;
+    }
+
+    const updated = await this.ImageService.update(id, updateData);
+    return { status:true, statusCode: 200, message: 'File updated', data: updated };
   }
-
-  const updated = await this.ImageService.update(id, updateData);
-  return { statusCode: 200, message: 'File updated', data: updated };
-}
 
 
   @Delete(':id')
   async remove(@Param('id') id: number) {
     await this.ImageService.remove(id);
-    return { statusCode: 200, message: 'File deleted' };
+    return { status:true,statusCode: 200, message: 'File deleted' };
   }
 }

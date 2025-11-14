@@ -1,13 +1,26 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-// import { CompanyProfile } from '../../../entity/csr_projects.entity';
-// import { CompanyProfileDto } from '../../../dto/csr_projects.dto';
+import { CompanyDetails } from 'src/entity/company_details.entity';
+import { CompanyDetailsDto } from '../../../dto/company_details.dto';
 
 @Injectable()
 export class CompanyProfileService {
   constructor(
-    // @InjectRepository(CompanyProfile)
-    // private readonly CompanyProfileRepo: Repository<CompanyProfile>,
+    @InjectRepository(CompanyDetails)
+    private readonly CompanyProfileRepo: Repository<CompanyDetails>,
   ) {}
+
+  async getCompanyProfileData() {
+    const company_profile = await this.CompanyProfileRepo.find({
+    });
+    return {
+      statusCode: 200,
+      message:
+        company_profile.length > 0
+          ? 'Company details fetched successfully'
+          : 'No company details found',
+      data: company_profile,
+    };
+  }
 }

@@ -18,4 +18,9 @@ import { ApiKeyGuard } from 'src/common/api-key.guard';
 @Controller('company-profile')
 export class CompanyProfileController {
   constructor(private readonly CompanyProfileService: CompanyProfileService) {}
+
+  @Get()
+  async getCompanyProfileData() {
+    return this.CompanyProfileService.getCompanyProfileData();
+  }
 }

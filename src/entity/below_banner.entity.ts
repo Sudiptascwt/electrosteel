@@ -1,0 +1,28 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity('below_banner')
+export class BelowBanner {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'longtext'})
+  title: string;
+
+  @Column({ type: 'longtext', nullable: true })  
+  description: string;
+
+  @Column({ type: 'text', nullable: true })
+  video: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updated_at: Date;
+}

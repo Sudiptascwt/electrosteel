@@ -31,7 +31,7 @@ export class CorporateProfileService {
                 error: error.message,
             };
         }
-  }
+    }
 
     // GET ALL
     async findAll() {

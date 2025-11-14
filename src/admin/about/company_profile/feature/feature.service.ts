@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not } from 'typeorm';
-import { InnerFeature } from '../../../entity/inner_feature.entity';
-import { InnerFeatureDto } from '../../../dto/inner_feature.dto';
+import { InnerFeature } from '../../../../entity/inner_feature.entity';
+import { InnerFeatureDto } from '../../../../dto/inner_feature.dto';
 
 @Injectable()
 export class FeatureService {
