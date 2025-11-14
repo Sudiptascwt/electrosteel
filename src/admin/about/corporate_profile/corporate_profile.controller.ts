@@ -2,9 +2,9 @@ import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe, BadReque
 import { CorporateProfileService } from './corporate_profile.service';
 import { CreateLifeElectrosteelContentDto } from 'src/dto/life_electrosteel_content.dto';
 import { UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../../role/roles.guard';
-import { Roles } from '../../role/roles.decorator';
-import { UserRole } from '../../admin/users/user.entity';
+import { RolesGuard } from '../../../role/roles.guard';
+import { Roles } from '../../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CorporateProfileDto } from 'src/dto/corporate_profile.dto';
 

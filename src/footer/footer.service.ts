@@ -21,7 +21,7 @@ export class FooterService {
     const offices = await this.repo.find({});
     const social_platforms = await this.SocialPlatformrepo.find({});
     const footer_below_images = await this.FooterBelowImagesrepo.find({});
-    return { statusCode: 200, message: 'Footer details fetched successfully', data: { offices, social_platforms,footer_below_images } };
+    return { status: true, statusCode: 200, message: 'Footer details fetched successfully', data: { offices, social_platforms,footer_below_images } };
   }
 
   async addFooterBerlowImages(dto: FooterBelowImagesDto) {
@@ -29,6 +29,7 @@ export class FooterService {
     await this.FooterBelowImagesrepo.save(createdImage);
 
     return {
+      status: true,
       statusCode: 201,
       message: 'Footer below image added successfully',
       data: createdImage,
@@ -38,13 +39,39 @@ export class FooterService {
   async updateFooterBelowImages(id: number, dto: FooterBelowImagesDto) {
     const footer_image = await this.FooterBelowImagesrepo.findOne({ where: {id}});
     if(!footer_image){
-      throw new NotFoundException('Footer below image not found');
+      throw new NotFoundException({
+        message: 'Footer below image not found',
+        error: 'Not Found',
+        statusCode: 404,
+        status: false,
+      });
     }
     Object.assign(footer_image, dto);
     await this.FooterBelowImagesrepo.save(footer_image);
     return {
+      status: true,
       statusCode:200,
       message: 'Footer below image updated successfully.',
+      data: footer_image
+    }
+  }
+
+  async deleteFooterBelowImages(id: number) {
+    const footer_image = await this.FooterBelowImagesrepo.findOne({ where: {id}});
+    if(!footer_image){
+      throw new NotFoundException({
+        message: 'Footer below image not found',
+        error: 'Not Found',
+        statusCode: 404,
+        status: false,
+      });
+    }
+    Object.assign(footer_image);
+    await this.FooterBelowImagesrepo.save(footer_image);
+    return {
+      status: true,
+      statusCode:200,
+      message: 'Footer below image deleted successfully.',
       data: footer_image
     }
   }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CorporateProfile } from '../../entity/corporate_profile.entity';
+import { CorporateProfile } from '../../../entity/corporate_profile.entity';
 import { CorporateProfileService } from './corporate_profile.service';
 import { CorporateProfileController } from './corporate_profile.controller';
 

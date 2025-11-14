@@ -90,7 +90,7 @@ import { CareerModule } from './admin/career/career.module';
 import { AllBanner } from './entity/all_page_banner_image.entity';
 import { AllBannerModule } from './admin/all_pages_banner_image/all_pages_banner_image.module';
 import { CorporateProfile } from './entity/corporate_profile.entity';
-import { CorporateProfileModule } from './inner/corporate_profile/corporate_profile.module';
+import { CorporateProfileModule } from './admin/about/corporate_profile/corporate_profile.module';
 import { CsrOverview } from './entity/csr_overview.entity';
 import { CsrReportContent } from './entity/report_content.entity';
 import { LatestElectrosteel } from './entity/latest_electrosteel.entity';

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CorporateProfile } from '../../entity/corporate_profile.entity';
-import { CorporateProfileDto } from '../../dto/corporate_profile.dto';
+import { CorporateProfile } from '../../../entity/corporate_profile.entity';
+import { CorporateProfileDto } from '../../../dto/corporate_profile.dto';
 @Injectable()
 export class CorporateProfileService {
     constructor(
@@ -124,7 +124,12 @@ export class CorporateProfileService {
 
             if (result.affected === 0) {
                 // Proper 404
-                throw new NotFoundException(`Corporate profile data with ID ${id} not found`);
+                throw new NotFoundException({
+                    message: 'Corporate profile data with ID ${id} not found',
+                    error: 'Not Found',
+                    statusCode: 404,
+                    status: false,
+                });
             }
 
             return {
