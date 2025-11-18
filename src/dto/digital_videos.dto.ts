@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class DigitalVideosDto {
   @IsString()
@@ -9,6 +9,9 @@ export class DigitalVideosDto {
 
   @IsString()
   image: string;
+
+  @IsInt()
+  image_id: number;
 
   @IsString()
   video_url: string;

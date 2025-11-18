@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('section_electro_stell') 
 export class SectionElectrosteel {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column()
   name: string;
@@ -13,6 +13,9 @@ id: number;
 
   @Column({ nullable: true })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @Column({ type: 'longtext',nullable: true })
   description: string;

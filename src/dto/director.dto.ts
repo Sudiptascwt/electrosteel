@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
+import { IsIBAN, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class DirectorsDto {
   @IsNotEmpty({ message: 'Name is required' })
@@ -16,6 +16,10 @@ export class DirectorsDto {
   @IsOptional()
   @IsString()
   profile_image?: string;
+
+  @IsOptional()
+  @IsInt()
+  profile_image_id?: number
 
   @IsNotEmpty({ message: 'URL is required' })
   @IsUrl({}, { message: 'Please enter a valid URL' })

@@ -21,6 +21,9 @@ export class BannerDto {
   @IsString()
   banner_media?: string;
 
+  @IsInt()
+  banner_media_id?: number;
+
   @IsOptional()
   @IsString()
   media_type?: string;

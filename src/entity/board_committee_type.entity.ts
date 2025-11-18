@@ -10,7 +10,7 @@ import {
 @Entity('board_committee_types')
 export class BoardCommitteType {
   @PrimaryGeneratedColumn({ name: 'id' })
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', nullable: false })
   type: string;  

@@ -1,21 +1,12 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class SocialSectionDto {
-  @IsNumber()
-  @IsNotEmpty({ message: 'Page ID is required' })
-  page_id: number;
-
-  @IsString()
-  @IsNotEmpty({ message: 'Name is required' })
-  name: string;
-
   @IsString()
   @IsNotEmpty({ message: 'Title is required' })
   title: string;
 
-  @IsOptional()
   @IsString()
-  image?: string; 
+  year: string; 
 
   @IsOptional()
   @IsString()
@@ -23,10 +14,9 @@ export class SocialSectionDto {
 
   @IsOptional()
   @IsString()
-  qualities?: string;
+  image?: string;
 
   @IsOptional()
-  @IsNumber()
-  @IsIn([0, 1], { message: 'Status must be 0 or 1' })
-  status?: number;
+  @IsInt()
+  image_id?: number;
 }

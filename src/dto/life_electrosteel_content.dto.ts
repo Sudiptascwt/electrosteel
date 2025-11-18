@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateLifeElectrosteelContentDto {
   @IsNotEmpty()
@@ -8,6 +8,10 @@ export class CreateLifeElectrosteelContentDto {
   @IsOptional()
   @IsString()
   image: string;
+
+  @IsOptional()
+  @IsInt()
+  image_id: number;
 
   @IsOptional()
   @IsString()

@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class EventDto {
   @IsString()
@@ -9,6 +9,9 @@ export class EventDto {
 
   @IsString()
   image: string;
+
+  @IsInt()
+  image_id: number;
 
   @IsString()
   url: string;

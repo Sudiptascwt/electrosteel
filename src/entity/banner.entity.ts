@@ -23,6 +23,9 @@ export class Banner {
   @Column({ type: 'varchar', length: 255, nullable: true })
   banner_media: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  banner_media_id: number;
+
   @Column({ type: 'varchar', length: 20, default: 'image' })
   media_type: string;
 

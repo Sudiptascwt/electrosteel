@@ -9,10 +9,13 @@ import {
 @Entity('news_letter')
 export class NewsLetter {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type: 'longtext' })
   banner_image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  banner_image_id: number;
 
   @Column({ type: 'longtext' })
   year: string;
@@ -22,6 +25,9 @@ id: number;
 
   @Column({ type: 'longtext' })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @Column({ type: 'longtext' })
   pdf: string;

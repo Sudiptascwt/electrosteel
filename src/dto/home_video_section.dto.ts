@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class VideoSectionDto {
   @IsNumber()
@@ -12,6 +12,10 @@ export class VideoSectionDto {
   @IsOptional()
   @IsString()
   video?: string;
+
+  @IsOptional()
+  @IsInt()
+  video_id?: number
 
   @IsOptional()
   @IsString()

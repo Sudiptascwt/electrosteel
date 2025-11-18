@@ -26,6 +26,9 @@ export class SrikalahasthiAppointmentletter {
   @Column({ type:'text', nullable: true })
   pdf: string;
 
+  @Column({ type:'bigint', nullable: true })
+  pdf_id: number;
+
   @CreateDateColumn()
   created_at: Date;
 

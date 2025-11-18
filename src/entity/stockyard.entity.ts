@@ -20,6 +20,9 @@ export class StockYard {
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
+
   @Column({ type: 'longtext', nullable: true })  
   description: string;
 

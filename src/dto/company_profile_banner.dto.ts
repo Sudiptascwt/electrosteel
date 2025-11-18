@@ -9,4 +9,7 @@ export class AboutBannerDto {
 
   @IsString()
   image: string;
+
+  @IsString()
+  image_id: number;
 }

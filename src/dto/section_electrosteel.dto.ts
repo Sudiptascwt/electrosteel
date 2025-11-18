@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class SectionElectrosteelDto {
 
@@ -13,6 +13,9 @@ export class SectionElectrosteelDto {
   @IsOptional()
   @IsString()
   image?: string; 
+  
+  @IsInt()
+  image_id?: number;
 
   @IsOptional()
   @IsString()

@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class Notices160Dto {
   @IsString()
@@ -6,4 +6,7 @@ export class Notices160Dto {
 
   @IsString()
   pdf: string;
+
+  @IsInt()
+  pdf_id: number;
 }

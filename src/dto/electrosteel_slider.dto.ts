@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class ElectroSteelSliderDto {
   @IsString()
@@ -12,4 +12,7 @@ export class ElectroSteelSliderDto {
 
   @IsString()
   subtitle2: string;
+
+  @IsInt()
+  image_id: number
 }

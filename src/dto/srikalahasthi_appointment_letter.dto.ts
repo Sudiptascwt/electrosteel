@@ -27,6 +27,10 @@ export class AppointmentletterDto {
   @IsOptional()
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number
 }
 
 

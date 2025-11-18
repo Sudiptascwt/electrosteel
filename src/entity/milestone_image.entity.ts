@@ -11,12 +11,8 @@ export class MilestoneImage {
     @Column({ type: 'longtext', nullable: true }) 
     image: string;
 
-    // @Column({
-    //     type: 'tinyint',
-    //     width: 1,
-    //     default: 1, // 1 = Active, 0 = Inactive
-    // })
-    // status: number;
+    @Column({ type: 'bigint', nullable: true }) 
+    image_id: number;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

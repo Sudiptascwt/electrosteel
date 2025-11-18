@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class VisionDto {
   @IsNotEmpty({ message: 'Heading is required' })
@@ -8,6 +8,10 @@ export class VisionDto {
   @IsOptional()
   @IsString({ message: 'Image must be a string' })
   image?: string;
+
+  @IsOptional()
+  @IsInt()
+  image_id?: number;
 
   @IsOptional()
   @IsString({ message: 'Description must be a string' })

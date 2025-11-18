@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('facility')
 export class Facility {
     @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+    id: number;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     title: string;
@@ -13,6 +13,9 @@ export class Facility {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     image: string;
+
+    @Column({ type: 'bigint', nullable: true })
+    image_id: number;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     div_id: string;

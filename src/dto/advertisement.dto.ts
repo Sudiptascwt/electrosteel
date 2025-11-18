@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class AdvertisementDto {
   @IsNumber()
@@ -10,7 +10,6 @@ export class AdvertisementDto {
   image?: string; 
 
   @IsOptional()
-  @IsNumber()
-  @IsIn([0, 1], { message: 'Status must be 0 or 1' })
-  status?: number;
+  @IsInt()
+  image_id?: number;
 }

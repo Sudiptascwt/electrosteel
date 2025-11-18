@@ -3,10 +3,13 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('employment_form')
 export class EmploymentForm {
     @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+    id: number;
 
     @Column({ type: 'longtext' })
     pdf: string;
+
+    @Column({ type: 'bigint', nullable: true })
+    pdf_id: number;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

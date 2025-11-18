@@ -9,4 +9,7 @@ export class BelowBannerDto {
 
   @IsString()
   video: string;
+
+  @IsInt()
+  video_id: number
 }

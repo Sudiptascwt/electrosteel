@@ -21,14 +21,14 @@ export class BannerService {
         where: { title: data.title },
       });
 
-      if (exists) {
-        return {
-          status: false,
-          statusCode: 400,
-          message: `Banner with title '${data.title}' already exists`,
-          data: [],
-        };
-      }
+      // if (exists) {
+      //   return {
+      //     status: false,
+      //     statusCode: 400,
+      //     message: `Banner with title '${data.title}' already exists`,
+      //     data: [],
+      //   };
+      // }
     }
 
     const newBanner = this.bannerRepository.create(data);
@@ -65,14 +65,14 @@ export class BannerService {
         where: { title: data.title, id: Not(id) },
       });
 
-      if (exists) {
-        return {
-          status: false,
-          statusCode: 400,
-          message: `Another banner with title '${data.title}' already exists`,
-          data: [],
-        };
-      }
+      // if (exists) {
+      //   return {
+      //     status: false,
+      //     statusCode: 400,
+      //     message: `Another banner with title '${data.title}' already exists`,
+      //     data: [],
+      //   };
+      // }
     }
 
     await this.bannerRepository.update(id, data);

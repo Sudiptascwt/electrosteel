@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsIBAN, IsInt } from 'class-validator';
 
 export class StockYardDto {
 
@@ -11,6 +11,10 @@ export class StockYardDto {
   @IsOptional()
   @IsString()
   image?: string;
+
+  @IsOptional()
+  @IsInt()
+  image_id?:number
 
   @IsOptional()
   @IsString()

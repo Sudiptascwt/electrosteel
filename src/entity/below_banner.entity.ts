@@ -20,6 +20,9 @@ export class BelowBanner {
   @Column({ type: 'text', nullable: true })
   video: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  video_id: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

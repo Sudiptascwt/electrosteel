@@ -1,17 +1,65 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsInt } from 'class-validator';
 
 export class StatisticDto {
   @IsString()
-  @IsNotEmpty({ message: 'Title is required' })
-  title: string;
+  title1: string;
 
   @IsOptional()
   @IsString()
-  number?: string;
+  number1?: string;
 
   @IsOptional()
   @IsString()
-  number_video?: string;
+  number_video1?: string;
+
+  @IsOptional()
+  @IsNumber()
+  number_video_id_1?: number;
+
+  @IsString()
+  title2: string;
+
+  @IsOptional()
+  @IsString()
+  number2?: string;
+
+  @IsOptional()
+  @IsString()
+  number_video2?: string;
+
+  @IsOptional()
+  @IsNumber()
+  number_video_id_2?: number;
+
+  @IsString()
+  title3: string;
+
+  @IsOptional()
+  @IsString()
+  number3?: string;
+
+  @IsOptional()
+  @IsString()
+  number_video3?: string;
+
+  @IsOptional()
+  @IsNumber()
+  number_video_id_3?: number;
+
+  @IsString()
+  title4: string;
+
+  @IsOptional()
+  @IsString()
+  number4?: string;
+
+  @IsOptional()
+  @IsString()
+  number_video4?: string;
+
+  @IsOptional()
+  @IsNumber()
+  number_video_id_4?: number;
 
   @IsOptional()
   @IsString()
@@ -26,6 +74,10 @@ export class StatisticDto {
   overview_image?: string;
 
   @IsOptional()
+  @IsInt()
+  overview_image_id?: number;
+
+  @IsOptional()
   @IsString()
   overview_title?: string;
 
@@ -36,9 +88,4 @@ export class StatisticDto {
   @IsOptional()
   @IsString()
   description?: string;
-
-  @IsOptional()
-  @IsNumber()
-  @IsIn([0, 1], { message: 'Status must be either 0 or 1' })
-  status?: number;
 }

@@ -22,6 +22,9 @@ id: number;
 
   @Column({ type: 'text' })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
   
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

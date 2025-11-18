@@ -12,7 +12,7 @@ import { Event } from './event.entity';
 @Entity('contents')
 export class Content {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
   
   @Column({ type: 'int' })
   event_id: number;
@@ -33,6 +33,9 @@ id: number;
 
   @Column({ type: 'longtext' })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

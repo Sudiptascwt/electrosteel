@@ -20,6 +20,9 @@ import {
   
     @Column({ type: 'varchar', length: 255, nullable: true })
     video?: string;
+
+    @Column({ type: 'bigint', nullable: true })
+    video_id?: number;
   
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsInt } from 'class-validator';
 
 export class ConductDto {
     @IsNotEmpty({ message: 'title is required' })
@@ -8,4 +8,8 @@ export class ConductDto {
     @IsOptional()
     @IsString()
     pdf?: string;
+
+    @IsOptional()
+    @IsInt()
+    pdf_id?: number;
 }

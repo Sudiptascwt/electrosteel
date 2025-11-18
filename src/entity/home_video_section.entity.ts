@@ -14,6 +14,9 @@ export class VideoSection {
   @Column({ nullable: true })
   video: string;
 
+  @Column({ nullable: true })
+  video_id: number;
+
   @Column({ type: 'longtext',nullable: true })
   description: string;
 
@@ -25,4 +28,4 @@ export class VideoSection {
 
   @UpdateDateColumn()
   updated_at: Date;
-  }
+}

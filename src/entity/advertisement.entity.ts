@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('advertisement') 
 export class Advertisement {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column()
   page_id: number;
@@ -11,8 +11,8 @@ id: number;
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
 
-  @Column({ type: 'tinyint', default: 1 })
-  status: number;
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @CreateDateColumn()
   created_at: Date;

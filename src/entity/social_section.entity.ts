@@ -6,9 +6,6 @@ export class SocialSection {
   id: number;
 
   @Column()
-  page_id: number;
-
-  @Column()
   title: string;
 
   @Column({ type:'longtext', nullable: true })
@@ -19,6 +16,9 @@ export class SocialSection {
 
   @Column({ type:'longtext',nullable: true })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @CreateDateColumn()
   created_at: Date;

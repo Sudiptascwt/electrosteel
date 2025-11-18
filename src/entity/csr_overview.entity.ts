@@ -14,8 +14,14 @@ export class CsrOverview {
   @Column({ type:'longtext'})
   csr_objective_image: string;
 
+  @Column({ type:'bigint', nullable: true})
+  csr_objective_image_id: number;
+
   @Column({ type:'longtext'})
   key_focus_area_image: string;
+
+  @Column({ type:'bigint', nullable: true})
+  key_focus_area_image_id: number;
 
   @Column({ type:'longtext'})
   key_focus_area_description: string;

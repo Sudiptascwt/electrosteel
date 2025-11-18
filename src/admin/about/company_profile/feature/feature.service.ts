@@ -52,13 +52,13 @@ export class FeatureService {
           },
         });
 
-        if (exists) {
-          return {
-            status: false,
-            statusCode: 400,
-            message: 'Another InnerFeature with this title already exists',
-          };
-        }
+        // if (exists) {
+        //   return {
+        //     status: false,
+        //     statusCode: 400,
+        //     message: 'Another InnerFeature with this title already exists',
+        //   };
+        // }
       }
 
       await this.InnerFeatureRepository.update(id, data);

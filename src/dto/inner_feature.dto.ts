@@ -11,4 +11,9 @@ export class InnerFeatureDto {
   @IsOptional()
   @IsString()
   video?: string;
+
+  @IsOptional()
+  @IsInt()
+  video_id?: number
+
 }

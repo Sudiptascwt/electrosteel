@@ -14,15 +14,15 @@ export class SrikalahasthiService {
     //////////srikalahasthi pipes/////////////
     // CREATE
     async create(createDto: SrikalahasthiDto) {
-    const office = this.SrikalahasthiRepo.create(createDto);
-    const data = await this.SrikalahasthiRepo.save(office);
+        const office = this.SrikalahasthiRepo.create(createDto);
+        const data = await this.SrikalahasthiRepo.save(office);
 
-    return {
-        status: true,
-        statusCode: HttpStatus.CREATED,
-        message: 'srikalahasthi pipes created successfully',
-        data,
-    };
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'srikalahasthi pipes created successfully',
+            data,
+        };
     }
 
     // GET ALL

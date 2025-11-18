@@ -44,18 +44,18 @@ export class MilestoneController {
   //get all Milestones
   @Get()
   async getAllMilestones() {
-      return this.MilestoneService.getAllMilestones();
+    return this.MilestoneService.getAllMilestones();
   }
   //get Milestone by id
   @Get(':id')
   async getOne(@Param('id') id: number) {
-      return this.MilestoneService.getMilestoneById(id);
+    return this.MilestoneService.getMilestoneById(id);
   }
     
   //delete Milestone by id
   @Delete(':id')
   async delete(@Param('id') id: number) {
-      return this.MilestoneService.deleteMilestone(id);
+    return this.MilestoneService.deleteMilestone(id);
   }
 
 
@@ -65,37 +65,38 @@ export class MilestoneController {
   async addMilestoneImage(
     @Param('id') id: number,
     @Body() dto: MilestoneImageDto,
-    @UploadedFiles() files: { image?: Express.Multer.File[] },
+    @UploadedFiles() files?: { image?: Express.Multer.File[] }, // optional
   ) {
-    const file = files.image ? files.image[0] : null;
+    const file = files?.image?.[0] ?? null;  
     return this.MilestoneService.addMilestoneImage(dto, file);
   }
 
+
   @Put('update-milestone-image/:id')
   @UseInterceptors(
-      FileFieldsInterceptor([ { name: 'image', maxCount: 1 }]),
+    FileFieldsInterceptor([{ name: 'image', maxCount: 1 }]),
   )
-  async updateMilestoneImage( 
-      @Param('id') id: number,
-      @UploadedFiles() files: { image?: Express.Multer.File[] },
+  async updateMilestoneImage(
+    @Param('id') id: number,
+    @UploadedFiles() files?: { image?: Express.Multer.File[] },  
   ) {
-      const image = files.image ? files.image[0] : null;
-      return this.MilestoneService.updateMilestoneImage(id, image);
+    const image = files?.image?.[0] ?? null;  
+    return this.MilestoneService.updateMilestoneImage(id, image);
   }
 
   @Get('all-milestone-images')
   async getAllMilestoneImages() {
-      return this.MilestoneService.getAllMilestoneImages();
+    return this.MilestoneService.getAllMilestoneImages();
   }
 
 
   @Get('get-milestone-image/:id')
   async getMilestoneImageById(@Param('id') id: number) { 
-      return this.MilestoneService.getMilestoneImageById(id);
+    return this.MilestoneService.getMilestoneImageById(id);
   } 
 
   @Delete('milestone-image/:id')
   async deleteMilestoneImage(@Param('id') id: number) {
-      return this.MilestoneService.deleteMilestoneImage(id);
+    return this.MilestoneService.deleteMilestoneImage(id);
   }
 }

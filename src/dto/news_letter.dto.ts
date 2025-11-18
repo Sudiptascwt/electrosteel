@@ -1,8 +1,11 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class NewsLetterDto {
   @IsString()
   banner_image: string;
+
+  @IsInt()
+  banner_image_id: number;
 
   @IsString()
   year: string;
@@ -12,6 +15,9 @@ export class NewsLetterDto {
 
   @IsString()
   image: string;
+
+  @IsInt()
+  image_id: number;
 
   @IsString()
   pdf: string;

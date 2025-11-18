@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDate, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsOptional, IsDate, IsNumber, IsNotEmpty, IsInt } from 'class-validator';
 
 export class FacilityDto {
   @ApiPropertyOptional({
@@ -22,6 +22,10 @@ export class FacilityDto {
   @IsString()
   @IsOptional()
   image?: string;
+
+  @IsInt()
+  @IsOptional()
+  image_id?: number;
 
   @ApiPropertyOptional({
     description: 'Primary contact number'

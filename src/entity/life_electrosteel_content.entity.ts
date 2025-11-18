@@ -9,13 +9,16 @@ import {
 @Entity('life_electrosteel_content')
 export class LifeElectrosteelContent {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type: 'longtext' })
   title: string;
 
   @Column({ type: 'longtext' })
   image: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  image_id: number;
 
   @Column({ type: 'longtext' })
   description: string;

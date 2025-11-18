@@ -8,10 +8,10 @@ export class srikalahasthiCodeOfConduct {
   @Column()
   srikalahasthi_pipe_id: number;
 
-  @Column({type:'text',})
+  @Column({type:'text'})
   page_name: string;
 
-  @Column({type:'text',})
+  @Column({type:'text'})
   page_subname: string;
 
   @Column({ type:'text', nullable: true })
@@ -25,6 +25,9 @@ export class srikalahasthiCodeOfConduct {
 
   @Column({ type:'text', nullable: true })
   pdf: string;
+
+  @Column({ type:'bigint', nullable: true })
+  pdf_id: number;
 
   @CreateDateColumn()
   created_at: Date;
