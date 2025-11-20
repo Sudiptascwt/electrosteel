@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { PipeArtDetailDto } from './pipe_art_details.dto';
 
 export class PipeArtDto {
@@ -14,6 +14,10 @@ export class PipeArtDto {
     @IsOptional()
     @IsUrl({}, { message: 'Invalid URL format' })
     url?: string;
+
+    @IsOptional()
+    @IsInt()
+    image_id: number
     
     // optional
     // @IsOptional()

@@ -11,13 +11,16 @@ import { PipeArtDetail } from "./pipe_art_details.entity";
 @Entity('pipe_art')
 export class PipeArt {
   @PrimaryGeneratedColumn({ name: 'id' })
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   title: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
+
+  @Column({ type:'bigint', nullable: true })
+  image_id: number;
 
   @Column({ type: 'longtext', nullable: true })
   url: string;

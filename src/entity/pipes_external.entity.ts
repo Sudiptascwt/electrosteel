@@ -28,6 +28,9 @@ export class ExternalPipes {
     @Column({ name: 'pdf', type: 'text', nullable: true })
     pdf: string;
 
+    @Column({ type: 'bigint', nullable: true })
+    pdf_id: number;
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     created_at: Date;
 

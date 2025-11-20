@@ -11,6 +11,9 @@ export class CreditRatings {
     @Column({ type:'text' })
     pdf: string;
 
+    @Column({ type:'bigint', nullable: true })
+    pdf_id: number;
+
     @CreateDateColumn()
     created_at: Date;
 

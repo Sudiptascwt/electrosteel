@@ -9,13 +9,16 @@ import {
 @Entity('policies')
 export class Policies {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
   @Column({ type: 'text', nullable: true })
   pdf: string;
+
+  @Column({ type:'bigint', nullable: true })
+  pdf_id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

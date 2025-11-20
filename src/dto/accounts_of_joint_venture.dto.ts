@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class AccountOfJointVentureDto {
   @IsString()
@@ -16,4 +16,8 @@ export class AccountOfJointVentureDto {
   @IsNotEmpty({ message: 'pdf is required' })
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number;
 }

@@ -11,8 +11,14 @@ export class DuctileIronPipeApplications {
     @Column({ type:'longtext', nullable: true })
     images: string;
 
+    @Column({ type:'bigint', nullable: true })
+    images_id: number;
+
     @Column({type: 'longtext', nullable: true })
     below_images: string;
+
+    @Column({ type:'bigint', nullable: true })
+    below_images_id: number;
 
     @CreateDateColumn()
     created_at: Date;

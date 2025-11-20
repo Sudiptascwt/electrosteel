@@ -6,4 +6,8 @@ export class InvestorDocumentsDto {
 
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsInt } from 'class-validator';
 
 export class ShareholderMergerDto {
   @IsString()
@@ -6,4 +6,7 @@ export class ShareholderMergerDto {
 
   @IsString()
   pdf: string;
+
+  @IsInt()
+  pdf_id: number;
 }

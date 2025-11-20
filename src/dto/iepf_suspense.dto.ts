@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class IepfSuspenseDto {
   @IsString()
@@ -8,4 +8,9 @@ export class IepfSuspenseDto {
   @IsString()
   @IsNotEmpty({ message: 'PDF is required' })
   pdf: string;
+
+  @IsInt()
+  @IsOptional()
+  pdf_id: number;
+  
 }

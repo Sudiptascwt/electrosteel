@@ -11,6 +11,9 @@ export class ShareholderMerger {
     @Column({ type: 'text' })
     pdf: string;
 
+    @Column({ type: 'bigint', nullable: true })
+    pdf_id: number;
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

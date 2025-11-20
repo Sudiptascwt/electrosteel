@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class OtherDisclosureDto {
     @IsNotEmpty()
@@ -7,4 +7,8 @@ export class OtherDisclosureDto {
 
     @IsString()
     pdf: string;
+
+    @IsOptional()
+    @IsInt()
+    pdf_id: number
 }

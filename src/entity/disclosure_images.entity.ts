@@ -24,6 +24,9 @@ export class DisclosureImages {
     @Column({ type: 'text', nullable: false })
     image: string;
 
+    @Column({ type: 'bigint', nullable: true })
+    image_id: number;
+
     @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

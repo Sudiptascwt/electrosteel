@@ -49,7 +49,6 @@ export class BannerService {
    */
   async updateBannerImage(id: number, data: Partial<BannerDto>) {
     const banner = await this.bannerRepository.findOne({ where: { id } });
-
     if (!banner) {
       return {
         status: false,
@@ -59,24 +58,26 @@ export class BannerService {
       };
     }
 
-    // Check duplicate title
-    if (data.title) {
-      const exists = await this.bannerRepository.findOne({
-        where: { title: data.title, id: Not(id) },
-      });
 
-      // if (exists) {
-      //   return {
-      //     status: false,
-      //     statusCode: 400,
-      //     message: `Another banner with title '${data.title}' already exists`,
-      //     data: [],
-      //   };
-      // }
+    const updatePayload: any = { ...data };
+    if (data.banner_images !== undefined) {
+      updatePayload.banner_images =
+        typeof data.banner_images === 'string'
+          ? data.banner_images
+          : JSON.stringify(data.banner_images);
     }
 
-    await this.bannerRepository.update(id, data);
+    await this.bannerRepository.update(id, updatePayload);
+
     const updated = await this.bannerRepository.findOne({ where: { id } });
+
+    if (updated && updated.banner_images) {
+      try {
+        updated.banner_images = JSON.parse(updated.banner_images as any);
+      } catch (e) {
+        
+      }
+    }
 
     return {
       status: true,
@@ -93,14 +94,24 @@ export class BannerService {
    */
   async getAllBanners() {
     const banners = await this.bannerRepository.find({ order: { id: 'ASC' } });
+    const parsedBanners = banners.map((b) => {
+      if (b.banner_images) {
+        try {
+          b.banner_images = JSON.parse(b.banner_images as any);
+        } catch (e) {
+        }
+      }
+      return b;
+    });
 
     return {
       status: true,
       statusCode: 200,
-      message: banners.length ? 'Banners fetched successfully' : 'No banners found',
-      data: banners,
+      message: parsedBanners.length ? 'Banners fetched successfully' : 'No banners found',
+      data: parsedBanners,
     };
   }
+
 
   /**
    * Get banner by ID
@@ -117,6 +128,12 @@ export class BannerService {
       };
     }
 
+    if (banner.banner_images) {
+      try {
+        banner.banner_images = JSON.parse(banner.banner_images as any);
+      } catch (e) {}
+    }
+
     return {
       status: true,
       statusCode: 200,
@@ -124,6 +141,7 @@ export class BannerService {
       data: [banner],
     };
   }
+
 
   /**
    * Delete banner by ID

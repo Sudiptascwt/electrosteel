@@ -13,9 +13,15 @@ export class ProductBrochures {
     
     @Column({ type: 'longtext', nullable: true })
     image: string;
+
+    @Column({ type:'bigint', nullable: true })
+    image_id: number;
     
     @Column({ type: 'longtext', nullable: true })
     pdf: string;
+
+    @Column({ type:'bigint', nullable: true })
+    pdf_id: number;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

@@ -3,13 +3,16 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('product_application_images')
 export class product_application_images {
     @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+    id: number;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     title: string;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     image: string;
+
+    @Column({ type: 'bigint', nullable: true })
+    image_id: number;
 
     @Column({
     type: 'enum',

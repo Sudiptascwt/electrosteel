@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class PoliciesDto {
   @IsString()
@@ -7,4 +7,8 @@ export class PoliciesDto {
   @IsOptional()
   @IsString()
   pdf?: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id?: number;
 }

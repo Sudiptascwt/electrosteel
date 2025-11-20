@@ -18,8 +18,14 @@ export class FittingsPipesJointing {
     @Column({ type:'text', nullable: true })
     image: string;
 
+    @Column({ type:'bigint', nullable: true })
+    image_id: number;
+
     @Column({ type:'text', nullable: true })
-    pdf: string
+    pdf: string;
+
+    @Column({ type:'bigint', nullable: true })
+    pdf_id: number;
     
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     created_at: Date;

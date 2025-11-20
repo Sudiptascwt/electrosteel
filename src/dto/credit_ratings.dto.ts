@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreditRatingsDto {
   @IsString()
@@ -6,4 +6,8 @@ export class CreditRatingsDto {
 
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number;
 }

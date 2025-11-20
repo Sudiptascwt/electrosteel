@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsInt } from 'class-validator';
 
 export class UnclaimedDividendsImagesDto {
   @IsOptional()
@@ -11,6 +11,10 @@ export class UnclaimedDividendsImagesDto {
   @IsNotEmpty()
   @IsString()
   image: string;
+
+  @IsOptional()
+  @IsInt()
+  image_id: number;
 
   // Reference to parent dividend
   @IsNotEmpty()

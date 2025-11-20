@@ -5,6 +5,7 @@ import {
   IsDate,
   IsNumber,
   IsUrl,
+  IsInt,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -27,8 +28,16 @@ export class AllCertificatesDto {
   icon_image?: string;
 
   @IsOptional()
+  @IsInt()
+  icon_image_id?: number
+
+  @IsOptional()
   @IsString()
   video_image?: string;
+
+  @IsOptional()
+  @IsInt()
+  video_image_id?: number;
 
   @IsOptional()
   @IsUrl({}, { message: 'Invalid URL format' })
@@ -47,8 +56,16 @@ export class AllCertificatesDto {
   pdf?: string;
 
   @IsOptional()
+  @IsInt()
+  pdf_id: number;
+
+  @IsOptional()
   @IsString()
   pdf2?: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf2_id: number;
 
   @IsOptional()
   @IsString()

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class ShareHoldingInformationDto {
   @IsOptional()
@@ -16,4 +16,8 @@ export class ShareHoldingInformationDto {
   @IsOptional()
   @IsString()
   pdf: string; 
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number;
 }

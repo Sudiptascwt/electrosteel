@@ -3,13 +3,16 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('nclt_meetings') 
 export class NcltMeeting {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type:'longtext' })
   title: string;
 
   @Column({ type:'longtext' })
   pdf: string;
+
+  @Column({ type:'bigint', nullable: true })
+  pdf_id: number;
 
   @CreateDateColumn()
   created_at: Date;

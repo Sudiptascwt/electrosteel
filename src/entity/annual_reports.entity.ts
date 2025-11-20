@@ -17,6 +17,9 @@ id: number;
   @Column({ type:'longtext' })
   pdf: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  pdf_id: number;
+
   @CreateDateColumn()
   created_at: Date;
 

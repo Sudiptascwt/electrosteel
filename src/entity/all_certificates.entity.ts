@@ -23,8 +23,14 @@ export class AllCertificate {
   @Column({ type: 'varchar', length: 255, nullable: true })
   icon_image: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  icon_image_id: number;
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   video_image: string;
+
+  @Column({ type:'bigint', nullable: true })
+  video_image_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   link: string;
@@ -38,8 +44,14 @@ export class AllCertificate {
   @Column({ type: 'varchar', length: 255, nullable: true })
   pdf: string;
 
+  @Column({ type:'bigint', nullable: true })
+  pdf_id: number;
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   pdf2: string;
+
+  @Column({ type:'bigint', nullable: true })
+  pdf2_id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   standrad: string;

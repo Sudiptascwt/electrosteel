@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class DuctileIronPipesOverviewDto {
     @IsString()
@@ -15,4 +15,10 @@ export class DuctileIronPipesOverviewDto {
 
     @IsString()
     below_images: string;
+
+    @IsInt()
+    images_id: number;
+
+    @IsInt()
+    below_images_id: number;
 }

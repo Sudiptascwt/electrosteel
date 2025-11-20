@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CorporateGovernanceDto {
     @IsNotEmpty()
@@ -16,4 +16,8 @@ export class CorporateGovernanceDto {
     @IsOptional()
     @IsString()
     pdf: string;
+
+    @IsOptional()
+    @IsInt()
+    pdf_id: number;
 }

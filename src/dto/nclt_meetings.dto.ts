@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class NcltMeetingDto {
   @IsNotEmpty({ message: 'Title is required' })
@@ -8,4 +8,8 @@ export class NcltMeetingDto {
   @IsNotEmpty({ message: 'pdf is required' })
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id: number;
 }

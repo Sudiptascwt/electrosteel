@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('subsidiaries_account') 
 export class SubsidiariesAccount {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column({ type:'varchar', length:'255', nullable: true })
   start_date: string;
@@ -16,6 +16,9 @@ id: number;
 
   @Column({ type:'longtext' })
   pdf: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  pdf_id: number;
 
   @CreateDateColumn()
   created_at: Date;

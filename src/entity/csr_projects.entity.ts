@@ -25,6 +25,9 @@ export class CsrProjects {
     @Column({ type: 'text', nullable: true })
     pdf: string;
 
+    @Column({ type: 'text', nullable: true })
+    pdf_id: number;
+
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 

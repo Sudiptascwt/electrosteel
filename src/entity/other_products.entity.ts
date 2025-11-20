@@ -11,6 +11,9 @@ export class OtherProducts {
   @Column({ nullable: true })
   image: string;
 
+  @Column({ type:'bigint', nullable: true })
+  image_id: number;
+
   @Column({ nullable: true })
   description: string;
 

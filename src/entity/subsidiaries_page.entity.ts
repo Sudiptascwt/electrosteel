@@ -1,16 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,JoinColumn,UpdateDateColumn} from "typeorm";
 
 @Entity('subsidiaries_page')
 export class SubsidiariesPage {
   @PrimaryGeneratedColumn({ name: 'id' })
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   banner_image: string;
@@ -23,6 +16,9 @@ id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   image: string;
+
+  @Column({ type:'bigint', nullable: true })
+  image_id: number;
 
   @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;

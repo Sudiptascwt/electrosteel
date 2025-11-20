@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class FittingsInternalPipesDto {
     @IsString()
@@ -15,4 +15,8 @@ export class FittingsInternalPipesDto {
 
     @IsString()
     pdf: string;
+
+    @IsOptional()
+    @IsInt()
+    pdf_id: number;
 }

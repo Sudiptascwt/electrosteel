@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsUrl, IsDate, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsUrl, IsDate, IsNumber, IsInt } from 'class-validator';
 
 export class ProductBrochuresDto {
   @ApiProperty({
@@ -38,6 +38,11 @@ export class ProductBrochuresDto {
   @IsOptional()
   image?: string;
 
+
+  @IsOptional()
+  @IsInt()
+  image_id?: number;
+
   @ApiProperty({
     description: 'PDF file URL of the brochure',
     example: 'https://example.com/uploads/brochures/catalog.pdf',
@@ -46,6 +51,10 @@ export class ProductBrochuresDto {
   @IsString()
   @IsOptional()
   pdf?: string;
+
+  @IsOptional()
+  @IsInt()
+  pdf_id?: number;
 
   @ApiProperty({
     description: 'Brochure creation date',

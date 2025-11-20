@@ -14,27 +14,16 @@ export class Banner {
   @Column({ type: 'varchar', length: 255 })
   title: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  banner_sub_title: string;
+  @Column({ type: 'longtext', nullable: true })
+  banner_video: string;
 
-  @Column({ type: 'longtext', nullable: true })  
-  description: string;
+  // Store JSON array as TEXT
+  @Column({ type: 'longtext', nullable: true })
+  banner_images: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  banner_media: string;
-
-  @Column({ type: 'bigint', nullable: true })
-  banner_media_id: number;
-
-  @Column({ type: 'varchar', length: 20, default: 'image' })
-  media_type: string;
-
-  @Column({ type: 'tinyint', default: 1 })
-  status: number;
-
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn()
   modified_at: Date;
 }

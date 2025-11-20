@@ -17,8 +17,14 @@ export class DuctileIronFittingsDetails {
     @Column({ type:'longtext', nullable: true }) //multiple images will be used using comma separator
     images: string;
 
+    @Column({ type:'bigint', nullable:true })
+    images_id: number;
+
     @Column({ type: 'longtext', nullable: true }) //multiple images will be used using comma separator
     below_images: string;
+
+    @Column({ type: 'bigint', nullable: true })
+    below_images_id: number;
 
     @CreateDateColumn()
     created_at: Date;

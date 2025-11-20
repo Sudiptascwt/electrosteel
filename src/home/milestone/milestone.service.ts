@@ -20,13 +20,6 @@ export class MilestoneService {
       where: { year: data.year },
     });
 
-    // if (existingYearMilestone) {
-    //   return {
-    //     status: false,
-    //     statusCode: 400,
-    //     message: 'Milestone for this year already exists.',
-    //   };
-    // }
     const newMilestone = this.MilestoneRepository.create(data);
     await this.MilestoneRepository.save(newMilestone);
 
@@ -116,19 +109,11 @@ export class MilestoneService {
   }
 
   /////milestone image upload//
-  //add milestone image  data: InvestorDto, image: Express.Multer.File
   async addMilestoneImage(data: MilestoneImageDto, image: Express.Multer.File) {
     const existingYearMilestoneTitle = await this.MilestoneImageRepository.findOne({
       where: { title: data.title },
     });
 
-    // if (existingYearMilestoneTitle) {
-    //   return {
-    //     status: false,
-    //     statusCode: 400,
-    //     message: 'Milestone title already exists.',
-    //   };
-    // }
     const newMilestoneImage = this.MilestoneImageRepository.create(data);
     await this.MilestoneImageRepository.save(newMilestoneImage);
 

@@ -24,6 +24,9 @@ export class VotingResults {
     @Column({ type: 'text', nullable: true })
     pdf: string;
 
+    @Column({ type:'bigint', nullable: true })
+    pdf_id: number;
+
     @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
     createddAt: Date;
 

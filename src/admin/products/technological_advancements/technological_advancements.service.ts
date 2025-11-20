@@ -5,7 +5,7 @@ import { product_applications } from '../../../entity/product_application.entity
 import { Advancement } from 'src/entity/advancement.entity';
 import { AdvancementDto } from 'src/dto/advancement.dto';
 
-@Injectable()
+  @Injectable()
 export class TechnologicalAdvancementsService {
   constructor(
     @InjectRepository(Advancement)
