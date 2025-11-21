@@ -41,10 +41,14 @@ export class BlogsService {
   }
   
   async findBlogByName(category: string): Promise<Blogs> {
+    const formatted = category.replace(/\s+/g, '').toLowerCase(); 
+
     const unit = await this.BlogsRepo
-        .createQueryBuilder('blog')
-        .where('LOWER(blog.category) = LOWER(:category)', { category })
-        .getOne();
+      .createQueryBuilder('blog')
+      .where(`
+        LOWER(REPLACE(blog.category, ' ', '')) = :category
+      `, { category: formatted })
+      .getOne();
 
     if (!unit) throw new NotFoundException('Blog not found');
     return unit;

@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { MilestoneTitle } from './milestone_title.entity';
 
 @Entity('milestones')
 export class Milestone {
@@ -8,14 +9,19 @@ export class Milestone {
     // @Column({ type: 'varchar', length: 255, nullable: true })
     // name: string;
 
-    // @Column({ type: 'varchar', length: 255, nullable: true })
-    // title: string;
+    @Column({ type: 'text', nullable: true })
+    title: string;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     year: string;
 
     @Column({ type: 'longtext', nullable: true })
     description: string;
+
+      // FK to milestones_title
+    @ManyToOne(() => MilestoneTitle, (group) => group.milestones, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'title_id' })
+    titleGroup: MilestoneTitle;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

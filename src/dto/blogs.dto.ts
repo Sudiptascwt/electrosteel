@@ -8,6 +8,10 @@ export class BlogsDto {
   @IsString()
   category: string;
 
+  @IsOptional()
+  @IsString()
+  date: string;
+
   @IsNotEmpty({ message: 'Title is required' })
   @IsString()
   title: string;
@@ -15,4 +19,8 @@ export class BlogsDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }

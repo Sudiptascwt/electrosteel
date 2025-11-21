@@ -5,6 +5,7 @@ import { AllCertificate } from '../../entity/all_certificates.entity';
 import { AllCertificatesDto } from 'src/dto/all_certificates.dto';
 import { Policies } from 'src/entity/policies.entity';
 import { PoliciesDto } from 'src/dto/policies.dto';
+import { CertificateTypeEnum } from '../../constants/certificate-type.enum';
 
 @Injectable()
 export class QualityFeaturesService {
@@ -94,6 +95,18 @@ export class QualityFeaturesService {
             message: 'Quality certificate deleted successfully'
         };
     }
+
+    //getCertificateType
+    async getCertificateType(type: CertificateTypeEnum): Promise<any> { 
+        const certifictaes = await this.QualityCertificatesRepository.find({ where: { type } });
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            data: certifictaes,
+            message: `${type} certificates fetched successfully.`
+        }
+    }
+
 
     ////////////// policy pdf //////////////
     

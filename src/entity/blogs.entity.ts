@@ -14,12 +14,18 @@ export class Blogs {
   @Column({ type: 'longtext' })
   category: string;
 
+  @Column({ type: 'varchar', length:255, nullable: true })
+  date: string;
+
   @Column({ type: 'longtext' })
   title: string;
 
   //text editor
   @Column({ type: 'longtext' })
   description: string;
+
+  @Column({ type: 'longtext' })
+  image: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

@@ -7,10 +7,11 @@ import { MilestoneImage } from '../../entity/milestone_image.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { MilestoneTitle } from '../../entity/milestone_title.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Milestone, MilestoneImage]),
+    TypeOrmModule.forFeature([Milestone, MilestoneImage, MilestoneTitle]),
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads', // Folder where images will be saved

@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Body, Param, ParseIntPipe, ParseEnumPipe } from '@nestjs/common';
 import { QualityFeaturesService } from './quality_features.service';
 import { AllCertificatesDto } from 'src/dto/all_certificates.dto';
 import { PoliciesDto } from 'src/dto/policies.dto';
@@ -7,6 +7,7 @@ import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CertificateTypeEnum } from '../../constants/certificate-type.enum';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -45,6 +46,14 @@ export class QualityFeaturesController {
     @Delete('certificates/:id')
     async delete(@Param('id', ParseIntPipe) id: number) {
         return this.QualityCertificatesService.delete(id);
+    }
+
+    //get the type of the certificates
+    @Get('get-certificate/:type')
+    async getCertificateType(
+        @Param('type', new ParseEnumPipe(CertificateTypeEnum)) type: CertificateTypeEnum,
+    ) {
+        return this.QualityCertificatesService.getCertificateType(type);
     }
 
     ////////////// quality policy pdf //////////////
