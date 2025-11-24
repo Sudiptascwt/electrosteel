@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt, IsEnum } from 'class-validator';
 
 export class BlogsDto {
   @IsInt()
@@ -23,4 +23,8 @@ export class BlogsDto {
   @IsOptional()
   @IsString()
   image?: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

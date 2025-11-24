@@ -22,6 +22,13 @@ export class ManufacturingUnit {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     google_map_link: string;
+    
+    @Column({
+    type: 'tinyint',
+    width: 1,
+    default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

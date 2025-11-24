@@ -26,6 +26,12 @@ export class CsrOverview {
   @Column({ type:'longtext'})
   key_focus_area_description: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn()
   created_at: Date;
 

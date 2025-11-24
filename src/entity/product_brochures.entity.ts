@@ -23,6 +23,13 @@ export class ProductBrochures {
     @Column({ type:'bigint', nullable: true })
     pdf_id: number;
 
+    @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

@@ -33,7 +33,7 @@ export class CareDto {
   @IsOptional()
   plan_type?: string;
 
-  @IsEnum(['0', '1'])
+  @IsEnum([0, 1])
   @IsOptional()
-  status?: '0' | '1';
+  status?: 0 | 1;
 }

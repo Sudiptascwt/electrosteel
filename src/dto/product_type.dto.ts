@@ -1,7 +1,12 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
+import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class ProductTypeDto {
     @IsNotEmpty()
     @IsString()
     name: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) // Only allow 0 or 1
+    status?: number;
 }

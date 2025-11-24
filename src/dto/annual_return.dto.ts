@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt, IsEnum } from 'class-validator';
 
 export class AnnualReturnDto {
   @IsNotEmpty({ message: 'Title is required' })
@@ -12,4 +12,8 @@ export class AnnualReturnDto {
   @IsInt()
   @IsOptional()
   pdf_id: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

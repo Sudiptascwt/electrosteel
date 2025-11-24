@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsBoolean, IsEnum } from 'class-validator';
 
 export class InvestorRelationDto {
   @IsString()
@@ -12,4 +12,8 @@ export class InvestorRelationDto {
 
   @IsString()
   address: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1; 
 }

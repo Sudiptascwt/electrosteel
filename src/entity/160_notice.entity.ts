@@ -20,7 +20,11 @@ export class Notices160 {
   @Column({ type: 'bigint', nullable: true })
   pdf_id: number;
 
-  // @Column({ type: })
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

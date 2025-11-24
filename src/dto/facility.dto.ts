@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDate, IsNumber, IsNotEmpty, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsDate, IsNumber, IsNotEmpty, IsInt, IsEnum } from 'class-validator';
 
 export class FacilityDto {
   @ApiPropertyOptional({
@@ -33,6 +33,10 @@ export class FacilityDto {
   @IsString()
   @IsOptional()
   div_id: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 
   @ApiPropertyOptional({
     description: 'Creation timestamp',

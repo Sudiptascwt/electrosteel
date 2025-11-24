@@ -1,4 +1,5 @@
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsEnum } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class Notices160Dto {
   @IsString()
@@ -9,4 +10,8 @@ export class Notices160Dto {
 
   @IsInt()
   pdf_id: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;  
 }

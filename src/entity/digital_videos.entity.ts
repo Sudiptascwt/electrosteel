@@ -28,6 +28,12 @@ export class DigitalVideos {
   @Column({ type: 'text' })
   video_url: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

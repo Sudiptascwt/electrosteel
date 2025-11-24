@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt, IsEnum } from 'class-validator';
 
 export class AnnualReportsDto {
   @IsString()
@@ -20,4 +20,8 @@ export class AnnualReportsDto {
   @IsOptional()
   @IsInt()
   pdf_id: number
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

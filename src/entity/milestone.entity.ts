@@ -18,6 +18,16 @@ export class Milestone {
     @Column({ type: 'longtext', nullable: true })
     description: string;
 
+    @Column({ type: 'longtext', nullable: true })
+    image: string;
+
+    @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
+
       // FK to milestones_title
     @ManyToOne(() => MilestoneTitle, (group) => group.milestones, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'title_id' })

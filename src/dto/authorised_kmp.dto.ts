@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsEnum } from 'class-validator';
 
 export class AuthorisedKmpDto {
     @IsNotEmpty({ message: 'Name is required' })
@@ -16,4 +16,8 @@ export class AuthorisedKmpDto {
 
     @IsString()
     address: string;
+
+    @IsEnum([0, 1])
+    @IsOptional()
+    status?: 0 | 1;
 }

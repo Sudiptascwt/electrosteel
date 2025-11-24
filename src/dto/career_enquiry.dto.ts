@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsEmail, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsEmail, IsNumber, IsEnum } from 'class-validator';
 
 export class CareerEnquiryDto {
   @IsString()
@@ -32,4 +32,8 @@ export class CareerEnquiryDto {
   @IsString()
   @IsOptional()
   pdf?: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

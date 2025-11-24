@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateLifeElectrosteelContentDto {
   @IsNotEmpty()
@@ -16,4 +16,9 @@ export class CreateLifeElectrosteelContentDto {
   @IsOptional()
   @IsString()
   description: string; 
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

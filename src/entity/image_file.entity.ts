@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeor
 @Entity('files')
 export class Image {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column()
   filename: string;
@@ -13,6 +13,12 @@ id: number;
 
   @Column()
   mimetype: string;
+  
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1;
 
   @CreateDateColumn()
   created_at: Date;

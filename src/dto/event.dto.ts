@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsEnum } from 'class-validator';
 
 export class EventDto {
   @IsString()
@@ -15,4 +15,8 @@ export class EventDto {
 
   @IsString()
   url: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

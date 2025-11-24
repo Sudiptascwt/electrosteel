@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CsrOverviewDto {
   @IsString()
@@ -21,4 +21,8 @@ export class CsrOverviewDto {
 
   @IsString()
   key_focus_area_description: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

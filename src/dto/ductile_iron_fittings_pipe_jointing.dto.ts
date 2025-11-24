@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { PipesJointingDetailsDto } from './pipes_jointing_details.dto'
 
 export class FittingsPipesJointingDto {
@@ -30,6 +30,10 @@ export class FittingsPipesJointingDto {
   @IsOptional()
   @IsInt()
   pdf_id?: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 
   @ValidateNested({ each: true })
   @Type(() => PipesJointingDetailsDto)

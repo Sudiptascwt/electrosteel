@@ -1,4 +1,4 @@
-import { IsIBAN, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
+import { IsEnum, IsIBAN, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class DirectorsDto {
   @IsNotEmpty({ message: 'Name is required' })
@@ -24,4 +24,8 @@ export class DirectorsDto {
   @IsNotEmpty({ message: 'URL is required' })
   @IsUrl({}, { message: 'Please enter a valid URL' })
   url: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

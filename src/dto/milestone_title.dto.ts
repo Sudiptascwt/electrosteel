@@ -12,6 +12,11 @@ export class MilestoneTitleDto {
     @IsString()
     name2?: string;
 
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) // Only allow 0 or 1
+    status?: number;
+
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => MilestoneDto)

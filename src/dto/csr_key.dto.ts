@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CsrKeyDto {
 //   @IsNotEmpty({ message: 'Title is required' })
@@ -44,4 +44,8 @@ export class CsrKeyDto {
   @IsOptional()
   @IsString()
   page_meta_value: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

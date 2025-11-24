@@ -23,6 +23,12 @@ export class AboutBanner {
     @Column({ type: 'bigint', nullable: true })
     image_id: number;
 
+    @Column({
+      type: 'tinyint',
+      default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 

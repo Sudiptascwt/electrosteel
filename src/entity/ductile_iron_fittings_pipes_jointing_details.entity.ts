@@ -46,6 +46,12 @@ export class FittingsPipesJointingDetails {
   @Column({ type: 'longtext', nullable: true })
   add_description: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   created_at: Date;
 

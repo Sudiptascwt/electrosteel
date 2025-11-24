@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsUrl, IsDate, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsUrl, IsDate, IsNumber, IsIn } from 'class-validator';
 
 export class ProductBrochuresDto {
   @ApiProperty({
@@ -52,6 +52,12 @@ export class ProductBrochuresDto {
     example: '2025-09-09T10:00:00.000Z',
     required: false,
   })
+  
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
+
   @IsDate()
   @IsOptional()
   createdAt?: Date;

@@ -30,6 +30,12 @@ export class BoardCommitteDetails {
   @Column({ type: 'varchar', nullable: true })
   position: string; 
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;
 

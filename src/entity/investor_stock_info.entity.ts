@@ -18,6 +18,12 @@ import {
     @Column({ type: 'varchar', length: 255 })
     stock_code: string;
 
+    @Column({
+      type: 'tinyint',
+      default: 1,
+    })
+    status: 0 | 1;
+
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 

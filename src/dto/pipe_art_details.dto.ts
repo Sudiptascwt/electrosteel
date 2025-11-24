@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
 
 export class PipeArtDetailDto {
     @IsNotEmpty({ message: 'Pipe ID is required' })
@@ -32,4 +32,9 @@ export class PipeArtDetailDto {
     @IsOptional()
     @IsString()
     right_image?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) 
+    status?: number;
 }

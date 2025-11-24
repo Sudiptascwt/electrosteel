@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsInt, IsEnum } from 'class-validator';
 
 export class DisclosureImagesDto {
   @IsOptional()
@@ -19,4 +19,8 @@ export class DisclosureImagesDto {
   // Reference to parent dividend
   @IsNotEmpty()
   disclosure_id: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

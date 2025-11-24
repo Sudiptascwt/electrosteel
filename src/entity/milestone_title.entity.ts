@@ -12,6 +12,13 @@ export class MilestoneTitle {
     @Column({ type: 'text', nullable: true })
     name2: string;
 
+    @Column({
+        type: 'tinyint',
+        width: 1,
+        default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
+
     @OneToMany(() => Milestone, (m) => m.titleGroup, { cascade: true, eager: true })
     milestones: Milestone[];
 

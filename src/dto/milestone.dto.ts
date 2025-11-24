@@ -13,4 +13,13 @@ export class MilestoneDto {
     @IsOptional()
     @IsString()
     description?: string;
+
+    @IsOptional()
+    @IsString()
+    image?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) // Only allow 0 or 1
+    status?: number;
 }

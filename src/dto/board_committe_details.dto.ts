@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class BoardCommitteDetailsDto {
   // @IsNotEmpty({ message: 'board_id is required' })
@@ -18,4 +18,8 @@ export class BoardCommitteDetailsDto {
   @IsNotEmpty()
   @IsString()
   position: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

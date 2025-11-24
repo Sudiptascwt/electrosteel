@@ -21,6 +21,12 @@ export class Banner {
   @Column({ type: 'longtext', nullable: true })
   banner_images: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn()
   created_at: Date;
 

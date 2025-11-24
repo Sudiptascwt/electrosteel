@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsDate, IsNumber, IsIn } from 'class-validator';
 
 export class MetaTagDto {
   @IsString()
@@ -14,5 +14,10 @@ export class MetaTagDto {
   @IsOptional()
   @IsString()
   page_name?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }
 

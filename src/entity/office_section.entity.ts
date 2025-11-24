@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('office_details')
 export class officeDetails {
     @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+    id: number;
 
     @Column({ type: 'text' })
     banner_image: string;
@@ -19,6 +19,13 @@ export class officeDetails {
 
     @Column({ type: 'longtext', nullable: true })
     address: string;
+
+    @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

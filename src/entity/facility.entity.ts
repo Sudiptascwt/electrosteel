@@ -20,6 +20,12 @@ export class Facility {
     @Column({ type: 'varchar', length: 255, nullable: true })
     div_id: string;
 
+    @Column({
+        type: 'tinyint',
+        default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

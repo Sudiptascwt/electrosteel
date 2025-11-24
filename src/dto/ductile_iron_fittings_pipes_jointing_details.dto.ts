@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class FittingsPipesJointingDetailsDto {
   @IsOptional()
@@ -48,4 +48,8 @@ export class FittingsPipesJointingDetailsDto {
   @IsOptional()
   @IsString()
   add_description?: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

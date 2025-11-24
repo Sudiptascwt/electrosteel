@@ -1,4 +1,4 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsIn, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ExternalPipesDto {
     @IsString()
@@ -18,4 +18,9 @@ export class ExternalPipesDto {
 
     @IsInt()
     pdf_id: number;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) 
+    status?: number;
 }

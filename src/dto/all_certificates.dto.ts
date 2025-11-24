@@ -79,9 +79,9 @@ export class AllCertificatesDto {
   @IsString()
   scope?: string;
 
+  @IsEnum([0, 1])
   @IsOptional()
-  @IsNumber()
-  status?: 0 | 1;
+  status?: 0 | 1; 
 
   @IsOptional()
   @IsEnum(['system', 'product', 'bodies'], {

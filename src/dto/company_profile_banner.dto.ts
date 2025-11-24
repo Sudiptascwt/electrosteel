@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class AboutBannerDto {
   @IsString()
@@ -12,4 +12,8 @@ export class AboutBannerDto {
 
   @IsString()
   image_id: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

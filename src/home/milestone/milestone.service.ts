@@ -48,6 +48,7 @@ export class MilestoneService {
           title: m.title,
           year: m.year,
           description: m.description,
+          image: m.image,
         })),
       });
 
@@ -105,6 +106,7 @@ export class MilestoneService {
         title: m.title,
         year: m.year,
         description: m.description,
+        image: m.image,
         titleGroup: existingGroup, // set relation
       }));
 

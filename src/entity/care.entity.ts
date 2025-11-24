@@ -30,11 +30,10 @@ id: number;
   plan_type: string;
 
   @Column({
-    type: 'enum',
-    enum: ['0', '1'],
-    default: '1',
+    type: 'tinyint',
+    default: 1,
   })
-  status: '0' | '1';
+  status: 0 | 1; 
 
   @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;

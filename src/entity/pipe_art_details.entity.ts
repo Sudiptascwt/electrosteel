@@ -11,7 +11,7 @@ import { PipeArt } from "./pipe_art.entity";
 @Entity('pipe_art_details')
 export class PipeArtDetail {
   @PrimaryGeneratedColumn({ name: 'id' })
-id: number;
+  id: number;
 
   @Column()
   pipe_id: number;  
@@ -40,6 +40,13 @@ id: number;
 
   @Column({ name: 'right_image', type: 'varchar', length: 255, nullable: true })
   right_image: string;
+
+  @Column({
+    type: 'tinyint',
+    width: 1,
+    default: 1, // 1 = Active, 0 = Inactive
+  })
+  status: number;
 
   @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modifiedAt: Date;

@@ -26,6 +26,13 @@ export class NewsPaperPublication {
   @Column({ type: 'bigint', nullable: true })
   pdf_id: number;
 
+  @Column({
+    type: 'tinyint',
+    width: 1,
+    default: 1, // 1 = Active, 0 = Inactive
+  })
+  status: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

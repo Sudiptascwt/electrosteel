@@ -8,6 +8,13 @@ export class product_applications {
     @Column({ type: 'varchar', length: 255, nullable: true })
     title: string;
 
+    @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

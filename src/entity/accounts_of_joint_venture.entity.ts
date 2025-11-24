@@ -18,7 +18,13 @@ id: number;
   pdf: string;
 
   @Column({ type: 'bigint', nullable: true })
-  pdf_id: number
+  pdf_id: number;
+
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
 
   @CreateDateColumn()
   created_at: Date;

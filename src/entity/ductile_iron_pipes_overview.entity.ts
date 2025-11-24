@@ -26,6 +26,12 @@ export class DuctileIronPipesOverview {
     @Column({ type: 'bigint', nullable: true })
     below_images_id: number;
 
+    @Column({
+        type: 'tinyint',
+        default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn()
     created_at: Date;
 

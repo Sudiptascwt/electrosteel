@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsArray, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, IsArray, ValidateNested, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 export class BannerDto {
   @IsString()
@@ -11,4 +11,8 @@ export class BannerDto {
   @IsOptional()
   @IsString()
   banner_images: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

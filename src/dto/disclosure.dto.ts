@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsEnum } from 'class-validator';
 import { DisclosureImagesDto } from './disclosure_images.dto';
 
 export class DisclosureDto {
@@ -8,6 +8,10 @@ export class DisclosureDto {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 
   @IsOptional()
   images: DisclosureImagesDto[];

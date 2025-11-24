@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsEnum } from 'class-validator';
 
 export class  TestimonialDto {
 
@@ -32,4 +32,8 @@ export class  TestimonialDto {
   @IsString()
   @IsOptional()
   meta_value: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1; 
 }

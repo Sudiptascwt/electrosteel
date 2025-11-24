@@ -35,6 +35,12 @@ id: number;
   @Column({ type: 'longtext', nullable: true  })
   query: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;
 

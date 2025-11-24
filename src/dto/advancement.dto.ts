@@ -21,9 +21,6 @@ export class AdvancementDto {
   @IsString()
   link?: string;
 
-  // @IsEnum(['0', '1'])
-  // @IsOptional()
-  // status?: '0' | '1';
   @IsEnum([0, 1])
   @IsOptional()
   status?: 0 | 1;  

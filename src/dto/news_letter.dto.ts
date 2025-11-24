@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsNumber, IsIn } from 'class-validator';
 
 export class NewsLetterDto {
   @IsString()
@@ -21,4 +21,9 @@ export class NewsLetterDto {
 
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

@@ -47,7 +47,7 @@
 
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsDate, IsNumber, IsIn } from 'class-validator';
 
 export class ManufacturingUnitDto {
   @ApiPropertyOptional({
@@ -105,6 +105,11 @@ export class ManufacturingUnitDto {
   @IsString()
   @IsOptional()
   google_map_link?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 
   @ApiPropertyOptional({
     description: 'Creation timestamp',

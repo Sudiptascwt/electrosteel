@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsIn, IsInt, IsNumber, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { PipeArtDetailDto } from './pipe_art_details.dto';
 
 export class PipeArtDto {
@@ -18,6 +18,11 @@ export class PipeArtDto {
     @IsOptional()
     @IsInt()
     image_id: number
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) 
+    status?: number;
     
     // optional
     // @IsOptional()

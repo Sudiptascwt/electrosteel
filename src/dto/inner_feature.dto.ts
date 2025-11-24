@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsBoolean, IsEnum } from 'class-validator';
 
 export class InnerFeatureDto {
   @IsString()
@@ -15,5 +15,9 @@ export class InnerFeatureDto {
   @IsOptional()
   @IsInt()
   video_id?: number
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1; 
 
 }

@@ -27,7 +27,13 @@ export class Testimonial {
   meta_key: string;
 
   @Column({ type:'longtext' })
-  meta_value: string
+  meta_value: string;
+
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1;
 
   @CreateDateColumn()
   created_at: Date;

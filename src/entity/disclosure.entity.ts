@@ -15,6 +15,12 @@ export class Disclosure {
   @Column({ type: 'text', nullable: false })
   name: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;
 

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsEnum } from 'class-validator';
 
 export class DigitalVideosDto {
   @IsString()
@@ -15,4 +15,8 @@ export class DigitalVideosDto {
 
   @IsString()
   video_url: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

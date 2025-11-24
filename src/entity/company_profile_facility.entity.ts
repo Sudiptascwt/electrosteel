@@ -17,6 +17,12 @@ export class AboutFacility {
   @Column({ type: 'longtext', nullable: true })
   meta_value: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

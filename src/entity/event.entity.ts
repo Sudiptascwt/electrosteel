@@ -26,6 +26,12 @@ export class Event {
   @Column({ type: 'text' })
   url: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

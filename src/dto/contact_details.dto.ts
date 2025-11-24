@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
 
 export class CreateContactDetailsDto {
     @IsNotEmpty({ message: 'Office ID is required' })
@@ -24,6 +24,10 @@ export class CreateContactDetailsDto {
     @IsOptional()
     @IsString()
     fax_branch?: string;
+
+    @IsEnum([0, 1])
+    @IsOptional()
+    status?: 0 | 1;
 }
 
 export class UpdateContactDetailsDto {
@@ -50,4 +54,8 @@ export class UpdateContactDetailsDto {
     @IsOptional()
     @IsString()
     fax_branch?: string;
+
+    @IsEnum([0, 1])
+    @IsOptional()
+    status?: 0 | 1;
 }

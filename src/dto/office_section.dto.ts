@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
+import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class OfficeDetailsDto {
     @IsNotEmpty()
@@ -20,4 +20,9 @@ export class OfficeDetailsDto {
     @IsOptional()
     @IsString()
     address?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) 
+    status?: number;
 }

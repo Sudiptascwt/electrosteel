@@ -11,6 +11,12 @@ export class CorporateProfile {
   @Column({ type:'longtext' })
   page_meta_value: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn()
   created_at: Date;
 

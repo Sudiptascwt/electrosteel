@@ -1,4 +1,4 @@
-import { IsString} from 'class-validator';
+import { IsEnum, IsOptional, IsString} from 'class-validator';
 
 export class FraudAlertDto {
   @IsString()
@@ -6,4 +6,8 @@ export class FraudAlertDto {
 
   @IsString()
   description: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

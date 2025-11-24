@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsUrl, IsDate, IsNumber, IsInt } from 'class-validator';
+import { IsOptional, IsString, IsUrl, IsDate, IsNumber, IsInt, IsIn } from 'class-validator';
 
 export class ProductBrochuresDto {
   @ApiProperty({
@@ -55,6 +55,11 @@ export class ProductBrochuresDto {
   @IsOptional()
   @IsInt()
   pdf_id?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 
   @ApiProperty({
     description: 'Brochure creation date',

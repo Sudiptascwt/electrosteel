@@ -11,6 +11,12 @@ export class FraudAlert {
     @Column({ type: 'text', nullable: true })
     description: string;
 
+    @Column({
+      type: 'tinyint',
+      default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

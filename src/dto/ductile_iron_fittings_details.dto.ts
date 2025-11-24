@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class DuctileIronFittingsDetailsDto {
   @IsString()
@@ -19,4 +19,8 @@ export class DuctileIronFittingsDetailsDto {
   @IsOptional()
   @IsString()
   below_images: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

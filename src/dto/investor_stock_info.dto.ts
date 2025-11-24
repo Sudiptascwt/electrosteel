@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsBoolean, IsEnum } from 'class-validator';
 
 export class InvestorStockInfoDto {
   @IsString()
@@ -6,4 +6,8 @@ export class InvestorStockInfoDto {
 
   @IsString()
   stock_code: string;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;
 }

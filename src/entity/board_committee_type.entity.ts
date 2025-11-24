@@ -15,6 +15,12 @@ export class BoardCommitteType {
   @Column({ type: 'varchar', nullable: false })
   type: string;  
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createddAt: Date;
 

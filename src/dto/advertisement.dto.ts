@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, IsInt, IsEnum } from 'class-validator';
 
 export class AdvertisementDto {
   @IsNumber()
@@ -12,4 +12,8 @@ export class AdvertisementDto {
   @IsOptional()
   @IsInt()
   image_id?: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1; 
 }

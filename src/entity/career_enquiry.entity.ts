@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('career_enquiry')
 export class CareerEnquiry {
   @PrimaryGeneratedColumn({ name: 'id' })
-id: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   name: string;
@@ -28,6 +28,12 @@ id: number;
 
   @Column({ type: 'text', nullable: true })
   pdf: string;
+
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
 
   @CreateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;

@@ -20,6 +20,12 @@ export class AuthorisedKmp {
     @Column({ type:'text' })
     address: string;
 
+    @Column({
+        type: 'tinyint',
+        default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn()
     created_at: Date;
 

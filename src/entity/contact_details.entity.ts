@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('contact_details') 
 export class ContactDetails {
   @PrimaryGeneratedColumn()
-id: number;
+  id: number;
 
   @Column()
   office_id: number;
@@ -22,6 +22,12 @@ id: number;
 
   @Column({ nullable: true })
   fax_branch: string;
+
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
 
   @CreateDateColumn()
   created_at: Date;

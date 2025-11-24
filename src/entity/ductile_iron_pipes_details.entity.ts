@@ -14,6 +14,12 @@ export class DuctileIronPipeDetails {
     @Column({type: 'longtext', nullable: true })
     pressure_class: string;
 
+    @Column({
+        type: 'tinyint',
+        default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn()
     created_at: Date;
 

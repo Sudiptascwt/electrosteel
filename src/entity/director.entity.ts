@@ -23,6 +23,12 @@ export class Directors {
   @Column({ type: 'longtext' })
   url: string;
 
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
+
   @CreateDateColumn()
   created_at: Date;
 

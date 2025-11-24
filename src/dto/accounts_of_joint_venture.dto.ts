@@ -1,4 +1,5 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, IsIn, IsInt } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsString, IsOptional, IsNotEmpty, IsInt, IsEnum } from 'class-validator';
 
 export class AccountOfJointVentureDto {
   @IsString()
@@ -20,4 +21,8 @@ export class AccountOfJointVentureDto {
   @IsOptional()
   @IsInt()
   pdf_id: number;
+
+  @IsEnum([0, 1])
+  @IsOptional()
+  status?: 0 | 1;  
 }

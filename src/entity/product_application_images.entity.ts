@@ -15,6 +15,13 @@ export class product_application_images {
     image_id: number;
 
     @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+    })
+    status: number;
+
+    @Column({
     type: 'enum',
     enum: ['application', 'overview'],
     default: 'application',

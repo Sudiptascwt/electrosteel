@@ -28,6 +28,12 @@ export class CsrProjects {
     @Column({ type: 'text', nullable: true })
     pdf_id: number;
 
+    @Column({
+      type: 'tinyint',
+      default: 1,
+    })
+    status: 0 | 1; 
+
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 
