@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsIBAN, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsIBAN, IsInt, IsNumber, IsIn } from 'class-validator';
 
 export class StockYardDto {
 
@@ -19,4 +19,9 @@ export class StockYardDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

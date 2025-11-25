@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ReportDto {
   @IsNotEmpty({ message: 'Title is required' })
@@ -20,5 +20,10 @@ export class ReportDto {
   @IsOptional()
   @IsInt()
   pdf_id: number
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 
 }

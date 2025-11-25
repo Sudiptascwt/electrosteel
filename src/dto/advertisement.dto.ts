@@ -7,11 +7,47 @@ export class AdvertisementDto {
 
   @IsOptional()
   @IsString()
-  image?: string; 
+  title1?: string; 
+
+  @IsOptional()
+  @IsString()
+  title2?: string; 
+
+  @IsOptional()
+  @IsString()
+  sub_title1?: string; 
+
+  @IsOptional()
+  @IsString()
+  sub_title2?: string; 
+
+  @IsOptional()
+  @IsString()
+  features?: string; 
+
+  @IsOptional()
+  @IsString()
+  image1?: string; 
+
+  @IsOptional()
+  @IsString()
+  image2?: string; 
+
+  @IsOptional()
+  @IsString()
+  image3?: string; 
 
   @IsOptional()
   @IsInt()
-  image_id?: number;
+  image1_id?: number;
+
+  @IsOptional()
+  @IsInt()
+  image2_id?: number;
+
+  @IsOptional()
+  @IsInt()
+  image3_id?: number;
 
   @IsEnum([0, 1])
   @IsOptional()

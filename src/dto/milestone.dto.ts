@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsIn, IsInt } from 'class-validator';
 
 export class MilestoneDto {
 
@@ -17,6 +17,10 @@ export class MilestoneDto {
     @IsOptional()
     @IsString()
     image?: string;
+
+    @IsOptional()
+    @IsInt()
+    image_id?: number;
 
     @IsOptional()
     @IsNumber()

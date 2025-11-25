@@ -53,8 +53,8 @@ export class CsrKey {
   page_meta_value: string;
 
   @Column({
-      type: 'tinyint',
-      default: 1,
+    type: 'tinyint',
+    default: 1,
   })
   status: 0 | 1; 
 

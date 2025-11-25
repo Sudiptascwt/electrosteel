@@ -49,6 +49,7 @@ export class MilestoneService {
           year: m.year,
           description: m.description,
           image: m.image,
+          image_id: m.image_id
         })),
       });
 
@@ -65,12 +66,11 @@ export class MilestoneService {
 
   // UPDATE parent and replace children (simple strategy)
   async updateMilestoneGroup(id: number, data: MilestoneTitleDto) {
-    const existingGroup = await this.milestoneTitleRepo.findOne({ where: { id }, relations: ['milestones'] });
+    const existingGroup = await this.milestoneTitleRepo.findOne({ where: { id, status: 1 }, relations: ['milestones'] });
     if (!existingGroup) {
       throw new NotFoundException({ message: `Milestone group with ID ${id} not found`, status: false });
     }
 
-    // validate payload
     if (!data?.milestones || !Array.isArray(data.milestones)) {
       throw new BadRequestException('milestones array is required.');
     }
@@ -89,25 +89,23 @@ export class MilestoneService {
     }
 
     return await this.dataSource.transaction(async manager => {
-      // update parent fields
       existingGroup.name1 = data.name1 ?? existingGroup.name1;
       existingGroup.name2 = data.name2 ?? existingGroup.name2;
       await manager.save(MilestoneTitle, existingGroup);
 
-      // delete existing children for this group (clean replace)
       await manager.createQueryBuilder()
         .delete()
         .from(Milestone)
         .where('title_id = :id', { id })
         .execute();
 
-      // create new children
       const milestoneEntities = data.milestones.map(m => manager.create(Milestone, {
         title: m.title,
         year: m.year,
         description: m.description,
         image: m.image,
-        titleGroup: existingGroup, // set relation
+        image_id: m.image_id,
+        titleGroup: existingGroup, 
       }));
 
       await manager.save(Milestone, milestoneEntities);
@@ -126,7 +124,7 @@ export class MilestoneService {
 
   // GET single group by id (with children)
   async getMilestoneGroupById(id: number) {
-    const group = await this.milestoneTitleRepo.findOne({ where: { id }, relations: ['milestones'] });
+    const group = await this.milestoneTitleRepo.findOne({ where: { id, status: 1 }, relations: ['milestones'] });
     if (!group) {
       throw new NotFoundException({ message: `Milestone group with ID ${id} not found`, status: false });
     }
@@ -139,9 +137,13 @@ export class MilestoneService {
   }
 
   // GET all groups (with children)
-  async getAllMilestoneGroups() {
+  async getAllMilestoneGroups() { 
     const groups = await this.milestoneTitleRepo.find({
       relations: ['milestones'],
+      where: {
+        status: 1,
+        milestones: { status: 1 }, 
+      },
       order: { createdAt: 'DESC' },
     });
     return {
@@ -154,18 +156,27 @@ export class MilestoneService {
 
   // DELETE group (children deleted by FK ON DELETE CASCADE)
   async deleteMilestoneGroup(id: number) {
-    const result = await this.milestoneTitleRepo.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException({ message: `Milestone group with ID ${id} not found`, status: false });
-    }
+    const em = this.milestoneTitleRepo.manager;
+
+    await em.transaction(async (tx) => {
+      const res = await tx.update(MilestoneTitle, { id }, { status: 0 });
+
+      if (res.affected === 0) {
+        throw new NotFoundException({
+          message: `Milestone group with ID ${id} not found`,
+          status: false,
+        });
+      }
+      await tx.update(Milestone, { milestoneTitle: { id } }, { status: 0 });
+    });
+
     return {
       status: true,
       statusCode: 200,
-      message: 'Milestone group deleted successfully.',
+      message: 'Milestone group deleted successfully (status set to 0).',
     };
   }
 
-  /* --- Optional: Single Milestone CRUD (if you still need them) --- */
 
   // create a single milestone under an existing group
   async createSingleMilestone(titleId: number, item: { title?: string; year: string; description?: string }) {

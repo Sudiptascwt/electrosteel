@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
 
 export class SubsidiariesDto {
     @IsNotEmpty({ message: 'Country link is required' })
@@ -16,4 +16,9 @@ export class SubsidiariesDto {
     @IsOptional()
     @IsString({ message: 'Description must be a string' })
     description?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsIn([0, 1]) // Only allow 0 or 1
+    status?: number;
 }

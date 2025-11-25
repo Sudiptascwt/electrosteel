@@ -20,6 +20,13 @@ id: number;
   @Column({ type: 'longtext', nullable: true })
   facebook: string;
 
+  @Column({
+      type: 'tinyint',
+      width: 1,
+      default: 1, // 1 = Active, 0 = Inactive
+  })
+  status: number;
+
   @CreateDateColumn()
   created_at: Date;
 

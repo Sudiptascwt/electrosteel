@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsInt, IsIn } from 'class-validator';
 
 export class StatisticDto {
   @IsString()
@@ -88,4 +88,9 @@ export class StatisticDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

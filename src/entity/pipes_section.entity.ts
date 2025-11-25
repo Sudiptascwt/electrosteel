@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('pipes_section')
 export class ProductBrochures {
     @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+    id: number;
 
     @Column({ type: 'longtext', nullable: true })
     title: string;
@@ -15,7 +15,7 @@ export class ProductBrochures {
     pipes_laid_description: string;
 
     @Column({
-      type: 'tinyint',
+      type: 'tinyint',  
       width: 1,
       default: 1, // 1 = Active, 0 = Inactive
     })

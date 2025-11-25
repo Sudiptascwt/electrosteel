@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber, IsInt } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber, IsInt, IsIn } from 'class-validator';
 
 export class SrikalahasthiCodeOfConductInsidersDto {
   @IsNumber()
@@ -31,5 +31,10 @@ export class SrikalahasthiCodeOfConductInsidersDto {
 
   @IsInt()
   @IsOptional()
-  pdf_id?: number
+  pdf_id?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

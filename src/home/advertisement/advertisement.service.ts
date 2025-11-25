@@ -30,7 +30,7 @@ export class AdvertisementService {
    * Update existing advertisement by ID
    */
   async update(id: number, data: Partial<AdvertisementDto>) {
-    const existingAd = await this.advertisementRepository.findOne({ where: { id } });
+    const existingAd = await this.advertisementRepository.findOne({ where: { id, status: 1 } });
 
     if (!existingAd) {
       return {
@@ -56,7 +56,8 @@ export class AdvertisementService {
    * Get all advertisements (sorted by latest)
    */
   async getAll() {
-    const advertisements = await this.advertisementRepository.find({
+    const [advertisements, count] = await this.advertisementRepository.findAndCount({
+      where: { status: 1 },
       order: { created_at: 'DESC' },
     });
 
@@ -66,7 +67,8 @@ export class AdvertisementService {
       message: advertisements.length
         ? 'Advertisements fetched successfully'
         : 'No advertisements found',
-      data: advertisements,
+      count,
+      data: advertisements
     };
   }
 
@@ -74,7 +76,7 @@ export class AdvertisementService {
    * Get advertisement by ID
    */
   async getById(id: number) {
-    const advertisement = await this.advertisementRepository.findOne({ where: { id } });
+    const advertisement = await this.advertisementRepository.findOne({ where: { id, status: 1 } });
 
     if (!advertisement) {
       return {
@@ -97,7 +99,10 @@ export class AdvertisementService {
    * Delete advertisement by ID
    */
   async delete(id: number) {
-    const result = await this.advertisementRepository.delete(id);
+    const result = await this.advertisementRepository.update(
+      { id },      
+      { status: 0 }
+    );
 
     if (result.affected === 0) {
       return {
@@ -111,7 +116,7 @@ export class AdvertisementService {
     return {
       status: true,
       statusCode: 200,
-      message: 'Advertisement deleted successfully',
+      message: 'Advertisement deleted successfully (status changed to 0)',
       data: [],
     };
   }

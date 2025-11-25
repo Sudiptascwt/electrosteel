@@ -21,6 +21,9 @@ export class Milestone {
     @Column({ type: 'longtext', nullable: true })
     image: string;
 
+    @Column({ type: 'bigint', nullable: true })
+    image_id: number;
+
     @Column({
       type: 'tinyint',
       width: 1,

@@ -16,4 +16,9 @@ export class QualityResultsDto {
   @IsNotEmpty({ message: 'pdf is required' })
   @IsString()
   pdf: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

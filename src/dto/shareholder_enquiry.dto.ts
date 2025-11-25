@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsNumber, IsIn } from 'class-validator';
 
 export class ShareholderEnquiryDto {
   @IsString()
@@ -30,4 +30,9 @@ export class ShareholderEnquiryDto {
 
   @IsString()
   query: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsIn([0, 1]) // Only allow 0 or 1
+  status?: number;
 }

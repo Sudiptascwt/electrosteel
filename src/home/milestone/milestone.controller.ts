@@ -16,7 +16,7 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../../admin/users/user.entity';
-import { MilestoneTitleDto } from '../../dto/milestone_title.dto'
+import { MilestoneTitleDto } from '../../dto/milestone_title.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)

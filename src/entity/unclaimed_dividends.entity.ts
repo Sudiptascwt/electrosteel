@@ -15,6 +15,13 @@ export class UnclaimedDividends {
   @Column({ type: 'text', nullable: false })
   name: string;
 
+  @Column({
+    type: 'tinyint',
+    width: 1,
+    default: 1, // 1 = Active, 0 = Inactive
+  })
+  status: number;
+
   @UpdateDateColumn({ name: 'created_at', type: 'datetime' })
   createdAt: Date;
 

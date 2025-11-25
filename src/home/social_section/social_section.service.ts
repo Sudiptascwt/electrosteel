@@ -30,7 +30,7 @@ export class SocialSectionService {
    * Update social section by ID
    */
   async update(id: number, data: Partial<SocialSectionDto>) {
-    const section = await this.repo.findOne({ where: { id } });
+    const section = await this.repo.findOne({ where: { id, status: 1 } });
 
     if (!section) {
       return {
@@ -56,12 +56,16 @@ export class SocialSectionService {
    * Get all social sections
    */
   async getAll() {
-    const sections = await this.repo.find({ order: { created_at: 'DESC' } });
+    const [sections, count] = await this.repo.findAndCount({
+      where: { status: 1 },
+      order: { id: 'ASC' },
+    });
 
     return {
       status: true,
       statusCode: 200,
       message: sections.length ? 'Sections fetched successfully' : 'No sections found',
+      count,
       data: sections,
     };
   }
@@ -70,7 +74,7 @@ export class SocialSectionService {
    * Get social section by ID
    */
   async getById(id: number) {
-    const section = await this.repo.findOne({ where: { id } });
+    const section = await this.repo.findOne({ where: { id, status: 1 } });
 
     if (!section) {
       return {
@@ -93,7 +97,11 @@ export class SocialSectionService {
    * Delete social section by ID
    */
   async delete(id: number) {
-    const result = await this.repo.delete(id);
+    const result = await this.repo.update(
+      { id },      
+      { status: 0 }
+    );
+
 
     if (result.affected === 0) {
       return {

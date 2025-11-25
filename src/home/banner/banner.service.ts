@@ -48,7 +48,7 @@ export class BannerService {
    * Update banner by ID
    */
   async updateBannerImage(id: number, data: Partial<BannerDto>) {
-    const banner = await this.bannerRepository.findOne({ where: { id } });
+    const banner = await this.bannerRepository.findOne({ where: { id, status: 1 } });
     if (!banner) {
       return {
         status: false,
@@ -57,8 +57,6 @@ export class BannerService {
         data: [],
       };
     }
-
-
     const updatePayload: any = { ...data };
     if (data.banner_images !== undefined) {
       updatePayload.banner_images =
@@ -87,19 +85,20 @@ export class BannerService {
     };
   }
 
-
-
   /**
    * Get all banners
    */
   async getAllBanners() {
-    const banners = await this.bannerRepository.find({ order: { id: 'ASC' } });
+    const [banners, count] = await this.bannerRepository.findAndCount({
+      where: { status: 1 },
+      order: { id: 'ASC' },
+    });
+
     const parsedBanners = banners.map((b) => {
       if (b.banner_images) {
         try {
           b.banner_images = JSON.parse(b.banner_images as any);
-        } catch (e) {
-        }
+        } catch (e) {}
       }
       return b;
     });
@@ -107,17 +106,17 @@ export class BannerService {
     return {
       status: true,
       statusCode: 200,
-      message: parsedBanners.length ? 'Banners fetched successfully' : 'No banners found',
+      message: count ? 'Banners fetched successfully' : 'No banners found',
+      count,            
       data: parsedBanners,
     };
   }
-
 
   /**
    * Get banner by ID
    */
   async getBannerById(id: number) {
-    const banner = await this.bannerRepository.findOne({ where: { id } });
+    const banner = await this.bannerRepository.findOne({ where: { id, status: 1 } });
 
     if (!banner) {
       return {
@@ -142,12 +141,14 @@ export class BannerService {
     };
   }
 
-
   /**
    * Delete banner by ID
    */
   async deleteBanner(id: number) {
-    const result = await this.bannerRepository.delete(id);
+    const result = await this.bannerRepository.update(
+      { id },      
+      { status: 0 }
+    );
 
     if (result.affected === 0) {
       return {

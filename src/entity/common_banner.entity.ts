@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity('common_banner')
 export class CommonBanner {
   @PrimaryGeneratedColumn()
   id: number;
@@ -13,6 +13,12 @@ export class CommonBanner {
 
   @Column({type:'longtext'})
   meta_value: string;
+  
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  status: 0 | 1; 
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

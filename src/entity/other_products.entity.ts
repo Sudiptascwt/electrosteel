@@ -5,16 +5,16 @@ export class OtherProducts {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type:'text', nullable: true })
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ type:'text',nullable: true })
   image: string;
 
   @Column({ type:'bigint', nullable: true })
   image_id: number;
 
-  @Column({ nullable: true })
+  @Column({ type:'text',nullable: true })
   description: string;
 
   @Column({
