@@ -11,11 +11,21 @@ export class AboutFacility {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // @Column({ type: 'longtext' })
+  // meta_key: string;
+
+  // @Column({ type: 'longtext', nullable: true })
+  // meta_value: string;
+
+
   @Column({ type: 'longtext' })
-  meta_key: string;
+  title: string;
 
   @Column({ type: 'longtext', nullable: true })
-  meta_value: string;
+  description: string;
+
+  @Column({ type: 'longtext', nullable: true })
+  features: string;
 
   @Column({
     type: 'tinyint',

@@ -9,6 +9,10 @@ export class VideoSectionDto {
   @IsNotEmpty({ message: 'Title is required' })
   title: string;
 
+  @IsString()
+  @IsOptional()
+  sub_title: string;
+
   @IsOptional()
   @IsString()
   video?: string;

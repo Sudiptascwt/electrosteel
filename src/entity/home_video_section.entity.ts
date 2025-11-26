@@ -11,6 +11,9 @@ export class VideoSection {
   @Column()
   title: string;
 
+  @Column({type: 'longtext',nullable: true})
+  sub_title: string;
+
   @Column({ nullable: true })
   video: string;
 

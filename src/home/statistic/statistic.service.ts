@@ -30,7 +30,7 @@ export class StatisticService {
    * Update an existing statistic
    */
   async updateStatistic(id: number, data: Partial<StatisticDto>) {
-    const stat = await this.statisticRepository.findOne({ where: { id } });
+    const stat = await this.statisticRepository.findOne({ where: { id, status: 1 } });
 
     if (!stat) {
       return {
@@ -56,7 +56,7 @@ export class StatisticService {
    * Get all statistics
    */
   async getAllStatistics() {
-    const stats = await this.statisticRepository.find({ order: { created_at: 'DESC' } });
+    const stats = await this.statisticRepository.find({ where: { status: 1 }, order: { created_at: 'DESC' } });
 
     return {
       status: true,
@@ -70,7 +70,7 @@ export class StatisticService {
    * Get statistic by ID
    */
   async getStatisticById(id: number) {
-    const stat = await this.statisticRepository.findOne({ where: { id } });
+    const stat = await this.statisticRepository.findOne({ where: { id, status: 1 } });
 
     if (!stat) {
       return {
@@ -93,7 +93,10 @@ export class StatisticService {
    * Delete statistic by ID
    */
   async deleteStatistic(id: number) {
-    const result = await this.statisticRepository.delete(id);
+    const result = await this.statisticRepository.update(
+      { id },      
+      { status: 0 }
+    );
 
     if (result.affected === 0) {
       return {

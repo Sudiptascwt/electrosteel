@@ -2,10 +2,13 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class AboutFacilityDto {
   @IsString()
-  meta_key: string;
+  title: string;
 
   @IsString()
-  meta_value: string;
+  description: string;
+
+  @IsString()
+  features: string;
 
   @IsEnum([0, 1])
   @IsOptional()

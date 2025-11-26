@@ -30,7 +30,7 @@ export class VideoSectionService {
    * Update video section by ID
    */
   async update(id: number, data: Partial<VideoSectionDto>) {
-    const section = await this.repo.findOne({ where: { id } });
+    const section = await this.repo.findOne({ where: { id, status: 1 } });
 
     if (!section) {
       return {
@@ -56,7 +56,7 @@ export class VideoSectionService {
    * Get all video sections
    */
   async getAll() {
-    const sections = await this.repo.find({ order: { created_at: 'DESC' } });
+    const sections = await this.repo.find({ where: { status: 1 },order: { created_at: 'DESC' } });
 
     return {
       status: true,
@@ -72,7 +72,7 @@ export class VideoSectionService {
    * Get single video section by ID
    */
   async getById(id: number) {
-    const section = await this.repo.findOne({ where: { id } });
+    const section = await this.repo.findOne({ where: { id,status: 1 } });
 
     if (!section) {
       return {
@@ -95,7 +95,10 @@ export class VideoSectionService {
    * Delete video section by ID
    */
   async delete(id: number) {
-    const result = await this.repo.delete(id);
+    const result = await this.repo.update(
+      { id },      
+      { status: 0 }
+    );
 
     if (result.affected === 0) {
       return {

@@ -26,22 +26,22 @@ export class BoardCommitteTypeService {
         return {
             status: true,
             statusCode: HttpStatus.CREATED,
-            message: 'Board committee created successfully',
+            message: 'Board committee type created successfully',
             data: savedBoardCommitteType,
         };
         } catch (error) {
-        return {
-            status: false,
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Something went wrong while creating BoardCommitteType',
-            error: error.message,
-        };
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while creating BoardCommitteType',
+                error: error.message,
+            };
         }
-  }
+    }
 
     // GET ALL
     async findAll() {
-        const data = await this.BoardCommitteTypeRepository.find();
+        const data = await this.BoardCommitteTypeRepository.find({ where: { status: 1 },order: { id: 'ASC' },  });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -52,18 +52,18 @@ export class BoardCommitteTypeService {
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.BoardCommitteTypeRepository.findOne({ where: { id } });
+        const About = await this.BoardCommitteTypeRepository.findOne({ where: { id, status: 1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
-                message: `Board committee with ID ${id} not found`,
+                message: `Board committee type with ID ${id} not found`,
             });
         }
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Board committee fetched successfully',
+            message: 'Board committee type fetched successfully',
             data: About,
         };
     }
@@ -75,7 +75,7 @@ export class BoardCommitteTypeService {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
-                message: `Board committee with ID ${id} not found`,
+                message: `Board committee type with ID ${id} not found`,
             });
         }
 
@@ -85,26 +85,30 @@ export class BoardCommitteTypeService {
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Board committee updated successfully',
+            message: 'Board committee type updated successfully',
             data: updatedAbout,
         };
     }
 
     // DELETE
     async delete(id: number) {
-        const result = await this.BoardCommitteTypeRepository.delete(id);
+        const result = await this.BoardCommitteTypeRepository.update(
+            { id },      
+            { status: 0 }
+        );
+
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
-                message: `Board committee with ID ${id} not found`,
+                message: `Board committee type with ID ${id} not found`,
             });
         }
 
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Board committee deleted successfully'
+            message: 'Board committee type deleted successfully'
         };
     }
 
@@ -129,7 +133,7 @@ export class BoardCommitteTypeService {
             error: error.message,
         };
         }
-  }
+    }
 
     // GET ALL
     async findAllBoardCommitteDetails() {

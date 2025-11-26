@@ -17,6 +17,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as path from 'path';
+import * as mime from 'mime-types';
 
 async function bootstrap() {
   // use NestExpressApplication so we can use express/static helpers reliably
@@ -58,15 +59,25 @@ async function bootstrap() {
     }),
   );
 
-  // 5️⃣ Cookie parser
+  //Cookie parser
   app.use(cookieParser());
 
-  // 6️⃣ Serve static uploads
-  // Use path.join(__dirname, '..', 'uploads') so this works after ts->js build (dist)
+  //Serve static uploads (with correct Content-Type headers)
   const uploadsDir = path.join(__dirname, '..', 'uploads');
-  // Option A: Express static
-  app.use('/uploads', express.static(uploadsDir));
-  // Option B (alternative): app.useStaticAssets(uploadsDir, { prefix: '/uploads/' });
+
+  app.use(
+    '/uploads',
+    express.static(uploadsDir, {
+      setHeaders: (res, filePath) => {
+        const contentType = mime.lookup(filePath); // detects mp4, mp3, jpg, png, pdf, etc.
+        
+        if (contentType) {
+          res.setHeader('Content-Type', contentType);
+        }
+      },
+    }),
+  );
+
 
   // 7️⃣ Start server
   await app.listen(3000, '0.0.0.0');

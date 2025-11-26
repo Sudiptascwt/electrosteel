@@ -11,13 +11,19 @@ export class AboutBanner {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'longtext' })
+    @Column({ type: 'text' })
+    name1: string;
+
+    @Column({ type: 'text' })
+    name2: string;
+
+    @Column({ type: 'text' })
     title: string;
 
     @Column({ type: 'longtext', nullable: true })
     description: string;
 
-    @Column({ type: 'longtext' })
+    @Column({ type: 'text' })
     image: string;
 
     @Column({ type: 'bigint', nullable: true })

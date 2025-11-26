@@ -15,24 +15,29 @@ export class BannerService {
    * Create new banner
    */
   async createBannerImage(data: BannerDto) {
-    // Check duplicate title
     if (data.title) {
       const exists = await this.bannerRepository.findOne({
         where: { title: data.title },
       });
-
-      // if (exists) {
-      //   return {
-      //     status: false,
-      //     statusCode: 400,
-      //     message: `Banner with title '${data.title}' already exists`,
-      //     data: [],
-      //   };
-      // }
     }
 
-    const newBanner = this.bannerRepository.create(data);
-    await this.bannerRepository.save(newBanner);
+    const payload: any = { ...data };
+
+    if (payload.banner_images !== undefined) {
+      payload.banner_images =
+        typeof payload.banner_images === 'string'
+          ? payload.banner_images
+          : JSON.stringify(payload.banner_images);
+    }
+
+    const newBanner: Banner = await this.bannerRepository.save(payload as Banner);
+
+    if (newBanner.banner_images) {
+      try {
+        newBanner.banner_images = JSON.parse(newBanner.banner_images as any);
+      } catch (e) {
+      }
+    }
 
     return {
       status: true,
@@ -41,8 +46,6 @@ export class BannerService {
       data: newBanner,
     };
   }
-
-
 
   /**
    * Update banner by ID

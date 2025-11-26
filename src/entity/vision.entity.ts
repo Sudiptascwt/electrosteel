@@ -12,17 +12,26 @@ export class Vision {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
+  @Column({ type: 'text', nullable: false })
+  name1: string;  
+
+  @Column({ type: 'text', nullable: false })
+  name2: string;  
+
   @Column({ type: 'longtext', nullable: false })
   heading: string;  
 
   @Column({ type: 'longtext', nullable: true })
   image: string;
 
-  @Column({ type: 'bigint', nullable: false })
-  image_id: number;  
-
   @Column({type: 'longtext', nullable: true })
   description: string;
+
+  @Column({ type: 'text', nullable: false })
+  lower_name1: string;  
+
+  @Column({ type: 'text', nullable: false })
+  lower_name2: string;  
 
   @Column({
     type: 'tinyint',
