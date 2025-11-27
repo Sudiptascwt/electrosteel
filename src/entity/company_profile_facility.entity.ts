@@ -11,13 +11,6 @@ export class AboutFacility {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column({ type: 'longtext' })
-  // meta_key: string;
-
-  // @Column({ type: 'longtext', nullable: true })
-  // meta_value: string;
-
-
   @Column({ type: 'longtext' })
   title: string;
 
@@ -26,6 +19,12 @@ export class AboutFacility {
 
   @Column({ type: 'longtext', nullable: true })
   features: string;
+
+  @Column({ type: 'longtext', nullable: true })
+  address: string;
+
+  @Column({ type: 'text', nullable: true })
+  image: string;
 
   @Column({
     type: 'tinyint',

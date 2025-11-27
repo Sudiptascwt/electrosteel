@@ -29,7 +29,7 @@ export class BelowBannerService{
           message: 'Something went wrong while creating below banner data',
           error: error.message,
         };
-    }
+      }
   }
 
   async updateBelowBanner(id: number, data: Partial<BelowBannerDto>) {

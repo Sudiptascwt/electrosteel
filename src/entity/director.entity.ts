@@ -17,8 +17,6 @@ export class Directors {
   @Column({ type:'varchar', length:255, nullable: true })
   profile_image: string;
 
-  @Column({ type:'bigint', nullable: true })
-  profile_image_id: number;
 
   @Column({ type: 'longtext' })
   url: string;

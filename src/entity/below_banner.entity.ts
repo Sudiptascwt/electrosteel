@@ -12,6 +12,12 @@ export class BelowBanner {
   id: number;
 
   @Column({ type: 'longtext'})
+  name1: string;
+
+  @Column({ type: 'longtext'})
+  name2: string;
+
+  @Column({ type: 'longtext'})
   title: string;
 
   @Column({ type: 'longtext', nullable: true })  

@@ -110,7 +110,7 @@ export class AuthService {
 
   
     const payload = { sub: user.id, email: user.email, role: user.role };
-    const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+    const token = this.jwtService.sign(payload, { expiresIn: '7d' });
 
     return {
       status: true,

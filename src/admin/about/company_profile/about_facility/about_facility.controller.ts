@@ -15,9 +15,10 @@ export class AboutFacilityController {
 
     // Create committee type
     @Post('facility')
-    async create(@Body() createDto: AboutFacilityDto) {
-        return this.AboutFacilityervice.create(createDto);
+    async create(@Body() body: any) {
+        return this.AboutFacilityervice.create(body);
     }
+    
 
     // Get all committee type
     @Get('facility')

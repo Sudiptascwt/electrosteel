@@ -17,10 +17,6 @@ export class DirectorsDto {
   @IsString()
   profile_image?: string;
 
-  @IsOptional()
-  @IsInt()
-  profile_image_id?: number
-
   @IsNotEmpty({ message: 'URL is required' })
   @IsUrl({}, { message: 'Please enter a valid URL' })
   url: string;

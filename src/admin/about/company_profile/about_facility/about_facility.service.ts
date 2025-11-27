@@ -3,27 +3,39 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AboutFacility } from '../../../../entity/company_profile_facility.entity';
 import { AboutFacilityDto } from '../../../../dto/company_profile_facility.dto';
+import { FacilityName } from 'src/entity/facility_name.entity';
+import { FacilityNameDto } from 'src/dto/facility_name.dto';
 
 @Injectable()
 export class AboutFacilityService {
     constructor(
         @InjectRepository(AboutFacility)
         private readonly AboutFacilityRepository: Repository<AboutFacility>,
+        @InjectRepository(FacilityName)
+        private readonly FacilityNameRepository: Repository<FacilityName>,
     ) {}
     
-
-    // CREATE
-    async create(createDto: AboutFacilityDto) {
+    async create(body: any) {
         try {
-            const newAboutFacility = this.AboutFacilityRepository.create(createDto);
-            const savedAboutFacility = await this.AboutFacilityRepository.save(newAboutFacility);
+        const { name1, name2, data } = body;
 
-            return {
-                status: true,
-                statusCode: HttpStatus.CREATED,
-                message: 'About facility created successfully',
-                data: savedAboutFacility,
-            };
+        const facilityName = this.FacilityNameRepository.create({ name1, name2 });
+        const savedFacilityName = await this.FacilityNameRepository.save(facilityName);
+
+        const facilitiesArray: AboutFacilityDto[] = Array.isArray(data) ? data : [data];
+
+        const facilityEntities = this.AboutFacilityRepository.create(facilitiesArray);
+        const savedFacilities = await this.AboutFacilityRepository.save(facilityEntities);
+
+        return {
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'About facility created successfully',
+            data: {
+            facilityName: savedFacilityName,
+            facilities: savedFacilities,
+            },
+        };
         } catch (error) {
             return {
                 status: false,
@@ -36,70 +48,148 @@ export class AboutFacilityService {
 
     // GET ALL
     async findAll() {
-        const data = await this.AboutFacilityRepository.find();
+    try {
+        const facilities = await this.AboutFacilityRepository.find();
+
+        // get first facilityName row (if any)
+        const [facilityName] = await this.FacilityNameRepository.find({
+        order: { id: 'ASC' },
+        take: 1,
+        });
+
         return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'AboutFacility fetched successfully' : 'No AboutFacility found',
-            data,
+        status: true,
+        statusCode: HttpStatus.OK,
+        message:
+            facilities.length > 0
+            ? 'AboutFacility fetched successfully'
+            : 'No AboutFacility found',
+        data: {
+            name1: facilityName?.name1 ?? null,
+            name2: facilityName?.name2 ?? null,
+            data: facilities,
+        },
         };
+    } catch (error) {
+        return {
+        status: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Something went wrong while fetching AboutFacility',
+        error: error.message,
+        };
+    }
     }
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.AboutFacilityRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
+        try{
+            const facility = await this.AboutFacilityRepository.findOne({ where: { id } });
+
+            if (!facility) {
+                throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
                 message: `About facility with ID ${id} not found`,
-            });
+                });
+            }
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'About facility fetched successfully',
+                data: facility,
+            };
+        } catch (error) {
+            return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while updating AboutFacility',
+            error: error.message,
+            };
         }
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'About facility fetched successfully',
-            data: About,
-        };
+
     }
 
     // UPDATE
-    async update(id: number, updateDto: AboutFacilityDto) {
-        const About = await this.AboutFacilityRepository.findOne({ where: { id } });
-        if (!About) {
+    async update(id: number, body: any) {
+        try {
+            const { name1, name2, data } = body;
+
+            const facility = await this.AboutFacilityRepository.findOne({ where: { id } });
+
+            if (!facility) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
                 message: `About facility with ID ${id} not found`,
             });
+            }
+
+            let facilityName = await this.FacilityNameRepository.findOne({
+            where: { status: 1 },  
+            order: { id: 'ASC' },
+            });
+
+            if (!facilityName) {
+            facilityName = this.FacilityNameRepository.create({});
+            }
+
+            if (name1 !== undefined) facilityName.name1 = name1;
+            if (name2 !== undefined) facilityName.name2 = name2;
+
+            const updatedFacilityName = await this.FacilityNameRepository.save(facilityName);
+
+            const updateData = Array.isArray(data) ? data[0] : data;
+
+            Object.assign(facility, updateData);
+            const updatedFacility = await this.AboutFacilityRepository.save(facility);
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'About facility updated successfully',
+                data: {
+                    facilityName: updatedFacilityName,
+                    facility: updatedFacility,
+                },
+            };
+        } catch (error) {
+            return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while updating AboutFacility',
+            error: error.message,
+            };
         }
-
-        Object.assign(About, updateDto);
-        const updatedAbout = await this.AboutFacilityRepository.save(About);
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'About facility updated successfully',
-            data: updatedAbout,
-        };
     }
+
 
     // DELETE
     async delete(id: number) {
-        const result = await this.AboutFacilityRepository.delete(id);
-        if (result.affected == 0) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `About facility with ID ${id} not found`,
-            });
-        }
+        try {
+            const result = await this.AboutFacilityRepository.delete(id);
 
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'About facility deleted successfully'
-        };
+            if (result.affected === 0) {
+                throw new NotFoundException({
+                    status: false,
+                    statusCode: HttpStatus.NOT_FOUND,
+                    message: `About facility with ID ${id} not found`,
+                });
+            }
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'About facility deleted successfully',
+            };
+        } catch (error) {
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while updating AboutFacility',
+                error: error.message,
+            };
+        }
     }
+
 }

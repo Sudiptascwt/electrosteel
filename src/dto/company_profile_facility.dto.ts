@@ -10,6 +10,12 @@ export class AboutFacilityDto {
   @IsString()
   features: string;
 
+  @IsString()
+  image: string;
+
+  @IsString()
+  address: string;
+
   @IsEnum([0, 1])
   @IsOptional()
   status?: 0 | 1;

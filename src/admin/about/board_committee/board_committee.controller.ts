@@ -7,6 +7,7 @@ import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { BoardCommitteTitleDto } from 'src/dto/board_committe_title.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -14,6 +15,26 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class BoardCommitteTypeController {
     constructor(private readonly BoardCommitteTypeervice: BoardCommitteTypeService) {}
 
+    /////create board committe titles///
+    @Post('main-titles')
+    createMainTitles(@Body() createDto: BoardCommitteTitleDto) {
+    return this.BoardCommitteTypeervice.createMainTitles(createDto);
+    }
+    // Get board committe titles
+    @Get('main-titles')
+    async findAllMainTitles() {
+        return this.BoardCommitteTypeervice.findAllMainTitles();
+    }
+
+    // Update committee titles
+    @Put('main-titles/:id')
+    updateMainTitles(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: BoardCommitteTitleDto,
+    ) {
+    return this.BoardCommitteTypeervice.updateMainTitles(id, updateDto);
+    }
+    //////////committe type//////////
     // Create committee type
     @Post('board-committe-type')
     async create(@Body() createDto: BoardCommitteTypeDto) {
