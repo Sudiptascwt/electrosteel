@@ -14,12 +14,9 @@ export class Banner {
   @Column({ type: 'varchar', length: 255 })
   title: string;
 
-  @Column({ type: 'longtext', nullable: true })
-  banner_video: string;
-
   // Store JSON array as TEXT
   @Column({ type: 'longtext', nullable: true })
-  banner_images: string;
+  banner_file: string;
 
   @Column({
     type: 'tinyint',

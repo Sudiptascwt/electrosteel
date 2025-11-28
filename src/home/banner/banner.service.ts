@@ -11,39 +11,70 @@ export class BannerService {
     private readonly bannerRepository: Repository<Banner>,
   ) {}
 
+
+    private parseBannerFile(banner: Banner): Banner {
+    if (banner?.banner_file) {
+      try {
+        banner.banner_file = JSON.parse(banner.banner_file as any);
+      } catch (e) {
+        // ignore parse error, keep as raw string
+      }
+    }
+    return banner;
+  }
+
   /**
    * Create new banner
    */
-  async createBannerImage(data: BannerDto) {
-    if (data.title) {
-      const exists = await this.bannerRepository.findOne({
-        where: { title: data.title },
-      });
-    }
+  async createBannerImage(data: BannerDto | BannerDto[]) {
+    const bannersInput = Array.isArray(data) ? data : [data];
 
-    const payload: any = { ...data };
+    const results: Banner[] = [];
 
-    if (payload.banner_images !== undefined) {
-      payload.banner_images =
-        typeof payload.banner_images === 'string'
-          ? payload.banner_images
-          : JSON.stringify(payload.banner_images);
-    }
+    for (const item of bannersInput) {
+      // 1️⃣ Check if a banner with this title already exists
+      let existing: Banner | null = null;
 
-    const newBanner: Banner = await this.bannerRepository.save(payload as Banner);
+      if (item.title) {
+        existing = await this.bannerRepository.findOne({
+          where: { title: item.title, status: 1 },
+        });
+      }
 
-    if (newBanner.banner_images) {
-      try {
-        newBanner.banner_images = JSON.parse(newBanner.banner_images as any);
-      } catch (e) {
+      // 2️⃣ Prepare payload (handle banner_file as JSON/string)
+      const payload: any = { ...item };
+
+      if (payload.banner_file !== undefined) {
+        payload.banner_file =
+          typeof payload.banner_file === 'string'
+            ? payload.banner_file
+            : JSON.stringify(payload.banner_file);
+      }
+
+      // 3️⃣ If exists → UPDATE, else → CREATE
+      if (existing) {
+        await this.bannerRepository.update(existing.id, payload);
+
+        const updated = await this.bannerRepository.findOne({
+          where: { id: existing.id },
+        });
+
+        if (updated) {
+          this.parseBannerFile(updated);
+          results.push(updated);
+        }
+      } else {
+        const newBanner = await this.bannerRepository.save(payload as Banner);
+        this.parseBannerFile(newBanner);
+        results.push(newBanner);
       }
     }
 
     return {
       status: true,
-      statusCode: 201,
-      message: 'Banner created successfully',
-      data: newBanner,
+      statusCode: 200,
+      message: 'Banners created/updated successfully',
+      data: results,
     };
   }
 
@@ -51,7 +82,10 @@ export class BannerService {
    * Update banner by ID
    */
   async updateBannerImage(id: number, data: Partial<BannerDto>) {
-    const banner = await this.bannerRepository.findOne({ where: { id, status: 1 } });
+    const banner = await this.bannerRepository.findOne({
+      where: { id, status: 1 },
+    });
+
     if (!banner) {
       return {
         status: false,
@@ -60,24 +94,22 @@ export class BannerService {
         data: [],
       };
     }
+
     const updatePayload: any = { ...data };
-    if (data.banner_images !== undefined) {
-      updatePayload.banner_images =
-        typeof data.banner_images === 'string'
-          ? data.banner_images
-          : JSON.stringify(data.banner_images);
+
+    if (data.banner_file !== undefined) {
+      updatePayload.banner_file =
+        typeof data.banner_file === 'string'
+          ? data.banner_file
+          : JSON.stringify(data.banner_file);
     }
 
     await this.bannerRepository.update(id, updatePayload);
 
     const updated = await this.bannerRepository.findOne({ where: { id } });
 
-    if (updated && updated.banner_images) {
-      try {
-        updated.banner_images = JSON.parse(updated.banner_images as any);
-      } catch (e) {
-        
-      }
+    if (updated) {
+      this.parseBannerFile(updated);
     }
 
     return {
@@ -97,20 +129,13 @@ export class BannerService {
       order: { id: 'ASC' },
     });
 
-    const parsedBanners = banners.map((b) => {
-      if (b.banner_images) {
-        try {
-          b.banner_images = JSON.parse(b.banner_images as any);
-        } catch (e) {}
-      }
-      return b;
-    });
+    const parsedBanners = banners.map((b) => this.parseBannerFile(b));
 
     return {
       status: true,
       statusCode: 200,
       message: count ? 'Banners fetched successfully' : 'No banners found',
-      count,            
+      count,
       data: parsedBanners,
     };
   }
@@ -119,7 +144,9 @@ export class BannerService {
    * Get banner by ID
    */
   async getBannerById(id: number) {
-    const banner = await this.bannerRepository.findOne({ where: { id, status: 1 } });
+    const banner = await this.bannerRepository.findOne({
+      where: { id, status: 1 },
+    });
 
     if (!banner) {
       return {
@@ -130,11 +157,7 @@ export class BannerService {
       };
     }
 
-    if (banner.banner_images) {
-      try {
-        banner.banner_images = JSON.parse(banner.banner_images as any);
-      } catch (e) {}
-    }
+    this.parseBannerFile(banner);
 
     return {
       status: true,

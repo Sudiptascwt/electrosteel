@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IndiaOfficeDetails } from '../../entity/office_details.entity';
-import { IndiaOfficeDetailsDto } from '../../dto/india_office_details.dto';
+import { AllOfficeDetails } from '../../entity/office_details.entity';
+import { AllOfficeDetailsDto } from '../../dto/india_office_details.dto';
 
 @Injectable()
-export class IndiaOfficeDetailsService {
+export class AllOfficeDetailsService {
   constructor(
-    @InjectRepository(IndiaOfficeDetails)
-    private readonly indiaOfficeRepo: Repository<IndiaOfficeDetails>,
+    @InjectRepository(AllOfficeDetails)
+    private readonly indiaOfficeRepo: Repository<AllOfficeDetails>,
   ) {}
 
   // CREATE
-  async create(createDto: IndiaOfficeDetailsDto) {
+  async create(createDto: AllOfficeDetailsDto) {
     const office = this.indiaOfficeRepo.create(createDto);
     const data = await this.indiaOfficeRepo.save(office);
 
@@ -50,7 +50,7 @@ export class IndiaOfficeDetailsService {
   }
 
   // UPDATE
-  async update(id: number, updateDto: IndiaOfficeDetailsDto) {
+  async update(id: number, updateDto: AllOfficeDetailsDto) {
     const office = await this.indiaOfficeRepo.findOne({ where: { id } });
     if (!office) {
       throw new NotFoundException({

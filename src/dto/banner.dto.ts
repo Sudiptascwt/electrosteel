@@ -6,11 +6,7 @@ export class BannerDto {
 
   @IsOptional()
   @IsString()
-  banner_video?: string;
-
-  @IsOptional()
-  @IsString()
-  banner_images: string;
+  banner_file?: string;
 
   @IsEnum([0, 1])
   @IsOptional()

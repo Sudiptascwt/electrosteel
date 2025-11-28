@@ -1,6 +1,6 @@
 import { IsOptional, IsString, IsEmail } from 'class-validator';
 
-export class IndiaOfficeDetailsDto {
+export class AllOfficeDetailsDto {
     @IsOptional()
     @IsString()
     title?: string;
@@ -8,6 +8,10 @@ export class IndiaOfficeDetailsDto {
     @IsOptional()
     @IsString()
     country?: string;
+
+    @IsOptional()
+    @IsString()
+    region?: string;
 
     @IsOptional()
     @IsString()

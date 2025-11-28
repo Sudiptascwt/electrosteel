@@ -15,6 +15,25 @@ export class AdvertisementService {
    * Create a new advertisement
    */
   async create(data: AdvertisementDto) {
+    const existingAds = await this.advertisementRepository.find();
+
+    if (existingAds.length > 0) {
+      const existing = existingAds[0];
+
+      await this.advertisementRepository.update(existing.id, data);
+
+      const updatedAd = await this.advertisementRepository.findOne({
+        where: { id: existing.id },
+      });
+
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Advertisement updated successfully',
+        data: updatedAd,
+      };
+    }
+
     const newAd = this.advertisementRepository.create(data);
     const savedAd = await this.advertisementRepository.save(newAd);
 
@@ -25,6 +44,7 @@ export class AdvertisementService {
       data: savedAd,
     };
   }
+
 
   /**
    * Update existing advertisement by ID

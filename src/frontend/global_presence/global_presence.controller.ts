@@ -40,4 +40,14 @@ export class FrontendGlobalPresenceController {
             data,
         };
     }
+    @Get()
+    async findOfficeDetails() {
+        const data = await this.GlobalPresenceService.findOfficeDetails();
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'All type offices fetched successfully',
+            data,
+        };
+    }
 }

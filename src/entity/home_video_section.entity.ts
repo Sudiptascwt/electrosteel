@@ -6,9 +6,6 @@ export class VideoSection {
   id: number;
 
   @Column()
-  page_id: number;
-
-  @Column()
   title: string;
 
   @Column({type: 'longtext',nullable: true})
@@ -16,9 +13,6 @@ export class VideoSection {
 
   @Column({ nullable: true })
   video: string;
-
-  @Column({ nullable: true })
-  video_id: number;
 
   @Column({ type: 'longtext',nullable: true })
   description: string;

@@ -11,9 +11,6 @@ export class Advertisement {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  page_id: number;
-
   @Column({ type: 'text', nullable: true })
   title1: string;
 
@@ -37,15 +34,6 @@ export class Advertisement {
 
   @Column({ type: 'text', nullable: true })
   image3: string;
-
-  @Column({ type: 'bigint', nullable: true })
-  image1_id: number;
-
-  @Column({ type: 'bigint', nullable: true })
-  image2_id: number;
-
-  @Column({ type: 'bigint', nullable: true })
-  image3_id: number;
 
   @Column({
     type: 'tinyint',

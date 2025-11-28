@@ -15,8 +15,26 @@ export class SectionElectrosteelService {
    * Create a new section
    */
   async create(data: SectionElectrosteelDto) {
-    const section = this.repo.create(data);
-    const saved = await this.repo.save(section);
+
+    const existingRecords = await this.repo.find();
+
+    if (existingRecords.length > 0) {
+      const existing = existingRecords[0]; 
+
+      await this.repo.update(existing.id, data);
+
+      const updated = await this.repo.findOne({ where: { id: existing.id } });
+
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Section updated successfully',
+        data: updated,
+      };
+    }
+
+    const newSection = this.repo.create(data);
+    const saved = await this.repo.save(newSection);
 
     return {
       status: true,

@@ -7,14 +7,16 @@ import { SocialSection } from 'src/entity/social_section.entity';
 import { Banner } from 'src/entity/banner.entity';
 import { SectionElectrosteel } from 'src/entity/section_electrosteel.entity';
 import { Advertisement } from 'src/entity/advertisement.entity';
-import { Milestone } from 'src/entity/milestone.entity';
 import { Statistic } from 'src/entity/statistic.entity';
 import { Testimonial } from 'src/entity/home_testimonial.entity';
 import { VideoSection } from 'src/entity/home_video_section.entity';
 import { Product } from 'src/entity/product.entity';
+import { Blogs } from 'src/entity/blogs.entity';
+import { MilestoneTitle } from '../../entity/milestone_title.entity'
+import { Milestone } from '../../entity/milestone.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel, Advertisement, Milestone, Statistic, Testimonial, VideoSection, Product])],
+  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel, Advertisement, Milestone, Statistic, Testimonial, VideoSection, Product, Blogs, MilestoneTitle])],
   controllers: [HomeController],
   providers: [HomeService],
 })

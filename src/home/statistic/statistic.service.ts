@@ -15,8 +15,29 @@ export class StatisticService {
    * Create a new statistic
    */
   async createStatistic(data: Partial<StatisticDto>) {
-    const stat = this.statisticRepository.create(data);
-    const saved = await this.statisticRepository.save(stat);
+   
+    const existingRecords = await this.statisticRepository.find();
+
+    if (existingRecords.length > 0) {
+      const existing = existingRecords[0]; 
+
+      await this.statisticRepository.update(existing.id, data);
+
+      const updated = await this.statisticRepository.findOne({
+        where: { id: existing.id },
+      });
+
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Statistic updated successfully.',
+        data: updated,
+      };
+    }
+
+    // No record exists → create new
+    const newRecord = this.statisticRepository.create(data);
+    const saved = await this.statisticRepository.save(newRecord);
 
     return {
       status: true,
@@ -25,6 +46,7 @@ export class StatisticService {
       data: saved,
     };
   }
+
 
   /**
    * Update an existing statistic

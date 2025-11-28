@@ -32,7 +32,7 @@ export class AboutFacilityService {
             statusCode: HttpStatus.CREATED,
             message: 'About facility created successfully',
             data: {
-            facilityName: savedFacilityName,
+            ...savedFacilityName, 
             facilities: savedFacilities,
             },
         };
@@ -58,17 +58,17 @@ export class AboutFacilityService {
         });
 
         return {
-        status: true,
-        statusCode: HttpStatus.OK,
-        message:
-            facilities.length > 0
-            ? 'AboutFacility fetched successfully'
-            : 'No AboutFacility found',
-        data: {
-            name1: facilityName?.name1 ?? null,
-            name2: facilityName?.name2 ?? null,
-            data: facilities,
-        },
+            status: true,
+            statusCode: HttpStatus.OK,
+            message:
+                facilities.length > 0
+                ? 'AboutFacility fetched successfully'
+                : 'No AboutFacility found',
+            data: {
+                name1: facilityName?.name1 ?? null,
+                name2: facilityName?.name2 ?? null,
+                data: facilities,
+            },
         };
     } catch (error) {
         return {
@@ -84,6 +84,10 @@ export class AboutFacilityService {
     async findById(id: number) {
         try{
             const facility = await this.AboutFacilityRepository.findOne({ where: { id } });
+            const [facilityName] = await this.FacilityNameRepository.find({
+                order: { id: 'ASC' },
+                take: 1,
+            });
 
             if (!facility) {
                 throw new NotFoundException({
@@ -97,7 +101,11 @@ export class AboutFacilityService {
                 status: true,
                 statusCode: HttpStatus.OK,
                 message: 'About facility fetched successfully',
-                data: facility,
+                data: {
+                    name1: facilityName?.name1 ?? null,
+                    name2: facilityName?.name2 ?? null,
+                    facility: facility, 
+                },
             };
         } catch (error) {
             return {
@@ -107,7 +115,6 @@ export class AboutFacilityService {
             error: error.message,
             };
         }
-
     }
 
     // UPDATE
@@ -149,8 +156,8 @@ export class AboutFacilityService {
                 statusCode: HttpStatus.OK,
                 message: 'About facility updated successfully',
                 data: {
-                    facilityName: updatedFacilityName,
-                    facility: updatedFacility,
+                ...updatedFacilityName, 
+                facility: updatedFacility,
                 },
             };
         } catch (error) {

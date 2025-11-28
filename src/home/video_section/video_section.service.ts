@@ -15,8 +15,28 @@ export class VideoSectionService {
    * Create a new video section
    */
   async create(data: VideoSectionDto) {
-    const section = this.repo.create(data);
-    const saved = await this.repo.save(section);
+
+    const existingSections = await this.repo.find();
+
+    if (existingSections.length > 0) {
+      const existing = existingSections[0];   
+
+      await this.repo.update(existing.id, data);
+
+      const updated = await this.repo.findOne({
+        where: { id: existing.id },
+      });
+
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Video Section updated successfully',
+        data: updated,
+      };
+    }
+
+    const newSection = this.repo.create(data);
+    const saved = await this.repo.save(newSection);
 
     return {
       status: true,

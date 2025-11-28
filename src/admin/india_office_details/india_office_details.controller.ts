@@ -9,8 +9,8 @@ import {
   ParseIntPipe,
   HttpStatus,
 } from '@nestjs/common';
-import { IndiaOfficeDetailsService } from './india_office_details.service';
-import {IndiaOfficeDetailsDto} from '../../dto/india_office_details.dto';
+import { AllOfficeDetailsService } from './india_office_details.service';
+import {AllOfficeDetailsDto} from '../../dto/india_office_details.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
@@ -20,12 +20,12 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 @Controller('all-type-office-details')
-export class IndiaOfficeDetailsController {
-  constructor(private readonly indiaOfficeService: IndiaOfficeDetailsService) {}
+export class AllOfficeDetailsController {
+  constructor(private readonly indiaOfficeService: AllOfficeDetailsService) {}
 
   // CREATE
   @Post()
-  async create(@Body() createDto: IndiaOfficeDetailsDto) {
+  async create(@Body() createDto: AllOfficeDetailsDto) {
     const data = await this.indiaOfficeService.create(createDto);
     return data;
   }
@@ -48,7 +48,7 @@ export class IndiaOfficeDetailsController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: IndiaOfficeDetailsDto,
+    @Body() updateDto: AllOfficeDetailsDto,
   ) {
     const data = await this.indiaOfficeService.update(id, updateDto);
     return data;

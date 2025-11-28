@@ -1,6 +1,8 @@
 import {
+  Body,
   Controller,
   Get,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -20,5 +22,13 @@ export class OfficesController {
   @Get('india')
   async getIndiaOfficesData() {
     return this.OfficesService.getIndiaOfficesData();
+  }
+
+  @Post('by-region-country')
+  async getOfficesByRegionAndCountry(
+    @Body('region') region: string,
+    @Body('country') country: string,
+  ) {
+    return this.OfficesService.findOfficeByRegionAndCountry(region, country);
   }
 }

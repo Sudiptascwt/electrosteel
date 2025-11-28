@@ -37,18 +37,6 @@ export class AdvertisementDto {
   @IsString()
   image3?: string; 
 
-  @IsOptional()
-  @IsInt()
-  image1_id?: number;
-
-  @IsOptional()
-  @IsInt()
-  image2_id?: number;
-
-  @IsOptional()
-  @IsInt()
-  image3_id?: number;
-
   @IsEnum([0, 1])
   @IsOptional()
   status?: 0 | 1; 

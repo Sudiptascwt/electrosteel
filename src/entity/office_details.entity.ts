@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('india_office_details')
-export class IndiaOfficeDetails {
+@Entity('all_office_details')
+export class AllOfficeDetails {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
@@ -37,6 +37,9 @@ export class IndiaOfficeDetails {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   google_map_link?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  region?: string;
 
   @Column({
     type: 'tinyint',

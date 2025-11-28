@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { IndiaOfficeDetails } from '../../entity/office_details.entity';
-import { IndiaOfficeDetailsController } from './india_office_details.controller';
-import { IndiaOfficeDetailsService } from './india_office_details.service';
+import { AllOfficeDetails } from '../../entity/office_details.entity';
+import { AllOfficeDetailsController } from './india_office_details.controller';
+import { AllOfficeDetailsService } from './india_office_details.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IndiaOfficeDetails])],
-  controllers: [IndiaOfficeDetailsController],
-  providers: [IndiaOfficeDetailsService],
+  imports: [TypeOrmModule.forFeature([AllOfficeDetails])],
+  controllers: [AllOfficeDetailsController],
+  providers: [AllOfficeDetailsService],
 })
-export class IndiaOfficeDetailsModule {}
+export class AllOfficeDetailsModule {}
