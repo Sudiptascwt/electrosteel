@@ -28,10 +28,10 @@ export class Vision {
   description: string;
 
   @Column({ type: 'text', nullable: false })
-  lower_name1: string;  
+  principle_title_name1: string;  
 
   @Column({ type: 'text', nullable: false })
-  lower_name2: string;  
+  principle_title_name2: string;  
 
   @Column({
     type: 'tinyint',

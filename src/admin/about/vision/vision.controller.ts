@@ -29,26 +29,6 @@ export class AboutController {
         return this.AboutService.findAll();
     }
 
-    // Get About by ID
-    @Get('vision/:id')
-    async findById(@Param('id', ParseIntPipe) id: number) {
-        return this.AboutService.findById(id);
-    }
-
-    // Update About
-    @Put('vision/:id')
-    async update(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() updateDto: VisionDto
-    ) {
-        return this.AboutService.update(id, updateDto);
-    }
-
-    // Delete About
-    @Delete('vision/:id')
-    async delete(@Param('id', ParseIntPipe) id: number) {
-        return this.AboutService.delete(id);
-    }
     //////////// vision principles//////////////////
     // Create Vision principles
     @Post('vision/principles')

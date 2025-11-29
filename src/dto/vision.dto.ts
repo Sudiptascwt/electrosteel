@@ -23,6 +23,12 @@ export class VisionDto {
   description?: string;
 
   @IsOptional()
+  principle_title_name1?: string;
+
+  @IsOptional()
+  principle_title_name2?: string;
+
+  @IsOptional()
   @IsNumber()
   @IsIn([0, 1]) // Only allow 0 or 1
   status?: number;

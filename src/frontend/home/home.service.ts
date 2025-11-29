@@ -49,7 +49,7 @@ export class HomeService {
     const advertisements = await this.AdvertisementRepo.find();
     const milestones = await this.MilestoneRepo.find();
     const statistics = await this.StatisticRepo.find();
-    const video_sections = await this.VideoSectionRepo.find();
+    const video_sections = await this.VideoSectionRepo.find();  ``
     const product_details = await this .ProductRepo.find();
     const social_blog_details = await this.BlogsRepo.find({ where: { category: 'SOCIAL' },});
     const business_blog_details = await this.BlogsRepo.find({ where: { category: 'BUSINESS WORLD' },});

@@ -16,26 +16,42 @@ export class AboutService {
     ) {}
 
     // CREATE
-    async create(createDto: VisionDto) {
-        try {
-        const newVision = this.VisionRepository.create(createDto);
-        const savedVision = await this.VisionRepository.save(newVision);
+    async create(dto: VisionDto) {
+    try {
+        const existing = await this.VisionRepository.find({
+        });
+        let saved;
+        if (existing) {
+            Object.assign(existing, dto);
+            saved = await this.VisionRepository.save(existing);
+
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Vision updated successfully',
+                data: saved,
+            };
+        }
+
+        const created = this.VisionRepository.create(dto);
+        saved = await this.VisionRepository.save(created);
 
         return {
             status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Vision created successfully',
-            data: savedVision,
+            data: saved,
         };
-        } catch (error) {
+
+    } catch (error) {
         return {
-            status: false,
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Something went wrong while creating Vision',
-            error: error.message,
+        status: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Something went wrong',
+        error: error.message,
         };
-        }
-  }
+    }
+    }
 
     // GET ALL
     async findAll() {
@@ -48,65 +64,7 @@ export class AboutService {
         };
     }
 
-    // GET BY ID
-    async findById(id: number) {
-        const About = await this.VisionRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
-            });
-        }
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision fetched successfully',
-            data: About,
-        };
-    }
-
-    // UPDATE
-    async update(id: number, updateDto: VisionDto) {
-        const About = await this.VisionRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
-            });
-        }
-
-        Object.assign(About, updateDto);
-        const updatedAbout = await this.VisionRepository.save(About);
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision updated successfully',
-            data: updatedAbout,
-        };
-    }
-
-    // DELETE
-    async delete(id: number) {
-        const result = await this.VisionRepository.delete(id);
-        if (result.affected === 0) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
-            });
-        }
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision deleted successfully'
-        };
-    }
-
-        // CREATE
+    // CREATE
     async createPrinciples(createDto: VisionPrinciplesDto) {
         try {
         const newVision = this.VisionPrinciplesRepository.create(createDto);

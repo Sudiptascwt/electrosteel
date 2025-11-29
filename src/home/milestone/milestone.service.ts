@@ -19,47 +19,59 @@ export class MilestoneService {
     private readonly dataSource: DataSource, // for transactions
   ) {}
 
-  // CREATE parent + children in one transaction
   async createMilestone(data: MilestoneTitleDto) {
     if (!data?.milestones || !Array.isArray(data.milestones) || data.milestones.length === 0) {
       throw new BadRequestException('milestones array is required.');
     }
 
-    // Validate duplicate years within request
+    // ✅ Validate duplicate years within request
     const years = data.milestones.map(m => m.year);
     const duplicates = years.filter((y, i) => years.indexOf(y) !== i);
     if (duplicates.length) {
-      throw new BadRequestException(`Duplicate year(s) in payload: ${[...new Set(duplicates)].join(', ')}`);
+      throw new BadRequestException(
+        `Duplicate year(s) in payload: ${[...new Set(duplicates)].join(', ')}`
+      );
     }
 
-    // Check existing years in DB (optional)
-    const existing = await this.milestoneRepo.find({ where: { year: In(years) }, select: ['year'] });
-    if (existing.length) {
-      const exists = existing.map(e => e.year).join(', ');
-      throw new BadRequestException(`Milestone year(s) already exist: ${exists}`);
-    }
-
-    // Transactional save
     return await this.dataSource.transaction(async manager => {
-      const titleEntity = manager.create(MilestoneTitle, {
+      const milestoneTitleRepo = manager.getRepository(MilestoneTitle);
+
+      // 1️⃣ Delete ALL existing milestones
+      await manager
+        .createQueryBuilder()
+        .delete()
+        .from(Milestone)
+        .execute();
+
+      // 2️⃣ Delete ALL existing milestone groups (titles)
+      await manager
+        .createQueryBuilder()
+        .delete()
+        .from(MilestoneTitle)
+        .execute();
+
+      // 3️⃣ Create NEW group + children
+      const newGroup = manager.create(MilestoneTitle, {
         name1: data.name1,
         name2: data.name2,
-        milestones: data.milestones.map(m => manager.create(Milestone, {
-          title: m.title,
-          year: m.year,
-          description: m.description,
-          image: m.image,
-          image_id: m.image_id
-        })),
+        milestones: data.milestones.map(m =>
+          manager.create(Milestone, {
+            title: m.title,
+            year: m.year,
+            description: m.description,
+            image: m.image,
+            image_id: m.image_id,
+          }),
+        ),
       });
 
-      const saved = await manager.save(MilestoneTitle, titleEntity);
+      const saved = await manager.save(MilestoneTitle, newGroup);
 
       return {
         status: true,
         statusCode: 201,
-        message: 'Milestone group created successfully.',
-        data: saved,
+        message: 'Milestone group updated successfully.',
+        data: saved,       
       };
     });
   }
