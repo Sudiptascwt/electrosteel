@@ -24,7 +24,7 @@ export class MilestoneService {
       throw new BadRequestException('milestones array is required.');
     }
 
-    // ✅ Validate duplicate years within request
+    // Validate duplicate years within request
     const years = data.milestones.map(m => m.year);
     const duplicates = years.filter((y, i) => years.indexOf(y) !== i);
     if (duplicates.length) {
@@ -36,21 +36,21 @@ export class MilestoneService {
     return await this.dataSource.transaction(async manager => {
       const milestoneTitleRepo = manager.getRepository(MilestoneTitle);
 
-      // 1️⃣ Delete ALL existing milestones
+      // Delete ALL existing milestones
       await manager
         .createQueryBuilder()
         .delete()
         .from(Milestone)
         .execute();
 
-      // 2️⃣ Delete ALL existing milestone groups (titles)
+      // Delete ALL existing milestone groups (titles)
       await manager
         .createQueryBuilder()
         .delete()
         .from(MilestoneTitle)
         .execute();
 
-      // 3️⃣ Create NEW group + children
+      //Create NEW group + children
       const newGroup = manager.create(MilestoneTitle, {
         name1: data.name1,
         name2: data.name2,
