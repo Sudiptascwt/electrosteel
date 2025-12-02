@@ -49,36 +49,36 @@ export class LatestElectrosteelService {
 
     // GET BY ID
     async findById(id: number) {
-    const records = await this.LatestElectrosteelRepository.find({ where: { id } });
+        const records = await this.LatestElectrosteelRepository.find({ where: { id } });
 
-    if (!records || records.length === 0) {
-        throw new NotFoundException({
-        status: false,
-        statusCode: HttpStatus.NOT_FOUND,
-        message: `LatestElectrosteel with ID ${id} not found`,
-        });
-    }
-
-    const grouped = Object.values(
-        records.reduce((acc, item) => {
-        if (!acc[item.id]) {
-            acc[item.id] = {
-            id: item.id,
-            created_at: item.created_at,
-            modified_at: item.modified_at,
-            };
+        if (!records || records.length === 0) {
+            throw new NotFoundException({
+            status: false,
+            statusCode: HttpStatus.NOT_FOUND,
+            message: `LatestElectrosteel with ID ${id} not found`,
+            });
         }
-        acc[item.id][item.page_meta_key] = item.page_meta_value;
-        return acc;
-        }, {})
-    );
 
-    return {
-        status: true,
-        statusCode: HttpStatus.OK,
-        message: 'LatestElectrosteel fetched successfully',
-        data: grouped, 
-    };
+        const grouped = Object.values(
+            records.reduce((acc, item) => {
+            if (!acc[item.id]) {
+                acc[item.id] = {
+                id: item.id,
+                created_at: item.created_at,
+                modified_at: item.modified_at,
+                };
+            }
+            acc[item.id][item.page_meta_key] = item.page_meta_value;
+            return acc;
+            }, {})
+        );
+
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'LatestElectrosteel fetched successfully',
+            data: grouped, 
+        };
     }
 
 

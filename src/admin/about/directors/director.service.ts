@@ -19,25 +19,39 @@ export class DirectorService {
     // CREATE
     async create(infoDto: AllPagesTitleDto, directors: DirectorsDto[]) {
         try {
-            console.log("infoDto",infoDto);
-            console.log("directors",directors);
-            infoDto.page_name='director';
-            
-            const savedInfo = await this.AllPagesTitleRepository.save(infoDto);
+            infoDto.page_name = 'director';
+            let savedInfo: AllPagesTitle;
+
+            const existingInfo = await this.AllPagesTitleRepository.findOne({
+            where: { page_name: 'director' },
+            });
+
+            if (existingInfo) {
+            Object.assign(existingInfo, infoDto);
+            savedInfo = await this.AllPagesTitleRepository.save(existingInfo);
+            } else {
+            const newInfo = this.AllPagesTitleRepository.create(infoDto);
+            savedInfo = await this.AllPagesTitleRepository.save(newInfo);
+            }
             const savedDirectors = await this.DirectorsRepository.save(directors);
+            const savedTitles = await this.AllPagesTitleRepository.save(infoDto);
 
             return {
-                status: true,
-                statusCode: HttpStatus.CREATED,
-                message: "Directors saved successfully",
-                data: { savedInfo, savedDirectors },
+            status: true,
+            statusCode: HttpStatus.CREATED,
+            message: 'Directors saved successfully',
+            data: {
+                name1: savedTitles.name1,
+                name2: savedTitles.name2,
+                directors: savedDirectors,
+            },
             };
         } catch (error) {
             return {
-                status: false,
-                statusCode: 500,
-                message: "Something went wrong",
-                error: error.message,
+            status: false,
+            statusCode: 500,
+            message: 'Something went wrong',
+            error: error.message,
             };
         }
     }
@@ -50,6 +64,7 @@ export class DirectorService {
         });
 
         const [pageTitle] = await this.AllPagesTitleRepository.find({
+        where: { page_name: 'director' },
         order: { id: 'ASC' },
         take: 1,
         });

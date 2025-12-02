@@ -46,45 +46,45 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter(app.get(DataSource)));
 
   // 4️⃣ Helmet
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
-          objectSrc: ["'none'"],
-          upgradeInsecureRequests: [],
-        },
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,     // 🔴 disable COEP: require-corp
+    crossOriginResourcePolicy: false,     // we handle CORP manually if needed
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
       },
-    }),
-  );
+    },
+  }),
+);
+
+
 
   //Cookie parser
   app.use(cookieParser());
 
-  //Serve static uploads (with correct Content-Type headers)
-  const uploadsDir = path.join(__dirname, '..', 'uploads');
+const uploadsDir = path.join(__dirname, '..', 'uploads');
 
 app.use(
   '/uploads',
   express.static(uploadsDir, {
     setHeaders: (res, filePath) => {
       const contentType = mime.lookup(filePath);
-
       if (contentType) {
         res.setHeader('Content-Type', contentType);
       }
 
-      // ✅ Allow other origins (React app, etc.) to load these files
-      res.setHeader('Access-Control-Allow-Origin', '*'); // or specific origin
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Range');
-
-      // ✅ Important for modern Chrome when using cross-origin embedding
-      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     },
   }),
 );
+
+
 
 
 
