@@ -68,6 +68,9 @@ export class Statistic {
   @Column({ type: 'longtext', nullable: true })
   overview_video: string;
 
+  @Column({ type: 'longtext', nullable: true })
+  url: string;
+
   @Column({
     type: 'tinyint',
     width: 1,

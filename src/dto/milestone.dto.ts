@@ -18,9 +18,9 @@ export class MilestoneDto {
     @IsString()
     image?: string;
 
-    @IsOptional()
-    @IsInt()
-    image_id?: number;
+    // @IsOptional()
+    // @IsInt()
+    // image_id?: number;
 
     @IsOptional()
     @IsNumber()

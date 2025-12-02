@@ -60,7 +60,7 @@ export class MilestoneService {
             year: m.year,
             description: m.description,
             image: m.image,
-            image_id: m.image_id,
+            // image_id: m.image_id,
           }),
         ),
       });
@@ -116,7 +116,7 @@ export class MilestoneService {
         year: m.year,
         description: m.description,
         image: m.image,
-        image_id: m.image_id,
+        // image_id: m.image_id,
         titleGroup: existingGroup, 
       }));
 

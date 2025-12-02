@@ -44,35 +44,60 @@ export class HomeService {
   ) {}
 
   async getHomeData() {
-    const banners = await this.bannerRepo.find();
-    const electrosteels = await this.electrosteelRepo.find();
-    const advertisements = await this.AdvertisementRepo.find();
-    const milestones = await this.MilestoneRepo.find();
-    const statistics = await this.StatisticRepo.find();
-    const video_sections = await this.VideoSectionRepo.find();  ``
-    const product_details = await this .ProductRepo.find();
-    const social_blog_details = await this.BlogsRepo.find({ where: { category: 'SOCIAL' },});
-    const business_blog_details = await this.BlogsRepo.find({ where: { category: 'BUSINESS WORLD' },});
+    const banners = await this.bannerRepo.find({where: { status: 1 } });
+    const electrosteels = await this.electrosteelRepo.find({where: { status: 1 } });
+    const advertisements = await this.AdvertisementRepo.find({where: { status: 1 } });
+    const milestones = await this.MilestoneRepo.find({where: { status: 1 } });
+    const statistics = await this.StatisticRepo.find({where: { status: 1 } });
+    const video_sections = await this.VideoSectionRepo.find({where: { status: 1 } });  
+    const product_details = await this .ProductRepo.find({where: { status: 1 } });
+    const social_blog_details = await this.BlogsRepo.find({ where: { status: 1,category: 'SOCIAL' },});
+    const business_blog_details = await this.BlogsRepo.find({ where: { status: 1,category: 'BUSINESS WORLD' },});
     
     const formattedBanners = banners.map((banner) => {
-    let fileName = null;
+      let fileName: string | null = null;
+      let fileType: string | null = null;
 
-    try {
-      if (banner.banner_file) {
-        const parsed = JSON.parse(banner.banner_file);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          fileName = parsed[0].banner_media;
+      try {
+        const raw = banner.banner_file;
+
+        if (!raw) {
+          fileName = null;
+        } else if (typeof raw === 'string' && raw.trim().startsWith('{')) {
+          // Case: JSON string like {"banner_file":"file-xxx.mp4"} or {"banner_media":"..."}
+          const parsed = JSON.parse(raw);
+          fileName = parsed.banner_media || parsed.banner_file || null;
+        } else {
+          fileName = raw;
         }
-      }
+
+        if (fileName && fileName.includes('.')) {
+          const ext = fileName.split('.').pop()?.toLowerCase() || '';
+
+          const imageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+          const videoExt = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v'];
+
+          if (imageExt.includes(ext)) {
+            fileType = 'image';
+          } else if (videoExt.includes(ext)) {
+            fileType = 'video';
+          } else {
+            fileType = 'unknown';
+          }
+        } else if (fileName) {
+          fileType = 'unknown';
+        }
       } catch (error) {
-        console.error("Error parsing banner_images:", error);
+        console.error('Error parsing banner_file for banner id', banner.id, error);
       }
 
       return {
         ...banner,
-        banner_images: fileName,
+        banner_images: fileName, 
+        file_type: fileType, 
       };
     });
+
 
     return {
       statusCode: 200,

@@ -65,22 +65,31 @@ async function bootstrap() {
   //Serve static uploads (with correct Content-Type headers)
   const uploadsDir = path.join(__dirname, '..', 'uploads');
 
-  app.use(
-    '/uploads',
-    express.static(uploadsDir, {
-      setHeaders: (res, filePath) => {
-        const contentType = mime.lookup(filePath); // detects mp4, mp3, jpg, png, pdf, etc.
-        
-        if (contentType) {
-          res.setHeader('Content-Type', contentType);
-        }
-      },
-    }),
-  );
+app.use(
+  '/uploads',
+  express.static(uploadsDir, {
+    setHeaders: (res, filePath) => {
+      const contentType = mime.lookup(filePath);
+
+      if (contentType) {
+        res.setHeader('Content-Type', contentType);
+      }
+
+      // ✅ Allow other origins (React app, etc.) to load these files
+      res.setHeader('Access-Control-Allow-Origin', '*'); // or specific origin
+      res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Range');
+
+      // ✅ Important for modern Chrome when using cross-origin embedding
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
+  }),
+);
+
 
 
   // 7️⃣ Start server
-  await app.listen(3000, '0.0.0.0');
-  console.log(`🚀 Server running on http://localhost:3000`);
+  await app.listen(2000, '0.0.0.0');
+  console.log(`🚀 Server running on http://localhost:2000`);
 }
 bootstrap();

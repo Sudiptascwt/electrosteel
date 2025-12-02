@@ -18,6 +18,9 @@ export class Banner {
   @Column({ type: 'longtext', nullable: true })
   banner_file: string;
 
+  @Column({ type: 'longtext', nullable: true })
+  url: string;
+
   @Column({
     type: 'tinyint',
     default: 1,

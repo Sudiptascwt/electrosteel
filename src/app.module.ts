@@ -248,7 +248,7 @@ import { FrontendClosureModule } from './frontend/investors/closures/closures.mo
 import { FrontendGlobalPresenceModule } from './frontend/global_presence/global_presence.module';
 import { GlobalPresence } from './entity/global_presense.entity';
 import { AboutFacility } from './entity/company_profile_facility.entity';
-import { AboutFacilityModule } from './admin/about/company_profile/about_facility/about_facility.module';
+import { AboutFacilityModule } from './admin/about/company_profile/manufacturing_facility/about_facility.module';
 import { AboutBanner } from './entity/company_profile_banner.entity';
 import { AboutBannerModule } from './admin/about/company_profile/about_banner/about_banner.module';
 import { BelowBanner } from './entity/below_banner.entity';

@@ -13,6 +13,10 @@ export class MilestoneTitleDto {
     name2?: string;
 
     @IsOptional()
+    @IsString()
+    url?: string;
+
+    @IsOptional()
     @IsNumber()
     @IsIn([0, 1]) // Only allow 0 or 1
     status?: number;

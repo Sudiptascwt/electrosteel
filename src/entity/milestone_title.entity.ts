@@ -12,6 +12,9 @@ export class MilestoneTitle {
     @Column({ type: 'text', nullable: true })
     name2: string;
 
+    @Column({ type: 'text', nullable: true })
+    url: string;
+
     @Column({
         type: 'tinyint',
         width: 1,

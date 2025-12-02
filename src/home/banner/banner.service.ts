@@ -17,7 +17,6 @@ export class BannerService {
       try {
         banner.banner_file = JSON.parse(banner.banner_file as any);
       } catch (e) {
-        // ignore parse error, keep as raw string
       }
     }
     return banner;
@@ -32,7 +31,6 @@ export class BannerService {
     const results: Banner[] = [];
 
     for (const item of bannersInput) {
-      // 1️⃣ Check if a banner with this title already exists
       let existing: Banner | null = null;
 
       if (item.title) {
@@ -41,7 +39,6 @@ export class BannerService {
         });
       }
 
-      // 2️⃣ Prepare payload (handle banner_file as JSON/string)
       const payload: any = { ...item };
 
       if (payload.banner_file !== undefined) {
@@ -51,7 +48,6 @@ export class BannerService {
             : JSON.stringify(payload.banner_file);
       }
 
-      // 3️⃣ If exists → UPDATE, else → CREATE
       if (existing) {
         await this.bannerRepository.update(existing.id, payload);
 

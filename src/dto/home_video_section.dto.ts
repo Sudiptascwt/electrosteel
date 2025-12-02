@@ -19,6 +19,10 @@ export class VideoSectionDto {
   description?: string;
 
   @IsOptional()
+  @IsString()
+  url?: string;
+  
+  @IsOptional()
   @IsNumber()
   @IsIn([0, 1], { message: 'Status must be either 0 or 1' })
   status?: number;
