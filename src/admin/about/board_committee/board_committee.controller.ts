@@ -16,23 +16,14 @@ export class BoardCommitteTypeController {
     constructor(private readonly BoardCommitteTypeervice: BoardCommitteTypeService) {}
 
     /////create board committe titles///
-    @Post('main-titles')
+    @Post('board-committe-main-titles')
     createMainTitles(@Body() createDto: BoardCommitteTitleDto) {
     return this.BoardCommitteTypeervice.createMainTitles(createDto);
     }
     // Get board committe titles
-    @Get('main-titles')
+    @Get('board-committe-main-titles')
     async findAllMainTitles() {
         return this.BoardCommitteTypeervice.findAllMainTitles();
-    }
-
-    // Update committee titles
-    @Put('main-titles/:id')
-    updateMainTitles(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: BoardCommitteTitleDto,
-    ) {
-    return this.BoardCommitteTypeervice.updateMainTitles(id, updateDto);
     }
     //////////committe type//////////
     // Create committee type

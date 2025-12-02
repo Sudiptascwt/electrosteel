@@ -27,5 +27,5 @@ export class BoardCommitteTitle {
   created_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  modified_at: Date;
+  updated_at: Date;
 }

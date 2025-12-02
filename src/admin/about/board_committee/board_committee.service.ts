@@ -23,26 +23,60 @@ export class BoardCommitteTypeService {
 
     //////// board committe MainTitle ////////
     // CREATE MainTitle
-    async createMainTitles(createDto: BoardCommitteTitleDto) {
-        try {
-        const newBoardCommitteType = this.BoardCommitteTitleRepository.create(createDto);
-        const savedBoardCommitteType = await this.BoardCommitteTitleRepository.save(newBoardCommitteType);
+    // async createMainTitles(createDto: BoardCommitteTitleDto) {
+    //     try {
+    //     const newBoardCommitteType = this.BoardCommitteTitleRepository.create(createDto);
+    //     const savedBoardCommitteType = await this.BoardCommitteTitleRepository.save(newBoardCommitteType);
 
-        return {
-            status: true,
-            statusCode: HttpStatus.CREATED,
-            message: 'Board committee titles created successfully',
-            data: savedBoardCommitteType,
-        };
+    //     return {
+    //         status: true,
+    //         statusCode: HttpStatus.CREATED,
+    //         message: 'Board committee titles created successfully',
+    //         data: savedBoardCommitteType,
+    //     };
+    //     } catch (error) {
+    //         return {
+    //             status: false,
+    //             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+    //             message: 'Something went wrong while creating BoardCommitteType',
+    //             error: error.message,
+    //         };
+    //     }
+    // }
+
+    async createMainTitles(dto: BoardCommitteTitleDto) {
+        try {
+            const existing = await this.BoardCommitteTitleRepository.find();
+            let saved: any;
+            let isUpdate = false;
+
+            if (existing.length > 0) {
+                Object.assign(existing, dto);
+                saved = await this.BoardCommitteTitleRepository.save(existing);
+                isUpdate = true;
+            } else {
+                const newEntity = this.BoardCommitteTitleRepository.create(dto);
+                saved = await this.BoardCommitteTitleRepository.save(newEntity);
+            }
+
+            return {
+                status: true,
+                statusCode: isUpdate ? HttpStatus.OK : HttpStatus.CREATED,
+                message: isUpdate
+                    ? 'Board committee titles updated successfully'
+                    : 'Board committee titles created successfully',
+                data: saved,
+            };
         } catch (error) {
             return {
-                status: false,
-                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Something went wrong while creating BoardCommitteType',
-                error: error.message,
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Something went wrong while creating/updating Board committee titles',
+            error: error.message,
             };
         }
     }
+
     // GET ALL MainTitle
     async findAllMainTitles() {
         const data = await this.BoardCommitteTitleRepository.find({ where: { status: 1 },order: { id: 'ASC' }});
@@ -53,28 +87,6 @@ export class BoardCommitteTypeService {
             data,
         };
     }
-    // UPDATE MainTitle
-    async updateMainTitles(id: number, updateDto: BoardCommitteTitleDto) {
-        const About = await this.BoardCommitteTitleRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Board committee type with ID ${id} not found`,
-            });
-        }
-
-        Object.assign(About, updateDto);
-        const updatedAbout = await this.BoardCommitteTitleRepository.save(About);
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Board committee type updated successfully',
-            data: updatedAbout,
-        };
-    }
-
     //////// board committe type ////////
     // CREATE
     async create(createDto: BoardCommitteTypeDto) {
