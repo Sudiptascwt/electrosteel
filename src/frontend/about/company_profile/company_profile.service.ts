@@ -12,8 +12,7 @@ export class CompanyProfileService {
   ) {}
 
   async getCompanyProfileData() {
-    const company_profile = await this.CompanyProfileRepo.find({
-    });
+    const company_profile = await this.CompanyProfileRepo.find({where: { status:1 } });
     return {
       statusCode: 200,
       message:

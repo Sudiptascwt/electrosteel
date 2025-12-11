@@ -11,7 +11,7 @@ export class FrontendFacilityService {
     private readonly FacilityRepo: Repository<Facility>,
   ) {}
     async findAll() {
-        const facilities = await this.FacilityRepo.find();
+        const facilities = await this.FacilityRepo.find({ where: { status:1 } });
         return facilities
     }
 

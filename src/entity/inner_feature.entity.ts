@@ -34,6 +34,7 @@ import {
     created_at: Date;
   
     @UpdateDateColumn({ type: 'timestamp' })
-    modified_at: Date;
+    modified_at: Date
+
   }
   

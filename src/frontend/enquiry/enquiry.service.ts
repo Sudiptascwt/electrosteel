@@ -27,11 +27,11 @@ export class EnquiryService {
   }
 
   async findAll(): Promise<BusinessEnquiry[]> {
-    return await this.EnquiryRepo.find();
+    return await this.EnquiryRepo.find({ where: { status:1 }});
   }
 
   async findById(id: number): Promise<BusinessEnquiry> {
-    const unit = await this.EnquiryRepo.findOne({ where: { id } });
+    const unit = await this.EnquiryRepo.findOne({ where: { id, status:1 } });
     if (!unit) {
       throw new NotFoundException({
           status: false,
@@ -48,11 +48,11 @@ export class EnquiryService {
   }
 
   async findAllShareHolderEnquiries(): Promise<ShareholderEnquiry[]> {
-    return await this.ShareholderRepo.find();
+    return await this.ShareholderRepo.find({ where: { status:1 }});
   }
 
   async findShareHolderEnquiryById(id: number): Promise<ShareholderEnquiry> {
-    const unit = await this.ShareholderRepo.findOne({ where: { id } });
+    const unit = await this.ShareholderRepo.findOne({ where: { id, status:1 } });
     if (!unit) {
       throw new NotFoundException({
         status: false,
@@ -69,11 +69,11 @@ export class EnquiryService {
   }
 
   async findAllCareerEnquiries(): Promise<CareerEnquiry[]> {
-    return await this.CareerEnquiryRepo.find();
+    return await this.CareerEnquiryRepo.find({ where: { status:1 }});
   }
 
   async findCareerEnquiryById(id: number): Promise<CareerEnquiry> {
-    const unit = await this.CareerEnquiryRepo.findOne({ where: { id } });
+    const unit = await this.CareerEnquiryRepo.findOne({ where: { id, status:1 } });
     if (!unit) {
       throw new NotFoundException({
           status: false,

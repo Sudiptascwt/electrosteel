@@ -34,7 +34,7 @@ export class PoliciesService {
 
     // GET ALL
     async findAll() {
-        const data = await this.PoliciesRepository.find();
+        const data = await this.PoliciesRepository.find({ where: { status: 1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -45,7 +45,7 @@ export class PoliciesService {
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.PoliciesRepository.findOne({ where: { id } });
+        const About = await this.PoliciesRepository.findOne({ where: { id, status: 1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
@@ -85,7 +85,10 @@ export class PoliciesService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.PoliciesRepository.delete(id);
+        const result = await this.PoliciesRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

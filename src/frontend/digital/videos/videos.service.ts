@@ -13,9 +13,8 @@ export class FrontendVideosService {
     async getDigitalVideosData() {
         try{
             const digital_videos = await this.DigitalVideosRepo.find({
-                order: {
-                id: 'DESC',
-                },
+                where: { status: 1 },
+                order: { id: 'DESC' },
             });
 
             return {

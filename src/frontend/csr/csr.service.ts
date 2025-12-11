@@ -21,9 +21,8 @@ export class CsrService {
     async getCsrOverviewData() {
 
       const Csr = await this.OfficeRepo.find({
-        order: {
-          id: 'DESC',
-        },
+        where: { status: 1 },
+        order: { id: 'DESC' },
       });
 
       return {
@@ -39,6 +38,7 @@ export class CsrService {
     async getCsrCommunityDevelopments() {
 
       const Csr = await this.CsrKeyRepo.find({
+        where: { status: 1 },
         order: {
           id: 'DESC',
         },
@@ -57,6 +57,7 @@ export class CsrService {
     async getCsrReports() {
 
       const CsrReports = await this.ReportRepo.find({
+        where: { status: 1 },
         order: {
           id: 'DESC',
         },
@@ -75,7 +76,8 @@ export class CsrService {
     async getCsrReportContents() {
     try {
         const csrReportContents = await this.ReportRepo.find({
-        order: { id: 'DESC' },
+          where: { status: 1 },
+          order: { id: 'DESC' },
         });
 
         return {

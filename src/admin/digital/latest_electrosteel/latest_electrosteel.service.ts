@@ -25,7 +25,7 @@ export class LatestElectrosteelService {
 
     // GET ALL
     async findAll() {
-        const data = await this.LatestElectrosteelRepository.find();
+        const data = await this.LatestElectrosteelRepository.find({ where: {status: 1 }});
         const grouped = Object.values(
             data.reduce((acc, item) => {
             if (!acc[item.id]) {
@@ -49,7 +49,7 @@ export class LatestElectrosteelService {
 
     // GET BY ID
     async findById(id: number) {
-        const records = await this.LatestElectrosteelRepository.find({ where: { id } });
+        const records = await this.LatestElectrosteelRepository.find({ where: { id,status: 1 } });
 
         if (!records || records.length === 0) {
             throw new NotFoundException({
@@ -119,17 +119,20 @@ export class LatestElectrosteelService {
             });
         } else {
             await this.LatestElectrosteelRepository.save({
-            page_meta_key: item.page_meta_key,
-            page_meta_value: item.page_meta_value,
-            created_at: new Date(),
-            modified_at: new Date(),
+                page_meta_key: item.page_meta_key,
+                page_meta_value: item.page_meta_value,
+                created_at: new Date(),
+                modified_at: new Date(),
             });
         }
         }
     }
     
     async delete(id: number) {
-        const result = await this.LatestElectrosteelRepository.delete(id);
+        const result = await this.LatestElectrosteelRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

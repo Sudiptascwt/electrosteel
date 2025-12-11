@@ -12,7 +12,7 @@ export class FrontendSubsidiariesService {
   ) {}
 
   async getSubsidiariesData() {
-    const subsidiaries = await this.SubsidiariesRepo.find();
+    const subsidiaries = await this.SubsidiariesRepo.find({ where: { status:1 } });
     return {
       statusCode: 200,
       message: subsidiaries.length > 0 

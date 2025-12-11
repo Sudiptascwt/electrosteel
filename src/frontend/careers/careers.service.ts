@@ -14,7 +14,7 @@ export class CareersService {
   ) {}
 
   async getCareerData() {
-    const electrosteel_sliders = await this.CareersRepo.find();
+    const electrosteel_sliders = await this.CareersRepo.find({ where: { status:1 } });
     return {
       statusCode: 200,
       message: electrosteel_sliders.length > 0 
@@ -25,7 +25,7 @@ export class CareersService {
   }
 
   async getFraudAlertData() {
-    const fraud_alert = await this.FraudAlertRepo.find();
+    const fraud_alert = await this.FraudAlertRepo.find({ where: { status:1 } });
     return {
       statusCode: 200,
       message: fraud_alert.length > 0 

@@ -174,8 +174,10 @@ export class AboutFacilityService {
     // DELETE
     async delete(id: number) {
         try {
-            const result = await this.AboutFacilityRepository.delete(id);
-
+            const result = await this.AboutFacilityRepository.update(
+                { id },
+                { status: 0 }  
+            );
             if (result.affected === 0) {
                 throw new NotFoundException({
                     status: false,

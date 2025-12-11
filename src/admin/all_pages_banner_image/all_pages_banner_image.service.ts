@@ -36,7 +36,10 @@ export class AllBannerService {
   }
 
   async delete(id: number): Promise<void> {
-    const result = await this.AllBannerRepo.delete(id);
+    const result = await this.AllBannerRepo.update(
+        { id },
+        { status: 0 }  
+    );
     if (result.affected === 0) {
       throw new NotFoundException('AllBanner unit not found');
     }

@@ -26,7 +26,7 @@ export class EmploymentFormService {
 
     // GET ALL
     async findAll() {
-        const data = await this.EmploymentFormRepo.find();
+        const data = await this.EmploymentFormRepo.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -37,7 +37,7 @@ export class EmploymentFormService {
 
     // GET BY ID
     async findById(id: number) {
-        const contact = await this.EmploymentFormRepo.findOne({ where: { id } });
+        const contact = await this.EmploymentFormRepo.findOne({ where: { id, status:1 } });
         if (!contact) {
             throw new NotFoundException({
                 status: false,
@@ -77,7 +77,10 @@ export class EmploymentFormService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.EmploymentFormRepo.delete(id);
+        const result = await this.EmploymentFormRepo.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

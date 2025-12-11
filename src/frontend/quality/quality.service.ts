@@ -19,11 +19,11 @@ export class QualityService {
 
     if (type && allowedTypes.includes(type as any)) {
         return await this.QualityRepository.find({
-        where: { type: type as (typeof allowedTypes)[number] },
+        where: { type: type as (typeof allowedTypes)[number], status:1 },
         });
     }
 
-    return await this.QualityRepository.find();
+    return await this.QualityRepository.find({ where: {status:1} });
     }
 
 

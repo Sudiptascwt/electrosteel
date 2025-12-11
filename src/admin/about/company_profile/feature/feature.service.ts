@@ -80,17 +80,18 @@ export class FeatureService {
 
   async deleteInnerFeature(id: number) {
     try{
-      const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
+        const result = await this.InnerFeatureRepository.update(
+            { id },
+            { status: 0 }  
+        );
 
-      if (!Feature) {
-        throw new NotFoundException({
-            status: false,
-            statusCode: HttpStatus.NOT_FOUND,
-            message: `InnerFeature not found`,
-        });
-      }
-
-      await this.InnerFeatureRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException({
+                status: false,
+                statusCode: HttpStatus.NOT_FOUND,
+                message: `InnerFeature with ID ${id} not found`,
+            });
+        }
 
       return {
         status: true,
@@ -109,7 +110,7 @@ export class FeatureService {
 
   async getInnerFeature(id: number) {
     try{
-      const Feature = await this.InnerFeatureRepository.findOne({ where: { id } });
+      const Feature = await this.InnerFeatureRepository.findOne({ where: { id, status:1 } });
 
       if (!Feature) {
         throw new NotFoundException({

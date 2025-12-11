@@ -13,9 +13,8 @@ export class FrontendEventsService {
     async getEventsData() {
         try{
             const Events = await this.EventsRepo.find({
-                order: {
-                id: 'DESC',
-                },
+                where: { status: 1 },
+                order: { id: 'DESC' },
             });
 
             return {

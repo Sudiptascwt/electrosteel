@@ -90,7 +90,18 @@ export class BelowBannerService{
         });
       }
 
-      await this.InnerBelowBannerRepository.delete(id);
+      const result = await this.InnerBelowBannerRepository.update(
+            { id },
+            { status: 0 }  
+      );
+
+      if (result.affected === 0) {
+          throw new NotFoundException({
+              status: false,
+              statusCode: HttpStatus.NOT_FOUND,
+              message: `About banner with ID ${id} not found`,
+          });
+      }
 
       return {
         status: true,

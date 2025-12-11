@@ -30,7 +30,7 @@ export class ContactDetailsService {
 
     // GET ALL
     async findAll() {
-        const data = await this.contactDetailsRepo.find();
+        const data = await this.contactDetailsRepo.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -41,7 +41,7 @@ export class ContactDetailsService {
 
     // GET BY ID
     async findById(id: number) {
-        const contact = await this.contactDetailsRepo.findOne({ where: { id } });
+        const contact = await this.contactDetailsRepo.findOne({ where: { id, status:1 } });
         if (!contact) {
             throw new NotFoundException({
                 status: false,

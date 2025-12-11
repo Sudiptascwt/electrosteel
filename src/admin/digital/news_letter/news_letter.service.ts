@@ -35,7 +35,7 @@ export class NewsLetterService {
 
     // GET ALL
     async findAll() {
-        const data = await this.NewsLetterRepository.find();
+        const data = await this.NewsLetterRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -46,7 +46,7 @@ export class NewsLetterService {
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.NewsLetterRepository.findOne({ where: { id } });
+        const About = await this.NewsLetterRepository.findOne({ where: { id, status:1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
@@ -64,7 +64,7 @@ export class NewsLetterService {
 
     // UPDATE
     async update(id: number, updateDto: NewsLetterDto) {
-        const About = await this.NewsLetterRepository.findOne({ where: { id } });
+        const About = await this.NewsLetterRepository.findOne({ where: { id, status:0 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
@@ -86,7 +86,10 @@ export class NewsLetterService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.NewsLetterRepository.delete(id);
+        const result = await this.NewsLetterRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

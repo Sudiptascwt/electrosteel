@@ -153,7 +153,10 @@ export class CsrKeyService {
     // DELETE CSR
     
     async delete(id: number) {
-        const result = await this.CsrKeyRepository.delete(id);
+        const result = await this.CsrKeyRepository.update(
+            { id },
+            { status: 0 }  
+        );
 
         if (result.affected === 0) {
             throw new NotFoundException({

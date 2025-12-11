@@ -25,11 +25,11 @@ export class MetaTagService {
 
 
   async findAll(): Promise<MetaTag[]> {
-    return await this.MetaTagRepo.find();
+    return await this.MetaTagRepo.find({ where: { status: 1 } });
   }
 
   async findById(id: number): Promise<MetaTag> {
-    const unit = await this.MetaTagRepo.findOne({ where: { id } });
+    const unit = await this.MetaTagRepo.findOne({ where: { id, status: 1 }});
     if (!unit) {
       throw new NotFoundException({
           message: `MetaTag unit not found`,
@@ -48,7 +48,10 @@ export class MetaTagService {
   }
 
   async delete(id: number): Promise<void> {
-    const result = await this.MetaTagRepo.delete(id);
+    const result = await this.MetaTagRepo.update(
+      { id },
+      { status: 0 }  
+    );
     if (result.affected === 0) {
       throw new NotFoundException({
           message: `MetaTag unit not found`,

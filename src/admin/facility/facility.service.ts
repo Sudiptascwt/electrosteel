@@ -20,11 +20,11 @@ export class FacilityService {
   }
 
   async findAll(): Promise<Facility[]> {
-    return await this.FacilityRepo.find();
+    return await this.FacilityRepo.find({ where: { status:1 } });
   }
 
   async findById(id: number): Promise<Facility> {
-    const unit = await this.FacilityRepo.findOne({ where: { id } });
+    const unit = await this.FacilityRepo.findOne({ where: { id, status:1 } });
     // if (!unit) throw new NotFoundException('Facility unit not found');
     if (!unit) {
       throw new NotFoundException({

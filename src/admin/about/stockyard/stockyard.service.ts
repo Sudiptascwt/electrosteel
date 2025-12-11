@@ -92,7 +92,10 @@ export class StockYardService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.StockYardRepository.delete(id);
+        const result = await this.StockYardRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

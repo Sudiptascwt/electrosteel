@@ -25,7 +25,7 @@ export class DigitalVideosService {
 
     // GET ALL
     async findAll() {
-        const data = await this.DigitalVideosRepository.find();
+        const data = await this.DigitalVideosRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -36,7 +36,7 @@ export class DigitalVideosService {
 
     // GET BY ID
     async findById(id: number) {
-        const DigitalVideos = await this.DigitalVideosRepository.findOne({ where: { id } });
+        const DigitalVideos = await this.DigitalVideosRepository.findOne({ where: { id, status:1 } });
         
         if (!DigitalVideos) {
             throw new NotFoundException({
@@ -53,7 +53,7 @@ export class DigitalVideosService {
         };
     }
     async update(id: number, updateDto: DigitalVideosDto) {
-        const DigitalVideos = await this.DigitalVideosRepository.findOne({ where: { id } });
+        const DigitalVideos = await this.DigitalVideosRepository.findOne({ where: { id, status:0 } });
 
         if (!DigitalVideos) {
             throw new NotFoundException({
@@ -77,7 +77,10 @@ export class DigitalVideosService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.DigitalVideosRepository.delete(id);
+        const result = await this.DigitalVideosRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

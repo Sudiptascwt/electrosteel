@@ -12,7 +12,7 @@ export class FrontendBlogsService {
   ) {}
 
   async getBlogsData() {
-    const Blogs = await this.BlogsRepo.find();
+    const Blogs = await this.BlogsRepo.find({ where: { status:1 } });
     return {
       statusCode: 200,
       message: Blogs.length > 0 

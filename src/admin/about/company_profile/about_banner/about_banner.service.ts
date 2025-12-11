@@ -87,8 +87,12 @@ export class AboutBannerService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.AboutBannerRepository.delete(id);
-        if (result.affected == 0) {
+        const result = await this.AboutBannerRepository.update(
+            { id },
+            { status: 0 }  
+        );
+
+        if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,

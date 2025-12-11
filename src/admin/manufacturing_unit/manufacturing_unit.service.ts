@@ -17,11 +17,11 @@ export class ManufacturingService {
   }
 
   async findAll(): Promise<ManufacturingUnit[]> {
-    return await this.manufacturingRepo.find();
+    return await this.manufacturingRepo.find({ where: { status: 1 } });
   }
 
   async findById(id: number): Promise<ManufacturingUnit> {
-    const unit = await this.manufacturingRepo.findOne({ where: { id } });
+    const unit = await this.manufacturingRepo.findOne({ where: { id,status: 1 } });
     if (!unit){
       throw new NotFoundException({
           message: `Manufacturing unit not found`,
@@ -41,7 +41,10 @@ export class ManufacturingService {
   }
 
   async delete(id: number): Promise<void> {
-    const result = await this.manufacturingRepo.delete(id);
+    const result = await this.manufacturingRepo.update(
+      { id },
+      { status: 0 }  
+    );
     if (result.affected === 0) {
       throw new NotFoundException({
           message: `Manufacturing unit not found`,

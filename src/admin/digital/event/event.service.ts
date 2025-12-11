@@ -35,7 +35,7 @@ export class EventService {
 
     // GET ALL
     async findAll() {
-        const data = await this.EventRepository.find();
+        const data = await this.EventRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -46,7 +46,7 @@ export class EventService {
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.EventRepository.findOne({ where: { id } });
+        const About = await this.EventRepository.findOne({ where: { id, status:1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
@@ -86,7 +86,10 @@ export class EventService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.EventRepository.delete(id);
+        const result = await this.EventRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

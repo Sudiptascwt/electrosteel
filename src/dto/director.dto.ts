@@ -1,6 +1,10 @@
 import { IsEnum, IsIBAN, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class DirectorsDto {
+  @IsNotEmpty()            
+  @IsInt({ message: 'Id must be an integer' })
+  id: number;  
+
   @IsNotEmpty({ message: 'Name is required' })
   @IsString()
   name: string;

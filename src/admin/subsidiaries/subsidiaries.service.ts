@@ -64,11 +64,11 @@ export class SubsidiariesService {
 
 
   async findAllSubsdiariesPage(): Promise<SubsidiariesPage[]> {
-    return await this.SubsidiariesPageRepo.find();
+    return await this.SubsidiariesPageRepo.find({ where: { status: 1 }});
   }
 
   async findSubsdiariesPageById(id: number): Promise<SubsidiariesPage> {
-    const unit = await this.SubsidiariesPageRepo.findOne({ where: { id } });
+    const unit = await this.SubsidiariesPageRepo.findOne({ where: { id, status: 1 }});
     if (!unit) {
       throw new NotFoundException({
           status: false,
@@ -86,7 +86,10 @@ export class SubsidiariesService {
   }
 
   async deleteSubsdiariesPage(id: number): Promise<void> {
-    const result = await this.SubsidiariesPageRepo.delete(id);
+    const result = await this.SubsidiariesPageRepo.update(
+      { id },
+      { status: 0 }  
+    );
     if (result.affected === 0) {
       throw new NotFoundException({
           status: false,

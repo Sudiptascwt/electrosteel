@@ -12,7 +12,7 @@ export class StockyardsService {
   ) {}
 
   async getStockyardsData() {
-    const stockyards = await this.StockYardRepo.find();
+    const stockyards = await this.StockYardRepo.find({ where: { status:1 } });
 
     return {
       statusCode: 200,

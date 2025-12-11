@@ -33,6 +33,7 @@ export class PipeArtService {
     // GET ALL PIPE ARTS WITH DETAILS
     async findAll() {
         const data = await this.pipeArtRepository.find({
+            where: { status: 1 },
             relations: ['details'], 
         });
 
@@ -47,7 +48,7 @@ export class PipeArtService {
     // GET PIPE ART BY ID WITH DETAILS
     async findById(id: number) {
         const pipeArt = await this.pipeArtRepository.findOne({
-            where: { id },
+            where: { id, status: 1 },
             relations: ['details'], 
         });
 
@@ -92,7 +93,10 @@ export class PipeArtService {
 
     // DELETE PIPE ART
     async delete(id: number) {
-        const result = await this.pipeArtRepository.delete(id);
+        const result = await this.pipeArtRepository.update(
+            { id },
+            { status: 0 }  
+        );
 
         if (result.affected === 0) {
             throw new NotFoundException({

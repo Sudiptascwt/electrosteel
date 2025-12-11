@@ -17,13 +17,13 @@ export class FrontendGlobalPresenceService {
     private readonly AllOfficeDetailsRepo: Repository<AllOfficeDetails>,
   ) {}
     async findAll() {
-        const all_global_presence = await this.GlobalPresenceRepo.find();
+        const all_global_presence = await this.GlobalPresenceRepo.find({ where: { status:1 } });
         console.log("all_global_presence",all_global_presence);
         return all_global_presence
     }
 
     async findById(id: number) {
-        const global_presence = await this.GlobalPresenceRepo.findOne({where:{id}});    
+        const global_presence = await this.GlobalPresenceRepo.findOne({where:{id, status:1}});    
         if (!global_presence) {
             throw new NotFoundException({
               status: false,
@@ -35,7 +35,7 @@ export class FrontendGlobalPresenceService {
     }
 
     async findOfficeDetails() {
-      const office_type_details = await this.officeDetailsRepo.find(); 
+      const office_type_details = await this.officeDetailsRepo.find({ where: { status:1 } }); 
       console.log("office_type_details",office_type_details);
       return office_type_details;
     }

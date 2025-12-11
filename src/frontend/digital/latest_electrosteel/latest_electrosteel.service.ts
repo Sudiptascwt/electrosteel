@@ -13,9 +13,8 @@ export class FrontendLatestElectrosteelService {
     async getLatestElectrosteelData() {
         try{
             const LatestElectrosteel = await this.LatestElectrosteelRepo.find({
-                order: {
-                id: 'DESC',
-                },
+                where: { status: 1 },
+                order: { id: 'DESC' },
             });
 
             return {

@@ -26,7 +26,7 @@ export class ConductService {
 
     // GET ALL
     async findAll() {
-        const data = await this.ConductRepository.find();
+        const data = await this.ConductRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -37,7 +37,7 @@ export class ConductService {
 
     // GET BY ID
     async findById(id: number) {
-        const Conduct = await this.ConductRepository.findOne({ where: { id } });
+        const Conduct = await this.ConductRepository.findOne({ where: { id, status:1 } });
         if (!Conduct) {
             throw new NotFoundException({
                 status: false,
@@ -77,7 +77,10 @@ export class ConductService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.ConductRepository.delete(id);
+        const result = await this.ConductRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

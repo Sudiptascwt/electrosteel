@@ -12,7 +12,7 @@ export class FrontendJolsadhanaService {
   ) {}
 
   async getJolsadhanaData() {
-    const Jolsadhana = await this.JolsadhanaRepo.find();
+    const Jolsadhana = await this.JolsadhanaRepo.find({ where: { status:1 } });
     return {
       statusCode: 200,
       message: Jolsadhana.length > 0 

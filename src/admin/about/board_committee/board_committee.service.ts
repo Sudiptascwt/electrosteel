@@ -219,7 +219,7 @@ export class BoardCommitteTypeService {
 
     // GET BY ID
     async findBoardCommitteDetailsById(id: number) {
-        const About = await this.BoardCommitteDetailsRepository.findOne({ where: { id } });
+        const About = await this.BoardCommitteDetailsRepository.findOne({ where: { id, status: 1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
@@ -259,9 +259,12 @@ export class BoardCommitteTypeService {
 
     // DELETE
     async deleteBoardCommitteDetails(id: number) {
-        const result = await this.BoardCommitteDetailsRepository.delete(id);
+        const result = await this.BoardCommitteDetailsRepository.update(
+            { id },
+            { status: 0 }  
+        );
 
-        if (result.affected == 0) {
+        if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,
                 statusCode: HttpStatus.NOT_FOUND,
@@ -272,7 +275,7 @@ export class BoardCommitteTypeService {
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Board committee deleted successfully'
+            message: 'Board committee deleted successfully (soft delete)'
         };
     }
 }

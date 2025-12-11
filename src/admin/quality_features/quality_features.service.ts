@@ -29,7 +29,7 @@ export class QualityFeaturesService {
 
     // GET ALL
     async findAll() {
-        const data = await this.QualityCertificatesRepository.find();
+        const data = await this.QualityCertificatesRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -40,7 +40,7 @@ export class QualityFeaturesService {
 
     // GET BY ID
     async findById(id: number) {
-        const office = await this.QualityCertificatesRepository.findOne({ where: { id } });
+        const office = await this.QualityCertificatesRepository.findOne({ where: { id, status:1 } });
         if (!office) {
             throw new NotFoundException({
                 status: false,
@@ -58,7 +58,7 @@ export class QualityFeaturesService {
 
     // UPDATE
     async update(id: number, updateDto: AllCertificatesDto) {
-        const office = await this.QualityCertificatesRepository.findOne({ where: { id } });
+        const office = await this.QualityCertificatesRepository.findOne({ where: { id, status:1 } });
         if (!office) {
             throw new NotFoundException({
                 status: false,
@@ -80,7 +80,10 @@ export class QualityFeaturesService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.QualityCertificatesRepository.delete(id);
+        const result = await this.QualityCertificatesRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected == 0) {
             throw new NotFoundException({
                 status: false,
@@ -123,7 +126,7 @@ export class QualityFeaturesService {
     }
         // GET ALL
     async findAllPolicies() {
-        const data = await this.QualityCertificatesRepository.find();
+        const data = await this.QualityCertificatesRepository.find({ where: { status: 0 }});
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -134,7 +137,7 @@ export class QualityFeaturesService {
 
     // GET BY ID
     async findPolicyById(id: number) {
-        const office = await this.QualityCertificatesRepository.findOne({ where: { id } });
+        const office = await this.QualityCertificatesRepository.findOne({ where: { id,status: 0 } });
         if (!office) {
             throw new NotFoundException({
                 status: false,
@@ -174,7 +177,10 @@ export class QualityFeaturesService {
 
     // DELETE
     async deletePolicy(id: number) {
-        const result = await this.QualityCertificatesRepository.delete(id);
+        const result = await this.QualityCertificatesRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected == 0) {
             throw new NotFoundException({
                 status: false,

@@ -12,10 +12,12 @@ export class OfficesService {
   ) {}
     //get the offices by type
     async getOfficesData(country?: string) {
-      let whereClause: FindOptionsWhere<AllOfficeDetails> = {};
+      let whereClause: FindOptionsWhere<AllOfficeDetails> = {
+        status: 1,
+      };
 
       if (country) {
-        whereClause = { country } as FindOptionsWhere<AllOfficeDetails>;
+        whereClause.country = country;
       }
 
       const offices = await this.OfficeRepo.find({ where: whereClause });
@@ -34,7 +36,7 @@ export class OfficesService {
     //get India offices data
     async getIndiaOfficesData() {
       const indiaOffices = await this.OfficeRepo.find({
-        where: { country: 'India' },
+        where: { country: 'India', status:1 },
       });
       return {
         status: true,
@@ -58,7 +60,7 @@ export class OfficesService {
     }
 
     const offices = await this.OfficeRepo.find({
-      where: { region, country },
+      where: { region, country, status:0 },
     });
 
     return {

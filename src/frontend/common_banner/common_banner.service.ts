@@ -13,11 +13,9 @@ export class FrontendCommonbannerService {
     async getCommonBannersData() {
         try{
             const common_banners = await this.CommonBannerRepo.find({
-                order: {
-                id: 'DESC',
-                },
+            where: { status: 1 },
+            order: { id: 'DESC' },
             });
-
             return {
                 statusCode: 200,
                 message:

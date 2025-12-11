@@ -28,7 +28,7 @@ export class ReportService {
 
     // GET ALL
     async findAll() {
-        const data = await this.ReportRepository.find();
+        const data = await this.ReportRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -39,7 +39,7 @@ export class ReportService {
 
     // GET BY ID
     async findById(id: number) {
-        const Report = await this.ReportRepository.findOne({ where: { id } });
+        const Report = await this.ReportRepository.findOne({ where: { id, status:1 } });
         if (!Report) {
             throw new NotFoundException({
                 status: false,
@@ -95,7 +95,10 @@ export class ReportService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.ReportRepository.delete(id);
+        const result = await this.ReportRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

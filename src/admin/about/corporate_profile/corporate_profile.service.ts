@@ -169,7 +169,10 @@ export class CorporateProfileService {
     // DELETE
     async delete(id: number) {
         try {
-            const result = await this.CorporateProfileRepository.delete(id);
+            const result = await this.CorporateProfileRepository.update(
+                { id },
+                { status: 0 }  
+            );
 
             if (result.affected === 0) {
                 // Proper 404

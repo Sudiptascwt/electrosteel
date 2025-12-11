@@ -26,7 +26,7 @@ export class OfficeDetailsService {
 
     // GET ALL
     async findAll() {
-        const data = await this.officeDetailsRepository.find();
+        const data = await this.officeDetailsRepository.find({ where: { status: 1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -37,7 +37,7 @@ export class OfficeDetailsService {
 
     // GET BY ID
     async findById(id: number) {
-        const office = await this.officeDetailsRepository.findOne({ where: { id } });
+        const office = await this.officeDetailsRepository.findOne({ where: { id, status: 1 } });
         if (!office) {
             throw new NotFoundException({
                 status: false,
@@ -77,7 +77,10 @@ export class OfficeDetailsService {
 
     // DELETE
     async delete(id: number) {
-        const result = await this.officeDetailsRepository.delete(id);
+        const result = await this.officeDetailsRepository.update(
+            { id },
+            { status: 0 }  
+        );
         if (result.affected === 0) {
             throw new NotFoundException({
                 status: false,

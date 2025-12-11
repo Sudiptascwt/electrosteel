@@ -13,9 +13,8 @@ export class FrontendNewsletterService {
     async getNewsletterData() {
         try{
             const Newsletter = await this.NewsletterRepo.find({
-                order: {
-                id: 'DESC',
-                },
+                where: { status: 1 },
+                order: { id: 'DESC' },
             });
 
             return {
