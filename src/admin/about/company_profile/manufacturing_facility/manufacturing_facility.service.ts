@@ -49,12 +49,13 @@ export class AboutFacilityService {
     // GET ALL
     async findAll() {
     try {
-        const facilities = await this.AboutFacilityRepository.find();
+        const facilities = await this.AboutFacilityRepository.find({ where: { status:1 } });
 
         // get first facilityName row (if any)
         const [facilityName] = await this.FacilityNameRepository.find({
-        order: { id: 'ASC' },
-        take: 1,
+            where: { status: 1 },
+            order: { id: 'ASC' },
+            take: 1,
         });
 
         return {
@@ -83,7 +84,7 @@ export class AboutFacilityService {
     // GET BY ID
     async findById(id: number) {
         try{
-            const facility = await this.AboutFacilityRepository.findOne({ where: { id } });
+            const facility = await this.AboutFacilityRepository.findOne({ where: { id, status:1 } });
             const [facilityName] = await this.FacilityNameRepository.find({
                 order: { id: 'ASC' },
                 take: 1,

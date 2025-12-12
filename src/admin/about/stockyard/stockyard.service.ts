@@ -41,7 +41,7 @@ export class StockYardService {
 
     // GET ALL
     async findAll() {
-        const data = await this.StockYardRepository.find();
+        const data = await this.StockYardRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -52,7 +52,7 @@ export class StockYardService {
 
     // GET BY ID
     async findById(id: number) {
-        const About = await this.StockYardRepository.findOne({ where: { id } });
+        const About = await this.StockYardRepository.findOne({ where: { id, status:1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,

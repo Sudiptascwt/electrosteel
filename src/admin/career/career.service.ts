@@ -136,7 +136,7 @@ export class CareerService {
 
     // GET ALL
     async findAllLifeContents() {
-        const data = await this.ElectrosteelLifeContentRepository.find();
+        const data = await this.ElectrosteelLifeContentRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -147,7 +147,7 @@ export class CareerService {
 
     // GET BY ID
     async findLifeContentById(id: number) {
-        const About = await this.ElectrosteelLifeContentRepository.findOne({ where: { id } });
+        const About = await this.ElectrosteelLifeContentRepository.findOne({ where: { id, status:1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,

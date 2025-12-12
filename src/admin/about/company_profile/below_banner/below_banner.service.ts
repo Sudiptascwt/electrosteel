@@ -120,7 +120,7 @@ export class BelowBannerService{
 
   async getBelowBanner(id: number) {
     try{
-      const BelowBanner = await this.InnerBelowBannerRepository.findOne({ where: { id } });
+      const BelowBanner = await this.InnerBelowBannerRepository.findOne({ where: { id, status:1 } });
 
       if (!BelowBanner) {
         throw new NotFoundException({
@@ -148,7 +148,7 @@ export class BelowBannerService{
 
   async getAllBelowBanners() {
     try{
-      const BelowBanners = await this.InnerBelowBannerRepository.find();
+      const BelowBanners = await this.InnerBelowBannerRepository.find({ where: { status:1 } });
       return {
         status: true,
         statusCode: 200,

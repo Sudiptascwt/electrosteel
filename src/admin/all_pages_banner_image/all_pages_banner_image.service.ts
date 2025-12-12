@@ -20,11 +20,11 @@ export class AllBannerService {
   }
 
   async findAll(): Promise<AllBanner[]> {
-    return await this.AllBannerRepo.find();
+    return await this.AllBannerRepo.find({ where: { status:1 } });
   }
 
   async findById(id: number): Promise<AllBanner> {
-    const unit = await this.AllBannerRepo.findOne({ where: { id } });
+    const unit = await this.AllBannerRepo.findOne({ where: { id, status:1 } });
     if (!unit) throw new NotFoundException('AllBanner unit not found');
     return unit;
   }

@@ -138,7 +138,7 @@ export class FeatureService {
 
   async getAllInnerFeatures() {
     try{
-      const Features = await this.InnerFeatureRepository.find();
+      const Features = await this.InnerFeatureRepository.find({ where: { status:1 } });
       return {
         status: true,
         statusCode: 200,

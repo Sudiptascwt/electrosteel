@@ -50,7 +50,10 @@ export class CorporateProfileService {
     // GET ALL
     async findAll() {
         try {
-            const data = await this.CorporateProfileRepository.find({ relations: ['testimonials'] });
+            const data = await this.CorporateProfileRepository.find({
+                where: { status: 1 },
+                relations: ['testimonials'],
+            });
             return {
                 status: true,
                 statusCode: HttpStatus.OK,
@@ -70,7 +73,7 @@ export class CorporateProfileService {
     // GET BY ID
     async findById(id: number) {
         try {
-            const About = await this.CorporateProfileRepository.findOne({relations: ['testimonials'], where: { id } });
+            const About = await this.CorporateProfileRepository.findOne({relations: ['testimonials'], where: { id, status:1 } });
             if (!About) {
                 throw new NotFoundException({
                     status: false,

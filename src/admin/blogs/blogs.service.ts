@@ -18,11 +18,11 @@ export class BlogsService {
 
 
   async findAll(): Promise<Blogs[]> {
-    return await this.BlogsRepo.find();
+    return await this.BlogsRepo.find({ where: { status:1 } });
   }
 
   async findById(id: number): Promise<Blogs> {
-    const unit = await this.BlogsRepo.findOne({ where: { id } });
+    const unit = await this.BlogsRepo.findOne({ where: { id, status:1 } });
     if (!unit) throw new NotFoundException('Blogs not found');
     return unit;
   }

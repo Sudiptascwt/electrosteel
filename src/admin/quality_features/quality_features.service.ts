@@ -101,7 +101,7 @@ export class QualityFeaturesService {
 
     //getCertificateType
     async getCertificateType(type: CertificateTypeEnum): Promise<any> { 
-        const certifictaes = await this.QualityCertificatesRepository.find({ where: { type } });
+        const certifictaes = await this.QualityCertificatesRepository.find({ where: { type, status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -126,7 +126,7 @@ export class QualityFeaturesService {
     }
         // GET ALL
     async findAllPolicies() {
-        const data = await this.QualityCertificatesRepository.find({ where: { status: 0 }});
+        const data = await this.QualityCertificatesRepository.find({ where: { status: 1 }});
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -137,7 +137,7 @@ export class QualityFeaturesService {
 
     // GET BY ID
     async findPolicyById(id: number) {
-        const office = await this.QualityCertificatesRepository.findOne({ where: { id,status: 0 } });
+        const office = await this.QualityCertificatesRepository.findOne({ where: { id,status: 1 } });
         if (!office) {
             throw new NotFoundException({
                 status: false,

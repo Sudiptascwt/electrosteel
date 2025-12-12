@@ -26,7 +26,7 @@ export class CommonBannerService {
 
     // GET ALL
     async findAll() {
-    const data = await this.CommonBannerRepository.find();
+    const data = await this.CommonBannerRepository.find({ where: { status:1 } });
 
     if (!data || data.length === 0) {
         return {
@@ -63,7 +63,7 @@ export class CommonBannerService {
     // GET BY ID
     async findById(id: number) {
         try {
-            const banners = await this.CommonBannerRepository.find({ where: { id } });
+            const banners = await this.CommonBannerRepository.find({ where: { id,status:1 } });
 
             if (!banners || banners.length === 0) {
                 throw new NotFoundException({
@@ -107,7 +107,7 @@ export class CommonBannerService {
 
     // UPDATE
     async update(id: number, updateDto: CommonBannerDto) {
-        const CommonBanner = await this.CommonBannerRepository.findOne({ where: { id } });
+        const CommonBanner = await this.CommonBannerRepository.findOne({ where: { id, status:1 } });
         if (!CommonBanner) {
             throw new NotFoundException({
                 status: false,

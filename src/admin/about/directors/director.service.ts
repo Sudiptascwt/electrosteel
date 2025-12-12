@@ -108,7 +108,12 @@ export class DirectorService {
     async findAll() {
         try {
             const directors = await this.DirectorsRepository.find({
-                order: { id: 'ASC' },
+                where: { 
+                    status: 1 
+                },
+                order: { 
+                    id: 'ASC' 
+                },
             });
 
             const [pageTitle] = await this.AllPagesTitleRepository.find({
@@ -142,7 +147,7 @@ export class DirectorService {
     // GET BY ID
     async findById(id: number) {
         try {
-            const director = await this.DirectorsRepository.findOne({ where: { id } });
+            const director = await this.DirectorsRepository.findOne({ where: { id, status:1 } });
 
             if (!director) {
             throw new NotFoundException({
@@ -213,13 +218,13 @@ export class DirectorService {
             const updatedDirector = await this.DirectorsRepository.save(director);
 
             return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Director and page title updated successfully',
-            data: {
-                pageTitle: updatedPageTitle,
-                director: updatedDirector,
-            },
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Director and page title updated successfully',
+                data: {
+                    pageTitle: updatedPageTitle,
+                    director: updatedDirector,
+                },
             };
         } catch (error) {
             return {

@@ -32,7 +32,7 @@ export class CsrKeyService {
 
     // GET ALL CSRS WITH DETAILS
     async findAll() {
-        const data = await this.CsrKeyRepository.find();
+        const data = await this.CsrKeyRepository.find({ where: { status:1 } });
 
         if (!data || data.length === 0) {
             return {
@@ -66,7 +66,7 @@ export class CsrKeyService {
 
     // GET CSR BY ID WITH DETAILS
     async findById(id: number) {
-        const records = await this.CsrKeyRepository.find({ where: { id } });
+        const records = await this.CsrKeyRepository.find({ where: { id, status:1 } });
 
         if (!records || records.length === 0) {
             throw new NotFoundException({

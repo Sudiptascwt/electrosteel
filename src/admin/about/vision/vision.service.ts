@@ -88,7 +88,7 @@ export class AboutService {
 
     // GET ALL
     async findAllPrinciples() {
-        const data = await this.VisionPrinciplesRepository.find({ where: { status:0 } });
+        const data = await this.VisionPrinciplesRepository.find({ where: { status:1 } });
         return {
             status: true,
             statusCode: HttpStatus.OK,
@@ -99,7 +99,7 @@ export class AboutService {
 
     // GET BY ID
     async findPrinciplesById(id: number) {
-        const About = await this.VisionPrinciplesRepository.findOne({ where: { id, status:0 } });
+        const About = await this.VisionPrinciplesRepository.findOne({ where: { id, status:1 } });
         if (!About) {
             throw new NotFoundException({
                 status: false,
