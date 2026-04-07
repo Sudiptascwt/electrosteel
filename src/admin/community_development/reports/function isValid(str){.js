@@ -56,7 +56,7 @@ class MinStack{
     }
     top() { return this.stack[this.stack.length-1] }
     getMin() { return this.mins[this.mins.length-1]}
-    }
+}
 
 
     function binarySearch(nums, target){
@@ -87,7 +87,75 @@ class MinStack{
 
 
 
+let age: number = 25;
+age ="twenty five"
+
+
+function add(a:Number,b:Number):number{
+    return a+b;
+}
 
 
 
-    
+function getSecondLargest(arr){
+    let n= arr.length;
+    arr.sort((a, b) => a-b);
+    for( let i=n-2;i>=0;i--)
+}
+
+function getsecondLargest(arr){
+    if(arr.length<2) return -1;
+
+    let largest, secondlargest;
+    if(arr[0] >arr[1]){
+        largest = arr[0];
+        secondlargest = arr[1];
+    } else{
+        largest=arr[1];
+        secondlargest=arr[0]
+    }
+    for(let i=2;i<arr.length;i++){
+        if(arr[i]>largest){
+            secondlargest= largest;
+            largest = arr[i]
+        } else if(arr[i]<largest && arr[i]>secondlargest){
+            secondlargest=arr[i]
+        }
+    }
+    if(secondlargest===largest){
+        return -1
+    } else{
+        return secondlargest;
+    }
+}
+
+function largestArrayELement(arr){ 
+    if(arr.length<2){
+        return arr[0]
+    } 
+    let largest=arr[0];
+    for (let i=0;i<arr.length;i++){
+        if(arr[i]>largest){
+            largest=arr[i]
+        }
+    }
+    return largest;
+}
+let largest: number = arr[0];
+
+import { createClient } from 'redis';
+const redis = createClient({
+    url: 'redis://localhost:6379'
+})
+
+redis.on('connect', () => {
+  console.log('Redis connected');
+});
+
+redis.on('error', err => {
+  console.error('Redis error', err);
+});
+
+await redis.connect();
+
+export default redis;
