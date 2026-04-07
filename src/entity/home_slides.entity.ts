@@ -2,21 +2,27 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 
 @Entity('home_slides')
 export class home_slides {
-  @PrimaryGeneratedColumn({ name: 'id' })
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  name: string;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  type: string;
+
+  @Column({ type: 'varchar', length: 225, nullable: true })
+  src: string;
+
+  @Column({ type: 'text', nullable: true })
+  highlight: string;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  url: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   style: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  title: string;
-
-  @CreateDateColumn({ name: 'created_at', type: 'datetime' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'datetime' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

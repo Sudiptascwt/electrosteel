@@ -19,7 +19,7 @@ import { AllCertificatesDto } from '../../dto/all_certificates.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
-import { UserRole } from '../../users/user.entity';
+import { UserRole } from '../../admin/users/user.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)

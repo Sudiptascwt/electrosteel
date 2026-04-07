@@ -1,40 +1,44 @@
-import { Controller, Get, Post, Body, Query, Render, Res, Req } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { home_slides } from '../../entity/home_slides.entity';
+import { Controller, Post, Get, Delete, Body, Param, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { HomeSlidesService } from './home_slides.service';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('admin/home-slides')
 export class HomeSlidesController {
-  constructor(
-    @InjectRepository(home_slides)
-    private slidesRepo: Repository<home_slides>,
-  ) {}
+  constructor(private readonly slidesService: HomeSlidesService) {}
 
-  @Get('form')
-  @Render('admin/home-slides/form')
-  async form(@Query('id') id: string) {
-    let slide = null;
-    if (id) {
-      slide = await this.slidesRepo.findOne({ where: { id: Number(id) } });
+  @Post('save-slide')
+  @UseInterceptors(
+    FileFieldsInterceptor([{ name: 'src', maxCount: 1 }], {
+      storage: diskStorage({
+        destination: './uploads/slides',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `slide-${uniqueSuffix}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async saveSlide(@Body() data: any, @UploadedFiles() files: any) {
+    if (files?.src) {
+      data.src = files.src[0].filename;
     }
-    return { slide };
+    return this.slidesService.saveSlide(data);
   }
 
-  @Post('save')
-  async save(@Body() data: any, @Res() res, @Req() req) {
-    try {
-      if (data.id) {
-        // Update
-        await this.slidesRepo.update(data.id, data);
-        req.flash('success', 'Slide updated!');
-      } else {
-        // Create
-        await this.slidesRepo.save(data);
-        req.flash('success', 'Slide created!');
-      }
-    } catch (err) {
-      req.flash('error', err.message);
-    }
-    res.redirect('/admin/home-slides/form');
+  @Get()
+  async getAllSlides() {
+    return this.slidesService.getAllSlides();
+  }
+
+  @Get(':id')
+  async getSlideById(@Param('id') id: string) {
+    return this.slidesService.getSlideById(parseInt(id));
+  }
+
+  @Delete(':id')
+  async deleteSlide(@Param('id') id: string) {
+    return this.slidesService.deleteSlide(parseInt(id));
   }
 }

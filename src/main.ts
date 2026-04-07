@@ -89,7 +89,7 @@ app.use(
 
 
   // 7️⃣ Start server
-  await app.listen(2000, '0.0.0.0');
-  console.log(`🚀 Server running on http://localhost:2000`);
+  await app.listen(3000, '0.0.0.0');
+  console.log(`🚀 Server running on http://localhost:3000`);
 }
 bootstrap();

@@ -1,83 +1,85 @@
-import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-// import { CsrProjects } from '../../../entity/csr_projects.entity';
-// import { CsrProjectsDto } from '../../../dto/csr_projects.dto';
+// import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
+// import { InjectRepository } from '@nestjs/typeorm';
+// import { CsrProjectsDto } from 'src/dto/csr_projects.dto';
+// import { CsrProjects } from 'src/entity/csr_projects.entity';
+// import { Repository } from 'typeorm';
+// // import { CsrProjects } from '../../../entity/csr_projects.entity';
+// // import { CsrProjectsDto } from '../../../dto/csr_projects.dto';
 
-@Injectable()
-export class CsrProjectsService {
-  constructor(
-    // @InjectRepository(CsrProjects)
-    // private readonly CsrProjectsRepo: Repository<CsrProjects>,
-  ) {}
+// @Injectable()
+// export class CsrProjectsService {
+//   constructor(
+//     // @InjectRepository(CsrProjects)
+//     private readonly CsrProjectsRepo: Repository<CsrProjects>,
+//   ) {}
 
-    //////////CsrProjects/////////////
-    // CREATE
-    // async create(createDto: CsrProjectsDto) {
-    //     const share_holding_information = this.CsrProjectsRepo.create(createDto);
-    //     const data = await this.CsrProjectsRepo.save(share_holding_information);
+//     //////////CsrProjects/////////////
+//     // CREATE
+//     // async create(createDto: CsrProjectsDto) {
+//     //     const share_holding_information = this.CsrProjectsRepo.create(createDto);
+//     //     const data = await this.CsrProjectsRepo.save(share_holding_information);
 
-    //     return {
-    //         statusCode: HttpStatus.CREATED,
-    //         message: 'Annual return created successfully',
-    //         data,
-    //     };
-    // }
+//     //     return {
+//     //         statusCode: HttpStatus.CREATED,
+//     //         message: 'Annual return created successfully',
+//     //         data,
+//     //     };
+//     // }
 
-    // GET ALL
-    async findAll() {
-        const data = await this.CsrProjectsRepo.find();
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'Annual return fetched successfully',
-            data,
-        };
-    }
+//     // GET ALL
+//     async findAll() {
+//         const data = await this.CsrProjectsRepo.find();
+//         return {
+//             statusCode: HttpStatus.OK,
+//             message: 'Annual return fetched successfully',
+//             data,
+//         };
+//     }
 
-    // GET BY ID
-    async findById(id: number) {
-        const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
-        if (!share_holding_information) {
-            throw new NotFoundException(`CsrProjects with ID ${id} not found`);
-        }
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'Annual return fetched successfully',
-            data: share_holding_information,
-        };
-    }
+//     // GET BY ID
+//     async findById(id: number) {
+//         const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
+//         if (!share_holding_information) {
+//             throw new NotFoundException(`CsrProjects with ID ${id} not found`);
+//         }
+//         return {
+//             statusCode: HttpStatus.OK,
+//             message: 'Annual return fetched successfully',
+//             data: share_holding_information,
+//         };
+//     }
 
-    // UPDATE
-    async update(id: number, updateDto: CsrProjectsDto) {
-        const entity = await this.CsrProjectsRepo.findOneBy({ id });
-        if (!entity) {
-            throw new NotFoundException(`CsrProjects with id ${id} not found`);
-        }
+//     // UPDATE
+//     async update(id: number, updateDto: CsrProjectsDto) {
+//         const entity = await this.CsrProjectsRepo.findOneBy({ id });
+//         if (!entity) {
+//             throw new NotFoundException(`CsrProjects with id ${id} not found`);
+//         }
 
-        Object.assign(entity, updateDto);
+//         Object.assign(entity, updateDto);
 
-        const updatedEntity = await this.CsrProjectsRepo.save(entity);
+//         const updatedEntity = await this.CsrProjectsRepo.save(entity);
 
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'Annual return updated successfully',
-            data: updatedEntity,
-        };
-    }
+//         return {
+//             statusCode: HttpStatus.OK,
+//             message: 'Annual return updated successfully',
+//             data: updatedEntity,
+//         };
+//     }
 
 
-    // DELETE
-    async delete(id: number) {
-        const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
-        if (!share_holding_information) {
-        throw new NotFoundException(`CsrProjects with ID ${id} not found`);
-        }
+//     // DELETE
+//     async delete(id: number) {
+//         const share_holding_information = await this.CsrProjectsRepo.findOne({ where: { id } });
+//         if (!share_holding_information) {
+//         throw new NotFoundException(`CsrProjects with ID ${id} not found`);
+//         }
 
-        await this.CsrProjectsRepo.remove(share_holding_information);
+//         await this.CsrProjectsRepo.remove(share_holding_information);
 
-        return {
-            statusCode: HttpStatus.OK,
-            message: 'Annual return deleted successfully',
-        };
-    }
-}
+//         return {
+//             statusCode: HttpStatus.OK,
+//             message: 'Annual return deleted successfully',
+//         };
+//     }
+// }

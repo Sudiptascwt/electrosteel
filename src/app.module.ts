@@ -58,7 +58,7 @@ import { FacilityModule } from './admin/facility/facility.module';
 import { MetaTag } from './entity/meta_tag.entity';
 import { MetaTagModule } from './admin/meta_tag/meta_tag.module';
 import { PipeArt } from './entity/pipe_art.entity';
-import { PipeArtModule } from './admin/pipe_art/pipe_art.module';
+// import { PipeArtModule } from './admin/pipe_art/pipe_art.module';
 import { PipeArtDetail } from './entity/pipe_art_details.entity';
 import { Subsidiaries } from './entity/subsidiaries.entity';
 import { SubsidiariesModule } from './admin/subsidiaries/subsidiaries.module';
@@ -312,7 +312,7 @@ import { BoardCommitteTitle } from './entity/board_committe_title.entity';
     ProductBrochuresModule,
     FacilityModule,
     MetaTagModule,
-    PipeArtModule,
+    // PipeArtModule,
     SubsidiariesModule,
     ConductModule,
     CsrKeyModule,
