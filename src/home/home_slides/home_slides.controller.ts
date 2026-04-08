@@ -1,10 +1,14 @@
-import { Controller, Post, Get, Delete, Body, Param, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Body, Param, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { HomeSlidesService } from './home_slides.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/role/roles.guard';
+import { UserRole } from 'src/admin/users/user.entity';
+import { Roles } from 'src/role/roles.decorator';
 
-@Controller('admin/home-slides')
+@Controller('home/slides')
 export class HomeSlidesController {
   constructor(private readonly slidesService: HomeSlidesService) {}
 
@@ -20,25 +24,18 @@ export class HomeSlidesController {
       }),
     }),
   )
-  async saveSlide(@Body() data: any, @UploadedFiles() files: any) {
-    if (files?.src) {
-      data.src = files.src[0].filename;
-    }
-    return this.slidesService.saveSlide(data);
-  }
+
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
+@Post('save-slide')
+saveSlide(@Body() body: any) {
+  return this.slidesService.saveSlide({
+    ...body
+  });
+}
 
   @Get()
   async getAllSlides() {
     return this.slidesService.getAllSlides();
-  }
-
-  @Get(':id')
-  async getSlideById(@Param('id') id: string) {
-    return this.slidesService.getSlideById(parseInt(id));
-  }
-
-  @Delete(':id')
-  async deleteSlide(@Param('id') id: string) {
-    return this.slidesService.deleteSlide(parseInt(id));
   }
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString, IsUrl, IsDate, IsNumber, IsIn } from 'class-validator';
 
-export class ProductBrochuresDto {
+export class pipes_sectionDto {
   @ApiProperty({
     description: 'Unique ID of the brochure',
     example: 1,

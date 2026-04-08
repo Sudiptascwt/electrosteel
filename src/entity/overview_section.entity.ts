@@ -1,24 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('home_slides')
-export class home_slides {
+@Entity('overview_section')
+export class OverviewSection {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  type: string;
-
-  @Column({ type: 'varchar', length: 225, nullable: true })
-  src: string;
-
-  @Column({ type: 'text', nullable: true })
-  highlight: string;
-
-  @Column({ type: 'varchar', length: 500, nullable: true })
-  url: string;
-
   @Column({ type: 'text', nullable: true })
   title: string;
+
+  @Column({ type: 'text', nullable: true })
+  subtitle: string;
+
+  @Column({ type: 'text', nullable: true })
+  description: string;
+
+  @Column({ type: 'text', nullable: true })
+  url: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('pipes_section')
-export class ProductBrochures {
+export class pipes_section {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
