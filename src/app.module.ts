@@ -11,8 +11,8 @@ import { HomesModule } from './home/home.module';
 import { BannerModule } from './home/banner/banner.module';
 import { Investor } from './entity/investor.entity';
 import { Care } from './entity/care.entity';
-import { MilestoneModule } from './home/milestone/milestone.module';
-import { Milestone } from './entity/milestone.entity';
+import { milestonesModule } from './home/milestones/milestones.module';
+import { Milestone } from './entity/milestones.entity';
 import { MilestoneImage } from './entity/milestone_image.entity';
 import { Advancement } from './entity/advancement.entity';
 import { AdvancementModule } from './home/advancements/advancement.module';
@@ -253,7 +253,6 @@ import { AboutBanner } from './entity/company_profile_banner.entity';
 import { AboutBannerModule } from './admin/about/company_profile/about_banner/about_banner.module';
 import { BelowBanner } from './entity/below_banner.entity';
 import { BelowBannerModule } from './admin/about/company_profile/below_banner/below_banner.module';
-import { MilestoneTitle } from './entity/milestone_title.entity';
 import { CorporateProfileTestimonial } from './entity/coporate_profile_testimonial.entity';
 import { VisionPrinciples } from './entity/vision_principles.entity';
 import { AllPagesTitle} from './entity/all_page_title.entity';    
@@ -270,6 +269,8 @@ import { growing_from_strengthModule } from './home/growing_from_strength/growin
 import { growing_from_strength } from './entity/growing_from_strength.entity';
 import { water_section } from './entity/water_section.entity';
 import { water_sectionModule } from './home/water_section/water_section.module';
+import { AboutMain } from './entity/about_main.entity';
+import { AboutMainModule } from './admin/about/about_main/about_main.module';
 
 @Module({
   imports: [
@@ -290,7 +291,7 @@ import { water_sectionModule } from './home/water_section/water_section.module';
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, MilestoneTitle, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, BoardCommitteTitle, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, BoardCommitteTitle, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -302,7 +303,7 @@ import { water_sectionModule } from './home/water_section/water_section.module';
     AuthModule,
     HomesModule,
     BannerModule,
-    MilestoneModule,
+    milestonesModule,
     AdvancementModule,
     InnerModule,
     InnerSliderModule,
@@ -431,7 +432,8 @@ import { water_sectionModule } from './home/water_section/water_section.module';
     miniStatsModule,
     ecl_productsModule,
     growing_from_strengthModule,
-    water_sectionModule
+    water_sectionModule,
+    AboutMainModule
   ],
   controllers: [AppController],
   providers: [AppService],

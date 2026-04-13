@@ -12,19 +12,16 @@ export class Advertisement {
   id: number;
 
   @Column({ type: 'text', nullable: true })
-  title1: string;
+  title: string;
 
   @Column({ type: 'text', nullable: true })
-  title2: string;
+  sub_title: string;
 
   @Column({ type: 'text', nullable: true })
-  sub_title1: string;
+  box_data: string;
 
   @Column({ type: 'text', nullable: true })
-  sub_title2: string;
-
-  @Column({ type: 'text', nullable: true })
-  features: string;
+  image_title: string;
 
   @Column({ type: 'text', nullable: true })
   image1: string;
@@ -34,12 +31,6 @@ export class Advertisement {
 
   @Column({ type: 'text', nullable: true })
   image3: string;
-
-  @Column({
-    type: 'tinyint',
-    default: 1,
-  })
-  status: 0 | 1;
 
   @CreateDateColumn()
   created_at: Date;

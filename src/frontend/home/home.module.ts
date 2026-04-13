@@ -12,11 +12,9 @@ import { Testimonial } from 'src/entity/home_testimonial.entity';
 import { VideoSection } from 'src/entity/home_video_section.entity';
 import { Product } from 'src/entity/product.entity';
 import { Blogs } from 'src/entity/blogs.entity';
-import { MilestoneTitle } from '../../entity/milestone_title.entity'
-import { Milestone } from '../../entity/milestone.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel, Advertisement, Milestone, Statistic, Testimonial, VideoSection, Product, Blogs, MilestoneTitle])],
+  imports: [TypeOrmModule.forFeature([Advancement,SocialSection,Banner,SectionElectrosteel, Advertisement, Statistic, Testimonial, VideoSection, Product, Blogs])],
   controllers: [HomeController],
   providers: [HomeService],
 })

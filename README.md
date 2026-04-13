@@ -79,6 +79,12 @@ npm run typeorm migration:create -- -n CreateActivityLogsTable
 ## run migration 
 npm run typeorm -- migration:run -- -d ./src/data-source.ts
 
+#
+ALTER TABLE your_table_name MODIFY created_at TIMESTAMP;
+#
+ALTER TABLE your_table_name 
+MODIFY COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 
 
 

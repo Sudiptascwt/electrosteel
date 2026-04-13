@@ -28,7 +28,7 @@ export class water_sectionService {
           {
             title: data.title,
             sub_title: data.sub_title,
-            description: data.description,
+            description: data.description, 
             url: data.url,
             video: data.video
           }
@@ -58,38 +58,15 @@ export class water_sectionService {
     }
 
     async getWaterSectionData() {
-    //   const water_section = await this.water_sectionRepository.find({});
+      const water_section = await this.water_sectionRepository.find({});
 
-    //   const parsedData = water_section.map(item => {
-    //     let parsedBoxData = item.box_data;
-        
-    //     if (item.box_data && typeof item.box_data === 'string') {
-    //       try {
-    //         parsedBoxData = JSON.parse(item.box_data);
-    //       } catch (e) {
-    //         console.error('Failed to parse box_data:', e);
-    //       }
-    //     }
-        
-    //     return {
-    //       id: item.id,
-    //       title: item.title,
-    //       sub_title: item.sub_title,
-    //       box_data: parsedBoxData, 
-    //       image: item.image,
-    //       video: item.video,
-    //       createdAt: item.createdAt,
-    //       updatedAt: item.updatedAt,
-    //     };
-    //   });
-
-    //   return {
-    //     status: true,
-    //     statusCode: 200,
-    //     message: water_section.length 
-    //       ? 'water_section fetched successfully.' 
-    //       : 'No water_section found.',
-    //     data: parsedData,
-    //   };
+      return {
+        status: true,
+        statusCode: 200,
+        message: water_section.length 
+          ? 'water_section fetched successfully.' 
+          : 'No water_section found.',
+        data: water_section,
+      };
   }
 }

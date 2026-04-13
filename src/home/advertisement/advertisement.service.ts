@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { And, Repository } from 'typeorm';
 import { Advertisement } from '../../entity/advertisement.entity';
 import { AdvertisementDto } from '../../dto/advertisement.dto';
 
@@ -11,47 +11,67 @@ export class AdvertisementService {
     private readonly advertisementRepository: Repository<Advertisement>,
   ) {}
 
-  /**
-   * Create a new advertisement
-   */
-  async create(data: AdvertisementDto) {
-    const existingAds = await this.advertisementRepository.find();
+  async save(data: any) {
+    if (!data) {
+      throw new Error("No data received");
+    }
+    let boxDataString: string = null;
+    if (Array.isArray(data.box_data)) {
+      boxDataString = JSON.stringify(data.box_data);
+    } else if (typeof data.box_data === 'string') {
+      boxDataString = data.box_data;
+    }
 
-    if (existingAds.length > 0) {
-      const existing = existingAds[0];
+    let existingRecords = await this.advertisementRepository.find();
 
-      await this.advertisementRepository.update(existing.id, data);
-
-      const updatedAd = await this.advertisementRepository.findOne({
-        where: { id: existing.id },
-      });
-
+    if (existingRecords && existingRecords.length > 0) {
+      const recordToUpdate = existingRecords[0];
+      recordToUpdate.title = data.title;
+      recordToUpdate.sub_title = data.sub_title;
+      recordToUpdate.box_data = boxDataString;
+      recordToUpdate.image_title = data.image_title;
+      recordToUpdate.image1 = data.image1;
+      recordToUpdate.image2 = data.image2;
+      recordToUpdate.image3 = data.image3;
+      
+      const savedRecord = await this.advertisementRepository.save(recordToUpdate)
+      
       return {
         status: true,
         statusCode: 200,
-        message: 'Advertisement updated successfully',
-        data: updatedAd,
+        message: 'Data updated successfully.',
+        data: {
+          ...savedRecord,
+          box_data: savedRecord.box_data ? JSON.parse(savedRecord.box_data) : []
+        },
+      };
+    } else {
+      const newRecord = this.advertisementRepository.create({
+        title: data.title,
+        sub_title: data.sub_title,
+        box_data: boxDataString, 
+        image_title: data.image_title,
+        image1: data.image1,
+        image2: data.image2,
+        image3: data.image3,
+      });
+      
+      const savedRecord = await this.advertisementRepository.save(newRecord);
+      
+      return {
+        status: true,
+        statusCode: 201,
+        message: 'Data created successfully.',
+        data: {
+          ...savedRecord,
+          box_data: savedRecord.box_data ? JSON.parse(savedRecord.box_data) : []
+        },
       };
     }
-
-    const newAd = this.advertisementRepository.create(data);
-    const savedAd = await this.advertisementRepository.save(newAd);
-
-    return {
-      status: true,
-      statusCode: 201,
-      message: 'Advertisement created successfully',
-      data: savedAd,
-    };
   }
 
-
-  /**
-   * Update existing advertisement by ID
-   */
-  async update(id: number, data: Partial<AdvertisementDto>) {
-    const existingAd = await this.advertisementRepository.findOne({ where: { id, status: 1 } });
-
+  async getAllAdvertisementData() {
+    const existingAd = await this.advertisementRepository.find({});
     if (!existingAd) {
       return {
         status: false,
@@ -60,84 +80,35 @@ export class AdvertisementService {
         data: [],
       };
     }
-
-    Object.assign(existingAd, data);
-    const updatedAd = await this.advertisementRepository.save(existingAd);
-
-    return {
-      status: true,
-      statusCode: 200,
-      message: 'Advertisement updated successfully',
-      data: updatedAd,
-    };
-  }
-
-  /**
-   * Get all advertisements (sorted by latest)
-   */
-  async getAll() {
-    const [advertisements, count] = await this.advertisementRepository.findAndCount({
-      where: { status: 1 },
-      order: { created_at: 'DESC' },
+    const parsedData = existingAd.map(item => {
+        let parsedBoxData = item.box_data;
+        
+        if (item.box_data && typeof item.box_data === 'string') {
+          try {
+            parsedBoxData = JSON.parse(item.box_data);
+          } catch (e) {
+            console.error('Failed to parse box_data:', e);
+          }
+        }
+        
+        return {
+          id: item.id,
+          title: item.title,
+          sub_title: item.sub_title,
+          box_data: parsedBoxData, 
+          image_title: item.image_title,
+          image1: item.image1,
+          image2: item.image2,
+          image3: item.image3,
+        };
     });
-
-    return {
-      status: true,
-      statusCode: 200,
-      message: advertisements.length
-        ? 'Advertisements fetched successfully'
-        : 'No advertisements found',
-      count,
-      data: advertisements
-    };
-  }
-
-  /**
-   * Get advertisement by ID
-   */
-  async getById(id: number) {
-    const advertisement = await this.advertisementRepository.findOne({ where: { id, status: 1 } });
-
-    if (!advertisement) {
       return {
-        status: false,
-        statusCode: 404,
-        message: 'Advertisement not found',
-        data: [],
+        status: true,
+        statusCode: 200,
+        message: existingAd.length
+          ? 'Advertisement data fetched successfully'
+          : 'No advertisement data found.',
+        data: parsedData,
       };
-    }
-
-    return {
-      status: true,
-      statusCode: 200,
-      message: 'Advertisement fetched successfully',
-      data: [advertisement],
-    };
-  }
-
-  /**
-   * Delete advertisement by ID
-   */
-  async delete(id: number) {
-    const result = await this.advertisementRepository.update(
-      { id },      
-      { status: 0 }
-    );
-
-    if (result.affected === 0) {
-      return {
-        status: false,
-        statusCode: 404,
-        message: 'Advertisement not found',
-        data: [],
-      };
-    }
-
-    return {
-      status: true,
-      statusCode: 200,
-      message: 'Advertisement deleted successfully (status changed to 0)',
-      data: [],
-    };
   }
 }

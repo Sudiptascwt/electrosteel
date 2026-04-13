@@ -22,28 +22,15 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class AdvertisementController {
   constructor(private readonly service: AdvertisementService) {}
 
-  @Post('create-advertisement')
-  async create(@Body() data: AdvertisementDto) {
-    return this.service.create(data);
+  @Post('save')
+  async save(@Body() data: AdvertisementDto) {
+    return this.service.save(data);
   }
 
-  @Put('update-advertisement/:id')
-  async update(@Param('id') id: number, @Body() data: Partial<AdvertisementDto>) {
-    return this.service.update(id, data);
-  }
-
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Get()
-  async getAll() {
-    return this.service.getAll();
-  }
-
-  @Get(':id')
-  async getById(@Param('id') id: number) {
-    return this.service.getById(id);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id') id: number) {
-    return this.service.delete(id);
+  async getAllMilestonesData() {
+    return this.service.getAllAdvertisementData();
   }
 }

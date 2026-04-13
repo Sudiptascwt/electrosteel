@@ -11,8 +11,6 @@ import { Testimonial } from 'src/entity/home_testimonial.entity';
 import { VideoSection } from '../../entity/home_video_section.entity';
 import { Product } from 'src/entity/product.entity';
 import { Blogs } from 'src/entity/blogs.entity';
-import { MilestoneTitle } from '../../entity/milestone_title.entity'
-import { Milestone } from '../../entity/milestone.entity';
 
 @Injectable()
 export class HomeService {
@@ -27,11 +25,11 @@ export class HomeService {
     @InjectRepository(SectionElectrosteel)
     private readonly electrosteelRepo: Repository<SectionElectrosteel>,
 
-    @InjectRepository(Advertisement)
-    private readonly AdvertisementRepo: Repository<Advertisement>,
+    // @InjectRepository(Advertisement)
+    // private readonly AdvertisementRepo: Repository<Advertisement>,
 
-    @InjectRepository(MilestoneTitle)
-    private readonly MilestoneRepo: Repository<MilestoneTitle>,
+    // @InjectRepository(MilestoneTitle)
+    // private readonly MilestoneRepo: Repository<MilestoneTitle>,
 
     @InjectRepository(Statistic)
     private readonly StatisticRepo: Repository<Statistic>,
@@ -46,8 +44,8 @@ export class HomeService {
   async getHomeData() {
     const banners = await this.bannerRepo.find({where: { status: 1 } });
     const electrosteels = await this.electrosteelRepo.find({where: { status: 1 } });
-    const advertisements = await this.AdvertisementRepo.find({where: { status: 1 } });
-    const milestones = await this.MilestoneRepo.find({where: { status: 1 } });
+    // const advertisements = await this.AdvertisementRepo.find({where: { status: 1 } });
+    // const milestones = await this.MilestoneRepo.find({where: { status: 1 } });
     const statistics = await this.StatisticRepo.find({where: { status: 1 } });
     const video_sections = await this.VideoSectionRepo.find({where: { status: 1 } });  
     const product_details = await this .ProductRepo.find({where: { status: 1 } });
@@ -107,8 +105,8 @@ export class HomeService {
       data: {
         banners: formattedBanners,
         electrosteels,
-        advertisements,
-        milestones_details: milestones,
+        // advertisements,
+        // milestones_details: milestones,
         statistics,
         video_sections,
         products: product_details,

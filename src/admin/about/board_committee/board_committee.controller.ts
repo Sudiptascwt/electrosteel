@@ -18,7 +18,7 @@ export class BoardCommitteTypeController {
     /////create board committe titles///
     @Post('board-committe-main-titles')
     createMainTitles(@Body() createDto: BoardCommitteTitleDto) {
-    return this.BoardCommitteTypeervice.createMainTitles(createDto);
+        return this.BoardCommitteTypeervice.createMainTitles(createDto);
     }
     // Get board committe titles
     @Get('board-committe-main-titles')

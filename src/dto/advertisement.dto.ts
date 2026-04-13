@@ -1,29 +1,21 @@
 import { IsString, IsOptional, IsNotEmpty, IsNumber, IsInt, IsEnum } from 'class-validator';
 
 export class AdvertisementDto {
-  @IsNumber()
-  @IsNotEmpty({ message: 'Page ID is required' })
-  page_id: number;
+  @IsOptional()
+  @IsString()
+  title?: string; 
 
   @IsOptional()
   @IsString()
-  title1?: string; 
+  sub_title?: string; 
 
   @IsOptional()
   @IsString()
-  title2?: string; 
+  box_data?: string; 
 
   @IsOptional()
   @IsString()
-  sub_title1?: string; 
-
-  @IsOptional()
-  @IsString()
-  sub_title2?: string; 
-
-  @IsOptional()
-  @IsString()
-  features?: string; 
+  image_title?: string; 
 
   @IsOptional()
   @IsString()
@@ -36,8 +28,4 @@ export class AdvertisementDto {
   @IsOptional()
   @IsString()
   image3?: string; 
-
-  @IsEnum([0, 1])
-  @IsOptional()
-  status?: 0 | 1; 
 }

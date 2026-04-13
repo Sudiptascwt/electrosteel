@@ -1,8 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { Milestone } from './milestones.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('headings')
-export class headings {
+@Entity('growing_strength_data')
+export class growing_strength_data {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -10,13 +9,10 @@ export class headings {
     title: string;
 
     @Column({ type: 'text', nullable: true })
-    sub_title: string;
-
-    @Column({ type: 'text', nullable: true })
     description: string;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
-    section_type: string;
+    image: string;
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
