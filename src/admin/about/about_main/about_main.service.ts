@@ -1,130 +1,393 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { And, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AboutMain } from '../../../entity/about_main.entity';
+import { growing_strength_data } from 'src/entity/growing_strength_data.entity';
 import { AboutMainDto } from '../../../dto/about_main.dto';
+import { growing_strength_dataDto } from '../../../dto/growing_strength_data.dto';
+import { AboutDuctileIron } from 'src/entity/about_ductile_iron.entity';
+import { AboutDuctileIronDto } from 'src/dto/about_ductile_iron.dto';
+import { ManufacturingFacilities } from 'src/entity/manufacturing_facilities.entity';
+import { ManufacturingFacilitiesDto } from 'src/dto/manufacturing_facilities.dto';
+import { headings } from 'src/entity/headings.entity';
+import { AboutPeopleData } from 'src/entity/about_people_data.entity';
+import { AboutPeopleDataDto } from 'src/dto/about_people_data.dto';
 
 @Injectable()
 export class AboutMainService {
   constructor(
     @InjectRepository(AboutMain)
-    private readonly AboutMainRepository: Repository<AboutMain>,
+    private readonly aboutMainRepository: Repository<AboutMain>,
+    
+    @InjectRepository(growing_strength_data) 
+    private readonly growingStrengthRepository: Repository<growing_strength_data>,
+
+    @InjectRepository(AboutDuctileIron) 
+    private readonly AboutDuctileIronRepository: Repository<AboutDuctileIron>,
+
+    @InjectRepository(ManufacturingFacilities) 
+    private readonly ManufacturingFacilitiesRepository: Repository<ManufacturingFacilities>,
+
+    @InjectRepository(headings)
+    private readonly headingsRepository: Repository<headings>,
+
+    @InjectRepository(AboutPeopleData)
+    private readonly AboutPeopleDataRepository: Repository<AboutPeopleData>,
   ) {}
 
-  async save(data: any) {
+  // ============ About Main Methods ============
+
+  async saveAboutMain(data: AboutMainDto) {
     if (!data) {
       throw new Error("No data received");
     }
-    console.log("datasss",data)
-
-    let existingRecords = await this.AboutMainRepository.find();
+    let existingRecords = await this.aboutMainRepository.find();
 
     if (existingRecords && existingRecords.length > 0) {
       const recordToUpdate = existingRecords[0];
       recordToUpdate.title = data.title;
       recordToUpdate.image = data.image;
       
-      const savedRecord = await this.AboutMainRepository.save(recordToUpdate)
+      const savedRecord = await this.aboutMainRepository.save(recordToUpdate);
       
       return {
         status: true,
         statusCode: 200,
-        message: 'Data updated successfully.',
+        message: 'About Main data updated successfully.',
         data: savedRecord
       };
     } else {
-      const newRecord = this.AboutMainRepository.create({
+      const newRecord = this.aboutMainRepository.create({
         title: data.title,
         image: data.image
       });
       
-      const savedRecord = await this.AboutMainRepository.save(newRecord);
+      const savedRecord = await this.aboutMainRepository.save(newRecord);
       
       return {
         status: true,
         statusCode: 201,
-        message: 'Data created successfully.',
+        message: 'About Main data created successfully.',
         data: savedRecord
       };
     }
   }
 
   async getAllAboutMainData() {
-    const existingAd = await this.AboutMainRepository.find({});
-    if (!existingAd) {
+    const existingData = await this.aboutMainRepository.find({});
+    
+    if (!existingData || existingData.length === 0) {
       return {
         status: false,
         statusCode: 404,
-        message: 'AboutMain not found',
+        message: 'About Main not found',
         data: [],
       };
     }
-      return {
-        status: true,
-        statusCode: 200,
-        message: existingAd.length
-          ? 'About Main data fetched successfully'
-          : 'No About Main data found.',
-        data: existingAd
-      };
+    
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'About Main data fetched successfully',
+      data: existingData
+    };
   }
 
-  ///////////// growing strength ////////////
-  async GrowingStrengthsave(data: any) {
+  // ============ Growing Strength Methods ============
+
+  async GrowingStrengthsave(data: growing_strength_dataDto) {
     if (!data) {
       throw new Error("No data received");
     }
-    console.log("datasss",data)
+    console.log("Growing Strength data:", data);
 
-    let existingRecords = await this.AboutMainRepository.find();
+    let existingRecords = await this.growingStrengthRepository.find();
 
     if (existingRecords && existingRecords.length > 0) {
       const recordToUpdate = existingRecords[0];
       recordToUpdate.title = data.title;
       recordToUpdate.image = data.image;
+      recordToUpdate.description = data.description;
       
-      const savedRecord = await this.AboutMainRepository.save(recordToUpdate)
+      const savedRecord = await this.growingStrengthRepository.save(recordToUpdate);
       
       return {
         status: true,
         statusCode: 200,
-        message: 'Data updated successfully.',
+        message: 'Growing Strength data updated successfully.',
         data: savedRecord
       };
     } else {
-      const newRecord = this.AboutMainRepository.create({
+      const newRecord = this.growingStrengthRepository.create({
         title: data.title,
-        image: data.image
+        image: data.image,
+        description: data.description
       });
       
-      const savedRecord = await this.AboutMainRepository.save(newRecord);
+      const savedRecord = await this.growingStrengthRepository.save(newRecord);
       
       return {
         status: true,
         statusCode: 201,
-        message: 'Data created successfully.',
+        message: 'Growing Strength data created successfully.',
         data: savedRecord
       };
     }
   }
 
   async getAllGrowingStrengthData() {
-    const existingAd = await this.AboutMainRepository.find({});
-    if (!existingAd) {
+    const existingData = await this.growingStrengthRepository.find({
+    });
+    
+    if (!existingData || existingData.length === 0) {
       return {
         status: false,
         statusCode: 404,
-        message: 'AboutMain not found',
+        message: 'Growing Strength data not found',
         data: [],
       };
     }
+    
+    return {
+      status: true,
+      statusCode: 200,
+      message: existingData.length
+        ? 'Growing Strength data fetched successfully'
+        : 'No Growing Strength data found.',
+      data: existingData
+    };
+  }
+
+  async saveDuctileIronPipes(data: AboutDuctileIronDto) {
+    if (!data) {
+      throw new Error("No data received");
+    }
+
+    let existingRecords = await this.AboutDuctileIronRepository.find();
+
+    if (existingRecords && existingRecords.length > 0) {
+      const recordToUpdate = existingRecords[0];
+      recordToUpdate.title = data.title;
+      recordToUpdate.image = data.image;
+      recordToUpdate.description = data.description;
+      recordToUpdate.video = data.video;
+      recordToUpdate.technology_title_1 = data.technology_title_1;
+      recordToUpdate.technology_title_2 = data.technology_title_2;
+      
+      const savedRecord = await this.AboutDuctileIronRepository.save(recordToUpdate);
+      
       return {
         status: true,
         statusCode: 200,
-        message: existingAd.length
-          ? 'About Main data fetched successfully'
-          : 'No About Main data found.',
-        data: existingAd
+        message: 'About Ductile Iron data updated successfully.',
+        data: savedRecord
       };
+    } else {
+      const newRecord = this.AboutDuctileIronRepository.create({
+        title: data.title,
+        image: data.image,
+        description: data.description
+      });
+      
+      const savedRecord = await this.AboutDuctileIronRepository.save(newRecord);
+      
+      return {
+        status: true,
+        statusCode: 201,
+        message: 'About Ductile Iron data created successfully.',
+        data: savedRecord
+      };
+    }
+  }
+
+  async getAllDuctileIronPipes() {
+    const existingData = await this.AboutDuctileIronRepository.find({
+    });
+    
+    if (!existingData || existingData.length === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'About Ductile Iron data not found',
+        data: [],
+      };
+    }
+    
+    return {
+      status: true,
+      statusCode: 200,
+      message: existingData.length
+        ? 'About Ductile Iron data fetched successfully'
+        : 'About Ductile Iron data found.',
+      data: existingData
+    };
+  }
+
+  async saveManufacturingfacilities(data: any) {
+    try {
+      const sectionType = "about_manufacturing_facilities";
+      
+      let heading = await this.headingsRepository.findOne({
+        where: { section_type: sectionType }
+      });
+
+      if (heading) {
+        heading.title = data.title;
+        heading.description = data.description;
+        await this.headingsRepository.save(heading);
+      } else {
+        const newHeading = this.headingsRepository.create({
+          title: data.title,
+          description: data.description,
+          section_type: sectionType
+        });
+        heading = await this.headingsRepository.save(newHeading);
+      }
+      await this.ManufacturingFacilitiesRepository.clear();
+      
+      let savedFacilities = [];
+      if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+        const facilities = data.data.map(facility => 
+          this.ManufacturingFacilitiesRepository.create({
+            title: facility.title,
+            description: facility.description,
+            features: JSON.stringify(facility.features),
+            phone: facility.phone,
+            address: facility.address
+          })
+        );
+        savedFacilities = await this.ManufacturingFacilitiesRepository.save(facilities);
+      }
+
+      return {
+        status: true,
+        statusCode: heading ? 200 : 201,
+        message: heading ? 'Manufacturing data updated successfully.' : 'Manufacturing data created successfully.',
+        data: {
+          heading: heading,
+          facilities: savedFacilities
+        }
+      };
+    } catch (error) {
+      console.error('Error in saveManufacturingfacilities:', error);
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Failed to save manufacturing data',
+        error: error.message
+      };
+    }
+  }
+
+  async getAllManufacturingfacilities() {
+    try {
+      const heading = await this.headingsRepository.findOne({
+        where: { section_type: "about_manufacturing_facilities" }
+      });
+
+      const facilities = await this.ManufacturingFacilitiesRepository.find();
+      
+      const formattedFacilities = facilities.map(record => ({
+        id: record.id,
+        title: record.title,
+        description: record.description,
+        features: record.features ? JSON.parse(record.features) : [],
+        phone: record.phone,
+        address: record.address,
+        createdAt: record.createdAt,
+        updatedAt: record.updatedAt
+      }));
+      
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Complete manufacturing data fetched successfully',
+        data: {
+          heading: heading ? {
+            id: heading.id,
+            title: heading.title,
+            description: heading.description,
+            section_type: heading.section_type,
+            createdAt: heading.createdAt,
+            updatedAt: heading.updatedAt
+          } : null,
+          facilities: formattedFacilities,
+          totalFacilities: formattedFacilities.length
+        }
+      };
+    } catch (error) {
+      console.error('Error:', error);
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Failed to fetch complete data',
+        error: error.message
+      };
+    }
+  }
+
+  //our people
+  async savePeopleData(data: any) {
+    try {
+      let people_data = await this.AboutPeopleDataRepository.find();
+      
+      if (people_data && people_data.length > 0) {
+        const recordToUpdate = people_data[0];
+        recordToUpdate.title = data.title;
+        recordToUpdate.description = data.description;
+        recordToUpdate.video = data.video;
+        await this.AboutPeopleDataRepository.save(recordToUpdate);
+        
+        return {
+          status: true,
+          statusCode: 200,
+          message: "People data updated successfully.",
+          data: recordToUpdate
+        };
+      } else {
+        const newRecord = this.AboutPeopleDataRepository.create({
+          title: data.title,  
+          description: data.description,
+          video: data.video
+        });
+        const savedRecord = await this.AboutPeopleDataRepository.save(newRecord);
+        
+        return {
+          status: true,
+          statusCode: 201,
+          message: "People data created successfully.",
+          data: savedRecord
+        };
+      }
+    }catch (error) {
+      console.error('Error in People data:', error);
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Failed to save People data',
+        error: error.message
+      };
+    }
+  }
+
+  async getAllPeopleData() {
+    try {
+      let people_data = await this.AboutPeopleDataRepository.find();
+      
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'People data fetched successfully',
+        data: people_data
+      };
+    } catch (error) {
+      console.error('Error:', error);
+      return {
+        status: false,
+        statusCode: 500,
+        message: 'Failed to fetch People data',
+        error: error.message
+      };
+    }
   }
 }

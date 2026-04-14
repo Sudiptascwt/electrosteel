@@ -7,6 +7,8 @@ import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { VisionPrinciplesDto } from '../../../dto/vision_principles.dto';
+import { headings } from 'src/entity/headings.entity';
+import { headingsDto } from 'src/dto/headings.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -14,19 +16,26 @@ import { VisionPrinciplesDto } from '../../../dto/vision_principles.dto';
 export class AboutController {
     constructor(private readonly AboutService: AboutService) {}
 
-    // Create Vision
-    @Post('vision')
-    async create(@Body() createDto: VisionDto) {
-        if(createDto.heading==null){
-            throw new BadRequestException('Heading is required');
-        }
-        return this.AboutService.create(createDto);
+    // Create Vision banner
+    @Post('vision-banner/save')
+    async createVisionBanner(@Body() createDto: headingsDto) {
+        return this.AboutService.createVisionBanner(createDto);
+    }
+
+    @Get('vision-banner')
+    async findVisionBanner() {
+        return this.AboutService.findVisionBanner();
+    }
+
+    @Post('vision/save')
+    async createVision(@Body() createDto: VisionDto) {
+        return this.AboutService.createVision(createDto);
     }
 
     // Get all About
     @Get('vision')
-    async findAll() {
-        return this.AboutService.findAll();
+    async findAllVision() {
+        return this.AboutService.findAllVision();
     }
 
     //////////// vision principles//////////////////

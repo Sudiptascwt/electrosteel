@@ -7,6 +7,8 @@ import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../../admin/users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { growing_strength_dataDto } from '../../../dto/growing_strength_data.dto';
+import { AboutDuctileIronDto } from 'src/dto/about_ductile_iron.dto';
+import { ManufacturingFacilitiesDto } from 'src/dto/manufacturing_facilities.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -16,7 +18,7 @@ export class AboutMainController {
 
   @Post('save')
   async save(@Body() data: AboutMainDto) {
-    return this.service.save(data);
+    return this.service.saveAboutMain(data);
   }
 
   @Get()
@@ -24,13 +26,45 @@ export class AboutMainController {
     return this.service.getAllAboutMainData();
   }
 
-  @Post('growing_strength-save')
-  async growingStrengthSave(@Body() data: growing_strength_dataDto) {  // ✅ Use correct DTO
+  @Post('growing_strength/save')
+  async growingStrengthSave(@Body() data: growing_strength_dataDto) { 
     return this.service.GrowingStrengthsave(data);
   }
 
-  @Get('get-all-growing-strength-data')
+  @Get('growing_strength')
   async getAllGrowingStrengthData() {
     return this.service.getAllGrowingStrengthData();
+  }
+
+  @Post('ductile-iron/save')
+  async saveDuctileIronPipes(@Body() data: AboutDuctileIronDto) { 
+    return this.service.saveDuctileIronPipes(data);
+  }
+
+  @Get('ductile-iron')
+  async getAllDuctileIronPipes() {
+    return this.service.getAllDuctileIronPipes();
+  }
+
+  //manufacturing facilities
+  @Post('manufacturing-facilities/save')
+  async saveManufacturingfacilities(@Body() data: ManufacturingFacilitiesDto) { 
+    return this.service.saveManufacturingfacilities(data);
+  }
+
+  @Get('manufacturing-facilities')
+  async getAllManufacturingfacilities() {
+    return this.service.getAllManufacturingfacilities();
+  }
+
+  //our people
+  @Post('people-data/save')
+  async savePeopleData(@Body() data: ManufacturingFacilitiesDto) { 
+    return this.service.savePeopleData(data);
+  }
+
+  @Get('people-data')
+  async getAllPeopleData() {
+    return this.service.getAllPeopleData();
   }
 }

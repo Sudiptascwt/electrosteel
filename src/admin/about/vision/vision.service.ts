@@ -5,6 +5,8 @@ import { Vision } from '../../../entity/vision.entity';
 import { VisionDto } from '../../../dto/vision.dto';
 import { VisionPrinciples } from '../../../entity/vision_principles.entity';
 import { VisionPrinciplesDto } from '../../../dto/vision_principles.dto';   
+import { headings } from 'src/entity/headings.entity';
+import { headingsDto } from 'src/dto/headings.dto';
 
 @Injectable()
 export class AboutService {
@@ -13,48 +15,108 @@ export class AboutService {
         private readonly VisionRepository: Repository<Vision>,
         @InjectRepository(VisionPrinciples)
         private readonly VisionPrinciplesRepository: Repository<VisionPrinciples>,
+        @InjectRepository(headings)
+        private readonly headingsRepository: Repository<headings>,
     ) {}
 
     // CREATE
-    async create(dto: VisionDto) {
-    try {
-        const existing = await this.VisionRepository.find({
-        });
-        let saved;
-        if (existing) {
+    async createVisionBanner(dto: headingsDto) {
+        try {
+            const existing = await this.headingsRepository.findOne({
+            where: { section_type: 'vision' } 
+            });
+            
+            let saved;
+            
+            if (existing) {
             Object.assign(existing, dto);
-            saved = await this.VisionRepository.save(existing);
-
+            saved = await this.headingsRepository.save(existing);
+            
             return {
                 status: true,
                 statusCode: HttpStatus.OK,
                 message: 'Vision updated successfully',
                 data: saved,
             };
+            } else {
+                const created = this.headingsRepository.create({
+                    ...dto,
+                    section_type: 'vision'
+                });
+                saved = await this.headingsRepository.save(created);
+                
+                return {
+                    status: true,
+                    statusCode: HttpStatus.CREATED,
+                    message: 'Vision created successfully',
+                    data: saved
+                };
+            }
+        } catch (error) {
+            console.error('Error in vision:', error);
+            return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Failed to save vision data',
+            error: error.message
+            };
         }
+    }
 
+    async findVisionBanner() {
+        const data = await this.headingsRepository.find({
+            where: { section_type: 'vision' } 
+        });
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: data.length > 0 ? 'Vision fetched successfully' : 'No Vision found',
+            data,
+        };
+    }
+
+    async createVision(dto: any) {
+    try {
+        const existing = await this.VisionRepository.find();
+        
+        let saved;
+        
+        if (existing && existing.length > 0) {
+        const recordToUpdate = existing[0];
+        Object.assign(recordToUpdate, dto);
+        saved = await this.VisionRepository.save(recordToUpdate);
+        
+        return {
+            status: true,
+            statusCode: HttpStatus.OK,
+            message: 'Vision updated successfully',
+            data: saved,
+        };
+        } else {
+        // Create new record
         const created = this.VisionRepository.create(dto);
         saved = await this.VisionRepository.save(created);
-
+        
         return {
             status: true,
             statusCode: HttpStatus.CREATED,
             message: 'Vision created successfully',
-            data: saved,
+            data: saved
         };
-
+        }
     } catch (error) {
+        console.error('Error in vision:', error);
         return {
         status: false,
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Something went wrong',
-        error: error.message,
+        message: 'Failed to save vision data',
+        error: error.message
         };
     }
     }
 
     // GET ALL
-    async findAll() {
+    async findAllVision() {
         const data = await this.VisionRepository.find();
         return {
             status: true,
