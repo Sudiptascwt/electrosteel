@@ -7,6 +7,8 @@ import { VisionPrinciples } from '../../../entity/vision_principles.entity';
 import { VisionPrinciplesDto } from '../../../dto/vision_principles.dto';   
 import { headings } from 'src/entity/headings.entity';
 import { headingsDto } from 'src/dto/headings.dto';
+import { Mission } from 'src/entity/mission.entity';
+import { MissionDto } from 'src/dto/mission.dto';
 
 @Injectable()
 export class AboutService {
@@ -17,6 +19,8 @@ export class AboutService {
         private readonly VisionPrinciplesRepository: Repository<VisionPrinciples>,
         @InjectRepository(headings)
         private readonly headingsRepository: Repository<headings>,
+        @InjectRepository(Mission)
+        private readonly MissionRepository: Repository<Mission>,
     ) {}
 
     // CREATE
@@ -76,43 +80,43 @@ export class AboutService {
     }
 
     async createVision(dto: any) {
-    try {
-        const existing = await this.VisionRepository.find();
-        
-        let saved;
-        
-        if (existing && existing.length > 0) {
-        const recordToUpdate = existing[0];
-        Object.assign(recordToUpdate, dto);
-        saved = await this.VisionRepository.save(recordToUpdate);
-        
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision updated successfully',
-            data: saved,
-        };
-        } else {
-        // Create new record
-        const created = this.VisionRepository.create(dto);
-        saved = await this.VisionRepository.save(created);
-        
-        return {
-            status: true,
-            statusCode: HttpStatus.CREATED,
-            message: 'Vision created successfully',
-            data: saved
-        };
+        try {
+            const existing = await this.VisionRepository.find();
+            
+            let saved;
+            
+            if (existing && existing.length > 0) {
+                const recordToUpdate = existing[0];
+                Object.assign(recordToUpdate, dto);
+                saved = await this.VisionRepository.save(recordToUpdate);
+                
+                return {
+                    status: true,
+                    statusCode: HttpStatus.OK,
+                    message: 'Vision updated successfully',
+                    data: saved,
+                };
+            } else {
+                    // Create new record
+                    const created = this.VisionRepository.create(dto);
+                    saved = await this.VisionRepository.save(created);
+                    
+                    return {
+                        status: true,
+                        statusCode: HttpStatus.CREATED,
+                        message: 'Vision created successfully',
+                        data: saved
+                    };
+            }
+        } catch (error) {
+            console.error('Error in vision:', error);
+            return {
+            status: false,
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Failed to save vision data',
+            error: error.message
+            };
         }
-    } catch (error) {
-        console.error('Error in vision:', error);
-        return {
-        status: false,
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Failed to save vision data',
-        error: error.message
-        };
-    }
     }
 
     // GET ALL
@@ -126,97 +130,138 @@ export class AboutService {
         };
     }
 
-    // CREATE
-    async createPrinciples(createDto: VisionPrinciplesDto) {
+    //Mission
+    async createMission(dto: any) {
         try {
-        const newVision = this.VisionPrinciplesRepository.create(createDto);
-        const savedVision = await this.VisionPrinciplesRepository.save(newVision);
-
-        return {
-            status: true,
-            statusCode: HttpStatus.CREATED,
-            message: 'Vision created successfully',
-            data: savedVision,
-        };
+            const existing = await this.MissionRepository.find();
+            
+            let saved;
+            
+            if (existing && existing.length > 0) {
+                const recordToUpdate = existing[0];
+                Object.assign(recordToUpdate, dto);
+                saved = await this.MissionRepository.save(recordToUpdate);
+                
+                return {
+                    status: true,
+                    statusCode: HttpStatus.OK,
+                    message: 'Vision updated successfully',
+                    data: saved,
+                };
+            } else {
+                    // Create new record
+                    const created = this.MissionRepository.create(dto);
+                    saved = await this.MissionRepository.save(created);
+                    
+                    return {
+                        status: true,
+                        statusCode: HttpStatus.CREATED,
+                        message: 'Vision created successfully',
+                        data: saved
+                    };
+            }
         } catch (error) {
-        return {
+            console.error('Error in vision:', error);
+            return {
             status: false,
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: 'Something went wrong while creating Vision',
-            error: error.message,
-        };
+            message: 'Failed to save vision data',
+            error: error.message
+            };
         }
-  }
+    }
 
     // GET ALL
-    async findAllPrinciples() {
-        const data = await this.VisionPrinciplesRepository.find({ where: { status:1 } });
+    async findAllMission() {
+        const data = await this.MissionRepository.find();
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'Vision fetched successfully' : 'No Vision found',
+            message: data.length > 0 ? 'Mission fetched successfully' : 'No Mission found',
             data,
         };
     }
 
-    // GET BY ID
-    async findPrinciplesById(id: number) {
-        const About = await this.VisionPrinciplesRepository.findOne({ where: { id, status:1 } });
-        if (!About) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
+    // CREATE
+    async createPrinciples(data: any) {
+        try {
+            const sectionType = "vision_principle";
+            const title = data.title || data.heading;
+            const description = data.description || data.subheading;
+            
+            if (!title) {
+                throw new Error('Title or heading is required');
+            }
+            
+            let heading = await this.headingsRepository.findOne({
+                where: { section_type: sectionType }
             });
+
+            if (heading) {
+                heading.title = title;
+                heading.description = description;
+                await this.headingsRepository.save(heading);
+            } else {
+                const newHeading = this.headingsRepository.create({
+                    title: title,
+                    description: description,
+                    section_type: sectionType
+                });
+                heading = await this.headingsRepository.save(newHeading);
+            }
+
+            await this.MissionRepository.clear();
+            
+            let savedFacilities = [];
+
+            const itemsArray = data.data || data.facilities || [];
+            
+            if (itemsArray && Array.isArray(itemsArray) && itemsArray.length > 0) {
+                const facilities = itemsArray.map(facility => 
+                    this.MissionRepository.create({
+                        title: facility.title,
+                        description: facility.description,
+                        image: facility.image
+                    })
+                );
+                savedFacilities = await this.MissionRepository.save(facilities);
+            }
+
+            return {
+                status: true,
+                statusCode: heading ? 200 : 201,
+                message: heading ? 'Vision principle data updated successfully.' : 'Vision principle data created successfully.',
+                data: {
+                    heading: heading,
+                    facilities: savedFacilities
+                }
+            };
         }
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision fetched successfully',
-            data: About,
-        };
+        catch (error) {
+            return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Something went wrong while creating Vision',
+                error: error.message,
+            };
+        }
     }
 
-    // UPDATE
-    async updatePrinciples(id: number, updateDto: VisionPrinciplesDto) {
-        const About = await this.VisionPrinciplesRepository.findOne({ where: { id } });
-        if (!About) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
-            });
-        }
-
-        Object.assign(About, updateDto);
-        const updatedAbout = await this.VisionPrinciplesRepository.save(About);
-
+    // GET ALL
+    async findAllPrinciples() {
+        const data = await this.VisionPrinciplesRepository.find({});
+        const heading = await this.headingsRepository.findOne({
+            where: { section_type: 'vision_principle' }
+        });
+        
         return {
             status: true,
             statusCode: HttpStatus.OK,
-            message: 'Vision updated successfully',
-            data: updatedAbout,
-        };
-    }
-
-    // DELETE
-    async deletePrinciples(id: number) {
-        const result = await this.VisionPrinciplesRepository.update(
-            { id },
-            { status: 0 }  
-        );
-        if (result.affected === 0) {
-            throw new NotFoundException({
-                status: false,
-                statusCode: HttpStatus.NOT_FOUND,
-                message: `Vision with ID ${id} not found`,
-            });
-        }
-
-        return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: 'Vision deleted successfully'
+            message: data.length > 0 ? 'Vision principle data fetched successfully' : 'No Vision found',
+            data: {
+                heading: heading,  
+                principles: data
+            }
         };
     }
 }

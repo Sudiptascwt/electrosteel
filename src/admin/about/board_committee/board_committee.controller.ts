@@ -8,6 +8,7 @@ import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BoardCommitteTitleDto } from 'src/dto/board_committe_title.dto';
+import { board_commitee_hero_dataDto } from 'src/dto/board_commitee_hero_data.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -91,5 +92,20 @@ export class BoardCommitteTypeController {
     async deleteBoardCommitteDetails(@Param('id', ParseIntPipe) id: number) {
         return this.BoardCommitteTypeervice.deleteBoardCommitteDetails(id);
     }
+
+
+
+
+    //////////////////////////////////////////
+    @Post('board-committe-hero-data')
+    async boardCommitteHeroData(@Body() createDto: board_commitee_hero_dataDto) {
+        return this.BoardCommitteTypeervice.boardCommitteHeroData(createDto);
+    }
+
+    // Get all committee type
+    // @Get('board-committe-type')
+    // async findAll() {
+    //     return this.BoardCommitteTypeervice.findAll();
+    // }
 
 }

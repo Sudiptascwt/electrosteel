@@ -38,12 +38,25 @@ export class AboutController {
         return this.AboutService.findAllVision();
     }
 
+    ///////////////mission////////////////////
+    @Post('mission/save')
+    async createMission(@Body() createDto: VisionDto) {
+        return this.AboutService.createMission(createDto);
+    }
+
+    // Get all About
+    @Get('mission')
+    async findAllMission() {
+        return this.AboutService.findAllMission();
+    }
+
+
     //////////// vision principles//////////////////
-    // Create Vision principles
+
     @Post('vision/principles')
-    async createPrinciples(@Body() createDto: VisionPrinciplesDto) {
-        if(createDto.heading==null){
-            throw new BadRequestException('Heading is required');
+    async createPrinciples(@Body() createDto: any) {
+        if (!createDto.title) {
+            throw new BadRequestException('Request body must contain either "heading" or "title" field');
         }
         return this.AboutService.createPrinciples(createDto);
     }
@@ -52,26 +65,5 @@ export class AboutController {
     @Get('vision/principles/all')
     async findAllcreatePrinciples() {
         return this.AboutService.findAllPrinciples();
-    }
-
-    // Get Vision principles by ID
-    @Get('vision/principles/:id')
-    async findcreatePrinciplesById(@Param('id', ParseIntPipe) id: number) {
-        return this.AboutService.findPrinciplesById(id);
-    }
-
-    // Update Vision principles
-    @Put('vision/principles/:id')
-    async updatecreatePrinciples(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() updateDto: VisionPrinciplesDto
-    ) {
-        return this.AboutService.updatePrinciples(id, updateDto);
-    }
-
-    // Delete Vision principles
-    @Delete('vision/principles/:id')
-    async deletecreatePrinciples(@Param('id', ParseIntPipe) id: number) {
-        return this.AboutService.deletePrinciples(id);
     }
 }

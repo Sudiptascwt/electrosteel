@@ -1,9 +1,9 @@
 import { IsIn, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class VisionPrinciplesDto {
-  @IsNotEmpty({ message: 'Heading is required' })
-  @IsString({ message: 'Heading must be a string' })
-  heading: string;
+  @IsNotEmpty({ message: 'title is required' })
+  @IsString({ message: 'title must be a string' })
+  title: string;
 
   @IsOptional()
   @IsString({ message: 'Image must be a string' })

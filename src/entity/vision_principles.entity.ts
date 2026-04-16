@@ -13,7 +13,7 @@ export class VisionPrinciples {
   id: number;
 
   @Column({ type: 'longtext', nullable: false })
-  heading: string;  
+  title: string;  
 
   @Column({ type: 'longtext', nullable: true })
   image: string;

@@ -1,12 +1,4 @@
-// import { NestFactory } from '@nestjs/core';
-// import { AppModule } from './app.module';
-
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(3000);
-// }
-// bootstrap();
-
+// main.ts
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
@@ -17,22 +9,64 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as path from 'path';
-import * as mime from 'mime-types';
+import * as fs from 'fs';
 
 async function bootstrap() {
-  // use NestExpressApplication so we can use express/static helpers reliably
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // 1️⃣ CORS
+  // ========== 1. STATIC FILES (ABSOLUTE HIGHEST PRIORITY) ==========
+  const uploadsDir = path.join(process.cwd(), 'uploads');
+  
+  // Ensure uploads directory exists
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log(`✅ Created uploads directory: ${uploadsDir}`);
+  }
+  
+  console.log(`📁 Serving static files from: ${uploadsDir}`);
+  
+  // Log existing files on startup for debugging
+  const existingFiles = fs.readdirSync(uploadsDir);
+  if (existingFiles.length > 0) {
+    console.log(`📄 Existing files:`, existingFiles);
+  }
+  
+  // Serve static files - THIS MUST BE THE VERY FIRST MIDDLEWARE
+  app.use('/uploads', express.static(uploadsDir, {
+    fallthrough: false, // Don't fall through to other routes if file not found
+    setHeaders: (res, filePath) => {
+      // Set cache headers for better performance
+      res.setHeader('Cache-Control', 'public, max-age=31536000');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
+  }));
+
+  // ========== 2. CORS ==========
   app.enableCors({
-    // origin: ['http://localhost:3000'],
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization', 'Range'],
     credentials: true,
   });
 
-  // 2️⃣ Swagger
+  // ========== 3. Helmet ==========
+  app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    },
+  }));
+
+  // ========== 4. Cookie Parser ==========
+  app.use(cookieParser());
+
+  // ========== 5. Swagger ==========
   const config = new DocumentBuilder()
     .setTitle('Electrosteel API')
     .setDescription('API documentation for Electrosteel project')
@@ -42,54 +76,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  // 3️⃣ Global exception filter
+  // ========== 6. Global Exception Filter ==========
   app.useGlobalFilters(new AllExceptionsFilter(app.get(DataSource)));
 
-  // 4️⃣ Helmet
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,     // 🔴 disable COEP: require-corp
-    crossOriginResourcePolicy: false,     // we handle CORP manually if needed
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        upgradeInsecureRequests: [],
-      },
-    },
-  }),
-);
-
-
-
-  //Cookie parser
-  app.use(cookieParser());
-
-const uploadsDir = path.join(__dirname, '..', 'uploads');
-
-app.use(
-  '/uploads',
-  express.static(uploadsDir, {
-    setHeaders: (res, filePath) => {
-      const contentType = mime.lookup(filePath);
-      if (contentType) {
-        res.setHeader('Content-Type', contentType);
-      }
-
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Range');
-    },
-  }),
-);
-
-
-
-
-
-  // 7️⃣ Start server
+  // ========== 7. Start Server ==========
   await app.listen(2000, '0.0.0.0');
   console.log(`🚀 Server running on http://localhost:2000`);
 }
+
 bootstrap();

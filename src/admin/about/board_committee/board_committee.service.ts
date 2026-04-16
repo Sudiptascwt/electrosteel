@@ -7,6 +7,9 @@ import { BoardCommitteDetails } from 'src/entity/board_committe_details.entity';
 import { BoardCommitteDetailsDto } from 'src/dto/board_committe_details.dto';
 import { BoardCommitteTitleDto } from 'src/dto/board_committe_title.dto';
 import { BoardCommitteTitle } from 'src/entity/board_committe_title.entity';
+import { headingsDto } from 'src/dto/headings.dto';
+import { headings } from 'src/entity/headings.entity';
+import { board_commitee_hero_data } from 'src/entity/board_commitee_hero_data.entity';
 
 @Injectable()
 export class BoardCommitteTypeService {
@@ -19,6 +22,10 @@ export class BoardCommitteTypeService {
 
         @InjectRepository(BoardCommitteTitle) 
         private readonly BoardCommitteTitleRepository: Repository<BoardCommitteTitle>,
+        
+
+        @InjectRepository(board_commitee_hero_data)
+        private readonly board_commitee_hero_dataRepository: Repository<board_commitee_hero_data>,
     ) {}
 
     //////// board committe MainTitle ////////
@@ -278,4 +285,46 @@ export class BoardCommitteTypeService {
             message: 'Board committee deleted successfully (soft delete)'
         };
     }
+
+
+    async boardCommitteHeroData(dto: headingsDto) {
+            try {
+                const existing = await this.board_commitee_hero_dataRepository.find({
+                });
+                
+                let saved;
+                
+                if (existing) {
+                Object.assign(existing, dto);
+                saved = await this.board_commitee_hero_dataRepository.save(existing);
+                
+                return {
+                    status: true,
+                    statusCode: HttpStatus.OK,
+                    message: 'Vision updated successfully',
+                    data: saved,
+                };
+                } else {
+                    const created = this.board_commitee_hero_dataRepository.create({
+                        ...dto,
+                    });
+                    saved = await this.board_commitee_hero_dataRepository.save(created);
+                    
+                    return {
+                        status: true,
+                        statusCode: HttpStatus.CREATED,
+                        message: 'Vision created successfully',
+                        data: saved
+                    };
+                }
+            } catch (error) {
+                console.error('Error in vision:', error);
+                return {
+                status: false,
+                statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+                message: 'Failed to save vision data',
+                error: error.message
+                };
+            }
+        }
 }

@@ -5,9 +5,10 @@ import { AboutService } from './vision.service';
 import { AboutController } from './vision.controller';
 import { VisionPrinciples } from '../../../entity/vision_principles.entity';
 import { headings } from 'src/entity/headings.entity';
+import { Mission } from 'src/entity/mission.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Vision, VisionPrinciples, headings])],
+    imports: [TypeOrmModule.forFeature([Vision, VisionPrinciples, headings, Mission])],
     controllers: [AboutController],
     providers: [AboutService],
 })
