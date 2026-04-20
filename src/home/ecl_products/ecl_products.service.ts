@@ -82,6 +82,7 @@ export class ecl_productsService {
     const formattedResponse = {
       title: headings?.title || '',
       sub_title: headings?.sub_title || '',
+      description: headings?.description || '',
       products: products.map(product => ({
         id: product.id,
         label: product.label,
@@ -103,14 +104,14 @@ export class ecl_productsService {
     };
   }
 
-  async deleteAllecl_products() {
-    await this.ecl_productsRepository.clear();
-    await this.headingsRepository.delete({ section_type: 'ecl_products' });
+  // async deleteAllecl_products() {
+  //   await this.ecl_productsRepository.clear();
+  //   await this.headingsRepository.delete({ section_type: 'ecl_products' });
 
-    return {
-      status: true,
-      statusCode: 200,
-      message: 'ecl_products section deleted successfully.',
-    };
-  }
+  //   return {
+  //     status: true,
+  //     statusCode: 200,
+  //     message: 'ecl_products section deleted successfully.',
+  //   };
+  // }
 }

@@ -25,14 +25,12 @@ export class HomeSlidesController {
     }),
   )
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
-@Post('save-slide')
-saveSlide(@Body() body: any) {
-  return this.slidesService.saveSlide({
-    ...body
-  });
-}
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @Post('save-slide')
+  saveSlide(@Body() body: any) {
+      return this.slidesService.saveSlide(body);
+  }
 
   @Get()
   async getAllSlides() {

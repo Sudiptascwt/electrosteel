@@ -7,8 +7,8 @@ import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
 import { UserRole } from '../../users/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { BoardCommitteTitleDto } from 'src/dto/board_committe_title.dto';
 import { board_commitee_hero_dataDto } from 'src/dto/board_commitee_hero_data.dto';
+import { BoardCommitteDataDto } from 'src/dto/board_commitee_data.dto'; 
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -16,96 +16,29 @@ import { board_commitee_hero_dataDto } from 'src/dto/board_commitee_hero_data.dt
 export class BoardCommitteTypeController {
     constructor(private readonly BoardCommitteTypeervice: BoardCommitteTypeService) {}
 
-    /////create board committe titles///
-    @Post('board-committe-main-titles')
-    createMainTitles(@Body() createDto: BoardCommitteTitleDto) {
-        return this.BoardCommitteTypeervice.createMainTitles(createDto);
-    }
-    // Get board committe titles
-    @Get('board-committe-main-titles')
-    async findAllMainTitles() {
-        return this.BoardCommitteTypeervice.findAllMainTitles();
-    }
-    //////////committe type//////////
-    // Create committee type
-    @Post('board-committe-type')
-    async create(@Body() createDto: BoardCommitteTypeDto) {
-        return this.BoardCommitteTypeervice.create(createDto);
-    }
-
-    // Get all committee type
-    @Get('board-committe-type')
-    async findAll() {
-        return this.BoardCommitteTypeervice.findAll();
-    }
-
-    // Get committee type by ID
-    @Get('board-committe-type/:id')
-    async findById(@Param('id', ParseIntPipe) id: number) {
-        return this.BoardCommitteTypeervice.findById(id);
-    }
-
-    // Update committee type
-    @Put('board-committe-type/:id')
-    async update(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() updateDto: BoardCommitteTypeDto
-    ) {
-        return this.BoardCommitteTypeervice.update(id, updateDto);
-    }
-
-    // Delete committee type
-    @Delete('board-committe-type/:id')
-    async delete(@Param('id', ParseIntPipe) id: number) {
-        return this.BoardCommitteTypeervice.delete(id);
-    }
-
-    // Create committee details
-    @Post('board-committe-details')
-    async createBoardCommitteDetails(@Body() createDto: BoardCommitteDetailsDto) {
-        return this.BoardCommitteTypeervice.createBoardCommitteDetails(createDto);
-    }
-
-    // Get all committee details
-    @Get('board-committe-details')
-    async findAllBoardCommitteDetails() {
-        return this.BoardCommitteTypeervice.findAllBoardCommitteDetails();
-    }
-
-    // Get committee details by ID
-    @Get('board-committe-details/:id')
-    async findBoardCommitteDetailsById(@Param('id', ParseIntPipe) id: number) {
-        return this.BoardCommitteTypeervice.findBoardCommitteDetailsById(id);
-    }
-
-    // Update committee details
-    @Put('board-committe-details/:id')
-    async updateBoardCommitteDetails(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() updateDto: BoardCommitteDetailsDto
-    ) {
-        return this.BoardCommitteTypeervice.updateBoardCommitteDetails(id, updateDto);
-    }
-
-    // Delete committee details
-    @Delete('board-committe-details/:id')
-    async deleteBoardCommitteDetails(@Param('id', ParseIntPipe) id: number) {
-        return this.BoardCommitteTypeervice.deleteBoardCommitteDetails(id);
-    }
-
-
 
 
     //////////////////////////////////////////
-    @Post('board-committe-hero-data')
+    @Post('board-committe-hero-data/save')
     async boardCommitteHeroData(@Body() createDto: board_commitee_hero_dataDto) {
         return this.BoardCommitteTypeervice.boardCommitteHeroData(createDto);
     }
 
     // Get all committee type
-    // @Get('board-committe-type')
-    // async findAll() {
-    //     return this.BoardCommitteTypeervice.findAll();
-    // }
+    @Get('board-committe-hero-data')
+    async findAllboardCommitteHeroData() {
+        return this.BoardCommitteTypeervice.findAllboardCommitteHeroData();
+    }
+
+    @Post('board-committe-data/save')
+    async saveboardCommitteData(@Body() createDto: BoardCommitteDataDto) {
+        return this.BoardCommitteTypeervice.saveboardCommitteData(createDto);
+    }
+
+    // Get all committee type
+    @Get('board-committe-data')
+    async findAllboardCommitteData() {
+        return this.BoardCommitteTypeervice.findAllboardCommitteData();
+    }
 
 }

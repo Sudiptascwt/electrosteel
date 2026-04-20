@@ -9,6 +9,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { growing_strength_dataDto } from '../../../dto/growing_strength_data.dto';
 import { AboutDuctileIronDto } from 'src/dto/about_ductile_iron.dto';
 import { ManufacturingFacilitiesDto } from 'src/dto/manufacturing_facilities.dto';
+import { about_technology_innovationDto } from 'src/dto/about_technology_innovation.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -66,5 +67,16 @@ export class AboutMainController {
   @Get('people-data')
   async getAllPeopleData() {
     return this.service.getAllPeopleData();
+  }
+
+  //our people
+  @Post('technology-innovation/save')
+  async saveTechnologyInnovation(@Body() data: about_technology_innovationDto) { 
+    return this.service.saveTechnologyInnovation(data);
+  }
+
+  @Get('technology-innovation')
+  async getAllTechnologyInnovations() {
+    return this.service.getAllTechnologyInnovations();
   }
 }

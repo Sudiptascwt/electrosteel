@@ -12,6 +12,8 @@ import { ManufacturingFacilitiesDto } from 'src/dto/manufacturing_facilities.dto
 import { headings } from 'src/entity/headings.entity';
 import { AboutPeopleData } from 'src/entity/about_people_data.entity';
 import { AboutPeopleDataDto } from 'src/dto/about_people_data.dto';
+import { about_technology_innovation } from 'src/entity/about_technology_innovation.entity';
+import { about_technology_innovationDto } from 'src/dto/about_technology_innovation.dto';
 
 @Injectable()
 export class AboutMainService {
@@ -33,6 +35,9 @@ export class AboutMainService {
 
     @InjectRepository(AboutPeopleData)
     private readonly AboutPeopleDataRepository: Repository<AboutPeopleData>,
+
+    @InjectRepository(about_technology_innovation)
+    private readonly about_technology_innovationRepository: Repository<about_technology_innovation>,
   ) {}
 
   // ============ About Main Methods ============
@@ -170,9 +175,6 @@ export class AboutMainService {
       recordToUpdate.title = data.title;
       recordToUpdate.image = data.image;
       recordToUpdate.description = data.description;
-      recordToUpdate.video = data.video;
-      recordToUpdate.technology_title_1 = data.technology_title_1;
-      recordToUpdate.technology_title_2 = data.technology_title_2;
       
       const savedRecord = await this.AboutDuctileIronRepository.save(recordToUpdate);
       
@@ -329,37 +331,40 @@ export class AboutMainService {
   //our people
   async savePeopleData(data: any) {
     try {
-      let people_data = await this.AboutPeopleDataRepository.find();
-      
-      if (people_data && people_data.length > 0) {
-        const recordToUpdate = people_data[0];
-        recordToUpdate.title = data.title;
-        recordToUpdate.description = data.description;
-        recordToUpdate.video = data.video;
-        await this.AboutPeopleDataRepository.save(recordToUpdate);
-        
+      // Check if data is an array
+      if (!Array.isArray(data)) {
         return {
-          status: true,
-          statusCode: 200,
-          message: "People data updated successfully.",
-          data: recordToUpdate
-        };
-      } else {
-        const newRecord = this.AboutPeopleDataRepository.create({
-          title: data.title,  
-          description: data.description,
-          video: data.video
-        });
-        const savedRecord = await this.AboutPeopleDataRepository.save(newRecord);
-        
-        return {
-          status: true,
-          statusCode: 201,
-          message: "People data created successfully.",
-          data: savedRecord
+          status: false,
+          statusCode: 400,
+          message: 'Invalid data format. Expected array of people objects.',
+          error: 'Data must be an array'
         };
       }
-    }catch (error) {
+
+      if (data.length === 0) {
+        return {
+          status: false,
+          statusCode: 400,
+          message: 'Data array cannot be empty',
+        };
+      }
+
+      // Option 1: Replace all existing records (Clear and insert new)
+      // Delete all existing records
+      await this.AboutPeopleDataRepository.clear();
+      
+      // Create new records
+      const newRecords = this.AboutPeopleDataRepository.create(data);
+      const savedRecords = await this.AboutPeopleDataRepository.save(newRecords);
+      
+      return {
+        status: true,
+        statusCode: 200,
+        message: `${savedRecords.length} people records saved successfully.`,
+        data: savedRecords
+      };
+
+    } catch (error) {
       console.error('Error in People data:', error);
       return {
         status: false,
@@ -389,5 +394,68 @@ export class AboutMainService {
         error: error.message
       };
     }
+  }
+
+  async saveTechnologyInnovation(data: about_technology_innovationDto) {
+    if (!data) {
+      throw new Error("No data received");
+    }
+
+    let existingRecords = await this.about_technology_innovationRepository.find();
+
+    if (existingRecords && existingRecords.length > 0) {
+      const recordToUpdate = existingRecords[0];
+      recordToUpdate.title = data.title;
+      recordToUpdate.description = data.description;
+      recordToUpdate.video = data.video;
+      recordToUpdate.url = data.url;
+      
+      const savedRecord = await this.about_technology_innovationRepository.save(recordToUpdate);
+      
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'About Ductile Iron data updated successfully.',
+        data: savedRecord
+      };
+    } else {
+        const newRecord = this.about_technology_innovationRepository.create({
+          title: data.title, 
+          description: data.description,  
+          video: data.video,      
+          url: data.url          
+        });
+        const savedRecord = await this.about_technology_innovationRepository.save(newRecord);
+      
+      return {
+        status: true,
+        statusCode: 201,
+        message: 'About Ductile Iron data created successfully.',
+        data: savedRecord
+      };
+    }
+  }
+
+  async getAllTechnologyInnovations() {
+    const existingData = await this.about_technology_innovationRepository.find({
+    });
+    
+    if (!existingData || existingData.length === 0) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'About Technology Innovations data not found',
+        data: [],
+      };
+    }
+    
+    return {
+      status: true,
+      statusCode: 200,
+      message: existingData.length
+        ? 'About Technology Innovations data fetched successfully'
+        : 'About Technology Innovations data found.',
+      data: existingData
+    };
   }
 }

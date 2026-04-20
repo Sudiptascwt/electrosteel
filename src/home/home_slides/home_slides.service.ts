@@ -13,43 +13,94 @@ export class HomeSlidesService {
   ) {}
 
   async saveSlide(data: any) {
-    if (!data) {
-      throw new Error("No data received");
-    }
-
-    const existingSlide = await this.slidesRepository.findOne({
-      where: {},
-    });
-
-    if (existingSlide) {
-      if (existingSlide.src) {
-        const oldFilePath = path.join('./uploads/slides', existingSlide.src);
-        if (fs.existsSync(oldFilePath)) {
-          fs.unlinkSync(oldFilePath);
-        }
+      if (!data) {
+          throw new Error("No data received");
       }
 
-      await this.slidesRepository.delete(existingSlide.id);
-    }
+      // Convert to array (handling different formats)
+      let items: any[] = [];
+      
+      if (Array.isArray(data)) {
+          items = data;
+      } else if (data && typeof data === 'object') {
+          // Handle object with numeric keys (from spread operator)
+          const values = Object.values(data);
+          if (values.length > 0 && values[0] && typeof values[0] === 'object' && 
+              ('title' in values[0] || 'type' in values[0])) {
+              items = values;
+          } 
+          // Single object
+          else if (data.title || data.type) {
+              items = [data];
+          }
+      }
+      
+      if (items.length === 0) {
+          throw new Error("No valid items to process");
+      }
+      
+      // Validate each item
+      for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          
+          if (!item.title || item.title.trim() === '') {
+              throw new Error(`Item ${i + 1}: Title is required`);
+          }
+          
+          if (!item.type || !['image', 'video'].includes(item.type)) {
+              throw new Error(`Item ${i + 1}: Type must be 'image' or 'video'. Received: "${item.type}"`);
+          }
+          
+          if (!item.src || item.src.trim() === '') {
+              throw new Error(`Item ${i + 1}: Source (src) is required`);
+          }
+      }
 
-    const newSlide = this.slidesRepository.create({
-      title: data.title,
-      type: data.type,
-      src: data.src,
-      highlight: data.highlight,
-      url: data.url,
-    });
+      // Get existing slides
+      const existingSlides = await this.slidesRepository.find({
+          order: { createdAt: 'ASC' }
+      });
 
-    const savedSlide = await this.slidesRepository.save(newSlide);
+      // Delete old image/video files if replacing entire collection
+      if (existingSlides.length > 0) {
+          for (const slide of existingSlides) {
+              if (slide.src) {
+                  const oldFilePath = path.join('./uploads/slides', slide.src);
+                  if (fs.existsSync(oldFilePath)) {
+                      try {
+                          fs.unlinkSync(oldFilePath);
+                      } catch (error) {
+                          console.error(`Failed to delete old file: ${oldFilePath}`, error);
+                      }
+                  }
+              }
+          }
+          
+          // Delete all existing records
+          await this.slidesRepository.clear();
+      }
 
-    return {
-      status: true,
-      statusCode: existingSlide ? 200 : 201,
-      message: existingSlide
-        ? 'Slide updated successfully.'
-        : 'Slide created successfully.',
-      data: savedSlide,
-    };
+      // Create new slides
+      const newSlides = items.map(item => 
+          this.slidesRepository.create({
+              title: item.title.trim(),
+              type: item.type,
+              src: item.src,
+              highlight: item.highlight || null,
+              url: item.url || null,
+          })
+      );
+
+      const savedSlides = await this.slidesRepository.save(newSlides);
+
+      return {
+          status: true,
+          statusCode: existingSlides.length > 0 ? 200 : 201,
+          message: existingSlides.length > 0
+              ? `${savedSlides.length} slide(s) updated successfully.`
+              : `${savedSlides.length} slide(s) created successfully.`,
+          data: savedSlides,
+      };
   }
 
   async getAllSlides() {

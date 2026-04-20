@@ -16,9 +16,7 @@ export class miniStatsController {
 @Roles(UserRole.ADMIN)
 @Post('save-mini-stats')
 saveSlide(@Body() body: any) {
-  return this.slidesService.saveMiniStat({
-    ...body
-  });
+  return this.slidesService.saveMiniStat(body);
 }
 
   @Get()

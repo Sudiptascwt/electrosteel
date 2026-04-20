@@ -12,7 +12,7 @@ export class overViewController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @Post('save-overview-section')
+  @Post('save')
   saveSlide(@Body() body: any) {
     return this.slidesService.saveOverview({
       ...body
