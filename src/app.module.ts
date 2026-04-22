@@ -281,7 +281,8 @@ import { OverviewSection } from './entity/overview_section.entity';
 import { overViewModule } from './home/overview_section/overview_section.module';
 import { about_technology_innovation } from './entity/about_technology_innovation.entity';
 import { BoardCommitteData } from './entity/board_commitee_data.entity';
-import { ProcessInnovationHero } from './entity/process_innovation_hero.entity'
+import { ProcessInnovationHero } from './entity/process_innovation_hero.entity';
+import { process_innovationModule } from './admin/process_innovation/process_innovation.module';
 
 @Module({
   imports: [
@@ -445,7 +446,8 @@ import { ProcessInnovationHero } from './entity/process_innovation_hero.entity'
     growing_from_strengthModule,
     water_sectionModule,
     AboutMainModule,
-    overViewModule
+    overViewModule,
+    process_innovationModule
   ],
   controllers: [AppController],
   providers: [AppService],

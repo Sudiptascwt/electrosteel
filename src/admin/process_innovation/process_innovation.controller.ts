@@ -10,17 +10,17 @@ import { ProcessInnovationHeroDto } from 'src/dto/process_innovation_hero.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
-@Controller('about-main')
+@Controller('process-innovation')
 export class process_innovationController {
   constructor(private readonly service:process_innovationService) {}
 
-//   @Post('save')
-//   async save(@Body() data:process_innovationDto) {
-//     return this.service.saveAboutMain(data);
-//   }
+  @Post('/hero/save')
+  async saveProcessInnovationHero(@Body() data:ProcessInnovationHeroDto) {
+    return this.service.saveProcessInnovationHero(data);
+  }
 
-//   @Get()
-//   async getAllAboutMainData() {
-//     return this.service.getAllAboutMainData();
-//   }
+  @Get('/hero')
+  async getProcessInnovationHero() {
+    return this.service.getProcessInnovationHero();
+  }
 }

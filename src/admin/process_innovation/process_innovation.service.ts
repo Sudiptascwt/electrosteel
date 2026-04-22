@@ -14,7 +14,7 @@ export class process_innovationService {
 
   // ============ About Main Methods ============
 
-  async saveAboutMain(data:ProcessInnovationHeroDto) {
+  async saveProcessInnovationHero(data:ProcessInnovationHeroDto) {
     if (!data) {
       throw new Error("No data received");
     }
@@ -30,7 +30,7 @@ export class process_innovationService {
       return {
         status: true,
         statusCode: 200,
-        message: 'About Main data updated successfully.',
+        message: 'Process Innovation Hero data updated successfully.',
         data: savedRecord
       };
     } else {
@@ -44,20 +44,20 @@ export class process_innovationService {
       return {
         status: true,
         statusCode: 201,
-        message: 'About Main data created successfully.',
+        message: 'Process Innovation Hero data created successfully.',
         data: savedRecord
       };
     }
   }
 
-  async getAllAboutMainData() {
+  async getProcessInnovationHero() {
     const existingData = await this.ProcessInnovationHeroRepository.find({});
     
     if (!existingData || existingData.length === 0) {
       return {
         status: false,
         statusCode: 404,
-        message: 'About Main not found',
+        message: 'Process Innovation Hero data not found',
         data: [],
       };
     }
@@ -65,7 +65,7 @@ export class process_innovationService {
     return {
       status: true,
       statusCode: 200,
-      message: 'About Main data fetched successfully',
+      message: 'Process Innovation Hero data fetched successfully',
       data: existingData
     };
   }
