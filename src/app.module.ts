@@ -8,29 +8,20 @@ import { Certificate } from './entity/certificate.entity';
 import { Banner } from './entity/banner.entity';
 import { AuthModule } from './auth/auth.module';
 import { HomesModule } from './home/home.module';
-import { BannerModule } from './home/banner/banner.module';
 import { Investor } from './entity/investor.entity';
 import { Care } from './entity/care.entity';
 import { milestonesModule } from './home/milestones/milestones.module';
 import { Milestone } from './entity/milestones.entity';
 import { MilestoneImage } from './entity/milestone_image.entity';
-import { Advancement } from './entity/advancement.entity';
-import { AdvancementModule } from './home/advancements/advancement.module';
 import {InnerModule } from './inner/company_profile/inner_banner/inner.module';
 import { InnerBanner } from './entity/inner_banner.entity';
 import { InnerSliderModule } from './inner/company_profile/inner_slider_images/inner_slider_image.module'
 import { InnerFeature } from './entity/inner_feature.entity';
 import { FeatureModule } from './admin/about/company_profile/feature/feature.module';
-import { Statistic } from './entity/statistic.entity';
-import { StatisticModule } from './home/statistic/statistic.module';
 import { Product } from './entity/product.entity';
-import { ProductModule } from './home/products/product.module';
-import { SectionElectrosteelModule } from './home/section_electrosteel/section_electrosteel.module';
 import { SectionElectrosteel } from './entity/section_electrosteel.entity';
-import { VideoSectionModule } from './home/video_section/video_section.module';
 import { VideoSection } from './entity/home_video_section.entity';
 import { Testimonial } from './entity/home_testimonial.entity';
-import { TestimonialModule } from './home/testimonial/testimonial.module';
 import { SocialSectionModule } from './home/social_section/social_section.module';
 import { SocialSection } from './entity/social_section.entity';
 import { Advertisement } from './entity/advertisement.entity';
@@ -282,7 +273,8 @@ import { overViewModule } from './home/overview_section/overview_section.module'
 import { about_technology_innovation } from './entity/about_technology_innovation.entity';
 import { BoardCommitteData } from './entity/board_commitee_data.entity';
 import { ProcessInnovationHero } from './entity/process_innovation_hero.entity';
-import { process_innovationModule } from './admin/process_innovation/process_innovation.module';
+import { process_innovationModule } from './admin/about/process_innovation/process_innovation.module';
+import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
 
 @Module({
   imports: [
@@ -303,7 +295,7 @@ import { process_innovationModule } from './admin/process_innovation/process_inn
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, Advancement, InnerBanner, InnerFeature, Statistic, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, AllBanner, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -314,16 +306,9 @@ import { process_innovationModule } from './admin/process_innovation/process_inn
     UsersModule,
     AuthModule,
     HomesModule,
-    BannerModule,
     milestonesModule,
-    AdvancementModule,
     InnerModule,
     InnerSliderModule,
-    StatisticModule,
-    ProductModule,
-    SectionElectrosteelModule,
-    VideoSectionModule,
-    TestimonialModule,
     SocialSectionModule,
     AdvertisementModule,
     ImageModule,

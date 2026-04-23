@@ -48,7 +48,6 @@ export class overViewService {
     async getAlloverView() {
       const Overview = await this.overViewRepository.find({
       });
-
       return {
         status: true,
         statusCode: 200,

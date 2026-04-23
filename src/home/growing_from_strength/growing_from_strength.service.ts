@@ -88,7 +88,6 @@ export class growing_from_strengthService {
           updatedAt: item.updatedAt,
         };
       });
-
       return {
         status: true,
         statusCode: 200,

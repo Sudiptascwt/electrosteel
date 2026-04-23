@@ -69,7 +69,6 @@ export class AdvertisementService {
       };
     }
   }
-
   async getAllAdvertisementData() {
     const existingAd = await this.advertisementRepository.find({});
     if (!existingAd) {

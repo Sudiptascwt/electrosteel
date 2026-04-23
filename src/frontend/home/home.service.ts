@@ -1,117 +1,160 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Advancement } from 'src/entity/advancement.entity';
-import { SocialSection } from 'src/entity/social_section.entity';
-import { Banner } from 'src/entity/banner.entity';
-import { SectionElectrosteel } from 'src/entity/section_electrosteel.entity';
 import { Advertisement } from '../../entity/advertisement.entity';
-import { Statistic } from 'src/entity/statistic.entity';
-import { Testimonial } from 'src/entity/home_testimonial.entity';
-import { VideoSection } from '../../entity/home_video_section.entity';
-import { Product } from 'src/entity/product.entity';
-import { Blogs } from 'src/entity/blogs.entity';
-
+import { home_slides } from '../../entity/home_slides.entity';
+import { mini_stats } from '../../entity/mini_stats.entity';
+import { OverviewSection } from '../../entity/overview_section.entity';
+import { ecl_products } from '../../entity/ecl_products.entity';
+import { headings } from 'src/entity/headings.entity';
+import { growing_from_strength } from '../../entity/growing_from_strength.entity';
+import {water_section } from '../../entity/water_section.entity';
+import { Milestone } from '../../entity/milestones.entity';
 @Injectable()
 export class HomeService {
   constructor(
 
-    @InjectRepository(Blogs)
-    private readonly BlogsRepo: Repository<Blogs>,
+    @InjectRepository(Advertisement)
+    private readonly AdvertisementRepo: Repository<Advertisement>,
 
-    @InjectRepository(Banner)
-    private readonly bannerRepo: Repository<Banner>,
+    @InjectRepository(home_slides)
+    private readonly home_slidesRepo: Repository<home_slides>,
 
-    @InjectRepository(SectionElectrosteel)
-    private readonly electrosteelRepo: Repository<SectionElectrosteel>,
+    @InjectRepository(mini_stats)
+    private readonly mini_statsRepo: Repository<mini_stats>,
 
-    // @InjectRepository(Advertisement)
-    // private readonly AdvertisementRepo: Repository<Advertisement>,
+    @InjectRepository(OverviewSection)
+    private readonly OverviewSectionRepo: Repository<OverviewSection>,
 
-    // @InjectRepository(MilestoneTitle)
-    // private readonly MilestoneRepo: Repository<MilestoneTitle>,
+    @InjectRepository(headings)
+    private readonly headingsRepository: Repository<headings>,
 
-    @InjectRepository(Statistic)
-    private readonly StatisticRepo: Repository<Statistic>,
+    @InjectRepository(ecl_products)
+    private readonly ecl_productsRepository: Repository<ecl_products>,
 
-    @InjectRepository(VideoSection)
-    private readonly VideoSectionRepo: Repository<VideoSection>,
+    @InjectRepository(growing_from_strength)
+    private readonly growing_from_strengthRepository: Repository<growing_from_strength>,
 
-    @InjectRepository(Product)
-    private readonly ProductRepo: Repository<Product>,
+    @InjectRepository(water_section)
+    private readonly water_sectionRepository: Repository<water_section>,
+
+    @InjectRepository(Milestone)
+    private readonly MilestoneRepository: Repository<Milestone>,
+
   ) {}
 
   async getHomeData() {
-    const banners = await this.bannerRepo.find({where: { status: 1 } });
-    const electrosteels = await this.electrosteelRepo.find({where: { status: 1 } });
-    // const advertisements = await this.AdvertisementRepo.find({where: { status: 1 } });
-    // const milestones = await this.MilestoneRepo.find({where: { status: 1 } });
-    const statistics = await this.StatisticRepo.find({where: { status: 1 } });
-    const video_sections = await this.VideoSectionRepo.find({where: { status: 1 } });  
-    const product_details = await this .ProductRepo.find({where: { status: 1 } });
-    const social_blog_details = await this.BlogsRepo.find({ where: { status: 1,category: 'SOCIAL' },});
-    const business_blog_details = await this.BlogsRepo.find({ where: { status: 1,category: 'BUSINESS WORLD' },});
-    
-    const formattedBanners = banners.map((banner) => {
-      let fileName: string | null = null;
-      let fileType: string | null = null;
-
-      try {
-        const raw = banner.banner_file;
-
-        if (!raw) {
-          fileName = null;
-        } else if (typeof raw === 'string' && raw.trim().startsWith('{')) {
-          // Case: JSON string like {"banner_file":"file-xxx.mp4"} or {"banner_media":"..."}
-          const parsed = JSON.parse(raw);
-          fileName = parsed.banner_media || parsed.banner_file || null;
-        } else {
-          fileName = raw;
-        }
-
-        if (fileName && fileName.includes('.')) {
-          const ext = fileName.split('.').pop()?.toLowerCase() || '';
-
-          const imageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-          const videoExt = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v'];
-
-          if (imageExt.includes(ext)) {
-            fileType = 'image';
-          } else if (videoExt.includes(ext)) {
-            fileType = 'video';
-          } else {
-            fileType = 'unknown';
-          }
-        } else if (fileName) {
-          fileType = 'unknown';
-        }
-      } catch (error) {
-        console.error('Error parsing banner_file for banner id', banner.id, error);
-      }
-
-      return {
-        ...banner,
-        banner_images: fileName, 
-        file_type: fileType, 
-      };
+    const advertisements = await this.AdvertisementRepo.find({});
+    const slides = await this.home_slidesRepo.find({
     });
+    const mini_stats = await this.mini_statsRepo.find({});
 
+    const parsedAdvertisementData = advertisements.map(item => {
+        let parsedBoxData = item.box_data;
+        
+        if (item.box_data && typeof item.box_data === 'string') {
+          try {
+            parsedBoxData = JSON.parse(item.box_data);
+          } catch (e) {
+            console.error('Failed to parse box_data:', e);
+          }
+        }
+        
+        return {
+          id: item.id,
+          title: item.title,
+          sub_title: item.sub_title,
+          box_data: parsedBoxData, 
+          image_title: item.image_title,
+          image1: item.image1,
+          image2: item.image2,
+          image3: item.image3,
+        };
+    });
+    const Overview = await this.OverviewSectionRepo.find({
+    });
+    const headings = await this.headingsRepository.findOne({
+      where: { section_type: 'ecl_products' }
+    });
+    const products = await this.ecl_productsRepository.find({
+      order: { id: 'ASC' } 
+    });
+    const formattedResponse = {
+      title: headings?.title || '',
+      sub_title: headings?.sub_title || '',
+      description: headings?.description || '',
+      products: products.map(product => ({
+        id: product.id,
+        label: product.label,
+        sublabel: product.sublabel,
+        icon: product.icon,
+        title: product.title,
+        description: product.description,
+        properties: product.properties === 'true',
+        image: product.image,
+        btnLink: product.btnLink
+      }))
+    };
+    const growing_from_strength = await this.growing_from_strengthRepository.find({});
+    const growing_from_strengthData = growing_from_strength.map(item => {
+        let parsedBoxData = item.box_data;
+        
+        if (item.box_data && typeof item.box_data === 'string') {
+          try {
+            parsedBoxData = JSON.parse(item.box_data);
+          } catch (e) {
+            console.error('Failed to parse box_data:', e);
+          }
+        }
+        
+        return {
+          id: item.id,
+          title: item.title,
+          sub_title: item.sub_title,
+          box_data: parsedBoxData, 
+          image: item.image,
+          video: item.video,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+    });
+    const water_section = await this.water_sectionRepository.find({});
 
+    const milestoneheadingRecord = await this.headingsRepository.findOne({
+      where: { section_type: 'milestones' },
+    });
+    
+    if (!milestoneheadingRecord) {
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'No milestones found.',
+        data: null,
+      };
+    }
+    
+    const milestones = await this.MilestoneRepository.find({
+    });
+    
     return {
       statusCode: 200,
-      message: banners?.length > 0 
-        ? "Home data fetched successfully"
-        : "No home data found",
+      message: "Home data fetched successfully",
       data: {
-        banners: formattedBanners,
-        electrosteels,
-        // advertisements,
-        // milestones_details: milestones,
-        statistics,
-        video_sections,
-        products: product_details,
-        social_blog_details,
-        business_blog_details
+        slides,
+        advertisements: parsedAdvertisementData,
+        mini_stats: mini_stats,
+        overview_section: Overview,
+        ecl_products: formattedResponse,
+        growing_from_strength: growing_from_strengthData,
+        water_section: water_section,
+        milestones: {
+        id: milestoneheadingRecord.id,
+        title: milestoneheadingRecord.title,
+        sub_title: milestoneheadingRecord.sub_title,
+        description: milestoneheadingRecord.description,
+        section_type: milestoneheadingRecord.section_type,
+        milestones_data: milestones,
+      },
       },
     }
   }

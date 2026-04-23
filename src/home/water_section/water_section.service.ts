@@ -4,8 +4,6 @@ import { Repository } from 'typeorm';
 import {water_section } from '../../entity/water_section.entity';
 import * as fs from 'fs';
 import * as path from 'path';
-// import {water_sectionDto } from '../../dto/water_section.dto';
-
 @Injectable()
 export class water_sectionService {
   constructor(

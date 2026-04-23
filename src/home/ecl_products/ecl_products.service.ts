@@ -103,15 +103,4 @@ export class ecl_productsService {
       data: formattedResponse,
     };
   }
-
-  // async deleteAllecl_products() {
-  //   await this.ecl_productsRepository.clear();
-  //   await this.headingsRepository.delete({ section_type: 'ecl_products' });
-
-  //   return {
-  //     status: true,
-  //     statusCode: 200,
-  //     message: 'ecl_products section deleted successfully.',
-  //   };
-  // }
 }

@@ -106,7 +106,6 @@ export class HomeSlidesService {
   async getAllSlides() {
     const slides = await this.slidesRepository.find({
     });
-
     return {
       status: true,
       statusCode: 200,
