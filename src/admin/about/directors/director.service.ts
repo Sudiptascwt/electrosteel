@@ -12,7 +12,6 @@ export class DirectorService {
         @InjectDataSource() private readonly dataSource: DataSource,
         @InjectRepository(Directors)
         private readonly DirectorsRepository: Repository<Directors>,
-
         @InjectRepository(AllPagesTitle)
         private readonly AllPagesTitleRepository: Repository<AllPagesTitle>,
     ) {}
@@ -69,17 +68,17 @@ export class DirectorService {
             let savedInfo: AllPagesTitle;
 
             if (existingInfo) {
-            pageRepo.merge(existingInfo, {
-                ...infoDto,
-                page_name: 'director',
-            });
-            savedInfo = await pageRepo.save(existingInfo);
+                pageRepo.merge(existingInfo, {
+                    ...infoDto,
+                    page_name: 'director',
+                });
+                savedInfo = await pageRepo.save(existingInfo);
             } else {
-            const newInfo = pageRepo.create({
-                ...infoDto,
-                page_name: 'director',
-            });
-            savedInfo = await pageRepo.save(newInfo);
+                const newInfo = pageRepo.create({
+                    ...infoDto,
+                    page_name: 'director',
+                });
+                savedInfo = await pageRepo.save(newInfo);
             }
 
             await directorRepo.clear();   

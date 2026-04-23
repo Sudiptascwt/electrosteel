@@ -1,55 +1,48 @@
-// import { Controller,Get,Post,Put,Delete,Param,Body,ParseIntPipe,HttpStatus } from '@nestjs/common';
-// import { CsrProjectsService } from './about.service';
-// // import { AboutDto } from '../../../dto/csr_projects.dto';
-// import { UseGuards } from '@nestjs/common';
-// import { RolesGuard } from '../../role/roles.guard';
-// import { Roles } from '../../role/roles.decorator';
-// import { UserRole } from '../../admin/users/user.entity';
-// import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Controller,Get } from '@nestjs/common';
+import { AboutFrontendService } from './about.service';
 
-// @UseGuards(JwtAuthGuard, RolesGuard)
-// @Roles(UserRole.ADMIN)
-// @Controller('csr-projects')
-// export class AboutController {
-//   constructor(private readonly AboutService: CsrProjectsService) {}
+@Controller('frontend/about')
+export class AboutFrontendController {
+  constructor(private readonly AboutService: AboutFrontendService) {}
 
-//   ///////About///////////
-//   // CREATE
-//   @Post()
-// //   async create(@Body() createDto: AboutDto) {
-// //     const data = await this.AboutService.create(createDto);
-// //     return data;
-// //   }
+  ///////About///////////
+  // GET About main data
+  @Get('get-about-main-data')
+  async getAllAboutMainData() {
+    const data = await this.AboutService.getAllAboutMainData();
+    return data;
+  }
 
-//   // GET ALL
-//   @Get()
-//   async findAll() {
-//     const data = await this.AboutService.findAll();
-//     return data;
-//   }
+  @Get('vision-mission-data')
+  async getAllVisionMissionData() {
+    const data = await this.AboutService.getAllVisionMissionData();
+    return data;
+  }
 
-//   // GET BY ID
-//   @Get(':id')
-//   async findById(@Param('id', ParseIntPipe) id: number) {
-//     const data = await this.AboutService.findById(id);
-//     return data;
-//   }
+  @Get('board-of-committee-data')
+  async getAllBoardCommitteePageData() {
+    const data = await this.AboutService.getAllBoardCommitteePageData();
+    return data;
+  }
 
-//   // UPDATE
-// //   @Put(':id')
-// //   async update(
-// //     @Param('id', ParseIntPipe) id: number,
-// //     @Body() updateDto: AboutDto,
-// //   ) {
-// //     const data = await this.AboutService.update(id, updateDto);
-// //     return data;
-// //   }
+  @Get('all-directors')
+  async getAllDirectors() {
+    const data = await this.AboutService.getAllDirectors();
+    return data;
+  }
 
-//   // DELETE
-//   @Delete(':id')
-//   async delete(@Param('id', ParseIntPipe) id: number) {
-//     return await this.AboutService.delete(id);
-//   }
-// }
-// export { CsrProjectsService };
+  @Get('all-ProcessInnovationData')
+  async getAllProcessInnovationData() {
+    const data = await this.AboutService.getAllProcessInnovationData();
+    return data;
+  }
+
+  @Get('all-ProductInnovationData')
+  async getAllProductInnovationData() {
+    const data = await this.AboutService.getAllProductInnovationData();
+    return data;
+  }
+
+}
+export { AboutFrontendService };
 

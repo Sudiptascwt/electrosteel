@@ -147,12 +147,16 @@ export class BoardCommitteTypeService {
     async findAllboardCommitteData() {
         try {
         let people_data = await this.board_commitee_dataRepository.find();
+        const formattedCommittee = people_data.map((item) => ({
+            ...item,
+            rows: item.rows ? JSON.parse(item.rows) : [],
+        }));
         
         return {
             status: true,
             statusCode: 200,
             message: 'Board committee data fetched successfully',
-            data: people_data
+            data: formattedCommittee
         };
         } catch (error) {
         console.error('Error:', error);

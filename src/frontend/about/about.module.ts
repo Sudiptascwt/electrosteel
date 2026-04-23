@@ -1,11 +1,59 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { CsrProjects } from '../../../entity/csr_projects.entity';
-// import { CsrProjectsController } from './csr_projects.controller';
-// import { CsrProjectsService } from './csr_projects.service';
-// @Module({
-//   imports: [TypeOrmModule.forFeature([CsrProjects])],
-//   controllers: [CsrProjectsController],
-//   providers: [CsrProjectsService],
-// })
-// export class CsrProjectsModule {}
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AboutFrontendController } from './about.controller';
+import { AboutFrontendService } from './about.service';
+
+import { AboutMain } from '../../entity/about_main.entity';
+import { growing_strength_data } from 'src/entity/growing_strength_data.entity';
+import { AboutDuctileIron } from 'src/entity/about_ductile_iron.entity';
+import { ManufacturingFacilities } from 'src/entity/manufacturing_facilities.entity';
+import { headings } from 'src/entity/headings.entity';
+import { AboutPeopleData } from 'src/entity/about_people_data.entity';
+import { about_technology_innovation } from 'src/entity/about_technology_innovation.entity';
+import { Vision } from 'src/entity/vision.entity';
+import { VisionPrinciples } from 'src/entity/vision_principles.entity';
+import { Mission } from 'src/entity/mission.entity';
+import { board_commitee_hero_data } from 'src/entity/board_commitee_hero_data.entity';
+import { BoardCommitteData } from 'src/entity/board_commitee_data.entity';
+import { Directors } from 'src/entity/director.entity';
+import { AllPagesTitle } from 'src/entity/all_page_title.entity';
+
+import { ProcessInnovationHero } from 'src/entity/process_innovation_hero.entity';
+import { PipesToInhospitableKargil } from 'src/entity/pipestoinhospitablekargil.entity';
+import { ElectrosteelIsro } from 'src/entity/electrosteel_isro.entity';
+import { ReachingStars } from 'src/entity/ReachingStars.entity';
+import { ViaHelicopter } from 'src/entity/ViaHelicopter.entity';
+import { UltimateDIPipes } from 'src/entity/UltimateDIPipes.entity';
+import { changiWater } from 'src/entity/changiWater.entity';
+
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([
+      AboutMain,
+      growing_strength_data,
+      AboutDuctileIron,
+      ManufacturingFacilities,
+      headings,
+      AboutPeopleData,
+      about_technology_innovation,
+      Vision,
+      VisionPrinciples,
+      Mission,
+      board_commitee_hero_data,
+      BoardCommitteData,
+      Directors,
+      AllPagesTitle,
+      ProcessInnovationHero,
+      PipesToInhospitableKargil,
+      ElectrosteelIsro,
+      ReachingStars,
+      ViaHelicopter,
+      UltimateDIPipes,
+      changiWater
+    ]),
+  ],
+  controllers: [AboutFrontendController],
+  providers: [AboutFrontendService],
+})
+export class AboutFrontendModule {}
