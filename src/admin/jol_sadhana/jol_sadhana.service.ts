@@ -26,7 +26,7 @@ export class JolsadhanaService {
 
   // GET ALL
   async findAll() {
-    const data = await this.indiaOfficeRepo.find({ where: { status: 1 } });
+    const data = await this.indiaOfficeRepo.find({ });
     return {
       status: true,
       statusCode: HttpStatus.OK,
@@ -37,7 +37,7 @@ export class JolsadhanaService {
 
   // GET BY ID
   async findById(id: number) {
-    const office = await this.indiaOfficeRepo.findOne({ where: { id, status:1 } });
+    const office = await this.indiaOfficeRepo.findOne({ });
     if (!office) {
       throw new NotFoundException({
           message: `Jolsadhana with ID ${id} not found`,
@@ -80,8 +80,7 @@ export class JolsadhanaService {
   // DELETE
   async delete(id: number) {
     const office = await this.indiaOfficeRepo.update(
-      { id },
-      { status: 0 }  
+      { id }
     );
     if (!office) {
       throw new NotFoundException({

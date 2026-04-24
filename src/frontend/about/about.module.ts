@@ -26,6 +26,15 @@ import { ViaHelicopter } from 'src/entity/ViaHelicopter.entity';
 import { UltimateDIPipes } from 'src/entity/UltimateDIPipes.entity';
 import { changiWater } from 'src/entity/changiWater.entity';
 
+import { ProductInnovationHeroSection } from 'src/entity/product_innovation_hero_section.entity';
+import { ElectrolockJoint  } from 'src/entity/electrolock_joint.entity';
+import { TrenchlessDIPipes } from 'src/entity/trenchless-di-pipes.entity';
+import { PolyurethaneLining } from 'src/entity/polyurethane-lining.entity';
+import { PolyurethaneCoating } from 'src/entity/polyurethane-coating.entity';
+
+import { LegendHeroSection } from 'src/entity/legend_of_ecl_hero.entity';
+import { LegendEclCard } from 'src/entity/legend_ecl_cards.entity';
+import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 
 @Module({
   imports: [
@@ -50,7 +59,15 @@ import { changiWater } from 'src/entity/changiWater.entity';
       ReachingStars,
       ViaHelicopter,
       UltimateDIPipes,
-      changiWater
+      changiWater,
+      ProductInnovationHeroSection,
+      ElectrolockJoint,
+      TrenchlessDIPipes,
+      PolyurethaneLining,
+      PolyurethaneCoating,
+      LegendHeroSection,
+      LegendEclCard,
+      LegendEclVideo,
     ]),
   ],
   controllers: [AboutFrontendController],

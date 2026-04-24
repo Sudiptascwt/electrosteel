@@ -20,11 +20,11 @@ export class AllBannerService {
   }
 
   async findAll(): Promise<AllBanner[]> {
-    return await this.AllBannerRepo.find({ where: { status:1 } });
+    return await this.AllBannerRepo.find({  });
   }
 
   async findById(id: number): Promise<AllBanner> {
-    const unit = await this.AllBannerRepo.findOne({ where: { id, status:1 } });
+    const unit = await this.AllBannerRepo.findOne({ });
     if (!unit) throw new NotFoundException('AllBanner unit not found');
     return unit;
   }
@@ -37,8 +37,7 @@ export class AllBannerService {
 
   async delete(id: number): Promise<void> {
     const result = await this.AllBannerRepo.update(
-        { id },
-        { status: 0 }  
+        { id }
     );
     if (result.affected === 0) {
       throw new NotFoundException('AllBanner unit not found');
@@ -47,7 +46,7 @@ export class AllBannerService {
 
   async findByPageName(pageName: string): Promise<AllBanner | null> {
     return await this.AllBannerRepo.findOne({
-      where: { page_name: pageName },
+      where: { title: pageName },
     });
   }
 

@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { ProductInnovationService } from './product_innovation.service';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserRole } from '../../users/user.entity';
+import { LegendHeroSectionDto } from 'src/dto/legend_of_ecl_hero.dto';
+import { LegendEclCardDto } from 'src/dto/legend_ecl_cards.dto';
+import { LegendEclVideoDto } from 'src/dto/legend_ecl_video_section.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)

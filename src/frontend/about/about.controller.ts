@@ -37,9 +37,15 @@ export class AboutFrontendController {
     return data;
   }
 
-  @Get('all-ProductInnovationData')
+  @Get('all-ProductInnovationData-v2')
   async getAllProductInnovationData() {
-    const data = await this.AboutService.getAllProductInnovationData();
+    const data = await this.AboutService.getAllProductInnovationDataV2();
+    return data;
+  }
+
+  @Get('all-EclLegendsData')
+  async getAllEclLegendsData() {
+    const data = await this.AboutService.getAllEclLegendsData();
     return data;
   }
 

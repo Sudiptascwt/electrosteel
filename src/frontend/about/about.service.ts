@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // import { AboutFrontendDto } from 'src/dto/csr_projects.dto';
 // import { AboutFrontend } from 'src/entity/csr_projects.entity';
@@ -24,6 +24,14 @@ import { ReachingStars } from 'src/entity/ReachingStars.entity';
 import { ViaHelicopter } from 'src/entity/ViaHelicopter.entity';
 import { UltimateDIPipes } from 'src/entity/UltimateDIPipes.entity';
 import { changiWater } from 'src/entity/changiWater.entity';
+import { ProductInnovationHeroSection } from 'src/entity/product_innovation_hero_section.entity';
+import { ElectrolockJoint } from 'src/entity/electrolock_joint.entity';
+import { TrenchlessDIPipes } from 'src/entity/trenchless-di-pipes.entity';
+import { PolyurethaneLining } from 'src/entity/polyurethane-lining.entity';
+import { PolyurethaneCoating } from 'src/entity/polyurethane-coating.entity';
+import { LegendHeroSection } from 'src/entity/legend_of_ecl_hero.entity';
+import { LegendEclCard } from 'src/entity/legend_ecl_cards.entity';
+import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 
 @Injectable()
 export class AboutFrontendService {
@@ -92,6 +100,29 @@ export class AboutFrontendService {
         @InjectRepository(changiWater)
         private changiWaterRepository: Repository<changiWater>,
     
+        @InjectRepository(ProductInnovationHeroSection)
+        private readonly heroSectionRepository: Repository<ProductInnovationHeroSection>,
+    
+        @InjectRepository(ElectrolockJoint)
+        private readonly electrolockJointRepository: Repository<ElectrolockJoint>,
+    
+        @InjectRepository(TrenchlessDIPipes)
+        private readonly trenchlessDIPipesRepository: Repository<TrenchlessDIPipes>,
+    
+        @InjectRepository(PolyurethaneLining)
+        private readonly polyurethaneLiningRepository: Repository<PolyurethaneLining>,
+    
+        @InjectRepository(PolyurethaneCoating)
+        private readonly polyurethaneCoatingRepository: Repository<PolyurethaneCoating>,
+
+        @InjectRepository(LegendHeroSection)
+        private legendheroRepository: Repository<LegendHeroSection>,
+
+        @InjectRepository(LegendEclCard)
+        private legendcardRepository: Repository<LegendEclCard>,
+
+        @InjectRepository(LegendEclVideo)
+        private legendvideoRepository: Repository<LegendEclVideo>,
     ) {}
 
     //////////AboutFrontend/////////////
@@ -335,58 +366,104 @@ export class AboutFrontendService {
     }
     }
 
-    async getAllProductInnovationData() {
-    try {
-        const [
-        heroSection,
-        pipesToInhospitableKargil,
-        electrosteelIsro,
-        reachingStars,
-        viaHelicopter,
-        ultimateDIPipes,
-        changiWater,
-        ] = await Promise.all([
-        this.ProcessInnovationHeroRepository.find(),
-        this.PipesToInhospitableKargilRepository.find(),
-        this.electrosteelIsroRepository.find({
-            order: { created_at: 'ASC' },
-        }),
-        this.ReachingStarsRepository.find({
-            order: { created_at: 'ASC' },
-        }),
-        this.ViaHelicopterRepository.find({
-            order: { created_at: 'ASC' },
-        }),
-        this.UltimateDIPipesRepository.find({
-            order: { created_at: 'ASC' },
-        }),
-        this.changiWaterRepository.find({
-            order: { created_at: 'ASC' },
-        }),
-        ]);
+    private getRepositoryBySection(section: string): Repository<any> {
+        switch (section) {
+        case 'hero-section':
+            return this.heroSectionRepository;
+        case 'electrolock-joint':
+            return this.electrolockJointRepository;
+        case 'trenchless-di-pipes':
+            return this.trenchlessDIPipesRepository;
+        case 'polyurethane-lining':
+            return this.polyurethaneLiningRepository;
+        case 'polyurethane-coating':
+            return this.polyurethaneCoatingRepository;
+        default:
+            throw new BadRequestException('Invalid section name');
+        }
+    }
+
+    async getAllProductInnovationDataV2(): Promise<{
+        status: boolean;
+        statusCode: number;
+        message: string;
+        data: {
+            section: string;
+            data: any;
+            message: string;
+            statusCode: number;
+        }[];
+    }> {
+        const sections = [
+            'hero-section',
+            'electrolock-joint',
+            'trenchless-di-pipes',
+            'polyurethane-lining',
+            'polyurethane-coating'
+        ];
+
+        const results = await Promise.all(
+            sections.map(async (section) => {
+                try {
+                    const repository = this.getRepositoryBySection(section);
+                    const records = await repository.find({
+                        order: { created_at: 'ASC' },
+                        take: 1,
+                    });
+
+                    return {
+                        section,
+                        data: records[0] || null,
+                        message: `${section} fetched successfully`,
+                        statusCode: 200,
+                    };
+                } catch (error) {
+                    return {
+                        section,
+                        data: null,
+                        message: `Error fetching ${section}`,
+                        statusCode: 400,
+                    };
+                }
+            })
+        );
 
         return {
-        status: true,
-        statusCode: 200,
-        message: 'All process innovation data fetched successfully',
-        data: {
-            heroSection: heroSection || [],
-            pipesToInhospitableKargil: pipesToInhospitableKargil || [],
-            electrosteelIsro: electrosteelIsro || [],
-            reachingStars: reachingStars || [],
-            viaHelicopter: viaHelicopter || [],
-            ultimateDIPipes: ultimateDIPipes || [],
-            changiWater: changiWater || [],
-        },
-        };
-    } catch (error) {
-        console.error('Error:', error);
-        return {
-        status: false,
-        statusCode: 500,
-        message: 'Failed to fetch process innovation data',
-        error: error.message,
+            status: true,
+            statusCode: 200,
+            message: 'Sections fetched successfully',
+            data: results,
         };
     }
+
+    async getAllEclLegendsData() {
+        try {
+            const [heroData, cardData,videodata] = await Promise.all([
+            this.legendheroRepository.find(),
+            this.legendcardRepository.find(),
+            this.legendvideoRepository.find(),
+            ]);
+
+            return {
+                status: true,
+                statusCode: 200,
+                message: 'Ecl Legends data fetched successfully',
+                data: {
+                    heroSection: heroData || [],
+                    cardData: cardData || [],
+                    videoData: videodata || [],
+                },
+            };
+        } catch (error) {
+            console.error('Error:', error);
+            return {
+                status: false,
+                statusCode: 500,
+                message: 'Failed to fetch Ecl Legends data',
+                error: error.message,
+            };
+        }
     }
+
+
 }

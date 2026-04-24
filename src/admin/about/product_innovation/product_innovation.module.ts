@@ -17,7 +17,7 @@ import { PolyurethaneCoating } from '../../../entity/polyurethane-coating.entity
       ElectrolockJoint,
       TrenchlessDIPipes,
       PolyurethaneLining,
-      PolyurethaneCoating,
+      PolyurethaneCoating
     ]),
   ],
   controllers: [ProductInnovationController],

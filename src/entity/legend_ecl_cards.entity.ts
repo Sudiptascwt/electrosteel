@@ -1,19 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('jol_sadhana')
-export class Jolsadhana {
+@Entity('legend_ecl_cards')
+export class LegendEclCard {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
     @Column({ type: 'text', nullable: true })
-    meta_key: string;
+    title: string;
 
-    @Column({ type: 'longtext', nullable: true })
-    meta_value: string;
+    @Column({ type: 'text' })
+    content: string;
+
+    @Column({ type: 'varchar', length: 500, nullable: true })
+    image: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
-    modifiedAt: Date;
+    @UpdateDateColumn({ name: 'updated_at', type: 'datetime' })
+    updatedAt: Date;
 }
