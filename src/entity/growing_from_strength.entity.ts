@@ -12,7 +12,13 @@ export class growing_from_strength {
     sub_title: string;
 
     @Column({ type: 'text', nullable: true })
-    box_data: string;
+    box_data1: string;
+
+    @Column({ type: 'text', nullable: true })
+    box_data2: string;
+
+    @Column({ type: 'text', nullable: true })
+    button_link: string;
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     image: string;

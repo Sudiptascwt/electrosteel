@@ -22,10 +22,10 @@ export class growing_from_strengthService {
         where: {},
       });
 
-      let boxDataValue = data.box_data;
-        if (typeof boxDataValue === 'object') {
-          boxDataValue = JSON.stringify(boxDataValue);
-        }
+      // let boxDataValue = data.box_data;
+      //   if (typeof boxDataValue === 'object') {
+      //     boxDataValue = JSON.stringify(boxDataValue);
+      //   }
       
       if (existinggrowing_from_strength) {
         await this.growing_from_strengthRepository.update(
@@ -33,9 +33,11 @@ export class growing_from_strengthService {
           {
             title: data.title,
             sub_title: data.sub_title,
-            box_data: boxDataValue,
+            box_data1: data.box_data1,
+            box_data2: data.box_data2,
             image: data.image,
-            video: data.video
+            video: data.video,
+            button_link: data.button_link,
           }
         );
         var savedgrowing_from_strength = await this.growing_from_strengthRepository.findOne({
@@ -45,9 +47,11 @@ export class growing_from_strengthService {
         const newSlide = this.growing_from_strengthRepository.create({
           title: data.title,
           sub_title: data.sub_title,
-          box_data: boxDataValue,
+          box_data1: data.box_data1,
+          box_data2: data.box_data2,
           image: data.image,
           video: data.video,
+          button_link: data.button_link,
         });
         var savedgrowing_from_strength = await this.growing_from_strengthRepository.save(newSlide);
       }
@@ -67,23 +71,17 @@ export class growing_from_strengthService {
       const growing_from_strength = await this.growing_from_strengthRepository.find({});
 
       const parsedData = growing_from_strength.map(item => {
-        let parsedBoxData = item.box_data;
-        
-        if (item.box_data && typeof item.box_data === 'string') {
-          try {
-            parsedBoxData = JSON.parse(item.box_data);
-          } catch (e) {
-            console.error('Failed to parse box_data:', e);
-          }
-        }
         
         return {
           id: item.id,
           title: item.title,
           sub_title: item.sub_title,
-          box_data: parsedBoxData, 
+          // box_data: parsedBoxData, 
+          box_data1: item.box_data1,
+          box_data2: item.box_data2,
           image: item.image,
           video: item.video,
+          button_link: item.button_link,
           createdAt: item.createdAt,
           updatedAt: item.updatedAt,
         };

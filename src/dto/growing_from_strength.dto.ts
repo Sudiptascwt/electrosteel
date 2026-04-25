@@ -11,7 +11,11 @@ export class growing_from_strengthDto {
 
     @IsOptional()
     @IsString()
-    box_data?: string;    
+    box_data2?: string;    
+
+    @IsOptional()
+    @IsString()
+    box_data1?: string;   
 
     @IsOptional()
     @IsString()
@@ -22,4 +26,9 @@ export class growing_from_strengthDto {
     @IsString()
     @MaxLength(255)
     video?: string;  
+
+    @IsOptional()
+    @IsString()
+    button_link?: string;   
+    
 }

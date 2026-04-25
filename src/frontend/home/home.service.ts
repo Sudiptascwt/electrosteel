@@ -97,21 +97,22 @@ export class HomeService {
     };
     const growing_from_strength = await this.growing_from_strengthRepository.find({});
     const growing_from_strengthData = growing_from_strength.map(item => {
-        let parsedBoxData = item.box_data;
+        // let parsedBoxData = item.box_data;
         
-        if (item.box_data && typeof item.box_data === 'string') {
-          try {
-            parsedBoxData = JSON.parse(item.box_data);
-          } catch (e) {
-            console.error('Failed to parse box_data:', e);
-          }
-        }
+        // if (item.box_data && typeof item.box_data === 'string') {
+        //   try {
+        //     parsedBoxData = JSON.parse(item.box_data);
+        //   } catch (e) {
+        //     console.error('Failed to parse box_data:', e);
+        //   }
+        // }
         
         return {
           id: item.id,
           title: item.title,
           sub_title: item.sub_title,
-          box_data: parsedBoxData, 
+          box_data1: item.box_data1,
+          box_data2: item.box_data2, 
           image: item.image,
           video: item.video,
           createdAt: item.createdAt,

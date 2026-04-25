@@ -76,16 +76,16 @@ export class AllBannerController {
     };
   }
 
-  // DELETE
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.AllBannerService.delete(id);
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'page meta deleted successfully',
-    };
-  }
+//   // DELETE
+//   @Delete(':id')
+//   async delete(@Param('id', ParseIntPipe) id: number) {
+//     await this.AllBannerService.delete(id);
+//     return {
+//       status: true,
+//       statusCode: HttpStatus.OK,
+//       message: 'page meta deleted successfully',
+//     };
+//   }
 
   // GET BY page name
   @Get('name/:name')

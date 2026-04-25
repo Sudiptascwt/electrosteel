@@ -35,19 +35,10 @@ export class AllBannerService {
     return await this.AllBannerRepo.save(unit);
   }
 
-  async delete(id: number): Promise<void> {
-    const result = await this.AllBannerRepo.update(
-        { id }
-    );
-    if (result.affected === 0) {
-      throw new NotFoundException('AllBanner unit not found');
-    }
-  }
 
   async findByPageName(pageName: string): Promise<AllBanner | null> {
     return await this.AllBannerRepo.findOne({
       where: { title: pageName },
     });
   }
-
 }
