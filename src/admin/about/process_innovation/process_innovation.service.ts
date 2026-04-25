@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import  { ProcessInnovationHero } from '../../../entity/process_innovation_hero.entity'
 import { ProcessInnovationHeroDto } from 'src/dto/process_innovation_hero.dto';
 import { PipesToInhospitableKargil } from '../../../entity/pipes_to_inhospitable_kargil.entity';
-import { PipesToInhospitableKargilDto } from '../../../dto/pipestoinhospitablekargil.dto';
+import { PipesToInhospitableKargilDto } from '../../../dto/pipes_to_inhospitabl_kargil.dto';
 import { ElectrosteelIsroDto } from '../../../dto/electrosteel_isro.dto';
 import { ElectrosteelIsro } from '../../../entity/electrosteel_isro.entity';
 import { ViaHelicopter } from '../../../entity/ViaHelicopter.entity';

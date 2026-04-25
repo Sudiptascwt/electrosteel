@@ -6,7 +6,7 @@ import { Roles } from '../../../role/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserRole } from '../../users/user.entity';
 import { ProcessInnovationHeroDto } from '../../../dto/process_innovation_hero.dto';
-import { PipesToInhospitableKargilDto } from '../../../dto/pipestoinhospitablekargil.dto';
+import { PipesToInhospitableKargilDto } from '../../../dto/pipes_to_inhospitabl_kargil.dto';
 import { ElectrosteelIsroDto } from '../../../dto/electrosteel_isro.dto';
 import { ReachingStarsDto } from '../../../dto/ReachingStars.dto';
 import { ViaHelicopterDto } from '../../../dto/ViaHelicopter.dto';
