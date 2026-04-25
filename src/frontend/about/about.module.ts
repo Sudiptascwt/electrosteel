@@ -19,7 +19,7 @@ import { Directors } from 'src/entity/director.entity';
 import { AllPagesTitle } from 'src/entity/all_page_title.entity';
 
 import { ProcessInnovationHero } from 'src/entity/process_innovation_hero.entity';
-import { PipesToInhospitableKargil } from 'src/entity/pipestoinhospitablekargil.entity';
+import { PipesToInhospitableKargil } from 'src/entity/pipes_to_inhospitable_kargil.entity';
 import { ElectrosteelIsro } from 'src/entity/electrosteel_isro.entity';
 import { ReachingStars } from 'src/entity/ReachingStars.entity';
 import { ViaHelicopter } from 'src/entity/ViaHelicopter.entity';

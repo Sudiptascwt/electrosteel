@@ -275,7 +275,7 @@ import { BoardCommitteData } from './entity/board_commitee_data.entity';
 import { ProcessInnovationHero } from './entity/process_innovation_hero.entity';
 import { process_innovationModule } from './admin/about/process_innovation/process_innovation.module';
 import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
-import { PipesToInhospitableKargil } from 'src/entity/pipestoinhospitablekargil.entity';
+import { PipesToInhospitableKargil } from 'src/entity/pipes_to_inhospitable_kargil.entity';
 import { ElectrosteelIsro } from 'src/entity/electrosteel_isro.entity';
 import { ReachingStars } from 'src/entity/ReachingStars.entity';
 import { UltimateDIPipes } from 'src/entity/UltimateDIPipes.entity';

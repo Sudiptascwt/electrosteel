@@ -5,13 +5,13 @@ import { RolesGuard } from '../../../role/roles.guard';
 import { Roles } from '../../../role/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserRole } from '../../users/user.entity';
-import { ProcessInnovationHeroDto } from 'src/dto/process_innovation_hero.dto';
-import { PipesToInhospitableKargilDto } from 'src/dto/pipestoinhospitablekargil.dto';
-import { ElectrosteelIsroDto } from 'src/dto/electrosteel_isro.dto';
-import { ReachingStarsDto } from 'src/dto/ReachingStars.dto';
-import { ViaHelicopterDto } from 'src/dto/ViaHelicopter.dto';
-import { UltimateDIPipesDto } from 'src/dto/UltimateDIPipes.dto';
-import { changiWaterDto } from 'src/dto/changiWater.dto';
+import { ProcessInnovationHeroDto } from '../../../dto/process_innovation_hero.dto';
+import { PipesToInhospitableKargilDto } from '../../../dto/pipestoinhospitablekargil.dto';
+import { ElectrosteelIsroDto } from '../../../dto/electrosteel_isro.dto';
+import { ReachingStarsDto } from '../../../dto/ReachingStars.dto';
+import { ViaHelicopterDto } from '../../../dto/ViaHelicopter.dto';
+import { UltimateDIPipesDto } from '../../../dto/UltimateDIPipes.dto';
+import { changiWaterDto } from '../../../dto/changiWater.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
