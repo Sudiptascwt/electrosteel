@@ -15,5 +15,5 @@ export class LegendHeroSectionDto {
   @ApiProperty()
   @IsOptional()
   @IsUrl()
-  banner: string;
+  image: string;
 }

@@ -21,7 +21,7 @@ export class about_technology_innovation {
   video: string;
 
   @Column({ type:'text', nullable: true })
-  url: string;
+  buttonLink: string;
 
   @CreateDateColumn({ 
     name: 'created_at', 

@@ -11,6 +11,9 @@ export class Blogs {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'text' })
+  type: string;
+
   @Column({ type: 'longtext' })
   category: string;
 
@@ -28,13 +31,19 @@ export class Blogs {
   image: string;
 
   @Column({ type: 'longtext', nullable: true })
-  url: string;
+  link: string;
 
-  @Column({
-    type: 'tinyint',
-    default: 1,
-  })
-  status: 0 | 1; 
+  @Column({ type: 'longtext', nullable: true })
+  images: string;
+
+  @Column({ type: 'text', nullable: true })
+  slug: string;
+  
+  // @Column({
+  //   type: 'tinyint',
+  //   default: 1,
+  // })
+  // status: 0 | 1; 
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

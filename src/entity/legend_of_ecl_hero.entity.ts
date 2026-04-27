@@ -9,7 +9,7 @@ export class LegendHeroSection {
     title: string;
 
     @Column({ type: 'varchar', length: 500 })
-    banner: string;
+    image: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

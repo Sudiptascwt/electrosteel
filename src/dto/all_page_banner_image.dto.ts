@@ -6,6 +6,14 @@ export class AllBannerDto {
 
   @IsOptional()
   @IsString()
+  page_name?: string;
+
+  @IsOptional()
+  @IsString()
+  page_sub_name?: string;
+
+  @IsOptional()
+  @IsString()
   title?: string;
 
   @IsOptional()

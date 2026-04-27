@@ -1,10 +1,15 @@
 import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt, IsEnum } from 'class-validator';
 
 export class BlogsDto {
+  @IsOptional()
   @IsInt()
   id: number;
+  
+  @IsOptional()
+  @IsString()
+  type: string;
 
-  @IsNotEmpty({ message: 'category is required' })
+  @IsOptional()
   @IsString()
   category: string;
 
@@ -12,7 +17,7 @@ export class BlogsDto {
   @IsString()
   date: string;
 
-  @IsNotEmpty({ message: 'Title is required' })
+  @IsOptional()
   @IsString()
   title: string;
 
@@ -26,9 +31,17 @@ export class BlogsDto {
 
   @IsOptional()
   @IsString()
-  url?: string;
+  images?: string;
 
-  @IsEnum([0, 1])
   @IsOptional()
-  status?: 0 | 1;
+  @IsString()
+  link?: string;
+
+  @IsOptional()
+  @IsString()
+  slug?: string;
+
+  // @IsEnum([0, 1])
+  // @IsOptional()
+  // status?: 0 | 1;
 }

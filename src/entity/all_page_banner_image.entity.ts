@@ -5,11 +5,17 @@ export class AllBanner {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'text', nullable: true })
+  page_name: string;
+
+  @Column({ type: 'text', nullable: true })
+  page_sub_name: string;
+
   @Column({ type: 'longtext', nullable: true })
   title: string;
 
   @Column({ type: 'longtext', nullable: true })
-  iamge: string;
+  image: string;
 
   @CreateDateColumn({ type: 'datetime' })
   created_at: Date;

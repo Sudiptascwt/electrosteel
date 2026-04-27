@@ -36,6 +36,9 @@ import { LegendHeroSection } from 'src/entity/legend_of_ecl_hero.entity';
 import { LegendEclCard } from 'src/entity/legend_ecl_cards.entity';
 import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 
+import { Milestone } from 'src/entity/milestones.entity';
+import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -68,6 +71,8 @@ import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
       LegendHeroSection,
       LegendEclCard,
       LegendEclVideo,
+      Milestone,
+      MilestoneBanner
     ]),
   ],
   controllers: [AboutFrontendController],

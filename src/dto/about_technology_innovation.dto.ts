@@ -15,5 +15,5 @@ export class about_technology_innovationDto {
 
   @IsOptional()
   @IsString()
-  url?: string; 
+  buttonLink?: string; 
 }

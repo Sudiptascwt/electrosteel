@@ -290,39 +290,26 @@ export class AboutMainService {
       const facilities = await this.ManufacturingFacilitiesRepository.find();
       
       const formattedFacilities = facilities.map(record => ({
-        id: record.id,
         title: record.title,
         description: record.description,
-        features: record.features ? JSON.parse(record.features) : [],
+        features: record.features,
         phone: record.phone,
-        address: record.address,
-        createdAt: record.createdAt,
-        updatedAt: record.updatedAt
+        address: record.address
       }));
       
+      // Return in the exact format you specified
       return {
-        status: true,
-        statusCode: 200,
-        message: 'Complete manufacturing data fetched successfully',
-        data: {
-          heading: heading ? {
-            id: heading.id,
-            title: heading.title,
-            description: heading.description,
-            section_type: heading.section_type,
-            createdAt: heading.createdAt,
-            updatedAt: heading.updatedAt
-          } : null,
-          facilities: formattedFacilities,
-          totalFacilities: formattedFacilities.length
-        }
+        title: heading?.title || null,
+        description: heading?.description || null,
+        data: formattedFacilities
       };
+      
     } catch (error) {
       console.error('Error:', error);
       return {
-        status: false,
-        statusCode: 500,
-        message: 'Failed to fetch complete data',
+        title: null,
+        description: null,
+        data: [],
         error: error.message
       };
     }
@@ -332,22 +319,22 @@ export class AboutMainService {
   async savePeopleData(data: any) {
     try {
       // Check if data is an array
-      if (!Array.isArray(data)) {
-        return {
-          status: false,
-          statusCode: 400,
-          message: 'Invalid data format. Expected array of people objects.',
-          error: 'Data must be an array'
-        };
-      }
+      // if (!Array.isArray(data)) {
+      //   return {
+      //     status: false,
+      //     statusCode: 400,
+      //     message: 'Invalid data format. Expected array of people objects.',
+      //     error: 'Data must be an array'
+      //   };
+      // }
 
-      if (data.length === 0) {
-        return {
-          status: false,
-          statusCode: 400,
-          message: 'Data array cannot be empty',
-        };
-      }
+      // if (data.length === 0) {
+      //   return {
+      //     status: false,
+      //     statusCode: 400,
+      //     message: 'Data array cannot be empty',
+      //   };
+      // }
 
       // Option 1: Replace all existing records (Clear and insert new)
       // Delete all existing records
@@ -360,7 +347,7 @@ export class AboutMainService {
       return {
         status: true,
         statusCode: 200,
-        message: `${savedRecords.length} people records saved successfully.`,
+        message: `people records saved successfully.`,
         data: savedRecords
       };
 
@@ -403,12 +390,13 @@ export class AboutMainService {
 
     let existingRecords = await this.about_technology_innovationRepository.find();
 
+
     if (existingRecords && existingRecords.length > 0) {
       const recordToUpdate = existingRecords[0];
       recordToUpdate.title = data.title;
       recordToUpdate.description = data.description;
       recordToUpdate.video = data.video;
-      recordToUpdate.url = data.url;
+      recordToUpdate.buttonLink = data.buttonLink;
       
       const savedRecord = await this.about_technology_innovationRepository.save(recordToUpdate);
       
@@ -423,7 +411,7 @@ export class AboutMainService {
           title: data.title, 
           description: data.description,  
           video: data.video,      
-          url: data.url          
+          buttonLink: data.buttonLink          
         });
         const savedRecord = await this.about_technology_innovationRepository.save(newRecord);
       

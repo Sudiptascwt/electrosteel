@@ -54,16 +54,13 @@ export class AboutController {
     //////////// vision principles//////////////////
 
     @Post('vision/principles')
-    async createPrinciples(@Body() createDto: any) {
-        if (!createDto.title) {
-            throw new BadRequestException('Request body must contain either "heading" or "title" field');
-        }
-        return this.AboutService.createPrinciples(createDto);
+    async createOrUpdate(@Body() createDto: any) {
+        return this.AboutService.createOrUpdatePrinciples(createDto);
     }
 
-    // Get all Vision principles
+    // GET all principles
     @Get('vision/principles/all')
-    async findAllcreatePrinciples() {
-        return this.AboutService.findAllPrinciples();
+    async findAll() {
+        return this.AboutService.findAllPrinciples()
     }
 }

@@ -146,9 +146,9 @@ export class CommonBannerService {
     }
 
     //banner fetch by page name
-    async findByPageName(pageName: string): Promise<CommonBannerDto[]> {
-        return this.CommonBannerRepository.find({
-            where: { page_name: pageName },
-        });
-    }
+    // async findByPageName(pageName: string): Promise<CommonBannerDto[]> {
+    //     return this.CommonBannerRepository.find({
+    //         where: { page_name: pageName },
+    //     });
+    // }
 }

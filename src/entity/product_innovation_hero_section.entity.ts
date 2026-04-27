@@ -9,7 +9,7 @@ export class ProductInnovationHeroSection {
   title: string;
 
   @Column({ type: 'text', nullable: true })
-  banner: string;
+  image: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

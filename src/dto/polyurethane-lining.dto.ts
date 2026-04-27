@@ -7,7 +7,7 @@ export class PolyurethaneLiningDto {
 
   @IsOptional()
   @IsString()
-  desc: string;
+  description: string;
 
   @IsOptional()
   @IsString()

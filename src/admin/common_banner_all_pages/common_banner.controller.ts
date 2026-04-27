@@ -49,15 +49,15 @@ export class CommonBannerController {
         return this.CommonBannerService.delete(id);
     }
 
-    @Get('page/:page_name')
-    async getBannersByPageName(@Param('page_name') pageName: string) {
-        const banners = await this.CommonBannerService.findByPageName(pageName);
+    // @Get('page/:page_name')
+    // async getBannersByPageName(@Param('page_name') pageName: string) {
+    //     const banners = await this.CommonBannerService.findByPageName(pageName);
 
-        return {
-        status: true,
-        statusCode: HttpStatus.OK,
-        message: banners.length ? 'Banners for the page fetched successfully' : 'No banners found',
-        data: banners,
-        };
-    }
+    //     return {
+    //     status: true,
+    //     statusCode: HttpStatus.OK,
+    //     message: banners.length ? 'Banners for the page fetched successfully' : 'No banners found',
+    //     data: banners,
+    //     };
+    // }
 }

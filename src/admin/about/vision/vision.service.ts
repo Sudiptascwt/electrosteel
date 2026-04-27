@@ -183,7 +183,7 @@ export class AboutService {
     }
 
     // CREATE
-    async createPrinciples(data: any) {
+    async createOrUpdatePrinciples(data: any) {
         try {
             const sectionType = "vision_principle";
             const title = data.title || data.heading;
@@ -193,6 +193,7 @@ export class AboutService {
                 throw new Error('Title or heading is required');
             }
             
+            // ==================== HANDLE HEADING ====================
             let heading = await this.headingsRepository.findOne({
                 where: { section_type: sectionType }
             });
@@ -210,58 +211,72 @@ export class AboutService {
                 heading = await this.headingsRepository.save(newHeading);
             }
 
-            await this.MissionRepository.clear();
-            
-            let savedFacilities = [];
-
+            // ==================== HANDLE VISION PRINCIPLES ====================
+            let savedPrinciples = [];
             const itemsArray = data.data || data.facilities || [];
-            
-            if (itemsArray && Array.isArray(itemsArray) && itemsArray.length > 0) {
-                const facilities = itemsArray.map(facility => 
-                    this.MissionRepository.create({
-                        title: facility.title,
-                        description: facility.description,
-                        image: facility.image
-                    })
-                );
-                savedFacilities = await this.MissionRepository.save(facilities);
+
+            if (itemsArray && Array.isArray(itemsArray)) {
+                // ✅ FIX: Use clear() instead of delete({})
+                await this.VisionPrinciplesRepository.clear();
+                
+                if (itemsArray.length > 0) {
+                    // CREATE new principles
+                    const principles = itemsArray.map(item => 
+                        this.VisionPrinciplesRepository.create({
+                            title: item.title,
+                            description: item.description,
+                            image: item.image
+                        })
+                    );
+                    savedPrinciples = await this.VisionPrinciplesRepository.save(principles);
+                }
             }
+
+            // Verify save was successful
+            const verifySaved = await this.VisionPrinciplesRepository.find();
+            console.log('✅ Verification - Principles in DB after save:', verifySaved.length);
 
             return {
                 status: true,
-                statusCode: heading ? 200 : 201,
-                message: heading ? 'Vision principle data updated successfully.' : 'Vision principle data created successfully.',
+                statusCode: 200,
+                message: 'Vision principle data saved successfully.',
                 data: {
                     heading: heading,
-                    facilities: savedFacilities
+                    facilities: savedPrinciples
                 }
             };
         }
         catch (error) {
+            console.error('Error:', error);
             return {
                 status: false,
                 statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-                message: 'Something went wrong while creating Vision',
+                message: 'Something went wrong while saving Vision data',
                 error: error.message,
             };
         }
     }
-
-    // GET ALL
+    // GET ALL Vision Principles
     async findAllPrinciples() {
-        const data = await this.VisionPrinciplesRepository.find({});
-        const heading = await this.headingsRepository.findOne({
-            where: { section_type: 'vision_principle' }
+        const principles = await this.VisionPrinciplesRepository.find({
+        order: { id: 'ASC' }
         });
         
+        const heading = await this.headingsRepository.findOne({
+        where: { section_type: 'vision_principle' }
+        });
+        
+        const formattedPrinciples = principles.map(item => ({
+        title: item.title,
+        description: item.description,
+        image: item.image
+        }));
+        
         return {
-            status: true,
-            statusCode: HttpStatus.OK,
-            message: data.length > 0 ? 'Vision principle data fetched successfully' : 'No Vision found',
-            data: {
-                heading: heading,  
-                principles: data
-            }
+        heading: heading?.title || null,
+        description: heading?.description || null,
+        facilities: formattedPrinciples
         };
     }
+
 }

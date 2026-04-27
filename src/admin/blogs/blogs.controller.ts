@@ -1,3 +1,4 @@
+// blogs.controller.ts
 import {
   Controller,
   Get,
@@ -8,10 +9,11 @@ import {
   Body,
   ParseIntPipe,
   HttpStatus,
+  BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { BlogsDto } from '../../dto/blogs.dto';
-import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../role/roles.guard';
 import { Roles } from '../../role/roles.decorator';
 import { UserRole } from '../users/user.entity';
@@ -23,77 +25,125 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class BlogsController {
   constructor(private readonly BlogsService: BlogsService) {}
 
-  // CREATE
+  // CREATE - POST /blogs
   @Post()
   async create(@Body() createDto: BlogsDto) {
-    const data = await this.BlogsService.create(createDto);
-    return {
-      status: true,
-      statusCode: HttpStatus.CREATED,
-      message: 'Blog created successfully',
-      data,
-    };
+    try {
+      const data = await this.BlogsService.create(createDto);
+      return {
+        status: true,
+        statusCode: HttpStatus.CREATED,
+        message: 'Blog created successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  // GET ALL
+  // GET ALL - GET /blogs
   @Get()
   async findAll() {
-    const data = await this.BlogsService.findAll();
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'All Blogs fetched successfully',
-      data,
-    };
+    try {
+      const data = await this.BlogsService.findAll();
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'All Blogs fetched successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  // GET BY ID
+  // GET BY ID - GET /blogs/:id
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.BlogsService.findById(id);
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'Blog fetched successfully',
-      data,
-    };
+    try {
+      const data = await this.BlogsService.findById(id);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Blog fetched successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  // UPDATE
-  @Put(':id')
+  // UPDATE - PUT /blogs/:id
+  @Post(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: BlogsDto,
   ) {
-    const data = await this.BlogsService.update(id, updateDto);
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'Blog updated successfully',
-      data,
-    };
+    try {
+      const data = await this.BlogsService.update(id, updateDto);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Blog updated successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  // DELETE
+  // DELETE - DELETE /blogs/:id
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.BlogsService.delete(id);
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'Blog deleted successfully',
-    };
+    try {
+      await this.BlogsService.delete(id);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Blog deleted successfully',
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  //GET BLOG BY NAME
-  @Get('blog/:category')
-  async findBlogByName(@Param('category') category: string) {
-    const data = await this.BlogsService.findBlogByName(category);
-    return {
-      status: true,
-      statusCode: HttpStatus.OK,
-      message: 'Blog fetched successfully',
-      data,
-    };
+  // FIND BY CATEGORY - POST /blogs/find-by-category (RECOMMENDED - SIMPLE)
+  @Get('blog/find-by-category/:category')
+  async findBlogByCategoryGet(@Param('category') category: string) {
+    try {
+      if (!category) {
+        throw new BadRequestException('Category is required');
+      }
+      
+      const data = await this.BlogsService.findBlogByName(category);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Blog fetched successfully',
+        data,  // This will be an array of blogs
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
+
+  // FIND BY CATEGORY - POST /blogs/blog/find-by-category (FOR BACKWARD COMPATIBILITY)
+  // @Post('blog/find-by-category')
+  // async findBlogByNameAlt(@Body() body: { category: string }) {
+  //   try {
+  //     if (!body.category) {
+  //       throw new BadRequestException('Category is required');
+  //     }
+      
+  //     const data = await this.BlogsService.findBlogByName(body.category);
+  //     return {
+  //       status: true,
+  //       statusCode: HttpStatus.OK,
+  //       message: 'Blog fetched successfully',
+  //       data,
+  //     };
+  //   } catch (error) {
+  //     throw new BadRequestException(error.message);
+  //   }
+  // }
 }

@@ -8,5 +8,6 @@ import { AllBannerService } from './all_pages_banner_image.service';
   imports: [TypeOrmModule.forFeature([AllBanner])],
   controllers: [AllBannerController],
   providers: [AllBannerService],
+  exports: [AllBannerService],
 })
 export class AllBannerModule {}

@@ -9,7 +9,7 @@ export class PolyurethaneCoating {
   title: string;
 
   @Column({ type: 'longtext', nullable: true })
-  desc: string;
+  description: string;
 
   @Column({ type: 'text', nullable: true })
   image: string;

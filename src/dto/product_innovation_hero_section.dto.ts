@@ -7,5 +7,5 @@ export class ProductInnovationHeroSectionDto {
 
   @IsOptional()
   @IsString()
-  banner: string;
+  image: string;
 }

@@ -6,5 +6,5 @@ export class ProcessInnovationHeroDto {
 
   @IsOptional()
   @IsString()
-  banner?: string;
+  image?: string;
 }

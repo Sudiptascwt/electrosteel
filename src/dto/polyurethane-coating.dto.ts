@@ -7,7 +7,7 @@ export class PolyurethaneCoatingDto {
 
   @IsOptional()
   @IsString()
-  desc: string;
+  description: string;
 
   @IsOptional()
   @IsString()

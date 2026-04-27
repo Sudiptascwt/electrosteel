@@ -49,6 +49,12 @@ export class AboutFrontendController {
     return data;
   }
 
+  @Get('all-MilestonesData')
+  async getAllMilestonesData() {
+    const data = await this.AboutService.getAllMilestonesData();
+    return data;
+  }
+
 }
 export { AboutFrontendService };
 

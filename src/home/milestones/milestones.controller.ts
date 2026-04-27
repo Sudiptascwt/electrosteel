@@ -58,7 +58,7 @@ export class MilestonesController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @Patch('update/:id')
+  @Post('update/:id')
   async updateMilestonesData(
     @Param('id') id: number,
     @Body() body: any

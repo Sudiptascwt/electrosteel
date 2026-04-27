@@ -15,7 +15,7 @@ export class ProcessInnovationHero {
   title: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  banner: string;
+  image: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

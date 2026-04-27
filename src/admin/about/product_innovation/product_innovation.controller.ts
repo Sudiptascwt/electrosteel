@@ -14,7 +14,7 @@ import { LegendEclVideoDto } from 'src/dto/legend_ecl_video_section.dto';
 @Controller('about/product-innovation')
 export class ProductInnovationController {
   constructor(private readonly productInnovationService: ProductInnovationService) {}
-
+ 
   @Get(':section')
   async getSection(@Param('section') section: string) {
     return this.productInnovationService.getSection(section);

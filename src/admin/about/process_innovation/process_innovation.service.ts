@@ -54,7 +54,7 @@ export class process_innovationService {
     if (existingRecords && existingRecords.length > 0) {
       const recordToUpdate = existingRecords[0];
       recordToUpdate.title = data.title;
-      recordToUpdate.banner = data.banner;
+      recordToUpdate.image = data.image;
       
       const savedRecord = await this.ProcessInnovationHeroRepository.save(recordToUpdate);
       
@@ -67,7 +67,7 @@ export class process_innovationService {
     } else {
       const newRecord = this.ProcessInnovationHeroRepository.create({
         title: data.title,
-        banner: data.banner
+        image: data.image
       });
       
       const savedRecord = await this.ProcessInnovationHeroRepository.save(newRecord);
