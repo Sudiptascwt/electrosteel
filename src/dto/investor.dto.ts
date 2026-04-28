@@ -1,12 +1,22 @@
-import { IsOptional, IsString, IsNumber, IsIn } from 'class-validator';
+// src/investor/dto/investor.dto.ts
+
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class InvestorDto {
-    @IsOptional()
-    @IsString()
-    title?: string;
 
-    @IsOptional()
-    @IsString()
-    pdf?: string;
+  @IsString()
+  @IsNotEmpty()
+  year: string;
 
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  @IsString()
+  @IsNotEmpty()
+  date: string;
+
+  @IsString()
+  @IsNotEmpty()
+  src: string;
 }

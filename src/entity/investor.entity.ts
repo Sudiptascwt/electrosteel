@@ -1,15 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('investor_updates')
+@Entity('investors')
 export class Investor {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
+    @Column({type: 'varchar', length:255, nullable: true })
+    year: string;   // FY 2025 - 26
+
+    @Column({ type: 'text', nullable: true })
     title: string;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
-    pdf: string;
+    @Column({ type: 'text', nullable: true })
+    date: string;
+
+    @Column({ type: 'text', nullable: true })
+    src: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
