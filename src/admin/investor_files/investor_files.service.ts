@@ -76,9 +76,18 @@ export class InvestorService {
       throw new NotFoundException('Record not found');
     }
 
-    Object.assign(record, body);
+    // ✅ update only valid fields
+    if (body.year !== undefined) record.year = body.year;
+    if (body.title !== undefined) record.title = body.title;
+    if (body.date !== undefined) record.date = body.date;
+    if (body.src !== undefined) record.src = body.src;
 
-    return await this.investorRepo.save(record);
+    const updated = await this.investorRepo.save(record);
+
+    return {
+      message: 'Record updated successfully',
+      data: updated,
+    };
   }
 
   // ✅ DELETE (optional)

@@ -20,6 +20,6 @@ export class Investor {
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
+    @UpdateDateColumn({ name: 'updated_at', type: 'datetime' })
     modifiedAt: Date;
 }

@@ -1,6 +1,6 @@
 // src/investor/investor.controller.ts
 
-import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { InvestorService } from './investor_files.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/role/roles.decorator';
@@ -15,13 +15,26 @@ export class InvestorController {
 
   // ✅ CREATE BULK
   @Post('bulk')
-  async createBulk(@Body() body: any) {
-    await this.investorService.createBulk(body);
+    async createBulk(@Body() body: any, @Req() req: any) {
+
+    // ✅ Keep original data for processing
+    const originalBody = JSON.parse(JSON.stringify(body));
+
+    // ✅ Reduce payload for logger (VERY IMPORTANT)
+    req.body = {
+        financialYears: body.financialYears?.map((fy: any) => ({
+        year: fy.year,
+        resultsCount: fy.results?.length || 0,
+        })),
+    };
+
+    // 👉 Use original full data in service
+    await this.investorService.createBulk(originalBody);
 
     return {
-      message: 'Investor data saved successfully',
+        message: 'Investor data saved successfully',
     };
-  }
+    }
 
   // ✅ GET ALL
   @Get('all-investors')
