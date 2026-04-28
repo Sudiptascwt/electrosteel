@@ -18,6 +18,10 @@ export class BlogsService {
     if (dataToSave.images && Array.isArray(dataToSave.images)) {
       dataToSave.images = JSON.stringify(dataToSave.images);
     }
+
+    if (dataToSave.slider_image && Array.isArray(dataToSave.slider_image)) {
+      dataToSave.slider_image = JSON.stringify(dataToSave.slider_image);
+    }
     
     const unit = this.BlogsRepo.create(dataToSave);
     return await this.BlogsRepo.save(unit);
@@ -33,6 +37,13 @@ export class BlogsService {
       if (blog.images && typeof blog.images === 'string') {
         try {
           blog.images = JSON.parse(blog.images);
+        } catch (e) {
+          // Keep as string if parsing fails
+        }
+      }
+      if (blog.slider_image && typeof blog.slider_image === 'string') {
+        try {
+          blog.slider_image = JSON.parse(blog.slider_image);
         } catch (e) {
           // Keep as string if parsing fails
         }
@@ -53,6 +64,14 @@ export class BlogsService {
         // Keep as string if parsing fails
       }
     }
+
+    if (unit.slider_image && typeof unit.slider_image === 'string') {
+      try {
+        unit.slider_image = JSON.parse(unit.slider_image);
+      } catch (e) {
+        // Keep as string if parsing fails
+      }
+    }
     
     return unit;
   }
@@ -64,6 +83,9 @@ export class BlogsService {
     const dataToUpdate = { ...updateDto };
     if (dataToUpdate.images && Array.isArray(dataToUpdate.images)) {
       dataToUpdate.images = JSON.stringify(dataToUpdate.images);
+    }
+    if (dataToUpdate.slider_image && Array.isArray(dataToUpdate.slider_image)) {
+      dataToUpdate.slider_image = JSON.stringify(dataToUpdate.slider_image);
     }
     
     Object.assign(unit, dataToUpdate);
@@ -96,6 +118,11 @@ export class BlogsService {
       if (unit.images && typeof unit.images === 'string') {
         try {
           unit.images = JSON.parse(unit.images);
+        } catch (e) {}
+      }
+      if (unit.slider_image && typeof unit.slider_image === 'string') {
+        try {
+          unit.slider_image = JSON.parse(unit.slider_image);
         } catch (e) {}
       }
       return unit;
