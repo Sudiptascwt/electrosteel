@@ -41,7 +41,35 @@ export class BlogsDto {
   @IsString()
   slug?: string;
 
-  // @IsEnum([0, 1])
-  // @IsOptional()
-  // status?: 0 | 1;
+  @IsOptional()
+  @IsString()
+  location?: string;
+
+  @IsOptional()
+  @IsString()
+  subtitle?: string;
+
+  @IsOptional()
+  @IsString()
+  banner_title?: string;
+
+  @IsOptional()
+  @IsString()
+  banner_image?: string;
+  
+  @IsOptional()
+  @IsString()
+  editor_description?: string;
+
+  @IsOptional()
+  @IsString()
+  slider_contet?: string;
+
+  @IsOptional()
+  @IsString()
+  slider_image?: string;
+
+  @IsOptional()
+  @IsString()
+  badge?: string;
 }
