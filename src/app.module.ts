@@ -293,6 +293,7 @@ import { LegendEclCard } from 'src/entity/legend_ecl_cards.entity';
 import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 import { LegendOfEclModule } from './admin/about/legend_of_ecls/legend_of_ecls.module';
 import { InvestorModule } from './admin/investor_files/investor_files.module';
+import { FrontendInvestorModule } from './frontend/investors/investors.module';
 
 @Module({
   imports: [
@@ -454,7 +455,8 @@ import { InvestorModule } from './admin/investor_files/investor_files.module';
     ProductInnovationModule,
     AboutFrontendModule,
     LegendOfEclModule,
-    InvestorModule
+    InvestorModule,
+    FrontendInvestorModule
   ],
   controllers: [AppController],
   providers: [AppService],

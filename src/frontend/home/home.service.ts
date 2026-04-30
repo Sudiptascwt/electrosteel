@@ -64,6 +64,7 @@ export class HomeService {
           id: item.id,
           title: item.title,
           sub_title: item.sub_title,
+          box_title: item.box_title,
           box_data: parsedBoxData, 
           image_title: item.image_title,
           image1: item.image1,

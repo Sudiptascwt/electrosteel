@@ -9,7 +9,7 @@ export class MilestoneBanner {
     title: string;
 
     @Column({ type: 'text', nullable: true })
-    banner: string;
+    image: string;
 
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;

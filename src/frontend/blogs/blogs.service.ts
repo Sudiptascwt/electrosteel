@@ -11,8 +11,8 @@ export class FrontendBlogsService {
     private readonly BlogsRepo: Repository<Blogs>,
   ) {}
 
-  async getBlogsData() {
-    const Blogs = await this.BlogsRepo.find({ });
+  async getBlogsData(category: string) {
+    const Blogs = await this.BlogsRepo.find({where: {category: category}});
     return {
       statusCode: 200,
       message: Blogs.length > 0 

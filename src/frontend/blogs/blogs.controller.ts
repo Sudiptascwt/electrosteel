@@ -1,18 +1,17 @@
 import {
   Controller,
   Get,
+  Param,
   UseGuards,
 } from '@nestjs/common';
 import { FrontendBlogsService } from './blogs.service';
-import { ApiKeyGuard } from 'src/common/api-key.guard';
 
-@UseGuards(ApiKeyGuard)
 @Controller('frontend/blogs')
 export class FrontendBlogsController {
   constructor(private readonly SubsidiariesService: FrontendBlogsService) {}
 
-  @Get()
-  async getBlogsData() {
-    return this.SubsidiariesService.getBlogsData();
+  @Get(':category')
+  async getBlogsData(@Param('category') category: string){
+    return this.SubsidiariesService.getBlogsData(category);
   }
 }

@@ -1,6 +1,6 @@
 // src/investor/investor.controller.ts
 
-import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param, Delete, UseGuards, Req, Put } from '@nestjs/common';
 import { InvestorService } from './investor_files.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/role/roles.decorator';
@@ -13,30 +13,32 @@ import { RolesGuard } from 'src/role/roles.guard';
 export class InvestorController {
   constructor(private readonly investorService: InvestorService) {}
 
-  // ✅ CREATE BULK
-  @Post('bulk')
-    async createBulk(@Body() body: any, @Req() req: any) {
+  // CREATE - POST /investor
+  // @Post()
+  // async create(@Body() body: any) {
+  //   return this.investorService.create(body);
+  // }
 
-    // ✅ Keep original data for processing
+  // BULK CREATE - POST /investor/bulk
+  @Post('bulk')
+  async createBulk(@Body() body: any, @Req() req: any) {
     const originalBody = JSON.parse(JSON.stringify(body));
 
-    // ✅ Reduce payload for logger (VERY IMPORTANT)
     req.body = {
-        financialYears: body.financialYears?.map((fy: any) => ({
+      financialYears: body.financialYears?.map((fy: any) => ({
         year: fy.year,
         resultsCount: fy.results?.length || 0,
-        })),
+      })),
     };
 
-    // 👉 Use original full data in service
     await this.investorService.createBulk(originalBody);
 
     return {
-        message: 'Investor data saved successfully',
+      message: 'Investor data saved successfully',
     };
-    }
+  }
 
-  // ✅ GET ALL
+  // GET ALL - GET /investor/all-investors
   @Get('all-investors')
   async getAll() {
     return {
@@ -45,33 +47,32 @@ export class InvestorController {
     };
   }
 
-  // ✅ GET BY YEAR
-  @Get('by-year')
-  async getByYear(@Query('year') year: string) {
-    return this.investorService.findByYear(year);
+  // GET BY YEAR - GET /investor/by-year?year=2024
+  @Get('by-year-category/:year')
+  async getByYear(
+      @Query('year') year: string,
+      @Query('category') category?: string,
+      @Query('title') title?: string
+  ) {
+      return this.investorService.findByYear(year, category, title);
   }
 
-  // ✅ UPDATE
-  @Post(':id')
-  async update(@Param('id') id: number, @Body() body: any) {
-    return this.investorService.update(id, body);
+  // UPDATE - Post /investor/update-by-year
+  @Post('update-by-year-category')
+  async updateByYear(@Body() body: any) {
+    return this.investorService.updateByYearAndCategory(body);
   }
-
-  // ✅ DELETE
+  // DELETE BY ID - DELETE /investor/:id
   @Delete(':id')
   async delete(@Param('id') id: number) {
     return this.investorService.delete(id);
   }
 
-    @Delete('year/:year')
-    async deleteByYear(@Param('year') year: string) {
+  // DELETE BY YEAR - DELETE /investor/year/:year
+  @Delete('year/:year')
+  async deleteByYear(@Param('year') year: string) {
     return this.investorService.deleteByYear(year);
-    }
-
-    @Delete(':id')
-    async deleteById(@Param('id') id: number) {
-    return this.investorService.deleteById(+id); 
-    }
+  }
 }
 
 export { InvestorService };

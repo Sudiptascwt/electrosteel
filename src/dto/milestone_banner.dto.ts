@@ -6,6 +6,6 @@ export class MilestoneBannerDto {
   title: string;
 
   @IsString()
-  banner: string;
+  image: string;
 }
 

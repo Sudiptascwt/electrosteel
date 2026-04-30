@@ -28,6 +28,7 @@ export class AdvertisementService {
       const recordToUpdate = existingRecords[0];
       recordToUpdate.title = data.title;
       recordToUpdate.sub_title = data.sub_title;
+      recordToUpdate.box_title = data.box_title;
       recordToUpdate.box_data = boxDataString;
       recordToUpdate.image_title = data.image_title;
       recordToUpdate.image1 = data.image1;
@@ -49,6 +50,7 @@ export class AdvertisementService {
       const newRecord = this.advertisementRepository.create({
         title: data.title,
         sub_title: data.sub_title,
+        box_title: data.box_title,
         box_data: boxDataString, 
         image_title: data.image_title,
         image1: data.image1,
@@ -94,6 +96,7 @@ export class AdvertisementService {
           id: item.id,
           title: item.title,
           sub_title: item.sub_title,
+          box_title: item.box_title,
           box_data: parsedBoxData, 
           image_title: item.image_title,
           image1: item.image1,

@@ -5,6 +5,9 @@ export class Investor {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
+    @Column({ type: 'text', nullable: true })
+    category: string;
+
     @Column({type: 'varchar', length:255, nullable: true })
     year: string;   // FY 2025 - 26
 
@@ -20,6 +23,6 @@ export class Investor {
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 
-    @UpdateDateColumn({ name: 'updated_at', type: 'datetime' })
+    @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
     modifiedAt: Date;
 }

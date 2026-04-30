@@ -471,49 +471,49 @@ export class AboutFrontendService {
 
     async getAllMilestonesData() {
         const [milestone_hero, milestone_heading, milestones] = await Promise.all([
-        this.MilestoneBannerRepository.find(),
-        this.headingsRepository.findOne({ where: { section_type: 'milestones' } }),
-        this.milestoneRepository.find({
-            order: { year: 'ASC', id: 'ASC' }
-        })
+            this.MilestoneBannerRepository.find(),
+            this.headingsRepository.findOne({ where: { section_type: 'milestones' } }),
+            this.milestoneRepository.find({
+                order: { year: 'ASC', id: 'ASC' }
+            })
         ]);
         
         // Validate required data
         if (!milestone_hero || milestone_hero.length === 0) {
-        throw new NotFoundException(`Milestone banner data not found`);
+            throw new NotFoundException(`Milestone banner data not found`);
         }
         
         if (!milestone_heading) {
-        throw new NotFoundException(`Milestone heading data not found`);
+            throw new NotFoundException(`Milestone heading data not found`);
         }
         
         // Return combined structured data
         return {
-        status: true,
-        statusCode: 200,
-        message: 'Milestones data fetched successfully.',
-        data: {
-            hero_banner: milestone_hero,
-            section_heading: {
-            id: milestone_heading.id,
-            title: milestone_heading.title,
-            sub_title: milestone_heading.sub_title,
-            description: milestone_heading.description,
-            section_type: milestone_heading.section_type,
+            status: true,
+            statusCode: 200,
+            message: 'Milestones data fetched successfully.',
+            data: {
+                hero_banner: milestone_hero,
+                section_heading: {
+                id: milestone_heading.id,
+                title: milestone_heading.title,
+                sub_title: milestone_heading.sub_title,
+                description: milestone_heading.description,
+                section_type: milestone_heading.section_type,
+                },
+                milestones_list: milestones.map(milestone => ({
+                id: milestone.id,
+                year: milestone.year,
+                title: milestone.title,
+                description: milestone.description,
+                image: milestone.image,
+                // Add other fields as needed
+                })),
+                summary: {
+                total_milestones: milestones.length,
+                total_years: [...new Set(milestones.map(m => m.year))].length,
+                },
             },
-            milestones_list: milestones.map(milestone => ({
-            id: milestone.id,
-            year: milestone.year,
-            title: milestone.title,
-            description: milestone.description,
-            image: milestone.image,
-            // Add other fields as needed
-            })),
-            summary: {
-            total_milestones: milestones.length,
-            total_years: [...new Set(milestones.map(m => m.year))].length,
-            },
-        },
         };
     }
 }

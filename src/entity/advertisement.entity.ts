@@ -18,6 +18,9 @@ export class Advertisement {
   sub_title: string;
 
   @Column({ type: 'text', nullable: true })
+  box_title: string;
+
+  @Column({ type: 'text', nullable: true })
   box_data: string;
 
   @Column({ type: 'text', nullable: true })

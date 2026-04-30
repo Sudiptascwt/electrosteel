@@ -76,7 +76,7 @@ export class MilestonesService {
       status: true,
       statusCode: 200,
       message: 'Milestone banner data fetched successfully.',
-      milestone_hero_data: milestone,
+      data: milestone,
     };
   }
 

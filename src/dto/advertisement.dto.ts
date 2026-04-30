@@ -11,6 +11,10 @@ export class AdvertisementDto {
 
   @IsOptional()
   @IsString()
+  box_title?: string; 
+
+  @IsOptional()
+  @IsString()
   box_data?: string; 
 
   @IsOptional()
