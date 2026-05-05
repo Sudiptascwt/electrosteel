@@ -17,6 +17,11 @@ export class InvestorDto {
   date: string;
 
   @IsString()
-  @IsNotEmpty()
   src: string;
+
+  category?: string;
+
+  is_latest?: number;
+
+  src_type?: string;
 }

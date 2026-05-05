@@ -21,7 +21,7 @@ import { FeatureModule } from './admin/about/company_profile/feature/feature.mod
 import { Product } from './entity/product.entity';
 import { SectionElectrosteel } from './entity/section_electrosteel.entity';
 import { VideoSection } from './entity/home_video_section.entity';
-import { Testimonial } from './entity/home_testimonial.entity';
+// import { Testimonial } from './entity/home_testimonial.entity';
 import { SocialSectionModule } from './home/social_section/social_section.module';
 import { SocialSection } from './entity/social_section.entity';
 import { Advertisement } from './entity/advertisement.entity';
@@ -73,7 +73,6 @@ import { PoliciesModule } from './admin/policies/policies.module';
 import { NewsLetter } from './entity/news_letter.entity';
 import { NewsLetterModule } from './admin/digital/news_letter/news_letter.module';
 import { Event } from './entity/event.entity';
-import { EventModule } from './admin/digital/event/event.module';
 import { Content } from './entity/content.entity';
 import { ContentModule } from './admin/digital/content/content.module';
 import { ElectrosteelSlider } from './entity/electrosteel_slider.entity';
@@ -178,7 +177,6 @@ import { OfficesModule } from './frontend/about/offices/offices.module';
 import { CsrModule } from './frontend/csr/csr.module';
 import { FrontendLatestElectrosteelModule } from './frontend/digital/latest_electrosteel/latest_electrosteel.module';
 import { FrontendNewsletterModule } from './frontend/digital/news_letters/news_letters.module';
-import { FrontendEventsModule } from './frontend/digital/events/events.module';
 import { FrontendVideosModule } from './frontend/digital/videos/videos.module';
 import { FrontendCommonbannerModule } from './frontend/common_banner/common_banner.module';
 import { FrontendQuartelyResultModule } from './frontend/investors/quarterly_results/quarterly_results.module';
@@ -294,6 +292,15 @@ import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 import { LegendOfEclModule } from './admin/about/legend_of_ecls/legend_of_ecls.module';
 import { InvestorModule } from './admin/investor_files/investor_files.module';
 import { FrontendInvestorModule } from './frontend/investors/investors.module';
+import { EventModule } from './admin/events/events.module';
+import { EventBanner } from 'src/entity/event_banner.entity';
+import { FrontendEventsModule } from './frontend/news_room/news_room.module';
+import { peopleDataModule } from './admin/about/people_data/people_data.module';
+
+import { SectionContent } from 'src/entity/section_contents.entity';
+import { CardContent } from 'src/entity/card_contents.entity';
+import { Testimonial } from 'src/entity/testimonials.entity';
+import { Reward } from 'src/entity/rewards.entity';
 
 @Module({
   imports: [
@@ -314,7 +321,7 @@ import { FrontendInvestorModule } from './frontend/investors/investors.module';
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, Testimonial, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor, EventBanner, SectionContent, CardContent, Testimonial, Reward], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -351,7 +358,6 @@ import { FrontendInvestorModule } from './frontend/investors/investors.module';
     StockYardModule,
     PoliciesModule,
     NewsLetterModule,
-    EventModule,
     ContentModule,
     CareerModule,
     AllBannerModule,
@@ -406,7 +412,6 @@ import { FrontendInvestorModule } from './frontend/investors/investors.module';
     CsrModule,
     FrontendLatestElectrosteelModule,
     FrontendNewsletterModule,
-    FrontendEventsModule,
     FrontendVideosModule,
     FrontendCommonbannerModule,
     FrontendQuartelyResultModule,
@@ -456,7 +461,10 @@ import { FrontendInvestorModule } from './frontend/investors/investors.module';
     AboutFrontendModule,
     LegendOfEclModule,
     InvestorModule,
-    FrontendInvestorModule
+    FrontendInvestorModule,
+    EventModule,
+    FrontendEventsModule,
+    peopleDataModule
   ],
   controllers: [AppController],
   providers: [AppService],

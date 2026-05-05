@@ -5,12 +5,14 @@ import { InvestorService } from './investors.service';
 export class InvestorController {
   constructor(private readonly investorService: InvestorService) {}
   
-  @Get('investors')  
-  async filterByYearOrTitle(
-    @Query('year') year?: string,
-    @Query('title') title?: string,
-    @Query('category') category?: string,
-  ) {
-    return this.investorService.findByYearOrTitle(year, title, category);
-  }
+@Get('investors')  
+async filterByYearOrTitle(
+  @Query('year') year?: string,
+  @Query('title') title?: string,
+  @Query('category') category?: string,
+  @Query('is_latest') is_latest?: string,
+) {
+  const isLatestNum = is_latest ? parseInt(is_latest, 10) : undefined;
+  return this.investorService.findByYearOrTitle(year, title, category, isLatestNum);
+}
 }

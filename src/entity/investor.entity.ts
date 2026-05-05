@@ -20,6 +20,12 @@ export class Investor {
     @Column({ type: 'text', nullable: true })
     src: string;
 
+    @Column({ type: 'varchar', length:255, nullable: true  })
+    src_type: string;
+
+    @Column({ type: 'int', default: 0 })
+    is_latest: number;
+
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

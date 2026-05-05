@@ -40,15 +40,23 @@ export class InvestorController {
 
   // GET ALL - GET /investor/all-investors
   @Get('all-investors')
-  async getAll() {
+  async findAll(
+    @Query('is_latest') is_latest?: string,
+    @Query('category') category?: string,
+    @Query('year') year?: string,
+  ) {
+    const isLatestNum = is_latest ? parseInt(is_latest, 10) : undefined;
+    
+    const result = await this.investorService.findAll(isLatestNum, category, year);
+    
     return {
       message: 'Investor data fetched successfully',
-      data: await this.investorService.findAll(),
+      data: result,
     };
   }
 
   // GET BY YEAR - GET /investor/by-year?year=2024
-  @Get('by-year-category/:year')
+  @Get('by-year-category')
   async getByYear(
       @Query('year') year: string,
       @Query('category') category?: string,
@@ -64,13 +72,13 @@ export class InvestorController {
   }
   // DELETE BY ID - DELETE /investor/:id
   @Delete(':id')
-  async delete(@Param('id') id: number) {
+  async delete(@Query('id') id: number) {
     return this.investorService.delete(id);
   }
 
   // DELETE BY YEAR - DELETE /investor/year/:year
-  @Delete('year/:year')
-  async deleteByYear(@Param('year') year: string) {
+  @Delete('year')
+  async deleteByYear(@Query('year') year: string) {
     return this.investorService.deleteByYear(year);
   }
 }
