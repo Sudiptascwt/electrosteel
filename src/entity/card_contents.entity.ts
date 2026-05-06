@@ -15,10 +15,10 @@ export class CardContent {
   content: string;
 
   @Column()
-  imageUrl: string;
+  image_url: string;
 
   @Column()
-  imageAlt: string;
+  image_alt: string;
 
   @Column({ default: 0 })
   order: number;
@@ -27,8 +27,8 @@ export class CardContent {
   is_active : boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
 }

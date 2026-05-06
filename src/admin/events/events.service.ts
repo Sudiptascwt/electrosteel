@@ -190,80 +190,94 @@ export class EventService {
     return this.createBulk(allEvents);
   }
 
+  // event.service.ts
   async createBulk(eventsDto: EventDto[]): Promise<Event[]> {
-    try {
-      if (!eventsDto || eventsDto.length === 0) {
-        throw new BadRequestException('Events array cannot be empty');
+      try {
+          if (!eventsDto || eventsDto.length === 0) {
+              throw new BadRequestException('Events array cannot be empty');
+          }
+          
+          // Process each event
+          const processedEvents = [];
+          
+          for (let i = 0; i < eventsDto.length; i++) {
+              const event = eventsDto[i];
+              
+              if (!event.title) {
+                  throw new BadRequestException(`Event at index ${i} is missing title`);
+              }
+              
+              // Convert files array to JSON string if it's an array
+              if (event.files && Array.isArray(event.files)) {
+                  event.files = JSON.stringify(event.files);
+              }
+              
+              // Convert empty strings to null (optional)
+              if (event.bannerTitle === "") event.bannerTitle = null;
+              if (event.bannerImage === "") event.bannerImage = null;
+              if (event.description === "") event.description = null;
+              
+              processedEvents.push(event);
+          }
+          
+          // Create and save events
+          const events = this.eventRepo.create(processedEvents);
+          const savedEvents = await this.eventRepo.save(events);
+          
+          return savedEvents;
+      } catch (error) {
+          console.error('Bulk create error:', error);
+          throw new BadRequestException('Failed to create bulk events: ' + error.message);
       }
-      
-      // Validate each event
-      for (let i = 0; i < eventsDto.length; i++) {
-        const event = eventsDto[i];
-        
-        if (!event.title) {
-          throw new BadRequestException(`Event at index ${i} is missing title`);
-        }
-        
-        // Set default type if none selected
-        if (!event.isLatest && !event.isUpcoming && !event.isHandpicked) {
-          console.log(`Event "${event.title}" has no type selected. Setting as latest by default.`);
-          event.isLatest = true; // Set default type
-        }
-      }
-      
-      // Create and save events
-      const events = this.eventRepo.create(eventsDto);
-      const savedEvents = await this.eventRepo.save(events);
-      
-      // Log the results by type
-      const latestCount = savedEvents.filter(e => e.isLatest).length;
-      const upcomingCount = savedEvents.filter(e => e.isUpcoming).length;
-      const handpickedCount = savedEvents.filter(e => e.isHandpicked).length;
-      
-      console.log(`Bulk create results: Latest: ${latestCount}, Upcoming: ${upcomingCount}, Handpicked: ${handpickedCount}`);
-      
-      return savedEvents;
-    } catch (error) {
-      console.error('Bulk create error:', error);
-      throw new BadRequestException('Failed to create bulk events: ' + error.message);
-    }
   }
 
   // Get events by type (latest, upcoming, handpicked, or all)
   async getEventsByType(type?: string, limit: number = 50) {
-    let whereCondition: any = {};
-    
-    switch (type) {
-      case 'latest':
-        whereCondition = { isLatest: true };
-        break;
-      case 'upcoming':
-        whereCondition = { isUpcoming: true };
-        break;
-      case 'handpicked':
-        whereCondition = { isHandpicked: true };
-        break;
-      case 'all':
-        whereCondition = {};
-        break;
-      default:
-        whereCondition = {};
-        break;
-    }
-    
-    const events = await this.eventRepo.find({
-      where: whereCondition,
-      order: { date: 'DESC', order: 'ASC' },
-      take: limit
-    });
-    
-    return {
-      type: type || 'all',
-      count: events.length,
-      events
-    };
-  }
+      let whereCondition: any = {};
+      
+      switch (type) {
+          case 'latest':
+              whereCondition = { isLatest: true };
+              break;
+          case 'upcoming':
+              whereCondition = { isUpcoming: true };
+              break;
+          case 'handpicked':
+              whereCondition = { isHandpicked: true };
+              break;
+          default:
+              whereCondition = {};
+              break;
+      }
+      
+      const events = await this.eventRepo.find({
+          where: whereCondition,
+          order: { date: 'DESC', order: 'ASC' },
+          take: limit
+      });
 
+      const parsedEvents = events.map(event => {
+          const parsedEvent = { ...event }; 
+          
+          if (parsedEvent.files && typeof parsedEvent.files === 'string') {
+              try {
+                  parsedEvent.files = JSON.parse(parsedEvent.files);
+              } catch (e) {
+                  console.warn(`Failed to parse files for event ID ${event.id}:`, e);
+              }
+          } else if (!parsedEvent.files) {
+            console.warn(`Failed to parse files for event ID ${event.id}:`);
+          }
+          
+          return parsedEvent;
+      });
+      
+      return {
+          type: type || 'all',
+          count: parsedEvents.length,
+          events: parsedEvents  // files will be array here
+      };
+  }
   // Rest of your service methods...
   async findOne(id: number): Promise<Event> {
     const event = await this.eventRepo.findOne({ where: { id } });

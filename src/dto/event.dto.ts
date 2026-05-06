@@ -28,6 +28,22 @@ export class EventDto {
 
   @IsOptional()
   @IsString()
+  files?: string;
+
+  @IsOptional()
+  @IsString()
+  video?: string;
+
+  @IsOptional()
+  @IsString()
+  bannerTitle?: string;
+
+  @IsOptional()
+  @IsString()
+  bannerImage?: string;
+
+  @IsOptional()
+  @IsString()
   link?: string;
 
   @IsOptional()

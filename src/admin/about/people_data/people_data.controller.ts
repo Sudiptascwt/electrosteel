@@ -1,7 +1,12 @@
 // controllers/people_data.controller.ts
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { peopleDataService } from './people_data.service';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/role/roles.guard';
+import { Roles } from 'src/role/roles.decorator';
+import { UserRole } from 'src/admin/users/user.entity';
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('about/people-data')
 export class peopleDataController {
   constructor(private readonly peopleDataService: peopleDataService) {}
@@ -16,18 +21,6 @@ export class peopleDataController {
   @Post('content')
   async upsertSectionContent(@Body() body: any) {
     return this.peopleDataService.upsertSectionContent(body);
-  }
-
-  // ==================== CARDS ====================
-  
-  @Get('cards')
-  async getCards() {
-    return this.peopleDataService.getCards();
-  }
-
-  @Post('cards')
-  async upsertCards(@Body() body: any) {
-    return this.peopleDataService.upsertCards(body);
   }
 
   // ==================== TESTIMONIALS ====================
@@ -52,5 +45,15 @@ export class peopleDataController {
   @Post('rewards')
   async upsertRewards(@Body() body: any) {
     return this.peopleDataService.upsertRewards(body);
+  }
+
+  @Get('people-content')
+  async getPeopleContent() {
+    return this.peopleDataService.getPeopleContent();
+  }
+
+  @Post('people-content')
+  async upsertPeopleContent(@Body() body: any) {
+    return this.peopleDataService.upsertPeopleContent(body);
   }
 }

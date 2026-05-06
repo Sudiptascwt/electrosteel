@@ -39,6 +39,12 @@ import { LegendEclVideo } from 'src/entity/legend_ecl_video_section.entity';
 import { Milestone } from 'src/entity/milestones.entity';
 import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
 
+import { SectionContent } from 'src/entity/section_contents.entity';
+import { Testimonial } from 'src/entity/testimonials.entity';
+import { Reward } from 'src/entity/rewards.entity';
+import { Blogs } from 'src/entity/blogs.entity';
+import { AllBanner } from 'src/entity/all_page_banner_image.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -72,7 +78,12 @@ import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
       LegendEclCard,
       LegendEclVideo,
       Milestone,
-      MilestoneBanner
+      MilestoneBanner,
+      SectionContent,
+      Testimonial,
+      Reward,
+      Blogs,
+      AllBanner
     ]),
   ],
   controllers: [AboutFrontendController],

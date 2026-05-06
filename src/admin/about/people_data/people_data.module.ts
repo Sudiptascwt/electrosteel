@@ -8,6 +8,7 @@ import { SectionContent } from '../../../entity/section_contents.entity';
 import { CardContent } from '../../../entity/card_contents.entity';
 import { Testimonial } from '../../../entity/testimonials.entity';
 import { Reward } from '../../../entity/rewards.entity';
+import { Blogs } from 'src/entity/blogs.entity';
 
 
 // import { ButtonSwiperImage } from './entities/button-swiper-image.entity';
@@ -21,6 +22,7 @@ import { Reward } from '../../../entity/rewards.entity';
       CardContent,
       Testimonial,
       Reward,
+      Blogs
     //   ButtonSwiperImage,
     //   SectionsConfig,
     //   PageContent,

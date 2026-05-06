@@ -25,6 +25,18 @@ export class Event {
   image: string;
 
   @Column({ type: 'text', nullable: true })
+  files: string;
+
+  @Column({ type: 'text', nullable: true })
+  video: string;
+
+  @Column({ type: 'text', nullable: true })
+  bannerTitle: string;
+
+  @Column({ type: 'text', nullable: true })
+  bannerImage: string;
+
+  @Column({ type: 'text', nullable: true })
   link: string;
 
   @Column({ type: 'text', nullable: true })

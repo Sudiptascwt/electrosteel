@@ -34,6 +34,11 @@ import { LegendEclCard } from '../../entity/legend_ecl_cards.entity';
 import { LegendEclVideo } from '../../entity/legend_ecl_video_section.entity';
 import { Milestone } from 'src/entity/milestones.entity';
 import { MilestoneBanner } from 'src/entity/milestone_banner.entity';
+import { SectionContent } from 'src/entity/section_contents.entity';
+import { Testimonial } from 'src/entity/testimonials.entity';
+import { Reward } from 'src/entity/rewards.entity';
+import { Blogs } from 'src/entity/blogs.entity';
+import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 
 @Injectable()
 export class AboutFrontendService {
@@ -130,6 +135,22 @@ export class AboutFrontendService {
         private milestoneRepository: Repository<Milestone>,
         @InjectRepository(MilestoneBanner)
         private MilestoneBannerRepository: Repository<MilestoneBanner>,
+
+        @InjectRepository(SectionContent)
+        private sectionRepo: Repository<SectionContent>,
+
+        @InjectRepository(Testimonial)
+        private testimonialRepo: Repository<Testimonial>,
+
+        @InjectRepository(Reward)
+        private rewardRepo: Repository<Reward>,
+
+        @InjectRepository(Blogs)
+        private BlogsRepo: Repository<Blogs>,
+
+        @InjectRepository(AllBanner)
+        private readonly allBannerRepo: Repository<AllBanner>,
+
     ) {}
 
     //////////AboutFrontend/////////////
@@ -514,6 +535,34 @@ export class AboutFrontendService {
                 total_years: [...new Set(milestones.map(m => m.year))].length,
                 },
             },
+        };
+    }
+
+    async PeopleData() {
+        const [sectionRepo, testimonialRepo, rewardRepo,people_data_content,people_hero_data,people_life_at_ecl] = await Promise.all([
+            await this.sectionRepo.find({ take: 1 }),
+            await this.testimonialRepo.find({ take: 1 }),
+            await this.rewardRepo.find({ take: 1 }),
+            await this.BlogsRepo.find({where: { category: 'people_data_content' }}),
+            await this.allBannerRepo.findOne({
+            where: { page_name: 'people-hero' }
+            }),
+            await this.BlogsRepo.find({where: { category: 'people-life-at-ecl' }})
+        ]);
+        
+        // Return combined structured data
+        return {
+            status: true,
+            statusCode: 200,
+            message: 'People data fetched successfully.',
+            data:{
+                section_content: sectionRepo.length > 0 ? sectionRepo[0] : null,
+                testimonial: testimonialRepo.length > 0 ? testimonialRepo[0] : null,
+                reward: rewardRepo.length > 0 ? rewardRepo[0] : null,
+                people_data_content: people_data_content.length > 0 ? people_data_content : [],
+                people_hero_data: people_hero_data || null,
+                people_life_at_ecl: people_life_at_ecl || null,
+            }
         };
     }
 }

@@ -5,27 +5,21 @@ export class Testimonial {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
-
   @Column({ nullable: true })
-  designation: string;
+  title: string;
 
-  @Column({ type: 'text' })
-  testimonial: string;
+  @Column({ type: 'text', nullable: true })
+  description: string;
 
-  @Column({ nullable: true })
-  imageUrl: string;
+  @Column({ type: 'text', nullable: true })
+  image1: string;
 
-  @Column({ default: 0 })
-  order: number;
-
-  @Column({ default: true })
-  is_active : boolean;
+  @Column({ type: 'text', nullable: true })
+  image2: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
 }

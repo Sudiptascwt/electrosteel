@@ -9,23 +9,14 @@ export class SectionContent {
   @Column({ nullable: true })
   title: string;
 
-  @Column({ nullable: true })
-  subtitle: string;
-
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ nullable: true })
-  image_url: string;
+  @Column({ type: 'text', nullable: true })
+  image1: string;
 
-  @Column({ nullable: true })
-  image_alt: string;
-
-  @Column({ default: 0 })
-  order: number;
-
-  @Column({ default: true })
-  is_active : boolean;
+  @Column({ type: 'text', nullable: true })
+  image2: string;
 
   @CreateDateColumn()
   created_at: Date;

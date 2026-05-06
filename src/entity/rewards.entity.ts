@@ -1,3 +1,4 @@
+import { text } from 'stream/consumers';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 // entity/reward.entity.ts
 @Entity('rewards')
@@ -6,29 +7,17 @@ export class Reward {
   id: number;
 
   @Column()
-  category: string; 
-
-  @Column()
   title: string;
 
   @Column({ nullable: true })
-  description: string;
+  pragatiData: string;
 
-  @Column({ nullable: true })
-  image_url: string;
-
-  @Column({ type: 'date', nullable: true })
-  awardedDate: Date;
-
-  @Column({ default: 0 })
-  order: number;
-
-  @Column({ default: true })
-  is_active : boolean;
+  @Column({ type: 'text', nullable: true })
+  pratihbaImages: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
 }

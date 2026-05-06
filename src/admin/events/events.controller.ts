@@ -31,50 +31,55 @@ export class EventController {
         handpicked?: EventDto[];
     }) {
         const allEvents: EventDto[] = [];
+        
         if (body.latest && body.latest.length) {
-        const latestEvents = body.latest.map(event => ({
-            ...event,
-            isLatest: true,
-            isUpcoming: false,
-            isHandpicked: false
-        }));
-        allEvents.push(...latestEvents);
+            const latestEvents = body.latest.map(event => ({
+                ...event,
+                isLatest: true,
+                isUpcoming: false,
+                isHandpicked: false
+            }));
+            allEvents.push(...latestEvents);
         }
+        
         if (body.upcoming && body.upcoming.length) {
-        const upcomingEvents = body.upcoming.map(event => ({
-            ...event,
-            isLatest: false,
-            isUpcoming: true,
-            isHandpicked: false
-        }));
-        allEvents.push(...upcomingEvents);
+            const upcomingEvents = body.upcoming.map(event => ({
+                ...event,
+                isLatest: false,
+                isUpcoming: true,
+                isHandpicked: false
+            }));
+            allEvents.push(...upcomingEvents);
         }
+        
         if (body.handpicked && body.handpicked.length) {
-        const handpickedEvents = body.handpicked.map(event => ({
-            ...event,
-            isLatest: false,
-            isUpcoming: false,
-            isHandpicked: true
-        }));
-        allEvents.push(...handpickedEvents);
+            const handpickedEvents = body.handpicked.map(event => ({
+                ...event,
+                isLatest: false,
+                isUpcoming: false,
+                isHandpicked: true
+            }));
+            allEvents.push(...handpickedEvents);
         }
         
         if (allEvents.length === 0) {
-        return {
-            message: 'No events provided to create',
-            statusCode: 400
-        };
+            return {
+                message: 'No events provided to create',
+                statusCode: 400
+            };
         }
+        
         const data = await this.eventService.createBulk(allEvents);
+        
         return {
-        message: `${data.length} events created successfully`,
-        summary: {
-            total: data.length,
-            latest: body.latest?.length || 0,
-            upcoming: body.upcoming?.length || 0,
-            handpicked: body.handpicked?.length || 0
-        },
-        data
+            message: `${data.length} events created successfully`,
+            summary: {
+                total: data.length,
+                latest: body.latest?.length || 0,
+                upcoming: body.upcoming?.length || 0,
+                handpicked: body.handpicked?.length || 0
+            },
+            data
         };
     }
 
@@ -92,14 +97,14 @@ export class EventController {
     async createBulk(@Body() events: EventDto[]) {
         const data = await this.eventService.createBulk(events);
         return {
-        message: `${data.length} events created successfully`,
-        summary: {
-            total: data.length,
-            latest: data.filter(e => e.isLatest).length,
-            upcoming: data.filter(e => e.isUpcoming).length,
-            handpicked: data.filter(e => e.isHandpicked).length
-        },
-        data
+            message: `${data.length} events created successfully`,
+            summary: {
+                total: data.length,
+                latest: data.filter(e => e.isLatest).length,
+                upcoming: data.filter(e => e.isUpcoming).length,
+                handpicked: data.filter(e => e.isHandpicked).length
+            },
+            data
         };
     }
 
@@ -108,11 +113,11 @@ export class EventController {
         @Query('type') type?: string,
         @Query('limit') limit?: string,
     ) {
-        const limitNum = limit ? parseInt(limit, 50) : 50;
+        const limitNum = limit ? parseInt(limit, 10) : 50; // Fixed: base 10, not 50
         const data = await this.eventService.getEventsByType(type, limitNum);
         return {
-        message: 'Events fetched successfully',
-        data
+            message: 'Events fetched successfully',
+            data
         };
     }
 

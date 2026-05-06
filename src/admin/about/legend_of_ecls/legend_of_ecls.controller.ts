@@ -1,9 +1,14 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { LegendOfEclService } from './legend_of_ecls.service';
 import { LegendHeroSectionDto } from 'src/dto/legend_of_ecl_hero.dto';
 import { LegendEclCardDto } from 'src/dto/legend_ecl_cards.dto';
 import { LegendEclVideoDto } from 'src/dto/legend_ecl_video_section.dto';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/role/roles.guard';
+import { Roles } from 'src/role/roles.decorator';
+import { UserRole } from 'src/admin/users/user.entity';
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('about/legend-of-ecl')
 export class LegendOfEclController {
   constructor(private readonly legendOfEclService: LegendOfEclService) {}

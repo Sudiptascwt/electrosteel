@@ -55,6 +55,12 @@ export class AboutFrontendController {
     return data;
   }
 
+  @Get('people-data')
+  async PeopleData() {
+    const data = await this.AboutService.PeopleData();
+    return data;
+  }
+
 }
 export { AboutFrontendService };
 

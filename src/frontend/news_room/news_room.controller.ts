@@ -19,7 +19,7 @@ async getEventsByType(
 ) {
   const limitNum = limit ? parseInt(limit, 10) : 50;
   const includeHeroBool = includeHero === 'true' || includeHero === '1';
-  const data = await this.eventService.getEventsByType(type, limitNum, includeHeroBool);
+  const data = await this.eventService.getEventsByType(type, limitNum);
   return {
     message: 'Events fetched successfully',
     data

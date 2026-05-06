@@ -35,14 +35,14 @@ import { AllOfficeDetails } from './entity/office_details.entity';
 import { ContactDetails } from './entity/contact_details.entity';
 import { ContactDetailsModule } from './admin/contact_details/contact_details.module';
 import { product_applications } from './entity/product_application.entity';
-import { ProductApplicationsModule } from './admin/products/product.module';
+// import { ProductApplicationsModule } from './admin/products/product.module';
 import { product_application_images } from './entity/product_application_images.entity';
 import { ProductType } from './entity/product_type.entity';
-import { ProductTypeModule } from './admin/products/product_types/product_type.module';
+// import { ProductTypeModule } from './admin/products/product_types/product_type.module';
 import { SocialPlatform } from './entity/social_platform.entity';
 import { ManufacturingModule } from './admin/manufacturing_unit/manufacturing_unit.module';
 import { ManufacturingUnit } from './entity/manufacturing.entity';
-import { ProductBrochuresModule } from './admin/products/product_brochures/product_brochures.module';
+// import { ProductBrochuresModule } from './admin/products/product_brochures/product_brochures.module';
 import { ProductBrochures } from './entity/product_brochures.entity';
 import { Facility } from './entity/facility.entity';
 import { FacilityModule } from './admin/facility/facility.module';
@@ -208,7 +208,7 @@ import { ActivityLogSubscriber } from './common/activity-logs/activity-log.subsc
 import { AllExceptionsFilter } from './common/activity-logs/all-exceptions.filter';
 import { ActivityLog } from './entity/activity-log.entity'
 import { MiddlewareConsumer, NestModule } from '@nestjs/common';
-import { ProductDuctileIronModule } from './admin/products/product_duc_iron/product_ductile_iron_pipes.module';
+// import { ProductDuctileIronModule } from './admin/products/product_duc_iron/product_ductile_iron_pipes.module';
 import { DuctileIronPipesOverview } from './entity/ductile_iron_pipes_overview.entity';
 import { DuctileIronPipeDetails } from './entity/ductile_iron_pipes_details.entity';
 import { DuctileIronPipeApplications } from './entity/ductile_iron_pipes_application.entity';
@@ -216,16 +216,16 @@ import { PipesJointing } from './entity/pipes_jointing.entity';
 import { PipesJointingDetails } from './entity/pipes_jointing_details.entity';
 import { InternalPipes } from './entity/pipes_internal.entity';
 import { ExternalPipes } from './entity/pipes_external.entity';
-import { InternalPipesModule } from './admin/products/product_duc_iron/internal_pipes/internal_pipes.module';
-import { ExternalPipesModule } from './admin/products/product_duc_iron/external_pipes/external_pipes.module';
-import { ProductDuctileIronFittingsModule } from './admin/products/product_ductile_iron_fittings/product_ductile_iron_fittings.module';
+// import { InternalPipesModule } from './admin/products/product_duc_iron/internal_pipes/internal_pipes.module';
+// import { ExternalPipesModule } from './admin/products/product_duc_iron/external_pipes/external_pipes.module';
+// import { ProductDuctileIronFittingsModule } from './admin/products/product_ductile_iron_fittings/product_ductile_iron_fittings.module';
 import { DuctileIronFittingsOverview } from './entity/ductile_iron_fittings_overview.entity';
 import { DuctileIronFittingsDetails } from './entity/ductile_iron_fittings_details.entity';
 import { DuctileIronFittingsApplications } from './entity/ductile_iron_fittings_application.entity';
 import { FittingsPipesJointing } from './entity/ductile_iron_fittings_pipe_jointing.entity';
 import { FittingsPipesJointingDetails } from './entity/ductile_iron_fittings_pipes_jointing_details.entity';
-import { FittingsExternalsModule } from './admin/products/product_duc_iron/external_pipes/fittings_external_pipes.module';
-import { FittingsInternalModule } from './admin/products/product_duc_iron/internal_pipes/fittings_internal_pipes.module';
+// import { FittingsExternalsModule } from './admin/products/product_duc_iron/external_pipes/fittings_external_pipes.module';
+// import { FittingsInternalModule } from './admin/products/product_duc_iron/internal_pipes/fittings_internal_pipes.module';
 import { FittingsExternalPipes } from './entity/fittings_external.entity';
 import { FittingsInternalPipes } from './entity/fittings_internal.entity';
 import { FrontendBlogsModule } from './frontend/blogs/blogs.module';
@@ -341,10 +341,10 @@ import { Reward } from 'src/entity/rewards.entity';
     OfficeDetailsModule,
     AllOfficeDetailsModule,
     ContactDetailsModule,
-    ProductApplicationsModule,
-    ProductTypeModule,
+    // ProductApplicationsModule,
+    // ProductTypeModule,
     ManufacturingModule,
-    ProductBrochuresModule,
+    // ProductBrochuresModule,
     FacilityModule,
     MetaTagModule,
     // PipeArtModule,
@@ -436,12 +436,12 @@ import { Reward } from 'src/entity/rewards.entity';
     FrontendCreditRatingsModule,
     FrontendInvestorPresentationDocumentsModule,
     FrontendCsrProjectModule,
-    ProductDuctileIronModule,
-    InternalPipesModule,
-    ExternalPipesModule,
-    ProductDuctileIronFittingsModule,
-    FittingsExternalsModule,
-    FittingsInternalModule,
+    // ProductDuctileIronModule,
+    // InternalPipesModule,
+    // ExternalPipesModule,
+    // ProductDuctileIronFittingsModule,
+    // FittingsExternalsModule,
+    // FittingsInternalModule,
     FrontendBlogsModule,
     DisclosuresModule,
     FrontendClosureModule,
