@@ -12,19 +12,65 @@ export class BlogsService {
     private readonly BlogsRepo: Repository<Blogs>,
   ) {}
 
-  async create(createDto: BlogsDto): Promise<Blogs> {
-    // Convert images array to JSON string if it's an array
-    const dataToSave = { ...createDto };
-    if (dataToSave.images && Array.isArray(dataToSave.images)) {
-      dataToSave.images = JSON.stringify(dataToSave.images);
-    }
+  // async create(createDto: BlogsDto): Promise<Blogs> {
+  //   // Convert images array to JSON string if it's an array
+  //   const dataToSave = { ...createDto };
+  //   if (dataToSave.images && Array.isArray(dataToSave.images)) {
+  //     dataToSave.images = JSON.stringify(dataToSave.images);
+  //   }
 
-    if (dataToSave.slider_image && Array.isArray(dataToSave.slider_image)) {
-      dataToSave.slider_image = JSON.stringify(dataToSave.slider_image);
-    }
+  //   if (dataToSave.slider_image && Array.isArray(dataToSave.slider_image)) {
+  //     dataToSave.slider_image = JSON.stringify(dataToSave.slider_image);
+  //   }
     
-    const unit = this.BlogsRepo.create(dataToSave);
-    return await this.BlogsRepo.save(unit);
+  //   const unit = this.BlogsRepo.create(dataToSave);
+  //   return await this.BlogsRepo.save(unit);
+  // }
+
+  async create(createDto: BlogsDto): Promise<Blogs> {
+      const dataToSave = { ...createDto };
+      
+      // Generate slug from title if slug is not provided
+      if (createDto.title && !createDto.slug) {
+          dataToSave.slug = await this.generateUniqueSlug(createDto.title);
+      }
+      
+      if (dataToSave.images && Array.isArray(dataToSave.images)) {
+          dataToSave.images = JSON.stringify(dataToSave.images);
+      }
+
+      if (dataToSave.slider_image && Array.isArray(dataToSave.slider_image)) {
+          dataToSave.slider_image = JSON.stringify(dataToSave.slider_image);
+      }
+      
+      const unit = this.BlogsRepo.create(dataToSave);
+      return await this.BlogsRepo.save(unit);
+  }
+  
+  private async generateUniqueSlug(title: string): Promise<string> {
+      const baseSlug = this.createSlug(title);
+      let slug = baseSlug;
+      let counter = 1;
+      
+      // Check if slug already exists
+      while (await this.BlogsRepo.findOne({ where: { slug } })) {
+          slug = `${baseSlug}-${counter}`;
+          counter++;
+      }
+      
+      return slug;
+  }
+
+  private createSlug(text: string): string {
+      return text
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-]+/g, '')
+          .replace(/\-\-+/g, '-')
+          .replace(/^-+/, '')
+          .replace(/-+$/, '');
   }
 
   async findAll(): Promise<Blogs[]> {
@@ -128,4 +174,13 @@ export class BlogsService {
       return unit;
     });
   }
+}
+
+function slugify(title: string, arg1: {
+  lower: boolean; // Convert to lowercase
+  strict: boolean; // Remove special characters
+  locale: string; // Language locale
+  trim: boolean; // Trim leading/trailing spaces
+}): string {
+  throw new Error('Function not implemented.');
 }

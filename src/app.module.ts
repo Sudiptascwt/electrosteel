@@ -301,6 +301,16 @@ import { SectionContent } from 'src/entity/section_contents.entity';
 import { CardContent } from 'src/entity/card_contents.entity';
 import { Testimonial } from 'src/entity/testimonials.entity';
 import { Reward } from 'src/entity/rewards.entity';
+import { CommonTitle } from 'src/entity/common_titles.entity'; 
+import { SectionModule } from './admin/products/ductile_iron_pipes/ductile_iron_pipes.module';
+
+import { OverviewDuctileIronPipes } from 'src/entity/overview.entity';
+import { ProductDetails } from 'src/entity/product-details.entity';
+import { Application } from 'src/entity/application.entity';
+import { JointingSystems } from 'src/entity/jointing-systems.entity';
+import { ProtectionInternal } from 'src/entity/protection-internal.entity';
+import { ProtectionExternal } from 'src/entity/protection-external.entity';
+import { frontendProductModule } from './frontend/products/products.module'
 
 @Module({
   imports: [
@@ -321,7 +331,7 @@ import { Reward } from 'src/entity/rewards.entity';
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor, EventBanner, SectionContent, CardContent, Testimonial, Reward], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor, EventBanner, SectionContent, CardContent, Testimonial, Reward, CommonTitle, OverviewDuctileIronPipes, ProductDetails, Application, JointingSystems, ProtectionInternal, ProtectionExternal], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -464,7 +474,9 @@ import { Reward } from 'src/entity/rewards.entity';
     FrontendInvestorModule,
     EventModule,
     FrontendEventsModule,
-    peopleDataModule
+    peopleDataModule,
+    SectionModule,
+    frontendProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

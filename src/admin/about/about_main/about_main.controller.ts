@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, BadRequestException, HttpStatus } from '@nestjs/common';
 import { AboutMainService } from './about_main.service';
 import { AboutMainDto } from '../../../dto/about_main.dto';
 import { UseGuards } from '@nestjs/common';
@@ -10,6 +10,7 @@ import { growing_strength_dataDto } from '../../../dto/growing_strength_data.dto
 import { AboutDuctileIronDto } from 'src/dto/about_ductile_iron.dto';
 import { ManufacturingFacilitiesDto } from 'src/dto/manufacturing_facilities.dto';
 import { about_technology_innovationDto } from 'src/dto/about_technology_innovation.dto';
+import { CommonTitleDto } from 'src/dto/common_titles.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -78,5 +79,18 @@ export class AboutMainController {
   @Get('technology-innovation')
   async getAllTechnologyInnovations() {
     return this.service.getAllTechnologyInnovations();
+  }
+
+  @Post('save-common-title')
+  async saveCommonTitle(@Body() data: CommonTitleDto) {
+    return this.service.saveCommonTitle(data);
+  }
+
+  @Get('save-common-title/:category')
+  async findBlogByCategoryGet(@Param('category') category: string) {
+    if (!category) {
+      throw new BadRequestException('Category is required');
+    }
+    return this.service.getCommonTitle(category);
   }
 }

@@ -44,6 +44,7 @@ import { Testimonial } from 'src/entity/testimonials.entity';
 import { Reward } from 'src/entity/rewards.entity';
 import { Blogs } from 'src/entity/blogs.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
+import { CommonTitle } from 'src/entity/common_titles.entity';
 
 @Module({
   imports: [
@@ -83,7 +84,8 @@ import { AllBanner } from 'src/entity/all_page_banner_image.entity';
       Testimonial,
       Reward,
       Blogs,
-      AllBanner
+      AllBanner,
+      CommonTitle
     ]),
   ],
   controllers: [AboutFrontendController],

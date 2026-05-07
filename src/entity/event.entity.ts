@@ -12,6 +12,9 @@ export class Event {
   @Column({ type: 'text', nullable: true })
   title: string;
 
+  @Column({ type: 'varchar', length:255, nullable: true })
+  slug: string;
+
   @Column({ type: 'text', nullable: true})
   date: string;
 

@@ -14,6 +14,8 @@ import { AboutPeopleData } from 'src/entity/about_people_data.entity';
 import { AboutPeopleDataDto } from 'src/dto/about_people_data.dto';
 import { about_technology_innovation } from 'src/entity/about_technology_innovation.entity';
 import { about_technology_innovationDto } from 'src/dto/about_technology_innovation.dto';
+import { CommonTitleDto } from 'src/dto/common_titles.dto';
+import { CommonTitle } from 'src/entity/common_titles.entity';
 
 @Injectable()
 export class AboutMainService {
@@ -38,6 +40,9 @@ export class AboutMainService {
 
     @InjectRepository(about_technology_innovation)
     private readonly about_technology_innovationRepository: Repository<about_technology_innovation>,
+
+    @InjectRepository(CommonTitle)
+    private readonly CommonTitleRepository: Repository<CommonTitle>,
   ) {}
 
   // ============ About Main Methods ============
@@ -445,5 +450,73 @@ export class AboutMainService {
         : 'About Technology Innovations data found.',
       data: existingData
     };
+  }
+
+  async saveCommonTitle(data: CommonTitleDto) {
+    if (!data) {
+      throw new Error("No data received");
+    }
+    let existingRecords = await this.CommonTitleRepository.find({
+        where: { category: data.category }
+    });
+    
+    if (existingRecords && existingRecords.length > 0) {
+      const recordToUpdate = existingRecords[0];
+      recordToUpdate.title = data.title;
+      recordToUpdate.sub_title = data.sub_title;
+      recordToUpdate.category = data.category;
+      recordToUpdate.description = data.description;
+      
+      const savedRecord = await this.CommonTitleRepository.save(recordToUpdate);
+      
+      return {
+        status: true,
+        statusCode: 200,
+        message: 'Common title data updated successfully.',
+        data: savedRecord
+      };
+    } else {
+      const newRecord = this.CommonTitleRepository.create({
+        title: data.title,
+        category: data.category,
+        sub_title: data.sub_title,
+        description: data.description
+      });
+      
+      const savedRecord = await this.CommonTitleRepository.save(newRecord);
+      
+      return {
+        status: true,
+        statusCode: 201,
+        message: 'Common title data created successfully.',
+        data: savedRecord
+      };
+    }
+  }
+
+  async getCommonTitle(category: string) {
+      if (!category) {
+          throw new Error('Category is required');
+      }
+      
+      const existingData = await this.CommonTitleRepository.findOne({
+          where: { category: category }
+      });
+      
+      if (!existingData) {
+        return {
+            status: false,
+            statusCode: 404,
+            message: 'Common title not found',
+            data: null
+        };
+      }
+      
+      return {
+          status: true,
+          statusCode: 200,
+          message: 'Common title data fetched successfully',
+          data: existingData
+      };
   }
 }

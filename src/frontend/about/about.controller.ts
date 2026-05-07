@@ -1,4 +1,4 @@
-import { Controller,Get } from '@nestjs/common';
+import { BadRequestException, Controller,Get, HttpStatus, Param } from '@nestjs/common';
 import { AboutFrontendService } from './about.service';
 
 @Controller('frontend/about')
@@ -60,7 +60,32 @@ export class AboutFrontendController {
     const data = await this.AboutService.PeopleData();
     return data;
   }
+  @Get('common-title/:category')
+  async findBlogByCategoryGet(@Param('category') category: string) {
+    if (!category) {
+      throw new BadRequestException('Category is required');
+    }
+    return this.AboutService.getCommonTitle(category);
+  }
 
+
+  @Get('page-name/:page_name')
+    async findByPageName(@Param('page_name') page_name: string) {
+      try {
+        if (!page_name) {
+          throw new BadRequestException('page_name is required');
+        }
+        const data = await this.AboutService.findByPageName(page_name);
+        return {
+          status: true,
+          statusCode: HttpStatus.OK,
+          message: 'Page meta fetched successfully',
+          data,
+        };
+      } catch (error) {
+        throw new BadRequestException(error.message);
+      }
+    }
 }
 export { AboutFrontendService };
 

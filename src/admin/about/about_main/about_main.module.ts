@@ -9,9 +9,10 @@ import { ManufacturingFacilities } from 'src/entity/manufacturing_facilities.ent
 import { headings } from 'src/entity/headings.entity';
 import { AboutPeopleData } from 'src/entity/about_people_data.entity';
 import { about_technology_innovation } from 'src/entity/about_technology_innovation.entity';
+import {  CommonTitle } from 'src/entity/common_titles.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, headings, AboutPeopleData, about_technology_innovation])],
+  imports: [TypeOrmModule.forFeature([AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, headings, AboutPeopleData, about_technology_innovation, CommonTitle])],
   providers: [AboutMainService],
   controllers: [AboutMainController],
 })

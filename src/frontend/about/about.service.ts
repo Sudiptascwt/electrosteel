@@ -39,6 +39,7 @@ import { Testimonial } from 'src/entity/testimonials.entity';
 import { Reward } from 'src/entity/rewards.entity';
 import { Blogs } from 'src/entity/blogs.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
+import { CommonTitle } from 'src/entity/common_titles.entity';
 
 @Injectable()
 export class AboutFrontendService {
@@ -150,6 +151,9 @@ export class AboutFrontendService {
 
         @InjectRepository(AllBanner)
         private readonly allBannerRepo: Repository<AllBanner>,
+
+        @InjectRepository(CommonTitle)
+        private readonly CommonTitleRepository: Repository<CommonTitle>
 
     ) {}
 
@@ -539,30 +543,124 @@ export class AboutFrontendService {
     }
 
     async PeopleData() {
-        const [sectionRepo, testimonialRepo, rewardRepo,people_data_content,people_hero_data,people_life_at_ecl] = await Promise.all([
-            await this.sectionRepo.find({ take: 1 }),
-            await this.testimonialRepo.find({ take: 1 }),
-            await this.rewardRepo.find({ take: 1 }),
-            await this.BlogsRepo.find({where: { category: 'people_data_content' }}),
-            await this.allBannerRepo.findOne({
-            where: { page_name: 'people-hero' }
-            }),
-            await this.BlogsRepo.find({where: { category: 'people-life-at-ecl' }})
+        const [sectionRepo, testimonialRepo, rewardRepo, peopleDataContent, peopleHeroData, peopleLifeAtEcl] = await Promise.all([
+            this.sectionRepo.find({ take: 1 }),
+            this.testimonialRepo.find({ take: 1 }),
+            this.rewardRepo.find({ take: 1 }),
+            this.BlogsRepo.find({ where: { category: 'people_data_content' } }),
+            this.allBannerRepo.findOne({ where: { page_name: 'people-hero' } }),
+            this.BlogsRepo.findOne({ where: { category: 'people-life-at-ecl' } })
         ]);
+
+        const parseJsonField = (value: any) => {
+            if (!value) return null;
+            if (typeof value !== 'string') return value;
+            try {
+                const parsed = JSON.parse(value);
+                // Recursively parse nested JSON if needed
+                if (typeof parsed == 'object' && parsed != null) {
+                    for (const key in parsed) {
+                        if (typeof parsed[key] == 'string') {
+                            try {
+                                const nestedParsed = JSON.parse(parsed[key]);
+                                if (typeof nestedParsed == 'object') {
+                                    parsed[key] = nestedParsed;
+                                }
+                            } catch {
+                                // Not valid JSON, keep as is
+                            }
+                        }
+                    }
+                }
+                return parsed;
+            } catch {
+                return value;
+            }
+        };
         
-        // Return combined structured data
+        const processedSectionContent = sectionRepo?.[0] ? {
+            ...sectionRepo[0],
+            image1: parseJsonField(sectionRepo[0].image1),
+            image2: parseJsonField(sectionRepo[0].image2),
+        } : null;
+
+        const processedTestimonial = testimonialRepo?.[0] ? {
+            ...testimonialRepo[0],
+            image1: parseJsonField(testimonialRepo[0].image1),
+            image2: parseJsonField(testimonialRepo[0].image2),
+        } : null;
+
+        const processedReward = rewardRepo?.[0] ? {
+            ...rewardRepo[0],
+            pragatiData: parseJsonField(rewardRepo[0].pragatiData),
+            pratihbaImages: parseJsonField(rewardRepo[0].pratihbaImages),
+        } : null;
+
+        const processedPeopleLife = peopleLifeAtEcl ? {
+            ...peopleLifeAtEcl,
+            images: parseJsonField(peopleLifeAtEcl.images),
+            slider_image: parseJsonField(peopleLifeAtEcl.slider_image),
+        } : null;
+
+        const processedPeopleDataContent = peopleDataContent.map(item => {
+            const parsedItem = { ...item };
+            if (parsedItem.images && typeof parsedItem.images === 'string') {
+                parsedItem.images = parseJsonField(parsedItem.images);
+            }
+            if (parsedItem.slider_image && typeof parsedItem.slider_image === 'string') {
+                parsedItem.slider_image = parseJsonField(parsedItem.slider_image);
+            }
+            return parsedItem;
+        });
+
         return {
             status: true,
             statusCode: 200,
             message: 'People data fetched successfully.',
-            data:{
-                section_content: sectionRepo.length > 0 ? sectionRepo[0] : null,
-                testimonial: testimonialRepo.length > 0 ? testimonialRepo[0] : null,
-                reward: rewardRepo.length > 0 ? rewardRepo[0] : null,
-                people_data_content: people_data_content.length > 0 ? people_data_content : [],
-                people_hero_data: people_hero_data || null,
-                people_life_at_ecl: people_life_at_ecl || null,
+            data: {
+                section_content: processedSectionContent,
+                testimonial: processedTestimonial,
+                reward: processedReward,
+                people_data_content: processedPeopleDataContent,
+                people_hero_data: peopleHeroData || null,
+                people_life_at_ecl: processedPeopleLife,
             }
         };
+    }
+
+    async getCommonTitle(category: string) {
+      if (!category) {
+          throw new Error('Category is required');
+      }
+      
+      const existingData = await this.CommonTitleRepository.findOne({
+          where: { category: category }
+      });
+      
+      if (!existingData) {
+        return {
+            status: false,
+            statusCode: 404,
+            message: 'Common title not found',
+            data: null
+        };
+      }
+      
+      return {
+          status: true,
+          statusCode: 200,
+          message: 'Common title data fetched successfully',
+          data: existingData
+      };
+    }
+
+    async findByPageName(page_name: string): Promise<AllBanner> {
+        const unit = await this.allBannerRepo.findOne({
+        where: { page_name: page_name },
+        });
+        if (!unit) {
+        throw new NotFoundException(`Page with name "${page_name}" not found`);
+        }
+        return unit;
     }
 }

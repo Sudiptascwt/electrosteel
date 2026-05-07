@@ -191,45 +191,125 @@ export class EventService {
   }
 
   // event.service.ts
-  async createBulk(eventsDto: EventDto[]): Promise<Event[]> {
-      try {
-          if (!eventsDto || eventsDto.length === 0) {
-              throw new BadRequestException('Events array cannot be empty');
-          }
-          
-          // Process each event
-          const processedEvents = [];
-          
-          for (let i = 0; i < eventsDto.length; i++) {
-              const event = eventsDto[i];
-              
-              if (!event.title) {
-                  throw new BadRequestException(`Event at index ${i} is missing title`);
-              }
-              
-              // Convert files array to JSON string if it's an array
-              if (event.files && Array.isArray(event.files)) {
-                  event.files = JSON.stringify(event.files);
-              }
-              
-              // Convert empty strings to null (optional)
-              if (event.bannerTitle === "") event.bannerTitle = null;
-              if (event.bannerImage === "") event.bannerImage = null;
-              if (event.description === "") event.description = null;
-              
-              processedEvents.push(event);
-          }
-          
-          // Create and save events
-          const events = this.eventRepo.create(processedEvents);
-          const savedEvents = await this.eventRepo.save(events);
-          
-          return savedEvents;
-      } catch (error) {
-          console.error('Bulk create error:', error);
-          throw new BadRequestException('Failed to create bulk events: ' + error.message);
-      }
-  }
+// event.service.ts
+async createBulk(eventsDto: EventDto[]): Promise<Event[]> {
+    try {
+        if (!eventsDto || eventsDto.length === 0) {
+            throw new BadRequestException('Events array cannot be empty');
+        }
+        
+        // Helper function to generate slug
+        const generateSlug = (title: string): string => {
+            return title
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')  // Remove special characters
+                .replace(/\s+/g, '-')       // Replace spaces with hyphens
+                .replace(/-+/g, '-')        // Replace multiple hyphens with single hyphen
+                .replace(/^-+|-+$/g, '');   // Remove leading/trailing hyphens
+        };
+        
+        // Helper function to make slug unique
+        const makeSlugUnique = async (baseSlug: string, currentIndex: number, originalTitle: string): Promise<string> => {
+            let slug = baseSlug;
+            let counter = 1;
+            let isUnique = false;
+            
+            while (!isUnique) {
+                // Check if slug already exists (excluding current event if updating)
+                const existingEvent = await this.eventRepo.findOne({ 
+                    where: { slug: slug } 
+                });
+                
+                if (!existingEvent) {
+                    isUnique = true;
+                } else {
+                    // If exists, append counter
+                    slug = `${baseSlug}-${counter}`;
+                    counter++;
+                }
+            }
+            
+            return slug;
+        };
+        
+        // Process each event
+        const processedEvents = [];
+        
+        for (let i = 0; i < eventsDto.length; i++) {
+            const event = eventsDto[i];
+            
+            if (!event.title) {
+                throw new BadRequestException(`Event at index ${i} is missing title`);
+            }
+            
+            // Generate base slug from title
+            let baseSlug = generateSlug(event.title);
+            
+            // Make slug unique across all events in this batch and database
+            let finalSlug = baseSlug;
+            let slugCounter = 1;
+            
+            // Check against existing slugs in database
+            const existingEvent = await this.eventRepo.findOne({ 
+                where: { slug: baseSlug } 
+            });
+            
+            if (existingEvent) {
+                finalSlug = `${baseSlug}-${slugCounter}`;
+                slugCounter++;
+                
+                // Check if the new slug also exists
+                let slugExists = await this.eventRepo.findOne({ 
+                    where: { slug: finalSlug } 
+                });
+                
+                while (slugExists) {
+                    finalSlug = `${baseSlug}-${slugCounter}`;
+                    slugCounter++;
+                    slugExists = await this.eventRepo.findOne({ 
+                        where: { slug: finalSlug } 
+                    });
+                }
+            }
+            
+            // Also check against other events in the same batch
+            const batchSlugs = processedEvents.map(e => e.slug);
+            let batchCounter = 1;
+            let batchFinalSlug = finalSlug;
+            
+            while (batchSlugs.includes(batchFinalSlug)) {
+                batchFinalSlug = `${baseSlug}-${batchCounter}`;
+                batchCounter++;
+            }
+            finalSlug = batchFinalSlug;
+            
+            // Add slug to event
+            event.slug = finalSlug;
+            
+            // Convert files array to JSON string if it's an array
+            if (event.files && Array.isArray(event.files)) {
+                event.files = JSON.stringify(event.files);
+            }
+            
+            // Convert empty strings to null (optional)
+            if (event.bannerTitle === "") event.bannerTitle = null;
+            if (event.bannerImage === "") event.bannerImage = null;
+            if (event.description === "") event.description = null;
+            
+            processedEvents.push(event);
+        }
+        
+        // Create and save events
+        const events = this.eventRepo.create(processedEvents);
+        const savedEvents = await this.eventRepo.save(events);
+        
+        return savedEvents;
+    } catch (error) {
+        console.error('Bulk create error:', error);
+        throw new BadRequestException('Failed to create bulk events: ' + error.message);
+    }
+}
 
   // Get events by type (latest, upcoming, handpicked, or all)
   async getEventsByType(type?: string, limit: number = 50) {
