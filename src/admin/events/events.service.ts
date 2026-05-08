@@ -376,13 +376,74 @@ async createBulk(eventsDto: EventDto[]): Promise<Event[]> {
     }
   }
 
+  // async update(id: number, eventDto: EventDto): Promise<Event> {
+  //   try {
+  //     const event = await this.findOne(id);
+  //     Object.assign(event, eventDto);
+  //     return await this.eventRepo.save(event);
+  //   } catch (error) {
+  //     throw new BadRequestException('Failed to update event: ' + error.message);
+  //   }
+  // }
+
   async update(id: number, eventDto: EventDto): Promise<Event> {
     try {
-      const event = await this.findOne(id);
-      Object.assign(event, eventDto);
-      return await this.eventRepo.save(event);
+        const event = await this.findOne(id);
+        
+        // Check if title is being updated
+        if (eventDto.title && eventDto.title !== event.title) {
+            // Generate new slug from updated title
+            const generateSlug = (title: string): string => {
+                return title
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            };
+            
+            let baseSlug = generateSlug(eventDto.title);
+            let finalSlug = baseSlug;
+            let slugCounter = 1;
+            
+            // Check if slug already exists (excluding current event)
+            let existingEvent = await this.eventRepo.findOne({ 
+                where: { slug: baseSlug } 
+            });
+            
+            // If slug exists and it's not the current event, make it unique
+            while (existingEvent && existingEvent.id !== id) {
+                finalSlug = `${baseSlug}-${slugCounter}`;
+                slugCounter++;
+                existingEvent = await this.eventRepo.findOne({ 
+                    where: { slug: finalSlug } 
+                });
+            }
+            
+            eventDto.slug = finalSlug;
+        }
+        
+        // Handle files array conversion
+        if (eventDto.files && Array.isArray(eventDto.files)) {
+            eventDto.files = JSON.stringify(eventDto.files);
+        }
+        
+        // Convert empty strings to null
+        if (eventDto.bannerTitle === "") eventDto.bannerTitle = null;
+        if (eventDto.bannerImage === "") eventDto.bannerImage = null;
+        if (eventDto.description === "") eventDto.description = null;
+        
+        // Assign all updated values
+        Object.assign(event, eventDto);
+        
+        // Save the updated event
+        const savedEvent = await this.eventRepo.save(event);
+        
+        return savedEvent;
     } catch (error) {
-      throw new BadRequestException('Failed to update event: ' + error.message);
+        console.error('Update error:', error);
+        throw new BadRequestException('Failed to update event: ' + error.message);
     }
   }
 

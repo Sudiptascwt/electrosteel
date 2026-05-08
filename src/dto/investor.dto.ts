@@ -10,6 +10,14 @@ export class InvestorDto {
 
   @IsString()
   @IsNotEmpty()
+  heading: string;
+
+  @IsString()
+  @IsNotEmpty()
+  ref_id: string;
+  
+  @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()

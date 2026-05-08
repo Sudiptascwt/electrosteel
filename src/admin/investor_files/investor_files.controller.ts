@@ -68,18 +68,18 @@ export class InvestorController {
   // UPDATE - Post /investor/update-by-year
   @Post('update-by-year-category')
   async updateByYear(@Body() body: any) {
-    return this.investorService.updateByYearAndCategory(body);
+    return this.investorService.updateByRefId(body);
   }
   // DELETE BY ID - DELETE /investor/:id
-  @Delete(':id')
-  async delete(@Query('id') id: number) {
-    return this.investorService.delete(id);
+  @Delete(':ref_id')
+  async delete(@Param('ref_id') ref_id: string) {
+    return this.investorService.delete(ref_id);
   }
 
   // DELETE BY YEAR - DELETE /investor/year/:year
-  @Delete('year')
-  async deleteByYear(@Query('year') year: string) {
-    return this.investorService.deleteByYear(year);
+  @Delete('ref_id')
+  async deleteByYear(@Query('ref_id') ref_id: string) {
+    return this.investorService.deleteByYear(ref_id);
   }
 }
 

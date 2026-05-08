@@ -17,6 +17,8 @@ export class InvestorService {
   async create(data: {
     year: string;
     category: string;
+    heading: string;
+    ref_id: string;
     results: Array<{
       title: string;
       date: string;
@@ -50,60 +52,165 @@ export class InvestorService {
   }
 
   // CREATE BULK (for backward compatibility with array format)
+  // async createBulk(data: any) {
+  //   const records = [];
+
+  //   // Check if data is array or object with financialYears property
+  //   if (data.financialYears && Array.isArray(data.financialYears)) {
+  //     // Old format: { financialYears: [...] }
+  //     for (const fy of data.financialYears) {
+  //       for (const result of fy.results) {
+  //         records.push({
+  //           year: fy.year,
+  //           title: result.title,
+  //           date: result.date,
+  //           src: result.src,
+  //           is_latest: result.is_latest || 0,
+  //           src_type: result.src_type || 'pdf',
+  //           category: result.category || fy.category || null
+  //         });
+  //       }
+  //     }
+  //   } else if (Array.isArray(data)) {
+  //     // Array of FY objects
+  //     for (const fy of data) {
+  //       for (const result of fy.results) {
+  //         records.push({
+  //           year: fy.year,
+  //           title: result.title,
+  //           date: result.date,
+  //           src: result.src,
+  //           is_latest: result.is_latest || 0,
+  //           src_type: result.src_type || 'pdf',
+  //           category: result.category || fy.category || null
+  //         });
+  //       }
+  //     }
+  //   } else if (data.year && data.results) {
+  //     // Single object format
+  //     for (const result of data.results) {
+  //       records.push({
+  //         year: data.year,
+  //         title: result.title,
+  //         date: result.date,
+  //         src: result.src,
+  //         is_latest: result.is_latest || 0,
+  //         src_type: result.src_type || 'pdf',
+  //         category: result.category || data.category || null
+  //       });
+  //     }
+  //   }
+
+  //   if (records.length === 0) {
+  //     throw new BadRequestException('No valid records to create');
+  //   }
+
+  //   return await this.investorRepo.save(records);
+  // }
+
   async createBulk(data: any) {
-    const records = [];
+      const records = [];
 
-    // Check if data is array or object with financialYears property
-    if (data.financialYears && Array.isArray(data.financialYears)) {
-      // Old format: { financialYears: [...] }
-      for (const fy of data.financialYears) {
-        for (const result of fy.results) {
+      // Check if data is array or object with financialYears property
+      if (data.financialYears && Array.isArray(data.financialYears)) {
+        // Old format: { financialYears: [...] }
+        for (const fy of data.financialYears) {
+          for (const result of fy.results) {
+            records.push({
+              year: fy.year,
+              title: result.title,
+              date: result.date,
+              src: result.src,
+              is_latest: result.is_latest || 0,
+              src_type: result.src_type || 'pdf',
+              category: result.category || fy.category || null,
+              heading: fy.heading || null,  // ← Added heading support
+              ref_id: fy.ref_id || null
+            });
+          }
+        }
+      } else if (Array.isArray(data)) {
+        // Array of FY objects
+        for (const fy of data) {
+          for (const result of fy.results) {
+            records.push({
+              year: fy.year,
+              title: result.title,
+              date: result.date,
+              src: result.src,
+              is_latest: result.is_latest || 0,
+              src_type: result.src_type || 'pdf',
+              category: result.category || fy.category || null,
+              heading: fy.heading || null,  // ← Added heading support
+              ref_id: fy.ref_id
+            });
+          }
+        }
+      } else if (data.year && data.results) {
+        // Single object format
+        for (const result of data.results) {
           records.push({
-            year: fy.year,
+            year: data.year,
             title: result.title,
             date: result.date,
             src: result.src,
             is_latest: result.is_latest || 0,
             src_type: result.src_type || 'pdf',
-            category: result.category || fy.category || null
+            category: result.category || data.category || null,
+            heading: data.heading || null,  // ← Added heading support
+            ref_id: data.ref_id
           });
         }
       }
-    } else if (Array.isArray(data)) {
-      // Array of FY objects
-      for (const fy of data) {
-        for (const result of fy.results) {
-          records.push({
-            year: fy.year,
-            title: result.title,
-            date: result.date,
-            src: result.src,
-            is_latest: result.is_latest || 0,
-            src_type: result.src_type || 'pdf',
-            category: result.category || fy.category || null
-          });
+
+      if (records.length === 0) {
+        throw new BadRequestException('No valid records to create');
+      }
+
+      // Save records to database
+      const savedRecords = await this.investorRepo.save(records);
+
+      // Group records by year and category for structured response
+      const groupedByYearAndCategory = savedRecords.reduce((acc, record) => {
+        const year = record.year;
+        const category = record.category || 'Uncategorized';
+        const heading = record.heading;  // ← Get heading from record
+        const ref_id =record.ref_id;
+        
+        if (!acc[year]) {
+          acc[year] = {
+            heading: heading,  // ← Add heading at year level
+            ref_id: ref_id,
+            categories: {}
+          };
         }
-      }
-    } else if (data.year && data.results) {
-      // Single object format
-      for (const result of data.results) {
-        records.push({
-          year: data.year,
-          title: result.title,
-          date: result.date,
-          src: result.src,
-          is_latest: result.is_latest || 0,
-          src_type: result.src_type || 'pdf',
-          category: result.category || data.category || null
-        });
-      }
-    }
+        
+        if (!acc[year].categories[category]) {
+          acc[year].categories[category] = [];
+        }
+        
+        acc[year].categories[category].push(record);
+        
+        return acc;
+      }, {});
 
-    if (records.length === 0) {
-      throw new BadRequestException('No valid records to create');
-    }
+      // Format the response with headings
+      const formattedResponse = {
+        message: 'Bulk records created successfully',
+        totalRecords: savedRecords.length,
+        data: groupedByYearAndCategory,
+        summary: Object.keys(groupedByYearAndCategory).map(year => ({
+          year: year,
+          heading: groupedByYearAndCategory[year].heading,  // ← Include heading in summary
+          ref_id: groupedByYearAndCategory[year].ref_id,
+          categories: Object.keys(groupedByYearAndCategory[year].categories).map(category => ({
+            category: category,
+            count: groupedByYearAndCategory[year].categories[category].length
+          }))
+        }))
+      };
 
-    return await this.investorRepo.save(records);
+      return formattedResponse;
   }
 
   // GET ALL (grouped response)
@@ -130,6 +237,8 @@ export class InvestorService {
               acc[key] = {
                   year: item.year,
                   category: item.category,
+                  heading: item.heading,
+                  ref_id: item.ref_id,
                   results: []
               };
           }
@@ -278,39 +387,106 @@ export class InvestorService {
   }
 
   // UPDATE by year and category (original method)
-  async updateByYearAndCategory(body: any) {
-      let yearToUpdate: string;
-      let categoryToUpdate: string;
+  // async updateByYearAndCategory(body: any) {
+  //     let yearToUpdate: string;
+  //     let categoryToUpdate: string;
+  //     let resultsArray: any[];
+      
+  //     // Check if data is in old format (with financialYears array) or new format (direct)
+  //     if (body.financialYears && Array.isArray(body.financialYears)) {
+  //         // Old format: { financialYears: [...] }
+  //         yearToUpdate = body.financialYears[0]?.year;
+  //         categoryToUpdate = body.financialYears[0]?.category;
+  //         resultsArray = body.financialYears;
+  //     } else if (body.year && body.results) {
+  //         // New format: direct object
+  //         yearToUpdate = body.year;
+  //         categoryToUpdate = body.category;
+  //         resultsArray = [body]; // Wrap single object in array for consistent processing
+  //     } else {
+  //         throw new BadRequestException('Invalid data format. Expected either { financialYears: [...] } or { year, category, results }');
+  //     }
+      
+  //     if (!yearToUpdate) {
+  //         throw new BadRequestException('Year is required');
+  //     }
+      
+  //     if (!categoryToUpdate) {
+  //         throw new BadRequestException('Category is required');
+  //     }
+      
+  //     // Delete existing records
+  //     await this.investorRepo.delete({ 
+  //         year: yearToUpdate,
+  //         category: categoryToUpdate 
+  //     });
+      
+  //     // Create new records
+  //     const records = [];
+      
+  //     for (const fy of resultsArray) {
+  //         for (const result of fy.results) {
+  //             records.push({
+  //                 year: fy.year || yearToUpdate,
+  //                 category: result.category || fy.category || categoryToUpdate,
+  //                 title: result.title,
+  //                 date: result.date,
+  //                 src: result.src,
+  //                 is_latest: result.is_latest || 0,
+  //                 src_type: result.src_type || 'pdf',
+  //             });
+  //         }
+  //     }
+      
+  //     const saved = await this.investorRepo.save(records);
+      
+  //     return {
+  //         message: `Records for year ${yearToUpdate} and category ${categoryToUpdate} updated successfully`,
+  //         data: saved,
+  //     };
+  // }
+
+  async updateByRefId(body: any) {
+      let refIdToUpdate: string;
+      let yearToUpdate: string | null = null;
+      let categoryToUpdate: string | null = null;
+      let headingToUpdate: string | null;
       let resultsArray: any[];
       
       // Check if data is in old format (with financialYears array) or new format (direct)
       if (body.financialYears && Array.isArray(body.financialYears)) {
           // Old format: { financialYears: [...] }
-          yearToUpdate = body.financialYears[0]?.year;
-          categoryToUpdate = body.financialYears[0]?.category;
+          refIdToUpdate = body.financialYears[0]?.ref_id;
+          yearToUpdate = body.financialYears[0]?.year || null;
+          categoryToUpdate = body.financialYears[0]?.category || null;
+          headingToUpdate = body.financialYears[0]?.heading || null;
           resultsArray = body.financialYears;
-      } else if (body.year && body.results) {
+      } else if (body.ref_id && body.results) {
           // New format: direct object
-          yearToUpdate = body.year;
-          categoryToUpdate = body.category;
-          resultsArray = [body]; // Wrap single object in array for consistent processing
+          refIdToUpdate = body.ref_id;
+          yearToUpdate = body.year || null;
+          categoryToUpdate = body.category || null;
+          headingToUpdate = body.heading || null;
+          resultsArray = [body];
       } else {
-          throw new BadRequestException('Invalid data format. Expected either { financialYears: [...] } or { year, category, results }');
+          throw new BadRequestException('Invalid data format. Expected either { financialYears: [...] } or { ref_id, year, category, heading, results }');
       }
       
-      if (!yearToUpdate) {
-          throw new BadRequestException('Year is required');
+      if (!refIdToUpdate) {
+          throw new BadRequestException('ref_id is required');
       }
       
-      if (!categoryToUpdate) {
-          throw new BadRequestException('Category is required');
+      // Build delete query
+      const deleteQuery: any = { ref_id: refIdToUpdate };
+      if (yearToUpdate) {
+          deleteQuery.year = yearToUpdate;
+      }
+      if (categoryToUpdate) {
+          deleteQuery.category = categoryToUpdate;
       }
       
       // Delete existing records
-      await this.investorRepo.delete({ 
-          year: yearToUpdate,
-          category: categoryToUpdate 
-      });
+      const deleted = await this.investorRepo.delete(deleteQuery);
       
       // Create new records
       const records = [];
@@ -318,6 +494,7 @@ export class InvestorService {
       for (const fy of resultsArray) {
           for (const result of fy.results) {
               records.push({
+                  ref_id: fy.ref_id || refIdToUpdate,
                   year: fy.year || yearToUpdate,
                   category: result.category || fy.category || categoryToUpdate,
                   title: result.title,
@@ -325,6 +502,7 @@ export class InvestorService {
                   src: result.src,
                   is_latest: result.is_latest || 0,
                   src_type: result.src_type || 'pdf',
+                  heading: headingToUpdate || fy.heading || null
               });
           }
       }
@@ -332,14 +510,17 @@ export class InvestorService {
       const saved = await this.investorRepo.save(records);
       
       return {
-          message: `Records for year ${yearToUpdate} and category ${categoryToUpdate} updated successfully`,
+          message: `Records with ref_id ${refIdToUpdate}${yearToUpdate ? ` and year ${yearToUpdate}` : ''}${categoryToUpdate ? ` and category ${categoryToUpdate}` : ''} updated successfully`,
+          deletedCount: deleted.affected || 0,
+          heading: headingToUpdate,
+          totalRecords: saved.length,
           data: saved,
       };
   }
 
   // DELETE (optional)
-  async delete(id: number) {
-    const record = await this.investorRepo.findOne({ where: { id } });
+  async delete(ref_id: string) {
+    const record = await this.investorRepo.findOne({ where: { ref_id } });
     if (!record) {
       throw new NotFoundException('Record not found');
     }
@@ -347,10 +528,10 @@ export class InvestorService {
     return { message: 'Deleted successfully' };
   }
 
-  async deleteByYear(year: string) {
-    const result = await this.investorRepo.delete({ year });
+  async deleteByYear(ref_id: string) {
+    const result = await this.investorRepo.delete({ ref_id });
     return {
-      message: `${result.affected} records for ${year} deleted successfully`,
+      message: `${result.affected} records for ${ref_id} deleted successfully`,
     };
   }
 

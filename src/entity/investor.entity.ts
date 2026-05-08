@@ -6,6 +6,12 @@ export class Investor {
     id: number;
 
     @Column({ type: 'text', nullable: true })
+    heading: string;
+
+    @Column({type: 'varchar', length:255, nullable: true })
+    ref_id: string;   
+
+    @Column({ type: 'text', nullable: true })
     category: string;
 
     @Column({type: 'varchar', length:255, nullable: true })
