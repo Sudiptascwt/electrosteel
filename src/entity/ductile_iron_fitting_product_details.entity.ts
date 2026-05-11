@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { ProductDetailsStandard } from './ductile_iron_fitting_product_details_standard.entity';
 
-@Entity('product_details')
-export class ProductDetails {
+@Entity('ductile_iron_fitting_product_details')
+export class DuctileIronFittingsProductDetails {
   @PrimaryGeneratedColumn()
   id: number;
 

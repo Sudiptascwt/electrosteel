@@ -10,7 +10,7 @@ export class WhyChoose {
   title: string;
 
   @OneToMany(() => WhyChooseList, (list) => list.why_choose, { cascade: true })
-  lists: WhyChooseList[];
+  lists: WhyChooseList[];  // Change from string[] to WhyChooseList[]
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;

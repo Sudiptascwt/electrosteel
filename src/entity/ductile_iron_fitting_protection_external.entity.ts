@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { ProtectionExternalItem } from './ductile_iron_fitting_protection_external_item.entity';
 
-@Entity('protection_external')
-export class ProtectionExternal {
+@Entity('ductile_iron_fitting_protection_external')
+export class DuctileIronFittingsProtectionExternal {
   @PrimaryGeneratedColumn()
   id: number;
 

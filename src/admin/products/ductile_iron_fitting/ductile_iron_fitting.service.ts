@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -6,18 +6,18 @@ import { Repository } from 'typeorm';
 import { Overview } from '../../../entity/ductile_iron_fitting_overview.entity';
 import { WhyChoose } from '../../../entity/ductile_iron_fitting_why_choose.entity';
 import { WhyChooseList } from '../../../entity/ductile_iron_fitting_why_choose_list.entity';
-import { ProductDetails } from '../../../entity/ductile_iron_fitting_product_details.entity';
+import { DuctileIronFittingsProductDetails } from '../../../entity/ductile_iron_fitting_product_details.entity';
 import { ProductDetailsStandard } from '../../../entity/ductile_iron_fitting_product_details_standard.entity';
 import { FittingsRange } from '../../../entity/ductile_iron_fitting_fittings_range.entity';
 import { FittingsRangeItem } from '../../../entity/ductile_iron_fitting_fittings_range_item.entity';
-import { Application } from '../../../entity/application.entity';
+import { DuctileIronFittingsApplication } from '../../../entity/ductile_iron_fitting_application.entity';
 import { ApplicationColumn } from '../../../entity/ductile_iron_fitting_application_column.entity';
 import { ApplicationItem } from '../../../entity/ductile_iron_fitting_application_item.entity';
 import { JointingSystem } from '../../../entity/ductile_iron_fitting_jointing_system.entity';
-import { ProtectionInternal } from '../../../entity/ductile_iron_fitting_protection_internal.entity';
+import { DuctileIronFittingsProtectionInternal } from '../../../entity/ductile_iron_fitting_protection_internal.entity';
 import { ProtectionInternalItem } from '../../../entity/ductile_iron_fitting_protection_internal_item.entity';
 import { ProtectionInternalModal } from '../../../entity/ductile_iron_fitting_protection_internal_modal.entity';
-import { ProtectionExternal } from '../../../entity/ductile_iron_fitting_protection_external.entity';
+import { DuctileIronFittingsProtectionExternal } from '../../../entity/ductile_iron_fitting_protection_external.entity';
 import { ProtectionExternalItem } from '../../../entity/ductile_iron_fitting_protection_external_item.entity';
 import { ProtectionExternalModal } from '../../../entity/ductile_iron_fitting_protection_external_modal.entity';
 import { CardSection } from '../../../entity/ductile_iron_fitting_card_section.entity';
@@ -43,30 +43,30 @@ export class DuctileIronFittingsService {
     private whyChooseRepo: Repository<WhyChoose>,
     @InjectRepository(WhyChooseList)
     private whyChooseListRepo: Repository<WhyChooseList>,
-    @InjectRepository(ProductDetails)
-    private productDetailsRepo: Repository<ProductDetails>,
+    @InjectRepository(DuctileIronFittingsProductDetails)
+    private productDetailsRepo: Repository<DuctileIronFittingsProductDetails>,
     @InjectRepository(ProductDetailsStandard)
     private productDetailsStandardRepo: Repository<ProductDetailsStandard>,
     @InjectRepository(FittingsRange)
     private fittingsRangeRepo: Repository<FittingsRange>,
     @InjectRepository(FittingsRangeItem)
     private fittingsRangeItemRepo: Repository<FittingsRangeItem>,
-    @InjectRepository(Application)
-    private applicationRepo: Repository<Application>,
+    @InjectRepository(DuctileIronFittingsApplication)
+    private applicationRepo: Repository<DuctileIronFittingsApplication>,
     @InjectRepository(ApplicationColumn)
     private applicationColumnRepo: Repository<ApplicationColumn>,
     @InjectRepository(ApplicationItem)
     private applicationItemRepo: Repository<ApplicationItem>,
     @InjectRepository(JointingSystem)
     private jointingSystemRepo: Repository<JointingSystem>,
-    @InjectRepository(ProtectionInternal)
-    private protectionInternalRepo: Repository<ProtectionInternal>,
+    @InjectRepository(DuctileIronFittingsProtectionInternal)
+    private protectionInternalRepo: Repository<DuctileIronFittingsProtectionInternal>,
     @InjectRepository(ProtectionInternalItem)
     private protectionInternalItemRepo: Repository<ProtectionInternalItem>,
     @InjectRepository(ProtectionInternalModal)
     private protectionInternalModalRepo: Repository<ProtectionInternalModal>,
-    @InjectRepository(ProtectionExternal)
-    private protectionExternalRepo: Repository<ProtectionExternal>,
+    @InjectRepository(DuctileIronFittingsProtectionExternal)
+    private protectionExternalRepo: Repository<DuctileIronFittingsProtectionExternal>,
     @InjectRepository(ProtectionExternalItem)
     private protectionExternalItemRepo: Repository<ProtectionExternalItem>,
     @InjectRepository(ProtectionExternalModal)
@@ -75,142 +75,116 @@ export class DuctileIronFittingsService {
     private cardSectionRepo: Repository<CardSection>,
   ) {}
 
-  // ==================== Overview Methods ====================
+  // ==================== Overview ====================
   async getOverview(): Promise<Overview> {
     const overview = await this.overviewRepo.findOne({ where: { id: 1 } });
-    if (!overview) {
-      throw new NotFoundException('Overview not found');
-    }
+    if (!overview) throw new NotFoundException('Overview not found');
     return overview;
   }
 
-  async createOverview(dto: DuctileIronFittingOverviewDto): Promise<Overview> {
-    const existing = await this.overviewRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Overview already exists. Use update instead.');
-    }
-    const overview = this.overviewRepo.create({ ...dto, id: 1 });
-    return this.overviewRepo.save(overview);
-  }
-
-  async updateOverview(dto: DuctileIronFittingOverviewDto): Promise<Overview> {
+  async upsertOverview(dto: DuctileIronFittingOverviewDto): Promise<Overview> {
     let overview = await this.overviewRepo.findOne({ where: { id: 1 } });
+    
     if (!overview) {
-      throw new NotFoundException('Overview not found');
+      overview = this.overviewRepo.create({ id: 1, ...dto });
+    } else {
+      Object.assign(overview, dto);
     }
-    Object.assign(overview, dto);
+    
     return this.overviewRepo.save(overview);
   }
 
-  // ==================== Why Choose Methods ====================
+  // ==================== Why Choose ====================
   async getWhyChoose(): Promise<any> {
-    const whyChoose = await this.whyChooseRepo.findOne({
-      where: { id: 1 },
-      relations: ['lists'],
-      order: { lists: { sort_order: 'ASC' } },
-    });
-    if (!whyChoose) {
-      throw new NotFoundException('Why Choose section not found');
-    }
-    return whyChoose;
+      const whyChoose = await this.whyChooseRepo.findOne({
+          where: { id: 1 },
+          relations: ['lists'],
+      });
+      
+      if (!whyChoose) {
+          throw new NotFoundException('Why Choose section not found');
+      }
+      
+      // Sort manually
+      if (whyChoose.lists) {
+          whyChoose.lists.sort((a, b) => a.sort_order - b.sort_order);
+      }
+      
+      // Transform to match request format
+      return {
+          id: whyChoose.id,
+          title: whyChoose.title,
+          lists: whyChoose.lists?.map(item => item.list_item) || [],
+          created_at: whyChoose.created_at,
+          updated_at: whyChoose.updated_at
+      };
   }
 
-  async createWhyChoose(dto: DuctileIronFittingWhyChooseDto): Promise<any> {
-    const existing = await this.whyChooseRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Why Choose section already exists. Use update instead.');
-    }
-    
-    const whyChoose = this.whyChooseRepo.create({ title: dto.title, id: 1 });
-    const saved = await this.whyChooseRepo.save(whyChoose);
-    
-    if (dto.lists && dto.lists.length > 0) {
-      const lists = dto.lists.map((item, index) =>
-        this.whyChooseListRepo.create({
-          why_choose_id: saved.id,
-          list_item: item.list_item,
-          sort_order: item.sort_order ?? index,
-        }),
-      );
-      await this.whyChooseListRepo.save(lists);
-    }
-    
-    return this.getWhyChoose();
+  async upsertWhyChoose(dto: DuctileIronFittingWhyChooseDto): Promise<WhyChoose> {
+      let whyChoose = await this.whyChooseRepo.findOne({ where: { id: 1 } });
+      
+      if (!whyChoose) {
+          whyChoose = this.whyChooseRepo.create({ id: 1, title: dto.title });
+      } else {
+          whyChoose.title = dto.title;
+          await this.whyChooseRepo.save(whyChoose);
+      }
+      
+      if (dto.lists && Array.isArray(dto.lists)) {
+          await this.whyChooseListRepo.delete({ why_choose_id: 1 });
+          
+          const lists = dto.lists.map((item: any, index: number) => {
+              // Handle string array
+              if (typeof item === 'string') {
+                  return this.whyChooseListRepo.create({
+                      why_choose_id: 1,
+                      list_item: item,
+                      sort_order: index,
+                  });
+              }
+              // Handle object array
+              else if (typeof item === 'object' && item.list_item) {
+                  return this.whyChooseListRepo.create({
+                      why_choose_id: 1,
+                      list_item: item.list_item,
+                      sort_order: item.sort_order ?? index,
+                  });
+              }
+              // Fallback
+              return this.whyChooseListRepo.create({
+                  why_choose_id: 1,
+                  list_item: String(item),
+                  sort_order: index,
+              });
+          });
+          
+          await this.whyChooseListRepo.save(lists);
+      }
+      
+      return this.getWhyChoose();
   }
-
-  async updateWhyChoose(dto: DuctileIronFittingWhyChooseDto): Promise<any> {
-    let whyChoose = await this.whyChooseRepo.findOne({ where: { id: 1 } });
-    if (!whyChoose) {
-      throw new NotFoundException('Why Choose section not found');
-    }
-    
-    if (dto.title) {
-      whyChoose.title = dto.title;
-      await this.whyChooseRepo.save(whyChoose);
-    }
-    
-    if (dto.lists) {
-      await this.whyChooseListRepo.delete({ why_choose_id: 1 });
-      const lists = dto.lists.map((item, index) =>
-        this.whyChooseListRepo.create({
-          why_choose_id: 1,
-          list_item: item.list_item,
-          sort_order: item.sort_order ?? index,
-        }),
-      );
-      await this.whyChooseListRepo.save(lists);
-    }
-    
-    return this.getWhyChoose();
-  }
-
-  // ==================== Product Details Methods ====================
-  async getProductDetails(): Promise<any> {
+  // ==================== Product Details ====================
+  async getProductDetails(): Promise<DuctileIronFittingsProductDetails> {
     const productDetails = await this.productDetailsRepo.findOne({
       where: { id: 1 },
       relations: ['standards'],
       order: { standards: { sort_order: 'ASC' } },
     });
-    if (!productDetails) {
-      throw new NotFoundException('Product details not found');
-    }
+    if (!productDetails) throw new NotFoundException('Product details not found');
     return productDetails;
   }
 
-  async createProductDetails(dto: DuctileIronFittingProductDetailsDto): Promise<any> {
-    const existing = await this.productDetailsRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Product details already exists. Use update instead.');
-    }
-    
-    const productDetails = this.productDetailsRepo.create({ ...dto, id: 1 });
-    const saved = await this.productDetailsRepo.save(productDetails);
-    
-    if (dto.standards && dto.standards.length > 0) {
-      const standards = dto.standards.map((item, index) =>
-        this.productDetailsStandardRepo.create({
-          product_details_id: saved.id,
-          standard_name: item.standard_name,
-          sort_order: item.sort_order ?? index,
-        }),
-      );
-      await this.productDetailsStandardRepo.save(standards);
-    }
-    
-    return this.getProductDetails();
-  }
-
-  async updateProductDetails(dto: DuctileIronFittingProductDetailsDto): Promise<any> {
+  async upsertProductDetails(dto: DuctileIronFittingProductDetailsDto): Promise<DuctileIronFittingsProductDetails> {
     let productDetails = await this.productDetailsRepo.findOne({ where: { id: 1 } });
-    if (!productDetails) {
-      throw new NotFoundException('Product details not found');
-    }
     
-    if (dto.title || dto.description || dto.image_url) {
+    if (!productDetails) {
+      productDetails = this.productDetailsRepo.create({ id: 1, ...dto });
+    } else {
       Object.assign(productDetails, dto);
       await this.productDetailsRepo.save(productDetails);
     }
     
+    // Update standards
     if (dto.standards) {
       await this.productDetailsStandardRepo.delete({ product_details_id: 1 });
       const standards = dto.standards.map((item, index) =>
@@ -218,7 +192,7 @@ export class DuctileIronFittingsService {
           product_details_id: 1,
           standard_name: item.standard_name,
           sort_order: item.sort_order ?? index,
-        }),
+        })
       );
       await this.productDetailsStandardRepo.save(standards);
     }
@@ -226,53 +200,28 @@ export class DuctileIronFittingsService {
     return this.getProductDetails();
   }
 
-  // ==================== Fittings Range Methods ====================
-  async getFittingsRange(): Promise<any> {
+  // ==================== Fittings Range ====================
+  async getFittingsRange(): Promise<FittingsRange> {
     const fittingsRange = await this.fittingsRangeRepo.findOne({
       where: { id: 1 },
       relations: ['items'],
       order: { items: { sort_order: 'ASC' } },
     });
-    if (!fittingsRange) {
-      throw new NotFoundException('Fittings range not found');
-    }
+    if (!fittingsRange) throw new NotFoundException('Fittings range not found');
     return fittingsRange;
   }
 
-  async createFittingsRange(dto: DuctileIronFittingFittingsRangeDto): Promise<any> {
-    const existing = await this.fittingsRangeRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Fittings range already exists. Use update instead.');
-    }
-    
-    const fittingsRange = this.fittingsRangeRepo.create({ title: dto.title, image_url: dto.image_url, id: 1 });
-    const saved = await this.fittingsRangeRepo.save(fittingsRange);
-    
-    if (dto.items && dto.items.length > 0) {
-      const items = dto.items.map((item, index) =>
-        this.fittingsRangeItemRepo.create({
-          fittings_range_id: saved.id,
-          item_name: item.item_name,
-          sort_order: item.sort_order ?? index,
-        }),
-      );
-      await this.fittingsRangeItemRepo.save(items);
-    }
-    
-    return this.getFittingsRange();
-  }
-
-  async updateFittingsRange(dto: DuctileIronFittingFittingsRangeDto): Promise<any> {
+  async upsertFittingsRange(dto: DuctileIronFittingFittingsRangeDto): Promise<FittingsRange> {
     let fittingsRange = await this.fittingsRangeRepo.findOne({ where: { id: 1 } });
-    if (!fittingsRange) {
-      throw new NotFoundException('Fittings range not found');
-    }
     
-    if (dto.title || dto.image_url) {
+    if (!fittingsRange) {
+      fittingsRange = this.fittingsRangeRepo.create({ id: 1, ...dto });
+    } else {
       Object.assign(fittingsRange, dto);
       await this.fittingsRangeRepo.save(fittingsRange);
     }
     
+    // Update items
     if (dto.items) {
       await this.fittingsRangeItemRepo.delete({ fittings_range_id: 1 });
       const items = dto.items.map((item, index) =>
@@ -280,7 +229,7 @@ export class DuctileIronFittingsService {
           fittings_range_id: 1,
           item_name: item.item_name,
           sort_order: item.sort_order ?? index,
-        }),
+        })
       );
       await this.fittingsRangeItemRepo.save(items);
     }
@@ -288,8 +237,8 @@ export class DuctileIronFittingsService {
     return this.getFittingsRange();
   }
 
-  // ==================== Application Methods ====================
-  async getApplication(): Promise<any> {
+  // ==================== Application ====================
+  async getApplication(): Promise<DuctileIronFittingsApplication> {
     const application = await this.applicationRepo.findOne({
       where: { id: 1 },
       relations: ['columns', 'columns.items'],
@@ -298,66 +247,30 @@ export class DuctileIronFittingsService {
         'columns.items.sort_order': 'ASC'
       } as any
     });
-    if (!application) {
-      throw new NotFoundException('Application not found');
-    }
+    if (!application) throw new NotFoundException('Application not found');
     return application;
   }
 
-  async createApplication(dto: DuctileIronFittingApplicationDto): Promise<any> {
-    const existing = await this.applicationRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Application already exists. Use update instead.');
-    }
-    
-    const application = this.applicationRepo.create({ title: dto.title, id: 1 });
-    const saved = await this.applicationRepo.save(application);
-    
-    if (dto.columns && dto.columns.length > 0) {
-      for (const col of dto.columns) {
-        const column = this.applicationColumnRepo.create({
-          application_id: saved.id,
-          column_index: col.column_index,
-          sort_order: col.sort_order ?? col.column_index,
-        });
-        const savedColumn = await this.applicationColumnRepo.save(column);
-        
-        if (col.items && col.items.length > 0) {
-          const items = col.items.map((item, idx) =>
-            this.applicationItemRepo.create({
-              application_column_id: savedColumn.id,
-              item_text: item.item_text,
-              sort_order: item.sort_order ?? idx,
-            }),
-          );
-          await this.applicationItemRepo.save(items);
-        }
-      }
-    }
-    
-    return this.getApplication();
-  }
-
-  async updateApplication(dto: DuctileIronFittingApplicationDto): Promise<any> {
+  async upsertApplication(dto: DuctileIronFittingApplicationDto): Promise<DuctileIronFittingsApplication> {
     let application = await this.applicationRepo.findOne({ where: { id: 1 } });
-    if (!application) {
-      throw new NotFoundException('Application not found');
-    }
     
-    if (dto.title) {
+    if (!application) {
+      application = this.applicationRepo.create({ id: 1, title: dto.title });
+    } else {
       application.title = dto.title;
       await this.applicationRepo.save(application);
     }
     
+    // Update columns and items
     if (dto.columns) {
-      // Delete existing columns and items
+      // Delete existing
       const existingColumns = await this.applicationColumnRepo.find({ where: { application_id: 1 } });
       for (const col of existingColumns) {
         await this.applicationItemRepo.delete({ application_column_id: col.id });
         await this.applicationColumnRepo.delete(col.id);
       }
       
-      // Create new columns and items
+      // Create new
       for (const col of dto.columns) {
         const column = this.applicationColumnRepo.create({
           application_id: 1,
@@ -372,7 +285,7 @@ export class DuctileIronFittingsService {
               application_column_id: savedColumn.id,
               item_text: item.item_text,
               sort_order: item.sort_order ?? idx,
-            }),
+            })
           );
           await this.applicationItemRepo.save(items);
         }
@@ -382,105 +295,47 @@ export class DuctileIronFittingsService {
     return this.getApplication();
   }
 
-  // ==================== Jointing System Methods ====================
+  // ==================== Jointing System ====================
   async getJointingSystems(): Promise<JointingSystem[]> {
     return this.jointingSystemRepo.find({ order: { sort_order: 'ASC' } });
   }
 
-  async createJointingSystems(dto: DuctileIronFittingJointingSystemDto[]): Promise<JointingSystem[]> {
-    const systems = this.jointingSystemRepo.create(dto);
-    return this.jointingSystemRepo.save(systems);
-  }
-
-  async updateJointingSystems(dto: DuctileIronFittingJointingSystemDto[]): Promise<JointingSystem[]> {
+  async upsertJointingSystems(dto: DuctileIronFittingJointingSystemDto[]): Promise<JointingSystem[]> {
     await this.jointingSystemRepo.clear();
     const systems = this.jointingSystemRepo.create(dto);
     return this.jointingSystemRepo.save(systems);
   }
 
-  // ==================== Protection Internal Methods ====================
-  async getProtectionInternal(): Promise<any> {
+  // ==================== Protection Internal ====================
+  async getProtectionInternal(): Promise<DuctileIronFittingsProtectionInternal> {
     const protection = await this.protectionInternalRepo.findOne({
       where: { id: 1 },
       relations: ['items', 'items.modals'],
     });
-    
-    if (!protection) {
-      throw new NotFoundException('Protection Internal not found');
-    }
-    
-    if (protection.items) {
-      protection.items.sort((a, b) => a.sort_order - b.sort_order);
-      protection.items.forEach(item => {
-        if (item.modals) {
-          item.modals.sort((a, b) => a.sort_order - b.sort_order);
-        }
-      });
-    }
-    
+    if (!protection) throw new NotFoundException('Protection Internal not found');
     return protection;
   }
-  async createProtectionInternal(dto: DuctileIronFittingProtectionInternalDto): Promise<any> {
-    const existing = await this.protectionInternalRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Protection Internal already exists. Use update instead.');
-    }
-    
-    const protection = this.protectionInternalRepo.create({ title: dto.title, id: 1 });
-    const saved = await this.protectionInternalRepo.save(protection);
-    
-    if (dto.items && dto.items.length > 0) {
-      for (const item of dto.items) {
-        const protectionItem = this.protectionInternalItemRepo.create({
-          protection_internal_id: saved.id,
-          name: item.name,
-          description: item.description,
-          guiding_standards: item.guiding_standards,
-          download_url: item.download_url,
-          sort_order: item.sort_order ?? 0,
-        });
-        const savedItem = await this.protectionInternalItemRepo.save(protectionItem);
-        
-        if (item.modal && item.modal.length > 0) {
-          const modals = item.modal.map((modal, idx) =>
-            this.protectionInternalModalRepo.create({
-              protection_internal_item_id: savedItem.id,
-              image_url: modal.image_url,
-              label: modal.label,
-              description1: modal.description1,
-              title: modal.title,
-              description2: modal.description2,
-              sort_order: modal.sort_order ?? idx,
-            }),
-          );
-          await this.protectionInternalModalRepo.save(modals);
-        }
-      }
-    }
-    
-    return this.getProtectionInternal();
-  }
 
-  async updateProtectionInternal(dto: DuctileIronFittingProtectionInternalDto): Promise<any> {
+  async upsertProtectionInternal(dto: DuctileIronFittingProtectionInternalDto): Promise<DuctileIronFittingsProtectionInternal> {
     let protection = await this.protectionInternalRepo.findOne({ where: { id: 1 } });
-    if (!protection) {
-      throw new NotFoundException('Protection Internal not found');
-    }
     
-    if (dto.title) {
+    if (!protection) {
+      protection = this.protectionInternalRepo.create({ id: 1, title: dto.title });
+    } else {
       protection.title = dto.title;
       await this.protectionInternalRepo.save(protection);
     }
     
+    // Update items and modals
     if (dto.items) {
-      // Delete existing items and modals
+      // Delete existing
       const existingItems = await this.protectionInternalItemRepo.find({ where: { protection_internal_id: 1 } });
       for (const item of existingItems) {
         await this.protectionInternalModalRepo.delete({ protection_internal_item_id: item.id });
         await this.protectionInternalItemRepo.delete(item.id);
       }
       
-      // Create new items and modals
+      // Create new
       for (const item of dto.items) {
         const protectionItem = this.protectionInternalItemRepo.create({
           protection_internal_id: 1,
@@ -502,7 +357,7 @@ export class DuctileIronFittingsService {
               title: modal.title,
               description2: modal.description2,
               sort_order: modal.sort_order ?? idx,
-            }),
+            })
           );
           await this.protectionInternalModalRepo.save(modals);
         }
@@ -512,86 +367,36 @@ export class DuctileIronFittingsService {
     return this.getProtectionInternal();
   }
 
-  // ==================== Protection External Methods ====================
-  async getProtectionExternal(): Promise<any> {
+  // ==================== Protection External ====================
+  async getProtectionExternal(): Promise<DuctileIronFittingsProtectionExternal> {
     const protection = await this.protectionExternalRepo.findOne({
       where: { id: 1 },
       relations: ['items', 'items.modals'],
     });
-    
-    if (!protection) {
-      throw new NotFoundException('Protection External not found');
-    }
-    
-    if (protection.items) {
-      protection.items.sort((a, b) => a.sort_order - b.sort_order);
-      protection.items.forEach(item => {
-        if (item.modals) {
-          item.modals.sort((a, b) => a.sort_order - b.sort_order);
-        }
-      });
-    }
-    
+    if (!protection) throw new NotFoundException('Protection External not found');
     return protection;
   }
 
-  async createProtectionExternal(dto: DuctileIronFittingProtectionExternalDto): Promise<any> {
-    const existing = await this.protectionExternalRepo.findOne({ where: { id: 1 } });
-    if (existing) {
-      throw new BadRequestException('Protection External already exists. Use update instead.');
-    }
-    
-    const protection = this.protectionExternalRepo.create({ title: dto.title, id: 1 });
-    const saved = await this.protectionExternalRepo.save(protection);
-    
-    if (dto.items && dto.items.length > 0) {
-      for (const item of dto.items) {
-        const protectionItem = this.protectionExternalItemRepo.create({
-          protection_external_id: saved.id,
-          name: item.name,
-          description: item.description,
-          guiding_standards: item.guiding_standards,
-          sort_order: item.sort_order ?? 0,
-        });
-        const savedItem = await this.protectionExternalItemRepo.save(protectionItem);
-        
-        if (item.modal && item.modal.length > 0) {
-          const modals = item.modal.map((modal, idx) =>
-            this.protectionExternalModalRepo.create({
-              protection_external_item_id: savedItem.id,
-              label: modal.label,
-              description1: modal.description1,
-              sort_order: modal.sort_order ?? idx,
-            }),
-          );
-          await this.protectionExternalModalRepo.save(modals);
-        }
-      }
-    }
-    
-    return this.getProtectionExternal();
-  }
-
-  async updateProtectionExternal(dto: DuctileIronFittingProtectionExternalDto): Promise<any> {
+  async upsertProtectionExternal(dto: DuctileIronFittingProtectionExternalDto): Promise<DuctileIronFittingsProtectionExternal> {
     let protection = await this.protectionExternalRepo.findOne({ where: { id: 1 } });
-    if (!protection) {
-      throw new NotFoundException('Protection External not found');
-    }
     
-    if (dto.title) {
+    if (!protection) {
+      protection = this.protectionExternalRepo.create({ id: 1, title: dto.title });
+    } else {
       protection.title = dto.title;
       await this.protectionExternalRepo.save(protection);
     }
     
+    // Update items and modals
     if (dto.items) {
-      // Delete existing items and modals
+      // Delete existing
       const existingItems = await this.protectionExternalItemRepo.find({ where: { protection_external_id: 1 } });
       for (const item of existingItems) {
         await this.protectionExternalModalRepo.delete({ protection_external_item_id: item.id });
         await this.protectionExternalItemRepo.delete(item.id);
       }
       
-      // Create new items and modals
+      // Create new
       for (const item of dto.items) {
         const protectionItem = this.protectionExternalItemRepo.create({
           protection_external_id: 1,
@@ -609,7 +414,7 @@ export class DuctileIronFittingsService {
               label: modal.label,
               description1: modal.description1,
               sort_order: modal.sort_order ?? idx,
-            }),
+            })
           );
           await this.protectionExternalModalRepo.save(modals);
         }
@@ -619,97 +424,30 @@ export class DuctileIronFittingsService {
     return this.getProtectionExternal();
   }
 
-  // ==================== Card Section Methods ====================
+  // ==================== Card Section ====================
   async getCardSections(): Promise<CardSection[]> {
     return this.cardSectionRepo.find({ order: { sort_order: 'ASC' } });
   }
 
-  async createCardSections(dto: DuctileIronFittingCardSectionDto[]): Promise<CardSection[]> {
-    const cards = this.cardSectionRepo.create(dto);
-    return this.cardSectionRepo.save(cards);
-  }
-
-  async updateCardSections(dto: DuctileIronFittingCardSectionDto[]): Promise<CardSection[]> {
+  async upsertCardSections(dto: DuctileIronFittingCardSectionDto[]): Promise<CardSection[]> {
     await this.cardSectionRepo.clear();
     const cards = this.cardSectionRepo.create(dto);
     return this.cardSectionRepo.save(cards);
   }
 
-  // ==================== Bulk Update Method ====================
+  // ==================== Bulk Update ====================
   async updateAllSections(dto: UpdateAllDuctileIronFittingsSectionsDto): Promise<any> {
     const results: any = {};
     
-    if (dto.overview) {
-      try {
-        results.overview = await this.updateOverview(dto.overview);
-      } catch (error) {
-        results.overview = { error: error.message };
-      }
-    }
-    
-    if (dto.why_choose) {
-      try {
-        results.why_choose = await this.updateWhyChoose(dto.why_choose);
-      } catch (error) {
-        results.why_choose = { error: error.message };
-      }
-    }
-    
-    if (dto.product_details) {
-      try {
-        results.product_details = await this.updateProductDetails(dto.product_details);
-      } catch (error) {
-        results.product_details = { error: error.message };
-      }
-    }
-    
-    if (dto.fittings_range) {
-      try {
-        results.fittings_range = await this.updateFittingsRange(dto.fittings_range);
-      } catch (error) {
-        results.fittings_range = { error: error.message };
-      }
-    }
-    
-    if (dto.application) {
-      try {
-        results.application = await this.updateApplication(dto.application);
-      } catch (error) {
-        results.application = { error: error.message };
-      }
-    }
-    
-    if (dto.jointing_systems) {
-      try {
-        results.jointing_systems = await this.updateJointingSystems(dto.jointing_systems);
-      } catch (error) {
-        results.jointing_systems = { error: error.message };
-      }
-    }
-    
-    if (dto.protection_internal) {
-      try {
-        results.protection_internal = await this.updateProtectionInternal(dto.protection_internal);
-      } catch (error) {
-        results.protection_internal = { error: error.message };
-      }
-    }
-    
-    if (dto.protection_external) {
-      try {
-        results.protection_external = await this.updateProtectionExternal(dto.protection_external);
-      } catch (error) {
-        results.protection_external = { error: error.message };
-      }
-    }
-    
-    if (dto.card_sections) {
-      try {
-        results.card_sections = await this.updateCardSections(dto.card_sections);
-      } catch (error) {
-        results.card_sections = { error: error.message };
-      }
-    }
+    if (dto.overview) results.overview = await this.upsertOverview(dto.overview);
+    if (dto.why_choose) results.why_choose = await this.upsertWhyChoose(dto.why_choose);
+    if (dto.product_details) results.product_details = await this.upsertProductDetails(dto.product_details);
+    if (dto.fittings_range) results.fittings_range = await this.upsertFittingsRange(dto.fittings_range);
+    if (dto.application) results.application = await this.upsertApplication(dto.application);
+    if (dto.jointing_systems) results.jointing_systems = await this.upsertJointingSystems(dto.jointing_systems);
+    if (dto.protection_internal) results.protection_internal = await this.upsertProtectionInternal(dto.protection_internal);
+    if (dto.protection_external) results.protection_external = await this.upsertProtectionExternal(dto.protection_external);
+    if (dto.card_sections) results.card_sections = await this.upsertCardSections(dto.card_sections);
     
     return results;
   }

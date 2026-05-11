@@ -1,24 +1,17 @@
 import { IsString, IsOptional, IsArray, ValidateNested, IsInt, Min, IsUrl } from 'class-validator';
 import { Type } from 'class-transformer';
-export class DuctileIronFittingWhyChooseListItemDto {
-  @IsOptional()
-  @IsInt()
-  id?: number;
+// Remove this DTO if it exists
+// export class DuctileIronFittingWhyChooseListItemDto {
+//   list_item: string;
+//   sort_order?: number;
+// }
 
-  @IsString()
-  list_item: string;
-
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  sort_order?: number;
-}
+// Update WhyChoose DTO
 export class DuctileIronFittingWhyChooseDto {
   @IsString()
   title: string;
 
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => DuctileIronFittingWhyChooseListItemDto)
-  lists: DuctileIronFittingWhyChooseListItemDto[];
+  @IsString({ each: true })
+  lists: string[];  // Array of strings
 }

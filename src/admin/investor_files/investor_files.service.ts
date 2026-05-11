@@ -5,12 +5,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Investor } from '../../entity/investor.entity';
 import { InvestorDto } from '../../dto/investor.dto';
+import { NodalOfficer } from 'src/entity/nodal_officer.entity';
+import { NodalOfficerDto } from 'src/dto/nodal_officer.dto';
 
 @Injectable()
 export class InvestorService {
   constructor(
     @InjectRepository(Investor)
     private investorRepo: Repository<Investor>,
+    @InjectRepository(NodalOfficer)
+    private repo: Repository<NodalOfficer>,
   ) {}
 
   // CREATE SINGLE (for your new data format)
@@ -550,6 +554,44 @@ export class InvestorService {
     await this.investorRepo.remove(record);
     return {
       message: `Record with id ${id} deleted successfully`,
+    };
+  }
+  
+  // Create or Update - one function for both
+  async save(data: NodalOfficerDto): Promise<any> {
+    const existingRecord = await this.repo.findOne({ 
+      where: { name: data.name } 
+    });
+    
+    if (existingRecord) {
+      await this.repo.update(existingRecord.id, data);
+      const updated = await this.repo.findOne({ where: { id: existingRecord.id } });
+      return {
+        message: `Record with name "${data.name}" updated successfully`,
+        data: updated,
+      };
+    } else {
+      const saved = await this.repo.save(data);
+      return {
+        message: `Record created successfully`,
+        data: saved,
+      };
+    }
+  }
+
+  // Get - get all or get one by id
+  async get(id?: number): Promise<any> {
+    if (id) {
+      const data = await this.repo.findOne({ where: { id } });
+      return {
+        message: `Record fetched successfully`,
+        data: data,
+      };
+    }
+    const data = await this.repo.find();
+    return {
+      message: `Records fetched successfully`,
+      data: data,
     };
   }
 }

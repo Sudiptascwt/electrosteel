@@ -9,7 +9,7 @@ import { Application } from '../../entity/application.entity';
 import { JointingSystems } from '../../entity/jointing-systems.entity';
 import { ProtectionInternal } from '../../entity/protection-internal.entity';
 import { ProtectionExternal } from '../../entity/protection-external.entity';
-
+import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 
 @Module({
     imports: [
@@ -20,6 +20,7 @@ import { ProtectionExternal } from '../../entity/protection-external.entity';
             JointingSystems,
             ProtectionInternal,
             ProtectionExternal,
+            AllBanner
         ]),
     ],
     controllers: [frontendProductController],

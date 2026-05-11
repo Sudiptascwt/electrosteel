@@ -313,6 +313,27 @@ import { ProtectionExternal } from 'src/entity/protection-external.entity';
 import { frontendProductModule } from './frontend/products/products.module';
 import { FlangePipeModule } from './admin/products/flange-pipe/flange-pipe.module';
 import { FlangePipe } from 'src/entity/flange-pipe.entity';
+import { DuctileIronFittingsModule } from './admin/products/ductile_iron_fitting/ductile_iron_fitting.module';
+
+import { Overview } from 'src/entity/ductile_iron_fitting_overview.entity';
+import { WhyChoose } from 'src/entity/ductile_iron_fitting_why_choose.entity';
+import { WhyChooseList } from 'src/entity/ductile_iron_fitting_why_choose_list.entity';
+import { DuctileIronFittingsProductDetails } from 'src/entity/ductile_iron_fitting_product_details.entity';
+import { ProductDetailsStandard } from 'src/entity/ductile_iron_fitting_product_details_standard.entity';
+import { FittingsRange } from 'src/entity/ductile_iron_fitting_fittings_range.entity';
+import { FittingsRangeItem } from 'src/entity/ductile_iron_fitting_fittings_range_item.entity';
+import { DuctileIronFittingsApplication } from 'src/entity/ductile_iron_fitting_application.entity';
+import { ApplicationColumn } from 'src/entity/ductile_iron_fitting_application_column.entity';
+import { ApplicationItem } from 'src/entity/ductile_iron_fitting_application_item.entity';
+import { JointingSystem } from 'src/entity/ductile_iron_fitting_jointing_system.entity';
+import { DuctileIronFittingsProtectionInternal } from 'src/entity/ductile_iron_fitting_protection_internal.entity';
+import { ProtectionInternalItem } from 'src/entity/ductile_iron_fitting_protection_internal_item.entity';
+import { ProtectionInternalModal } from 'src/entity/ductile_iron_fitting_protection_internal_modal.entity';
+import { DuctileIronFittingsProtectionExternal } from 'src/entity/ductile_iron_fitting_protection_external.entity';
+import { ProtectionExternalItem } from 'src/entity/ductile_iron_fitting_protection_external_item.entity';
+import { ProtectionExternalModal } from 'src/entity/ductile_iron_fitting_protection_external_modal.entity';
+import { CardSection } from 'src/entity/ductile_iron_fitting_card_section.entity';
+import { NodalOfficer } from 'src/entity/nodal_officer.entity';
 
 @Module({
   imports: [
@@ -333,7 +354,7 @@ import { FlangePipe } from 'src/entity/flange-pipe.entity';
       database: process.env.DB_NAME,
       type: 'mysql', 
       // entities: [User, Certificate, Banner, Investor, Care, Milestone, MilestoneImage, Advancement], 
-      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor, EventBanner, SectionContent, CardContent, Testimonial, Reward, CommonTitle, OverviewDuctileIronPipes, ProductDetails, Application, JointingSystems, ProtectionInternal, ProtectionExternal,FlangePipe], 
+      entities: [User, Certificate, Banner,Milestone, MilestoneImage, InnerBanner, InnerFeature, Product, SectionElectrosteel, VideoSection, SocialSection, Advertisement, Image,officeDetails, AllOfficeDetails, ContactDetails, product_applications,product_application_images, ProductType, SocialPlatform, ManufacturingUnit, ProductBrochures, Facility, MetaTag, PipeArt, PipeArtDetail, Subsidiaries, Conduct, CsrKey, Report, Vision, Directors, BoardCommitteType, BoardCommitteDetails, StockYard, Policies, NewsLetter, Event, Content, ElectrosteelSlider, CorporateProfile, CsrOverview, CsrReportContent, LatestElectrosteel, DigitalVideos, CommonBanner, BusinessEnquiry, ShareholderEnquiry, EmploymentForm, QualityResults, AnnualReports, SubsidiariesAccount, AccountOfJointVenture, NcltMeeting, NcltFinalOrder, Blogs, SrikalahasthiAppointmentletter, SrikalahasthiCodeOfConductInsiders, SrikalahasthiComittee, srikalahasthiCodeOfConduct, SrikalahasthiDirectorsResignation, SrikalahasthiFamiliarizationProgramme, SrikalahasthiInvestorContact, SrikalahasthiNotices, SrikalahasthiPolicies, ShareHoldingInformation, Srikalahasthi, NewsPaperPublication, CorporateGovernance, ShareholderMerger, Notices, Notices160, VotingResults, IepfSuspense, UnclaimedDividends, UnclaimedDividendsImages, AnnualReturn, InvestorRelation, AuthorisedKmp, InvestorStockInfo, CreditRatings, InvestorPresentation, InvestorDocuments, CsrProjects, FooterBelowImages, Jolsadhana,AllCertificate, Regulation, ActivityLog, DuctileIronPipesOverview, DuctileIronPipeDetails, DuctileIronPipeApplications, PipesJointing, PipesJointingDetails, InternalPipes, ExternalPipes, DuctileIronFittingsOverview, DuctileIronFittingsDetails,DuctileIronFittingsApplications, FittingsPipesJointing, FittingsPipesJointingDetails, FittingsExternalPipes, FittingsInternalPipes, Disclosure, DisclosureImages, OtherDisclosure, GlobalPresence, AboutFacility, AboutBanner, BelowBanner, CorporateProfileTestimonial, VisionPrinciples, AllPagesTitle, FacilityName, home_slides, mini_stats, ecl_products, headings, growing_from_strength, water_section, AboutMain, growing_strength_data, AboutDuctileIron, ManufacturingFacilities, AboutPeopleData, Mission, board_commitee_hero_data, OverviewSection, about_technology_innovation, BoardCommitteData, ProcessInnovationHero, MilestoneBanner, PipesToInhospitableKargil, ElectrosteelIsro,ReachingStars, UltimateDIPipes, ViaHelicopter, changiWater, ProductInnovationHeroSection, ElectrolockJoint, TrenchlessDIPipes, PolyurethaneLining, PolyurethaneCoating, LegendHeroSection, LegendEclCard, LegendEclVideo, AllBanner, Investor, EventBanner, SectionContent, CardContent, Testimonial, Reward, CommonTitle, OverviewDuctileIronPipes, ProductDetails, Application, JointingSystems, ProtectionInternal, ProtectionExternal,FlangePipe, Overview,WhyChoose,WhyChooseList,DuctileIronFittingsProductDetails, ProductDetailsStandard,FittingsRange,FittingsRangeItem,DuctileIronFittingsApplication,ApplicationColumn,ApplicationItem,JointingSystem,DuctileIronFittingsProtectionInternal, ProtectionInternalItem,ProtectionInternalModal,DuctileIronFittingsProtectionExternal,ProtectionExternalItem, ProtectionExternalModal, CardSection, NodalOfficer ], 
       // synchronize: true, // only for dev
 
       synchronize: false, 
@@ -479,7 +500,8 @@ import { FlangePipe } from 'src/entity/flange-pipe.entity';
     peopleDataModule,
     SectionModule,
     frontendProductModule,
-    FlangePipeModule
+    FlangePipeModule,
+    DuctileIronFittingsModule
   ],
   controllers: [AppController],
   providers: [AppService],

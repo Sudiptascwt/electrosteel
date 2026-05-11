@@ -1,8 +1,8 @@
 // section.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SectionController } from './ductile_iron_pipes.controller';
-import { SectionService } from './ductile_iron_pipes.service';
+import { DuctileIronPipesController } from './ductile_iron_pipes.controller';
+import { DuctileIronPipesService } from './ductile_iron_pipes.service';
 import { OverviewDuctileIronPipes } from '../../../entity/overview.entity';
 import { ProductDetails } from '../../../entity/product-details.entity';
 import { Application } from '../../../entity/application.entity';
@@ -20,8 +20,8 @@ import { ProtectionExternal } from '../../../entity/protection-external.entity';
             ProtectionExternal,
         ]),
     ],
-    controllers: [SectionController],
-    providers: [SectionService],
-    exports: [SectionService],
+    controllers: [DuctileIronPipesController],
+    providers: [DuctileIronPipesService],
+    exports: [DuctileIronPipesService],
 })
 export class SectionModule {}

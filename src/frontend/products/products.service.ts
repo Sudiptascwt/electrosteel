@@ -7,6 +7,7 @@ import { Application } from '../../entity/application.entity';
 import { JointingSystems } from '../../entity/jointing-systems.entity';
 import { ProtectionInternal } from '../../entity/protection-internal.entity';
 import { ProtectionExternal } from '../../entity/protection-external.entity';
+import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 
 @Injectable()
 export class frontendProductService {
@@ -23,16 +24,19 @@ export class frontendProductService {
         private protectionInternalRepository: Repository<ProtectionInternal>,
         @InjectRepository(ProtectionExternal)
         private protectionExternalRepository: Repository<ProtectionExternal>,
+        @InjectRepository(AllBanner)
+        private readonly allBannerRepo: Repository<AllBanner>,
     ) {}
 
     async getAllSections() {
-        const [overview, productDetails, application, jointingSystems, protectionInternal, protectionExternal] = await Promise.all([
+        const [overview, productDetails, application, jointingSystems, protectionInternal, protectionExternal, hero_section] = await Promise.all([
             this.overviewRepository.find(),
             this.productDetailsRepository.find(),
             this.applicationRepository.find(),
             this.jointingSystemsRepository.find(),
             this.protectionInternalRepository.find(),
             this.protectionExternalRepository.find(),
+            this.allBannerRepo.findOne( {where: { page_name: 'ductile_iron_pipes' }}),
         ]);
 
         return {
@@ -44,6 +48,7 @@ export class frontendProductService {
                 jointingSystems: this.parseJointingSystems(jointingSystems),
                 protectionInternal: this.parseProtectionInternal(protectionInternal),
                 protectionExternal: this.parseProtectionExternal(protectionExternal),
+                hero_data: hero_section
             },
         };
     }

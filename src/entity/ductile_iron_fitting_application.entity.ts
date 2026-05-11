@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { ApplicationColumn } from './ductile_iron_fitting_application_column.entity';
 
 @Entity('application')
-export class Application {
+export class DuctileIronFittingsApplication {
   @PrimaryGeneratedColumn()
   id: number;
 

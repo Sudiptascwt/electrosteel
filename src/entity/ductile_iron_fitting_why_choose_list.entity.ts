@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { WhyChoose } from './ductile_iron_fitting_why_choose.entity';
 
-@Entity('why_choose_list')
+@Entity('ductile_iron_fitting_why_choose_list')
 export class WhyChooseList {
   @PrimaryGeneratedColumn()
   id: number;

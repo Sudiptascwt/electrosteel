@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { ProtectionInternal } from './ductile_iron_fitting_protection_internal.entity';
+import { DuctileIronFittingsProtectionInternal } from './ductile_iron_fitting_protection_internal.entity';
 import { ProtectionInternalModal } from './ductile_iron_fitting_protection_internal_modal.entity';
 
-@Entity('protection_internal_item')
+@Entity('ductile_iron_fitting_protection_internal_item')
 export class ProtectionInternalItem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,9 +25,9 @@ export class ProtectionInternalItem {
   @Column({ name: 'sort_order', default: 0 })
   sort_order: number;
 
-  @ManyToOne(() => ProtectionInternal, (protectionInternal) => protectionInternal.items)
+  @ManyToOne(() => DuctileIronFittingsProtectionInternal, (protectionInternal) => protectionInternal.items)
   @JoinColumn({ name: 'protection_internal_id' })
-  protection_internal: ProtectionInternal;
+  protection_internal: DuctileIronFittingsProtectionInternal;
 
   @OneToMany(() => ProtectionInternalModal, (modal) => modal.protection_internal_item, { cascade: true })
   modals: ProtectionInternalModal[];

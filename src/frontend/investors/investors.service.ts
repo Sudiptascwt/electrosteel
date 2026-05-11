@@ -10,13 +10,14 @@ export class InvestorService {
     private investorRepo: Repository<Investor>,
   ) {}
   
-  // GET BY YEAR OR TITLE
+    // GET BY YEAR OR TITLE
     async findByYearOrTitle(
         year?: string, 
         title?: string, 
         category?: string, 
         is_latest?: number,
-        src_type?: string
+        src_type?: string,
+        heading?: string  // This parameter is now optional/not needed
     ) {
         let query = this.investorRepo.createQueryBuilder('investor');
         let hasCondition = false;
@@ -53,6 +54,15 @@ export class InvestorService {
             }
         }
         
+        if (src_type) {
+            if (hasCondition) {
+                query = query.andWhere('investor.src_type = :src_type', { src_type });
+            } else {
+                query = query.where('investor.src_type = :src_type', { src_type });
+                hasCondition = true;
+            }
+        }
+        
         const results = await query.getMany();
         
         if (results.length === 0) {
@@ -62,25 +72,32 @@ export class InvestorService {
                 totalCount: 0
             };
         }
+        
+        // Group by year and use heading from database
         const groupedByYear = results.reduce((acc, record) => {
             if (!acc[record.year]) {
-                acc[record.year] = [];
+                acc[record.year] = {
+                    heading: record.heading,  // 👈 Get heading from the record
+                    items: []
+                };
             }
-            acc[record.year].push({
+            acc[record.year].items.push({
                 id: record.id,
                 title: record.title,
                 date: record.date,
                 src: record.src,
                 category: record.category,
                 is_latest: record.is_latest,
-                src_type: record.src_type
+                src_type: record.src_type,
             });
             return acc;
         }, {});
         
+        // Convert to array format
         const financialYears = Object.keys(groupedByYear).map(year => ({
             year: year,
-            results: groupedByYear[year]
+            heading: groupedByYear[year].heading,  // 👈 Heading from DB
+            results: groupedByYear[year].items
         }));
         
         return {

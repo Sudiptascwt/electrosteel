@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn } from 'typeorm';
-import { Application } from './ductile_iron_fitting_application.entity';
+import { DuctileIronFittingsApplication } from './ductile_iron_fitting_application.entity';
 import { ApplicationItem } from './ductile_iron_fitting_application_item.entity';
 
 @Entity('application_column')
@@ -16,9 +16,9 @@ export class ApplicationColumn {
   @Column({ name: 'sort_order', default: 0 })
   sort_order: number;
 
-  @ManyToOne(() => Application, (application: Application) => application.columns)
+  @ManyToOne(() => DuctileIronFittingsApplication, (application: DuctileIronFittingsApplication) => application.columns)
   @JoinColumn({ name: 'application_id' })
-  application: Application;
+  application: DuctileIronFittingsApplication;
 
   @OneToMany(() => ApplicationItem, (item: ApplicationItem) => item.application_column)
   items: ApplicationItem[];

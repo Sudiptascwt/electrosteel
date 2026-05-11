@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { ProductDetails } from './ductile_iron_fitting_product_details.entity';
+import { DuctileIronFittingsProductDetails } from './ductile_iron_fitting_product_details.entity';
 
 @Entity('product_details_standard')
 export class ProductDetailsStandard {
@@ -15,9 +15,9 @@ export class ProductDetailsStandard {
   @Column({ name: 'sort_order', default: 0 })
   sort_order: number;
 
-  @ManyToOne(() => ProductDetails, (productDetails) => productDetails.standards)
+  @ManyToOne(() => DuctileIronFittingsProductDetails, (productDetails) => productDetails.standards)
   @JoinColumn({ name: 'product_details_id' })
-  product_details: ProductDetails;
+  product_details: DuctileIronFittingsProductDetails;
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;

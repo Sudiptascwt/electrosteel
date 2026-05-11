@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/role/roles.decorator';
 import { UserRole } from '../users/user.entity';
 import { RolesGuard } from 'src/role/roles.guard';
+import { NodalOfficerDto } from 'src/dto/nodal_officer.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
@@ -80,6 +81,20 @@ export class InvestorController {
   @Delete('ref_id')
   async deleteByYear(@Query('ref_id') ref_id: string) {
     return this.investorService.deleteByYear(ref_id);
+  }
+
+  @Post('nodal-officer/save')
+  async save(@Body() data: NodalOfficerDto) {
+    return this.investorService.save(data);
+  }
+
+  // Get all or get by id
+  @Get('nodal-officer')
+  async get(@Query('id') id?: string) {
+    if (id) {
+      return this.investorService.get(parseInt(id));
+    }
+    return this.investorService.get();
   }
 }
 

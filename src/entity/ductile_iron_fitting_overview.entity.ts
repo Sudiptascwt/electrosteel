@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('overview')
+@Entity('ductile_iron_fitting_overview')
 export class Overview {
 @PrimaryGeneratedColumn()
   id: number;
