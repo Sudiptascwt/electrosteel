@@ -13,7 +13,7 @@ export class board_commitee_hero_data {
   id: number;
 
   @Column({ type: 'text', nullable: false })
-  banner: string;  
+  image: string;  
 
   @Column({ type: 'text', nullable: true })
   title: string;

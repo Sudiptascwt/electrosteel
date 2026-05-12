@@ -57,4 +57,7 @@ export class FittingsPipesJointingDetails {
 
   @UpdateDateColumn({ name: 'modified_at', type: 'datetime' })
   modified_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

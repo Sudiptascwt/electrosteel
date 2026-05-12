@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { ApplicationColumn } from './ductile_iron_fitting_application_column.entity';
 
-@Entity('application_item')
+@Entity('ductile_iron_fitting_application_item')
 export class ApplicationItem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,5 +18,8 @@ export class ApplicationItem {
   @ManyToOne(() => ApplicationColumn, (applicationColumn: ApplicationColumn) => applicationColumn.items)
   @JoinColumn({ name: 'application_column_id' })
   application_column: ApplicationColumn;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 
 }

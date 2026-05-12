@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { ApplicationColumn } from './ductile_iron_fitting_application_column.entity';
 
-@Entity('application')
+@Entity('ductile_iron_fitting_application')
 export class DuctileIronFittingsApplication {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,4 +17,7 @@ export class DuctileIronFittingsApplication {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

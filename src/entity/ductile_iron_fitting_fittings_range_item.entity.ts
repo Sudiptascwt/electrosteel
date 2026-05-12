@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { FittingsRange } from './ductile_iron_fitting_fittings_range.entity';
 
-@Entity('fittings_range_item')
+@Entity('ductile_iron_fitting_fittings_range_item')
 export class FittingsRangeItem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,4 +21,7 @@ export class FittingsRangeItem {
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

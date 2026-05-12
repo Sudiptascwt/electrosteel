@@ -9,4 +9,7 @@ export class ProtectionExternal extends BaseEntity {
 
     @Column({ type: 'longtext', nullable: true })
     table: string; // JSON string for the table data
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    category: string;
 }

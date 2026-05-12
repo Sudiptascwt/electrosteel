@@ -18,6 +18,9 @@ export class headings {
     @Column({ type: 'varchar', length: 255, nullable: true })
     section_type: string;
 
+    @Column({ type: 'text', nullable: true })
+    image: string;
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 

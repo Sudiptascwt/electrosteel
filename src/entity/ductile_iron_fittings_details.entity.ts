@@ -37,4 +37,7 @@ export class DuctileIronFittingsDetails {
 
     @UpdateDateColumn()
     modified_at: Date;
+
+    @Column({ type: 'text', nullable: true })
+category: string;
 }

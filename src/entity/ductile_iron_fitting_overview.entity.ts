@@ -19,4 +19,7 @@ export class Overview {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;  // Changed from updatedAt to updated_at
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

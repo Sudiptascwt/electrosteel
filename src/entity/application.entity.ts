@@ -31,4 +31,7 @@ export class Application extends BaseEntity {
 
     @Column({ type: 'text', nullable: true })
     icon: string;
+    
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    category: string;
 }

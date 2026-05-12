@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('jointing_system')
+@Entity('ductile_iron_fitting_jointing_system')
 export class JointingSystem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,4 +25,7 @@ export class JointingSystem {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

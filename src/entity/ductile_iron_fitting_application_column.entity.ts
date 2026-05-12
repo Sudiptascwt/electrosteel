@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColum
 import { DuctileIronFittingsApplication } from './ductile_iron_fitting_application.entity';
 import { ApplicationItem } from './ductile_iron_fitting_application_item.entity';
 
-@Entity('application_column')
+@Entity('ductile_iron_fitting_application_column')
 export class ApplicationColumn {
 @PrimaryGeneratedColumn()
   id: number;
@@ -15,6 +15,9 @@ export class ApplicationColumn {
 
   @Column({ name: 'sort_order', default: 0 })
   sort_order: number;
+
+  @Column({ type: 'text', nullable: true })
+  category: string;
 
   @ManyToOne(() => DuctileIronFittingsApplication, (application: DuctileIronFittingsApplication) => application.columns)
   @JoinColumn({ name: 'application_id' })

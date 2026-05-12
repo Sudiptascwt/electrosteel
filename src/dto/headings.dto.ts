@@ -16,5 +16,9 @@ export class headingsDto {
 
   @IsOptional()
   @IsString()
+  image?: string;  
+
+  @IsOptional()
+  @IsString()
   section_type?: string; 
 }

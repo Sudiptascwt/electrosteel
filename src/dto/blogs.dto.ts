@@ -72,4 +72,8 @@ export class BlogsDto {
   @IsOptional()
   @IsString()
   badge?: string;
+
+  @IsOptional()
+  @IsString()
+  add_to_home?: string;
 }

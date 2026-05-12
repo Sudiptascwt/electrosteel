@@ -34,6 +34,8 @@ export class AdvertisementService {
       recordToUpdate.image1 = data.image1;
       recordToUpdate.image2 = data.image2;
       recordToUpdate.image3 = data.image3;
+      recordToUpdate.play_store_link = data.play_store_link;
+      recordToUpdate.apple_store_link = data.apple_store_link;
       
       const savedRecord = await this.advertisementRepository.save(recordToUpdate)
       
@@ -56,6 +58,8 @@ export class AdvertisementService {
         image1: data.image1,
         image2: data.image2,
         image3: data.image3,
+        play_store_link :data.play_store_link,
+        apple_store_link : data.apple_store_link,
       });
       
       const savedRecord = await this.advertisementRepository.save(newRecord);
@@ -102,6 +106,8 @@ export class AdvertisementService {
           image1: item.image1,
           image2: item.image2,
           image3: item.image3,
+          play_store_link :item.play_store_link,
+          apple_store_link : item.apple_store_link,
         };
     });
       return {

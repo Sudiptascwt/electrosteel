@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { ProtectionInternalItem } from './ductile_iron_fitting_protection_internal_item.entity';
 
-@Entity('protection_internal_modal')
+@Entity('ductile_iron_fitting_protection_internal')
 export class ProtectionInternalModal {
   @PrimaryGeneratedColumn()
   id: number;
@@ -33,4 +33,7 @@ export class ProtectionInternalModal {
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

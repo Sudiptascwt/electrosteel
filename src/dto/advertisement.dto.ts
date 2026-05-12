@@ -32,4 +32,12 @@ export class AdvertisementDto {
   @IsOptional()
   @IsString()
   image3?: string; 
+
+  @IsOptional()
+  @IsString()
+  play_store_link?: string; 
+
+  @IsOptional()
+  @IsString()
+  apple_store_link?: string; 
 }

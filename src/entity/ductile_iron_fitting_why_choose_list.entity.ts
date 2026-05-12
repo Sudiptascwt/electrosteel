@@ -21,4 +21,7 @@ export class WhyChooseList {
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

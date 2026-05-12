@@ -4,7 +4,7 @@ export class board_commitee_hero_dataDto {
 
   @IsNotEmpty({ message: 'Heading is required' })
   @IsString({ message: 'Heading must be a string' })
-  banner: string;
+  image: string;
 
   @IsOptional()
   @IsString({ message: 'Image must be a string' })

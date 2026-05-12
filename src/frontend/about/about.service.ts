@@ -180,16 +180,31 @@ export class AboutFrontendService {
             this.about_technology_innovationRepository.find(),
             ]);
 
-            const formattedFacilities = facilities.map((record) => ({
-            id: record.id,
-            title: record.title,
-            description: record.description,
-            features: record.features ? JSON.parse(record.features) : [],
-            phone: record.phone,
-            address: record.address,
-            createdAt: record.createdAt,
-            updatedAt: record.updatedAt,
-            }));
+            const formattedFacilities = facilities.map((record) => {
+            let parsedFeatures = [];
+
+            if (record.features) {
+                try {
+                parsedFeatures =
+                    typeof record.features === 'string'
+                    ? JSON.parse(record.features)
+                    : record.features;
+                } catch {
+                parsedFeatures = [record.features];
+                }
+            }
+
+            return {
+                id: record.id,
+                title: record.title,
+                description: record.description,
+                features: parsedFeatures,
+                phone: record.phone,
+                address: record.address,
+                createdAt: record.createdAt,
+                updatedAt: record.updatedAt,
+            };
+            });
 
             return {
             status: true,

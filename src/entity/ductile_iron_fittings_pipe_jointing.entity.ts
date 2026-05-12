@@ -41,4 +41,7 @@ export class FittingsPipesJointing {
 
     @OneToMany(() => FittingsPipesJointingDetails, (details) => details.ductile_fittings_pipes_jointing, { cascade: true })
     details: FittingsPipesJointingDetails[];
+
+    @Column({ type: 'text', nullable: true })
+category: string;
 }

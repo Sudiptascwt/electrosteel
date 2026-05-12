@@ -8,11 +8,14 @@ export class OverviewDuctileIronPipes extends BaseEntity {
     title: string;
 
     @Column({ type: 'longtext', nullable: true })
-    desc: string;
+    description: string;
 
     @Column({ type: 'longtext', nullable: true })
     image: string;
 
     @Column({ type: 'longtext', nullable: true })
     tableData: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    category: string;
 }

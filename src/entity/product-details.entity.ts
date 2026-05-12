@@ -27,4 +27,7 @@ export class ProductDetails extends BaseEntity {
 
     @Column({ type: 'longtext', nullable: true })
     tableExtraData: string; // JSON strin
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    category: string;
 }

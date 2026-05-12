@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { ProtectionExternalItem } from './ductile_iron_fitting_protection_external_item.entity';
 
-@Entity('protection_external_modal')
+@Entity('ductile_iron_fitting_protection_external_modal')
 export class ProtectionExternalModal {
   @PrimaryGeneratedColumn()
   id: number;
@@ -24,4 +24,7 @@ export class ProtectionExternalModal {
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

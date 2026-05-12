@@ -17,4 +17,7 @@ export class WhyChoose {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

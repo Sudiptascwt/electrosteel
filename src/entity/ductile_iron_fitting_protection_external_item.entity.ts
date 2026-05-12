@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColum
 import { DuctileIronFittingsProtectionExternal } from './ductile_iron_fitting_protection_external.entity';
 import { ProtectionExternalModal } from './ductile_iron_fitting_protection_external_modal.entity';
 
-@Entity('protection_external_item')
+@Entity('ductile_iron_fitting_protection_external_item')
 export class ProtectionExternalItem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -34,4 +34,7 @@ export class ProtectionExternalItem {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

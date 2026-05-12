@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { DuctileIronFittingsProductDetails } from './ductile_iron_fitting_product_details.entity';
 
-@Entity('product_details_standard')
+@Entity('ductile_iron_fitting_product_details_standard')
 export class ProductDetailsStandard {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,4 +21,7 @@ export class ProductDetailsStandard {
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

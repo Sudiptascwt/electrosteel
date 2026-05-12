@@ -1,0 +1,129 @@
+// AllProducts.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  ParseIntPipe,
+  HttpStatus,
+  BadRequestException,
+  UseGuards,
+} from '@nestjs/common';
+import { AllProductsService } from './all_products.service';
+import { AllProductsDto } from '../../../dto/all_products.dto';
+import { RolesGuard } from '../../../role/roles.guard';
+import { Roles } from '../../../role/roles.decorator';
+import { UserRole } from '../../users/user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
+@Controller('all-products')
+export class AllProductsController {
+  constructor(private readonly AllProductsService: AllProductsService) {}
+
+  // CREATE - POST /AllProducts
+  @Post()
+  async create(@Body() createDto: AllProductsDto) {
+    try {
+      const data = await this.AllProductsService.create(createDto);
+      return {
+        status: true,
+        statusCode: HttpStatus.CREATED,
+        message: 'Product updated successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  // GET ALL - GET /AllProducts
+  @Get()
+  async findAll() {
+    try {
+      const data = await this.AllProductsService.findAll();
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'All Products fetched successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  // GET BY ID - GET /AllProducts/:id
+  @Get(':id')
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    try {
+      const data = await this.AllProductsService.findById(id);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Product fetched successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  // UPDATE - PUT /AllProducts/:id
+  @Post(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDto: AllProductsDto,
+  ) {
+    try {
+      const data = await this.AllProductsService.update(id, updateDto);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Product updated successfully',
+        data,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  // DELETE - DELETE /AllProducts/:id
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    try {
+      await this.AllProductsService.delete(id);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Product deleted successfully',
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  // FIND BY CATEGORY - POST /AllProducts/find-by-category (RECOMMENDED - SIMPLE)
+  @Get('product/find-by-category/:category')
+  async findBlogByCategoryGet(@Param('category') category: string) {
+    try {
+      if (!category) {
+        throw new BadRequestException('Category is required');
+      }
+      
+      const data = await this.AllProductsService.findBlogByName(category);
+      return {
+        status: true,
+        statusCode: HttpStatus.OK,
+        message: 'Product fetched successfully',
+        data,  // This will be an array of AllProducts
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+}

@@ -35,6 +35,12 @@ export class Advertisement {
   @Column({ type: 'text', nullable: true })
   image3: string;
 
+  @Column({ type: 'text', nullable: true })
+  play_store_link: string;
+
+  @Column({ type: 'text', nullable: true })
+  apple_store_link: string;
+
   @CreateDateColumn()
   created_at: Date;
 

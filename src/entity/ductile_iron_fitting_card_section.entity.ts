@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('card_section')
+@Entity('ductile_iron_fitting_card_section')
 export class CardSection {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,4 +22,7 @@ export class CardSection {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
+
+  @Column({ type: 'text', nullable: true })
+category: string;
 }

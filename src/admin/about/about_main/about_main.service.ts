@@ -258,7 +258,9 @@ export class AboutMainService {
           this.ManufacturingFacilitiesRepository.create({
             title: facility.title,
             description: facility.description,
-            features: JSON.stringify(facility.features),
+            features: Array.isArray(facility.features)
+            ? JSON.stringify(facility.features)
+            : facility.features,
             phone: facility.phone,
             address: facility.address
           })
@@ -294,13 +296,24 @@ export class AboutMainService {
 
       const facilities = await this.ManufacturingFacilitiesRepository.find();
       
-      const formattedFacilities = facilities.map(record => ({
-        title: record.title,
-        description: record.description,
-        features: record.features,
-        phone: record.phone,
-        address: record.address
-      }));
+    const formattedFacilities = facilities.map(record => ({
+      title: record.title,
+      description: record.description,
+
+      features:
+        typeof record.features === 'string'
+          ? (() => {
+              try {
+                return JSON.parse(record.features);
+              } catch {
+                return record.features;
+              }
+            })()
+          : record.features,
+
+      phone: record.phone,
+      address: record.address,
+    }));
       
       // Return in the exact format you specified
       return {

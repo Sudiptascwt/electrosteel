@@ -65,6 +65,9 @@ export class Blogs {
   @Column({ type: 'text', nullable: true })
   badge: string;
 
+  @Column({ type: 'text', nullable: true })
+  add_to_home: string;
+
   // timestamps
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

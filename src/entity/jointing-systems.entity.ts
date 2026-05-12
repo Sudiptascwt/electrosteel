@@ -9,4 +9,7 @@ export class JointingSystems extends BaseEntity {
 
     @Column({ type: 'longtext', nullable: true })
     systems: string; // JSON string for array of jointing systems
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    category: string;
 }
