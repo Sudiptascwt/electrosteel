@@ -51,6 +51,21 @@ export class frontendProductController {
     }
   }
 
+  @Get('paint-fac/all')
+    async getAllPaintCategories() {
+        try {
+            const data = await this.service.getAllPaintCategories();
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'All paint categories fetched successfully',
+                data,
+            };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    } 
+
   @Get('cast-iron-pipes/all')
   async getAllCastIronPipesSections() {
     try {

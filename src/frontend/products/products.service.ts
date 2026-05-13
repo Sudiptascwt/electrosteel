@@ -10,6 +10,7 @@ import { ProtectionInternal } from '../../entity/protection-internal.entity';
 import { ProtectionExternal } from '../../entity/protection-external.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 import { AllProducts } from 'src/entity/all_products.entity';
+import { Fac } from 'src/entity/paint_fac.entity';
 
 @Injectable()
 export class frontendProductService {
@@ -30,6 +31,8 @@ export class frontendProductService {
         private bannerRepo: Repository<AllBanner>,
         @InjectRepository(AllProducts)
         private readonly AllProductsRepo: Repository<AllProducts>,
+        @InjectRepository(Fac)
+        private facRepository: Repository<Fac>
     ) {}
 
     private getRepository(sectionType: string): Repository<any> {
@@ -685,5 +688,40 @@ export class frontendProductService {
         } catch (error) {
             throw new Error(`Failed to fetch Other Products data: ${error.message}`);
         }
+    }
+
+    async getAllPaintCategories(): Promise<any> {
+        // Define all category names
+        const categories = [
+            'industrialPaintBusinessOverviewPaint',
+            'comprehensiveProductRangePaint',
+            'testPerformedForPaintsAndPrimersPaint',
+            'worldClassRawMaterialsAndGlobalApprovalsPaint',
+            'worldClassRnDLaboratoryPaint',
+            'currentManufacturingFacilitiesPaint',
+        ];
+
+        // Fetch all categories from database
+        const results = await Promise.all(
+            categories.map(async (category) => {
+                const data = await this.facRepository.findOne({ 
+                    where: { category } 
+                });
+                return {
+                    category,
+                    data: data ? await this.parseJsonFields(data) : null
+                };
+            })
+        );
+
+        // Return formatted response
+        return {
+            industrialPaintBusinessOverview: results.find(r => r.category === 'industrialPaintBusinessOverviewPaint')?.data || null,
+            comprehensiveProductRange: results.find(r => r.category === 'comprehensiveProductRangePaint')?.data || null,
+            testPerformedForPaintsAndPrimers: results.find(r => r.category === 'testPerformedForPaintsAndPrimersPaint')?.data || null,
+            worldClassRawMaterialsAndGlobalApprovals: results.find(r => r.category === 'worldClassRawMaterialsAndGlobalApprovalsPaint')?.data || null,
+            worldClassRnDLaboratory: results.find(r => r.category === 'worldClassRnDLaboratoryPaint')?.data || null,
+            currentManufacturingFacilities: results.find(r => r.category === 'currentManufacturingFacilitiesPaint')?.data || null,
+        };
     }
 }
