@@ -11,6 +11,7 @@ import {
   HttpStatus,
   BadRequestException,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AllProductsService } from './all_products.service';
 import { AllProductsDto } from '../../../dto/all_products.dto';
@@ -25,6 +26,31 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class AllProductsController {
   constructor(private readonly AllProductsService: AllProductsService) {}
 
+
+  @Get('products')
+  async findProductsByCategory(
+      @Query('category') category: string,
+      @Query('exact') exact?: string
+  ) {
+      try {
+          if (!category) {
+              throw new BadRequestException('Category is required');
+          }
+          
+          // ✅ Call service method - NO database logic here
+          const data = await this.AllProductsService.findProductsByCategory(category, exact);
+          
+          return {
+              status: true,
+              statusCode: HttpStatus.OK,
+              message: 'Products fetched successfully',
+              data,
+          };
+      } catch (error) {
+          throw new BadRequestException(error.message);
+      }
+  }
+  
   // CREATE - POST /AllProducts
   @Post()
   async create(@Body() createDto: AllProductsDto) {

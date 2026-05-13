@@ -16,20 +16,16 @@ export class miniStatsService {
         if (!data) {
             throw new Error("No data received");
         }
-
-        // Convert to array (handling different formats)
         let items: mini_statsDto[] = [];
         
         if (Array.isArray(data)) {
             items = data;
         } else if (data && typeof data === 'object') {
-            // Handle object with numeric keys (from spread operator)
             const values = Object.values(data);
             if (values.length > 0 && values[0] && typeof values[0] === 'object' && 
                 ('title' in values[0] || 'statsCount' in values[0])) {
                 items = values as mini_statsDto[];
             } 
-            // Single object
             else if (data.title || data.statsCount) {
                 items = [data];
             }
@@ -38,8 +34,7 @@ export class miniStatsService {
         if (items.length === 0) {
             throw new Error("No valid items to process");
         }
-        
-        // Validate each item
+
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             
@@ -51,12 +46,12 @@ export class miniStatsService {
                 throw new Error(`Item ${i + 1}: Stats count is required`);
             }
             
-            // Validate statsCount is numeric
             const statsCountStr = String(item.statsCount);
-            const numericPattern = /^[\d,+\sKMkm]+$/;
+            const numericPattern = /^[\d,+\sKMkm%.\-<>~]+$/;
+            
             if (!numericPattern.test(statsCountStr) && 
-                isNaN(Number(statsCountStr.replace(/[,+KMkm]/gi, '')))) {
-                throw new Error(`Item ${i + 1}: statsCount must be numeric. Received: "${item.statsCount}"`);
+                isNaN(Number(statsCountStr.replace(/[,+%KMkm\s]/gi, '')))) {
+                throw new Error(`Item ${i + 1}: statsCount must be numeric or contain valid symbols (%, +, K, M, etc.). Received: "${item.statsCount}"`);
             }
         }
 
@@ -80,7 +75,6 @@ export class miniStatsService {
                 }
             }
             
-            // ✅ FIXED: Use clear() instead of delete({})
             await this.miniStatsRepository.clear();
         }
 

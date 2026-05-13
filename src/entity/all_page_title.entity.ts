@@ -12,7 +12,7 @@ export class AllPagesTitle {
   name1: string;
 
   @Column({ type:'text', nullable: true })
-  name2: string;
+  image: string;
 
   @Column({
     type: 'tinyint',

@@ -21,4 +21,7 @@ export class AllProductsDto {
 
     @IsString()
     download_link: string;
+
+    @IsString()
+    video_link: string;
 }

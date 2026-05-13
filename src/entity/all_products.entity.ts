@@ -26,6 +26,9 @@ export class AllProducts {
     @Column({ type: 'text', nullable: true })
     download_link: string;
 
+    @Column({ type: 'text', nullable: true })
+    video_link: string;
+
     @CreateDateColumn()
     created_at: Date;
 

@@ -141,6 +141,46 @@ export class AllProductsService {
       return unit;
     });
   }
+
+// Service
+  async findProductsByCategory(category: string, exact?: string): Promise<AllProducts[]> {
+      const formattedCategory = category.replace(/\s+/g, '').toLowerCase();
+      
+      let data: AllProducts[];
+      
+      if (exact === 'true') {
+          // Exact match
+          data = await this.AllProductsRepo
+              .createQueryBuilder('product')
+              .where(`LOWER(REPLACE(product.category, ' ', '')) = :category`, { 
+                  category: formattedCategory 
+              })
+              .getMany();
+      } else {
+          // Pattern match
+          data = await this.AllProductsRepo
+              .createQueryBuilder('product')
+              .where(`LOWER(REPLACE(product.category, ' ', '')) LIKE :category`, { 
+                  category: `${formattedCategory}%` 
+              })
+              .getMany();
+      }
+      
+      if (!data || data.length === 0) {
+          throw new NotFoundException(`No products found for category: ${category}`);
+      }
+      
+      // Parse JSON fields
+      return data.map(item => {
+          if (item.slider_images && typeof item.slider_images === 'string') {
+              try {
+                  item.slider_images = JSON.parse(item.slider_images);
+              } catch (e) {}
+          }
+          return item;
+      });
+  }
+  
 }
 
 function slugify(title: string, arg1: {

@@ -309,7 +309,7 @@ export class AboutFrontendService {
                     : 'No directors found',
                 data: {
                     name1: pageTitle?.name1 ?? null,
-                    name2: pageTitle?.name2 ?? null,
+                    image: pageTitle?.image ?? null,
                     data: directors, 
                 },
             };

@@ -1,5 +1,5 @@
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OverviewDuctileIronPipes } from '../../entity/overview.entity';
@@ -9,6 +9,7 @@ import { JointingSystems } from '../../entity/jointing-systems.entity';
 import { ProtectionInternal } from '../../entity/protection-internal.entity';
 import { ProtectionExternal } from '../../entity/protection-external.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
+import { AllProducts } from 'src/entity/all_products.entity';
 
 @Injectable()
 export class frontendProductService {
@@ -27,6 +28,8 @@ export class frontendProductService {
         private protectionExternalRepo: Repository<ProtectionExternal>,
         @InjectRepository(AllBanner)
         private bannerRepo: Repository<AllBanner>,
+        @InjectRepository(AllProducts)
+        private readonly AllProductsRepo: Repository<AllProducts>,
     ) {}
 
     private getRepository(sectionType: string): Repository<any> {
@@ -180,5 +183,67 @@ export class frontendProductService {
         } catch (error) {
             throw new Error(`Failed to fetch ${sectionType}: ${error.message}`);
         }
+    }
+
+    async findBlogByName(category: string): Promise<AllProducts[]> {
+    const formatted = category.replace(/\s+/g, '').toLowerCase(); 
+
+    const units = await this.AllProductsRepo
+        .createQueryBuilder('blog')
+        .where(`
+        LOWER(REPLACE(blog.category, ' ', '')) = :category
+        `, { category: formatted })
+        .getMany();  
+
+    if (!units || units.length === 0) {
+        throw new NotFoundException('Productsnot found');
+    }
+
+    return units.map(unit => {
+        if (unit.slider_images && typeof unit.slider_images === 'string') {
+        try {
+            unit.slider_images = JSON.parse(unit.slider_images);
+        } catch (e) {}
+        }
+        return unit;
+    });
+    }
+
+    async findProductsByCategory(category: string, exact?: string): Promise<AllProducts[]> {
+        const formattedCategory = category.replace(/\s+/g, '').toLowerCase();
+        
+        let data: AllProducts[];
+        
+        if (exact === 'true') {
+            // Exact match
+            data = await this.AllProductsRepo
+                .createQueryBuilder('product')
+                .where(`LOWER(REPLACE(product.category, ' ', '')) = :category`, { 
+                    category: formattedCategory 
+                })
+                .getMany();
+        } else {
+            // Pattern match
+            data = await this.AllProductsRepo
+                .createQueryBuilder('product')
+                .where(`LOWER(REPLACE(product.category, ' ', '')) LIKE :category`, { 
+                    category: `${formattedCategory}%` 
+                })
+                .getMany();
+        }
+        
+        if (!data || data.length === 0) {
+            throw new NotFoundException(`No products found for category: ${category}`);
+        }
+        
+        // Parse JSON fields
+        return data.map(item => {
+            if (item.slider_images && typeof item.slider_images === 'string') {
+                try {
+                    item.slider_images = JSON.parse(item.slider_images);
+                } catch (e) {}
+            }
+            return item;
+        });
     }
 }
