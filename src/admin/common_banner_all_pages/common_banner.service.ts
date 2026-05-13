@@ -104,7 +104,6 @@ export class CommonBannerService {
         };
     }
 
-
     // UPDATE
     async update(id: number, updateDto: CommonBannerDto) {
         const CommonBanner = await this.CommonBannerRepository.findOne({ where: { id, status:1 } });

@@ -1,70 +1,59 @@
 // src/fac/fac.controller.ts
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Put,
+    Controller,
+    Get,
+    Post,
+    Body,
+    Param,
+    HttpStatus,
+    BadRequestException,
 } from '@nestjs/common';
 import { FacService } from './paint_fac.service';
 import { CreateFacDto } from '../../../dto/paint_fac.dto';
 
 @Controller('product/paint/fac')
 export class FacController {
-  constructor(private readonly facService: FacService) {}
+    constructor(private readonly facService: FacService) {}
 
-  @Post()
-  create(@Body() createFacDto: CreateFacDto) {
-    return this.facService.create(createFacDto);
-  }
+    // UPSERT - Create or update by category (POST request with category in body)
+    @Post('upsert')
+    async upsertByCategory(@Body() createFacDto: CreateFacDto) {
+        try {
+            if (!createFacDto.category) {
+                throw new BadRequestException('Category is required');
+            }
+            
+            const data = await this.facService.upsertByCategory(createFacDto);
+            
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Product upserted successfully',
+                data,
+            };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
 
-  // ADD THIS - for PUT /product/paint/fac
-  @Put()
-  upsertRoot(@Body() createFacDto: CreateFacDto) {
-    // This will create/update with a default ID (e.g., 1)
-    return this.facService.upsert(1, createFacDto);
-  }
-
-  @Put(':id')
-  upsert(@Param('id') id: string, @Body() createFacDto: CreateFacDto) {
-    return this.facService.upsert(+id, createFacDto);
-  }
-
-  @Post(':id')
-  upsertPost(@Param('id') id: string, @Body() createFacDto: CreateFacDto) {
-    return this.facService.upsert(+id, createFacDto);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() createFacDto: CreateFacDto) {
-    return this.facService.update(+id, createFacDto);
-  }
-
-  @Post('save/:id')
-  save(@Param('id') id: string, @Body() createFacDto: CreateFacDto) {
-    return this.facService.upsertEfficient(+id, createFacDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.facService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.facService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.facService.remove(+id);
-  }
-
-  @Post('seed')
-  seed() {
-    return this.facService.seedDefault();
-  }
+    // GET by category - /product/paint/fac/category/:category
+    @Get('category/:category')
+    async findByCategory(@Param('category') category: string) {
+        try {
+            if (!category) {
+                throw new BadRequestException('Category is required');
+            }
+            
+            const data = await this.facService.findByCategory(category);
+            
+            return {
+                status: true,
+                statusCode: HttpStatus.OK,
+                message: 'Product fetched successfully',
+                data,
+            };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
 }

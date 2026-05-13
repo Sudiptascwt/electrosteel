@@ -30,4 +30,8 @@ export class ProductDetails extends BaseEntity {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     category: string;
+
+    @Column({ type: 'longtext', nullable: true })
+    valvesprductlist: string; // JSON strin
+    
 }

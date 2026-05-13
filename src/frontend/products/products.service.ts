@@ -246,4 +246,444 @@ export class frontendProductService {
             return item;
         });
     }
+
+    async getAllDIValvesData(): Promise<any> {
+        try {
+            // Fetch all sections in parallel for better performance
+            const [
+                heroSection,
+                overview,
+                inSupport,
+                keyBenefits,
+                valveRange,
+                applications,
+                jointingSystems,
+                protectionInternal,
+                protectionExternal,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'di_valves' },
+                }),
+                
+                // Overview
+                this.findProductsByCategory('DIValvesOverview', 'true').catch(() => []),
+                
+                // In Support
+                this.findProductsByCategory('DIValvesInSupport', 'true').catch(() => []),
+                
+                // Key Benefits
+                this.findProductsByCategory('DIValvesKeyBenefits', 'true').catch(() => []),
+                
+                // Electrosteel Valve Range
+                this.findProductsByCategory('DIValvesElectrosteelValveRange', 'true').catch(() => []),
+                
+                // Applications - if you have separate table
+                this.applicationRepo.find({
+                    where: { category: 'di_valves' }, // Add this field or use different approach
+                    order: { id: 'ASC' },
+                }).catch(() => []),
+                
+                // Jointing Systems - if you have separate table
+                this.jointingSystemsRepo.find({
+                    where: { category: 'di_valves' },
+                    take: 1,
+                }).catch(() => null),
+                
+                // Protection Internal
+                this.protectionInternalRepo.find({
+                    where: { category: 'di_valves' },
+                    take: 1,
+                }).catch(() => null),
+                
+                // Protection External
+                this.protectionExternalRepo.find({
+                    where: { category: 'di_valves' },
+                    take: 1,
+                }).catch(() => null),
+            ]);
+
+            // Parse JSON fields for protection sections if needed
+            const parsedJointingSystems = jointingSystems ? this.parseJsonFields(jointingSystems) : null;
+            const parsedProtectionInternal = protectionInternal ? this.parseJsonFields(protectionInternal) : null;
+            const parsedProtectionExternal = protectionExternal ? this.parseJsonFields(protectionExternal) : null;
+
+            // Return combined data
+            return {
+                heroSection: heroSection || null,
+                overview: overview.length > 0 ? overview[0] : null,
+                inSupport: inSupport,
+                keyBenefits: keyBenefits,
+                electrosteelValveRange: valveRange,
+                applications: applications,
+                jointingSystems: parsedJointingSystems,
+                protectionInternal: parsedProtectionInternal,
+                protectionExternal: parsedProtectionExternal,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch DI Valves data: ${error.message}`);
+        }
+    }
+
+    async getAllCastIronPipesData(): Promise<any> {
+        try {
+            // Define all sections for Cast Iron Pipes
+            const sections = [
+                'CastIronPipesOverview',
+                'CastIronPipesInSupport',
+                'CastIronPipesKeyBenefits',
+                'CastIronPipesProductRange',
+                'CastIronPipesApplications',
+                'CastIronPipesJointingSystems',
+                'CastIronPipesProtectionInternal',
+                'CastIronPipesProtectionExternal',
+            ];
+
+            // Fetch all sections in parallel for better performance
+            const [
+                heroSection,
+                overview,
+                inSupport,
+                keyBenefits,
+                productRange,
+                applications,
+                jointingSystems,
+                protectionInternal,
+                protectionExternal,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'CastIronPipes' },
+                }),
+                
+                // Overview
+                this.findProductsByCategory('CastIronPipesOverview', 'true').catch(() => []),
+                
+                // In Support
+                this.findProductsByCategory('CastIronPipesInSupport', 'true').catch(() => []),
+                
+                // Key Benefits
+                this.findProductsByCategory('CastIronPipesKeyBenefits', 'true').catch(() => []),
+                
+                // Product Range
+                this.findProductsByCategory('CastIronPipesProductRange', 'true').catch(() => []),
+                
+                // Applications - from application table
+                this.applicationRepo.find({
+                    where: { category: 'cast_iron_pipes' }, // Adjust based on your schema
+                    order: { id: 'ASC' },
+                }).catch(() => []),
+                
+                // Jointing Systems
+                this.jointingSystemsRepo.find({
+                    where: { category: 'cast_iron_pipes' },
+                    take: 1,
+                }).catch(() => null),
+                
+                // Protection Internal
+                this.protectionInternalRepo.find({
+                    where: { category: 'cast_iron_pipes' },
+                    take: 1,
+                }).catch(() => null),
+                
+                // Protection External
+                this.protectionExternalRepo.find({
+                    where: { category: 'cast_iron_pipes' },
+                    take: 1,
+                }).catch(() => null),
+            ]);
+
+            // Parse JSON fields for protection sections if needed
+            const parsedJointingSystems = jointingSystems ? this.parseJsonFields(jointingSystems) : null;
+            const parsedProtectionInternal = protectionInternal ? this.parseJsonFields(protectionInternal) : null;
+            const parsedProtectionExternal = protectionExternal ? this.parseJsonFields(protectionExternal) : null;
+
+            // Return combined data matching your API structure
+            return {
+                heroSection: heroSection || null,
+                overview: overview.length > 0 ? overview[0] : null,
+                inSupport: inSupport,
+                keyBenefits: keyBenefits,
+                productRange: productRange,
+                applications: applications,
+                jointingSystems: parsedJointingSystems,
+                protectionInternal: parsedProtectionInternal,
+                protectionExternal: parsedProtectionExternal,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch Cast Iron Pipes data: ${error.message}`);
+        }
+    }
+
+    async getAllDuctileIronFlangePipeData(): Promise<any> {
+        try {
+            const [
+                heroSection,
+                flangeTable,
+                advantages,
+                applications,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'ductile_iron_flange_pipe' },
+                }),
+                
+                // Flange Table - from product details or dedicated table
+                this.getFlangeTableData(),
+                
+                // Advantages - from all products table
+                this.findProductsByCategory('DIFlangeAdvantages', 'true').catch(() => []),
+                
+                // Applications - from application table
+                this.applicationRepo.find({
+                    where: { category: 'DIFlangeApplication' },
+                    order: { id: 'ASC' },
+                }).catch(() => []),
+            ]);
+
+            // Parse flange table if it has JSON fields
+            let parsedFlangeTable = flangeTable;
+            if (flangeTable && flangeTable.tableData && typeof flangeTable.tableData === 'string') {
+                try {
+                    parsedFlangeTable = {
+                        ...flangeTable,
+                        tableData: JSON.parse(flangeTable.tableData)
+                    };
+                } catch (e) {}
+            }
+
+            // Return combined data
+            return {
+                heroSection: heroSection || null,
+                flangeTable: parsedFlangeTable || null,
+                advantages: advantages,
+                applications: applications,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch Ductile Iron Flange Pipe data: ${error.message}`);
+        }
+    }
+
+    // Helper method to get flange table data
+    private async getFlangeTableData(): Promise<any> {
+        try {
+            // Option 1: If flange table is in product_details table
+            const flangeData = await this.productDetailsRepo.findOne({
+                where: { 
+                    category: 'ductile_iron_flange_pipe',
+                }
+            });
+            
+            if (flangeData) {
+                return flangeData;
+            }
+
+            // Option 2: If you have a dedicated flange table repository
+            // return await this.flangeTableRepo.findOne({ take: 1 });
+            
+            // Option 3: Return mock/default data if needed
+            return {
+                id: 1,
+                title: 'Flange Table',
+                tableData: [
+                    { size: '80mm', diameter: '89', holes: 4, boltSize: 'M16' },
+                    { size: '100mm', diameter: '108', holes: 4, boltSize: 'M16' },
+                    { size: '150mm', diameter: '159', holes: 4, boltSize: 'M20' },
+                ]
+            };
+        } catch (error) {
+            console.error('Error fetching flange table:', error);
+            return null;
+        }
+    }
+
+    async getAllDuctileIronFittingsData(): Promise<any> {
+        try {
+            const [
+                heroSection,
+                overview,
+                whyChooseElectrosteel,
+                productDetails,
+                fittingsRange,
+                applications,
+                jointingSystem,
+                protectionInternal,
+                protectionExternal,
+                exploreProductRange,
+                gotAQuery,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'ductile_iron_fittings' },
+                }),
+                
+                // Overview
+                this.findProductsByCategory('DuctileIronFittingsOverview', 'true').catch(() => []),
+                
+                // Why Choose Electrosteel
+                this.findProductsByCategory('DuctileIronFittingsWhyChooseElectrosteel', 'true').catch(() => []),
+                
+                // Product Details
+                this.productDetailsRepo.findOne({
+                    where: { category: 'ductile-iron-fittings' },
+                }).catch(() => null),
+                
+                // Electrosteel Fittings Range
+                this.findProductsByCategory('DIFittingsElectrosteelFittingsRange', 'true').catch(() => []),
+                
+                // Applications
+                this.applicationRepo.find({
+                    where: { category: 'ductile-iron-fittings' },
+                    order: { id: 'ASC' },
+                }).catch(() => []),
+                
+                // Jointing System
+                this.jointingSystemsRepo.findOne({
+                    where: { category: 'ductile-iron-fittings' },
+                }).catch(() => null),
+                
+                // Protection Internal
+                this.protectionInternalRepo.findOne({
+                    where: { category: 'ductile-iron-fittings' },
+                }).catch(() => null),
+                
+                // Protection External
+                this.protectionExternalRepo.findOne({
+                    where: { category: 'ductile-iron-fittings' },
+                }).catch(() => null),
+                
+                // Explore our Product Range
+                this.findProductsByCategory('DIFittingsExploreourProductRange', 'true').catch(() => []),
+                
+                // Got a Query?
+                this.findProductsByCategory('DIFittingsGotaQuery', 'true').catch(() => []),
+            ]);
+
+            // Parse JSON fields
+            const parsedProductDetails = productDetails ? this.parseJsonFields(productDetails) : null;
+            const parsedJointingSystem = jointingSystem ? this.parseJsonFields(jointingSystem) : null;
+            const parsedProtectionInternal = protectionInternal ? this.parseJsonFields(protectionInternal) : null;
+            const parsedProtectionExternal = protectionExternal ? this.parseJsonFields(protectionExternal) : null;
+
+            return {
+                heroSection: heroSection || null,
+                overview: overview.length > 0 ? overview[0] : null,
+                whyChooseElectrosteel: whyChooseElectrosteel,
+                productDetails: parsedProductDetails,
+                electrosteelFittingsRange: fittingsRange,
+                applications: applications,
+                jointingSystem: parsedJointingSystem,
+                protectionInternal: parsedProtectionInternal,
+                protectionExternal: parsedProtectionExternal,
+                exploreProductRange: exploreProductRange,
+                gotAQuery: gotAQuery,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch Ductile Iron Fittings data: ${error.message}`);
+        }
+    }
+
+    // ================= NEW: RUBBER PRODUCTS =================
+    async getAllRubberProductsData(): Promise<any> {
+        try {
+            const [
+                heroSection,
+                overview,
+                whyChooseElectrosteel,
+                productDetails,
+                benefitsAdvantages,
+                productRange,
+                applications,
+                ourCertifications,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'rubber_products' },
+                }),
+                
+                // Overview
+                this.findProductsByCategory('RubberProductsOverview', 'true').catch(() => []),
+                
+                // Why Choose Electrosteel Rubber Products?
+                this.findProductsByCategory('RubberProductsWhyChooseElectrosteel', 'true').catch(() => []),
+                
+                // Product Details
+                this.findProductsByCategory('RubberProductsProductDetails', 'true').catch(() => []),
+                
+                // Benefits / Advantages
+                this.findProductsByCategory('RubberProductsBenefitsAdvantages', 'true').catch(() => []),
+                
+                // Product Range
+                this.findProductsByCategory('RubberProductsProductRange', 'true').catch(() => []),
+                
+                // Applications
+                this.applicationRepo.find({
+                    where: { category: 'rubber-products' },
+                    order: { id: 'ASC' },
+                }).catch(() => []),
+                
+                // Our Certifications
+                this.findProductsByCategory('RubberProductsOurCertifications', 'true').catch(() => []),
+            ]);
+
+            return {
+                heroSection: heroSection || null,
+                overview: overview.length > 0 ? overview[0] : null,
+                whyChooseElectrosteel: whyChooseElectrosteel,
+                productDetails: productDetails,
+                benefitsAdvantages: benefitsAdvantages,
+                productRange: productRange,
+                applications: applications,
+                ourCertifications: ourCertifications,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch Rubber Products data: ${error.message}`);
+        }
+    }
+
+    // ================= NEW: OTHER PRODUCTS =================
+    async getAllOtherProductsData(): Promise<any> {
+        try {
+            const [
+                heroSection,
+                finishedProducts,
+                semiFinishedProducts,
+                gallery1,
+                gallery2,
+            ] = await Promise.all([
+                // Hero Section
+                this.bannerRepo.findOne({
+                    where: { page_name: 'otherProducts' },
+                }),
+                
+                // Finished Products
+                this.findProductsByCategory('otherProductsfinishedProduct', 'true').catch(() => []),
+                
+                // Semi-Finished Products
+                this.findProductsByCategory('otherProductssemiFinishedProduct', 'true').catch(() => []),
+                
+                // Other Products Gallery 1
+                this.findProductsByCategory('other-products-gallery1', 'true').catch(() => []),
+                
+                // Other Products Gallery 2
+                this.findProductsByCategory('other-products-gallery2', 'true').catch(() => []),
+            ]);
+
+            return {
+                heroSection: heroSection || null,
+                finishedProducts: finishedProducts,
+                semiFinishedProducts: semiFinishedProducts,
+                otherProductsGallery1: gallery1,
+                otherProductsGallery2: gallery2,
+            };
+
+        } catch (error) {
+            throw new Error(`Failed to fetch Other Products data: ${error.message}`);
+        }
+    }
 }

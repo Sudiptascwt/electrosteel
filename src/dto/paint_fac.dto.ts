@@ -17,10 +17,18 @@ export class CreateFacDto {
 
   @IsString()
   @IsOptional()
+  category?: string; // optional if you want default from entity
+  
+  @IsString()
+  @IsOptional()
   description?: string;
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CardDto)
   card: CardDto[];
+
+  @IsString()
+  @IsOptional()
+  tableData?: string; // optional if you want default from entity
 }

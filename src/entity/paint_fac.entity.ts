@@ -6,6 +6,9 @@ export class Fac {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'text', nullable: true })
+  category: string;
+
   @Column({ default: 'Industrial Paint Business Overview' })
   title: string;
 
@@ -14,6 +17,9 @@ export class Fac {
 
   @Column({ type: 'json' })
   card: CardItem[];
+
+  @Column({ type: 'text', nullable: true })
+  tableData: string;
 }
 
 export interface CardItem {

@@ -1,121 +1,115 @@
-// src/fac/fac.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+// src/fac/paint_fac.service.ts
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Fac } from '../../../entity/paint_fac.entity';
 import { CreateFacDto } from '../../../dto/paint_fac.dto';
 
-// Complete service with multiple upsert strategies
 @Injectable()
 export class FacService {
-  constructor(
-    @InjectRepository(Fac)
-    private facRepository: Repository<Fac>,
-  ) {}
+    constructor(
+        @InjectRepository(Fac)
+        private facRepository: Repository<Fac>,
+        @InjectDataSource()
+        private dataSource: DataSource,
+    ) {}
 
-  // Standard CRUD methods
-  async create(createFacDto: CreateFacDto): Promise<Fac> {
-    const fac = this.facRepository.create(createFacDto);
-    return await this.facRepository.save(fac);
-  }
-
-  async update(id: number, createFacDto: CreateFacDto): Promise<Fac> {
-    await this.findOne(id);
-    await this.facRepository.update(id, createFacDto);
-    return this.findOne(id);
-  }
-
-  // UPSERT - Best practice for create or update together
-  async upsert(id: number, createFacDto: CreateFacDto): Promise<Fac> {
-    const existing = await this.facRepository.findOne({ where: { id } });
-    
-    if (existing) {
-      // Update existing
-      await this.facRepository.update(id, createFacDto);
-      return this.findOne(id);
-    } else {
-      // Create new with specific ID
-      const fac = this.facRepository.create({ ...createFacDto, id });
-      return await this.facRepository.save(fac);
+    async ensureCategoryColumn() {
+        try {
+            // Check if category column exists
+            const result = await this.dataSource.query(`
+                SELECT COLUMN_NAME 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_NAME = 'fac' AND COLUMN_NAME = 'category'
+            `);
+            
+            if (result.length === 0) {
+                // Add category column
+                await this.dataSource.query(`
+                    ALTER TABLE fac 
+                    ADD COLUMN category VARCHAR(255) NULL,
+                    ADD UNIQUE INDEX idx_fac_category (category)
+                `);
+                console.log('Category column added successfully');
+            }
+        } catch (error) {
+            console.error('Error ensuring category column:', error);
+        }
     }
-  }
 
-  // Upsert without checking existence first (more efficient for frequent updates)
-  async upsertEfficient(id: number, createFacDto: CreateFacDto): Promise<Fac> {
-    // Try to find existing
-    let fac = await this.facRepository.findOne({ where: { id } });
-    
-    if (!fac) {
-      fac = this.facRepository.create({ id });
+    async upsertByCategory(createFacDto: CreateFacDto): Promise<Fac> {
+        try {
+            // Ensure column exists
+            await this.ensureCategoryColumn();
+            
+            const { category } = createFacDto;
+            
+            if (!category) {
+                throw new BadRequestException('Category is required');
+            }
+            
+            // Prepare data
+            const dataToSave = {
+                ...createFacDto,
+                tableData: createFacDto.tableData ? JSON.stringify(createFacDto.tableData) : null
+            };
+            
+            // Find existing
+            const existing = await this.facRepository.findOne({ 
+                where: { category: category }
+            });
+            
+            if (existing) {
+                // Update
+                await this.facRepository.update(existing.id, dataToSave);
+                const updated = await this.facRepository.findOne({ where: { category } });
+                
+                // Parse JSON fields for response
+                if (updated.tableData && typeof updated.tableData === 'string') {
+                    updated.tableData = JSON.parse(updated.tableData);
+                }
+                return updated;
+            } else {
+                // Create
+                const fac = this.facRepository.create(dataToSave);
+                const saved = await this.facRepository.save(fac);
+                
+                // Parse JSON fields for response
+                if (saved.tableData && typeof saved.tableData === 'string') {
+                    saved.tableData = JSON.parse(saved.tableData);
+                }
+                return saved;
+            }
+        } catch (error) {
+            console.error('Error in upsertByCategory:', error);
+            throw error;
+        }
     }
-    
-    // Merge the DTO data
-    Object.assign(fac, createFacDto);
-    
-    // Save will insert if new or update if exists
-    return await this.facRepository.save(fac);
-  }
 
-  // TypeORM built-in upsert (if using TypeORM 0.3.0+)
-  async upsertNative(id: number, createFacDto: CreateFacDto): Promise<Fac> {
-    await this.facRepository.upsert(
-      { id, ...createFacDto },
-      ['id'] // Conflict column(s)
-    );
-    return this.findOne(id);
-  }
-
-  // Batch upsert for multiple records
-  async bulkUpsert(items: Array<{ id: number } & CreateFacDto>): Promise<Fac[]> {
-    const results: Fac[] = [];
-    
-    for (const item of items) {
-      const result = await this.upsert(item.id, item);
-      results.push(result);
+    async findByCategory(category: string): Promise<Fac> {
+        await this.ensureCategoryColumn();
+        
+        const fac = await this.facRepository.findOne({ 
+            where: { category: category }
+        });
+        
+        if (!fac) {
+            throw new NotFoundException(`Fac with category "${category}" not found`);
+        }
+        
+        // Parse JSON fields
+        if (fac.tableData && typeof fac.tableData === 'string') {
+            try {
+                fac.tableData = JSON.parse(fac.tableData);
+            } catch (e) {}
+        }
+        
+        if (fac.card && typeof fac.card === 'string') {
+            try {
+                fac.card = JSON.parse(fac.card as any);
+            } catch (e) {}
+        }
+        
+        return fac;
     }
-    
-    return results;
-  }
-
-  // Rest of your methods...
-  async findAll(): Promise<Fac[]> {
-    return await this.facRepository.find();
-  }
-
-  async findOne(id: number): Promise<Fac> {
-    const fac = await this.facRepository.findOne({ where: { id } });
-    if (!fac) {
-      throw new NotFoundException(`Fac with ID ${id} not found`);
-    }
-    return fac;
-  }
-
-  async remove(id: number): Promise<void> {
-    const result = await this.facRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Fac with ID ${id} not found`);
-    }
-  }
-
-  async seedDefault(): Promise<Fac> {
-    const existing = await this.facRepository.findOne({ where: { id: 1 } });
-    if (existing) return existing;
-
-    const defaultFac = this.facRepository.create({
-      id: 1,
-      title: 'Industrial Paint Business Overview',
-      description: '',
-      card: [
-        {
-          title: 'Production Capacity',
-          desc: '350 KL/month rated capacity with further expansion plans.',
-        },
-        {
-          title: 'Facility Details',
-          desc: `Located in Bansberia, Hooghly, West Bengal, our paint facility operates on a 2-acre site with 30% green coverage. We maintain full licensing compliance including Factory Licence (WB), PCB-CTO, Trade Licence, PESO and Fire Licence`,
-        },
-      ],
-    });
-    return await this.facRepository.save(defaultFac);
-  }
 }
