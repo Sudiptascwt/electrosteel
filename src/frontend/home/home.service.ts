@@ -44,6 +44,15 @@ export class HomeService {
   ) {}
 
   async getHomeData() {
+
+    let facebookPosts = [];
+    try {
+        facebookPosts = await this.getFacebookPosts();
+    } catch (error) {
+        console.error('Failed to fetch Facebook posts:', error);
+        facebookPosts = []; // Fallback to empty array
+    }
+
     const advertisements = await this.AdvertisementRepo.find({});
     const slides = await this.home_slidesRepo.find({
     });
@@ -149,15 +158,45 @@ export class HomeService {
         ecl_products: formattedResponse,
         growing_from_strength: growing_from_strengthData,
         water_section: water_section,
+        facebook_posts: facebookPosts,
         milestones: {
         id: milestoneheadingRecord.id,
         title: milestoneheadingRecord.title,
         sub_title: milestoneheadingRecord.sub_title,
         description: milestoneheadingRecord.description,
         section_type: milestoneheadingRecord.section_type,
-        milestones_data: milestones,
+        milestones_data: milestones, 
       },
       },
     }
   }
+
+  private async getFacebookPosts(): Promise<any[]> {
+    const pageId = '116394462296951';
+    const accessToken = 'EAAQ9ku8QN4MBRAQMoSXmZBDXdn54OwVPCGBkRZCmDuvH9yf5SNHEUr565bkD82itYB9vSJZB2ADRGD9q0AGbCOJfIuUIOGkZATxbbME21Vl04w0y4zmmZCUM8lIUHGh2CIXnNcwZCNS2mbnTXa2oMHoOEXqdcXSWK5yiYMryvkhhj0sOuFUsW3bDujYJPNJnAoHJysiIcT2a6Ujfkigx3DwFgZD';
+    
+    const url = `https://graph.facebook.com/v22.0/${pageId}?fields=posts{created_time,message,full_picture,permalink_url}&access_token=${accessToken}`;
+    
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        if (result.error) {
+            console.error('Facebook API Error:', result.error);
+            return [];
+        }
+        
+        // Format the posts data
+        const posts = result.posts?.data || [];
+        return posts.map(post => ({
+            created_time: post.created_time,
+            message: post.message,
+            full_picture: post.full_picture,
+            permalink_url: post.permalink_url
+        }));
+    } catch (error) {
+        console.error('Error fetching Facebook posts:', error);
+        return [];
+    }
+}
 }

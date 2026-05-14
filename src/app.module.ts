@@ -338,6 +338,7 @@ import { AllProductsModule } from './admin/products/all_products/all_products.mo
 import { AllProducts } from 'src/entity/all_products.entity';
 import { FacModule } from './admin/products/paint_fac/paint_fac.module';
 import { Fac } from 'src/entity/paint_fac.entity';
+import { sustainabilityModule } from './frontend/sustainability/sustainability.module'
 
 @Module({
   imports: [
@@ -507,7 +508,8 @@ import { Fac } from 'src/entity/paint_fac.entity';
     FlangePipeModule,
     AllProductsModule,
     DuctileIronFittingsModule,
-    FacModule
+    FacModule,
+    sustainabilityModule
   ],
   controllers: [AppController],
   providers: [AppService],

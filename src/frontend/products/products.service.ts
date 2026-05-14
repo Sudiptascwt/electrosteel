@@ -36,6 +36,8 @@ export class frontendProductService {
         private facRepository: Repository<Fac>,
         @InjectRepository(FlangePipe)
         private flangePipeRepository: Repository<FlangePipe>,
+        @InjectRepository(AllBanner)
+        private readonly allBannerRepo: Repository<AllBanner>,
     ) {}
 
     private getRepository(sectionType: string): Repository<any> {
@@ -673,7 +675,9 @@ export class frontendProductService {
             jointingSystems,
             protectionInternal,
             protectionExternal,
-            parsedDIValvesProductDetailsSection
+            parsedDIValvesProductDetailsSection,
+            DIValvesExploreourProductRange,
+            DIValvesGotaQuery
         ] = await Promise.all([
             // Hero Section
             this.bannerRepo.findOne({
@@ -717,6 +721,16 @@ export class frontendProductService {
             this.AllProductsRepo.findOne({
                 where: { category: 'DIValvesProductDetailsSection' },
             }).catch(() => null),
+
+            // DIValvesExploreourProductRange
+            this.AllProductsRepo.findOne({
+                where: { category: 'DIValvesExploreourProductRange' },
+            }).catch(() => null),
+
+            // DIValvesGotaQuery
+            this.AllProductsRepo.findOne({
+                where: { category: 'DIValvesGotaQuery' },
+            }).catch(() => null),
         ]);
 
         // Helper function to parse array items
@@ -741,7 +755,9 @@ export class frontendProductService {
         const parsedJointingSystems = parseSingleItem(jointingSystems);
         const parsedProtectionInternal = parseSingleItem(protectionInternal);
         const parsedProtectionExternal = parseSingleItem(protectionExternal);
-        const DIValvesProductDetailsSection = parseSingleItem(parsedDIValvesProductDetailsSection)
+        const DIValvesProductDetailsSection = parseSingleItem(parsedDIValvesProductDetailsSection);
+        const parsedDIValvesExploreourProductRange = parseSingleItem(DIValvesExploreourProductRange);
+        const parsedDIValvesGotaQuery = parseSingleItem(DIValvesGotaQuery)
 
         // Return combined data
         return {
@@ -754,7 +770,9 @@ export class frontendProductService {
             jointingSystems: parsedJointingSystems,
             protectionInternal: parsedProtectionInternal,
             protectionExternal: parsedProtectionExternal,
-            ProductDetails: DIValvesProductDetailsSection
+            ProductDetails: DIValvesProductDetailsSection,
+            parsedDIValvesExploreourProductRange,
+            parsedDIValvesGotaQuery
         };
 
     } catch (error) {
@@ -1183,8 +1201,25 @@ export class frontendProductService {
             })
         );
 
-        // Return formatted response
+        const hero =  await this.allBannerRepo.findOne({
+        where: { page_name: 'PaintHeroSection' },
+        });
+        const ElectrosteelLegacyofInnovation = await this.AllProductsRepo.findOne({
+            where: { category: 'ElectrosteelLegacyofInnovation' },
+        })
+        const PaintOverview = await this.AllProductsRepo.findOne({
+            where: { category: 'PaintOverview' },
+        })
+
+        const PaintTechnologyMantra = await this.AllProductsRepo.findOne({
+            where: { category: 'PaintTechnologyMantra' },
+        })
+
         return {
+            hero : hero,
+            ElectrosteelLegacyofInnovation,
+            PaintOverview,
+            PaintTechnologyMantra,
             industrialPaintBusinessOverview: results.find(r => r.category === 'industrialPaintBusinessOverviewPaint')?.data || null,
             comprehensiveProductRange: results.find(r => r.category === 'comprehensiveProductRangePaint')?.data || null,
             testPerformedForPaintsAndPrimers: results.find(r => r.category === 'testPerformedForPaintsAndPrimersPaint')?.data || null,

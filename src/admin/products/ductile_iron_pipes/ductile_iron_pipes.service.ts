@@ -202,13 +202,13 @@ export class DuctileIronPipesService {
         if (data.id) {
             whereClause.id = data.id;
             // If ID is provided, also filter by category to ensure correct record
-            if (category && sectionType !== 'productDetails') {
+            if (category && sectionType !== 'product-details') {
                 whereClause.category = category;
             }
             existingRecord = await repository.findOne({ where: whereClause });
         } else {
             // If no ID, find by category first
-            if (category && sectionType !== 'productDetails') {
+            if (category && sectionType !== 'product-details') {
                 const records = await repository.find({ 
                     where: { category: category },
                     take: 1 
@@ -225,7 +225,7 @@ export class DuctileIronPipesService {
 
         // Special mapping for product-details
         let mappedData = { ...data };
-        if (sectionType === 'productDetails') { // Fixed from 'product-details'
+        if (sectionType === 'product-details') { // Fixed from 'product-details'
             if (data.description !== undefined) {
                 mappedData.desc = data.description;
                 delete mappedData.description;
@@ -240,7 +240,7 @@ export class DuctileIronPipesService {
         }
 
         // Ensure category is set for the record
-        if (category && sectionType !== 'productDetails') {
+        if (category && sectionType !== 'product-details') {
             mappedData.category = category;
         }
 
@@ -254,7 +254,7 @@ export class DuctileIronPipesService {
         let parsedSaved = this.parseJsonFields(saved);
 
         // Map back for response (product-details)
-        if (sectionType === 'productDetails') {
+        if (sectionType === 'product-details') {
             const transformed: any = {
                 id: parsedSaved.id,
                 title: parsedSaved.title,
@@ -344,31 +344,136 @@ export class DuctileIronPipesService {
     //     }
     // }
 
-    async getData(sectionType: string, id?: number, category?: string): Promise<any> {
+//     async getData(sectionType: string, id?: number, category?: string): Promise<any> {
+//     try {
+//         // Normalize sectionType (handle kebab-case)
+//         const normalizedSectionType = sectionType.replace(/-/g, '');
+        
+//         // ================= ALL SECTIONS =================
+//         if (normalizedSectionType === 'all') {
+//             // const sections = [
+//             //     'overview',
+//             //     'productDetails',
+//             //     'application',
+//             //     'jointingSystems',
+//             //     'protectionInternal',
+//             //     'protectionExternal',
+//             // ];
+
+//             const sections = ['overview', 'product-details', 'application', 'jointing-systems', 'protection-internal', 'protection-external'];
+
+//             const allData: any = {};
+
+//             // const heroSection = await this.bannerRepo.findOne({
+//             //     where: {
+//             //         page_name: category || 'ductile-iron-pipes',
+//             //     },
+//             // });
+
+//             // allData.heroSection = heroSection;
+
+//             for (const section of sections) {
+//                 const response = await this.getData(section, id, category);
+//                 allData[section] = response.data;
+//             }
+
+//             return {
+//                 status: true,
+//                 statusCode: 200,
+//                 message: 'All sections fetched successfully',
+//                 data: allData,
+//             };
+//         }
+
+//         // ================= SINGLE SECTION =================
+//         const repository = this.getRepository(normalizedSectionType);
+        
+//         // Build where clause with category
+//         const whereClause: any = {};
+        
+//         if (id) {
+//             whereClause.id = id;
+//         }
+        
+//         // Add category filter for sections that have it
+//         if (category && !['product-details'].includes(normalizedSectionType)) {
+//             whereClause.category = category;
+//         }
+        
+//         let data = null;
+        
+//         if (id) {
+//             // Fetch by ID and optionally category
+//             data = await repository.findOne({ where: whereClause });
+//         } else {
+//             // Fetch first record matching category
+//             const query: any = { take: 1 };
+//             if (Object.keys(whereClause).length > 0) {
+//                 query.where = whereClause;
+//             }
+//             const records = await repository.find(query);
+//             data = records.length > 0 ? records[0] : null;
+//         }
+        
+//         if (!data) {
+//             return {
+//                 status: false,
+//                 statusCode: 404,
+//                 message: `${sectionType} not found${category ? ` for category: ${category}` : ''}`,
+//                 data: null,
+//             };
+//         }
+
+//         let parsedData = this.parseJsonFields(data);
+
+//         // Handle product details transformation
+//         if (normalizedSectionType === 'product-details') {
+//             const transformed: any = {
+//                 id: parsedData.id,
+//                 title: parsedData.title,
+//                 description: parsedData.desc,
+//                 created_at: parsedData.created_at,
+//                 updated_at: parsedData.updated_at,
+//             };
+
+//             if (parsedData.dimensionTitle)
+//                 transformed.dimensionTitle = parsedData.dimensionTitle;
+
+//             if (parsedData.dimensionImage)
+//                 transformed.dimensionImage = parsedData.dimensionImage;
+
+//             if (parsedData.productTable)
+//                 transformed.tableData = parsedData.productTable;
+
+//             if (parsedData.tableExtraData)
+//                 transformed.tableExtraData = parsedData.tableExtraData;
+
+//             parsedData = transformed;
+//         }
+
+//         return {
+//             status: true,
+//             statusCode: 200,
+//             message: `${sectionType} fetched successfully`,
+//             data: parsedData,
+//         };
+
+//     } catch (error) {
+//         throw new Error(`Failed to fetch ${sectionType}: ${error.message}`);
+//     }
+// }
+
+
+async getData(sectionType: string, id?: number, category?: string): Promise<any> {
     try {
-        // Normalize sectionType (handle kebab-case)
-        const normalizedSectionType = sectionType.replace(/-/g, '');
+        // Don't normalize - keep original sectionType
+        // const normalizedSectionType = sectionType.replace(/-/g, '');
         
         // ================= ALL SECTIONS =================
-        if (normalizedSectionType === 'all') {
-            const sections = [
-                'overview',
-                'productDetails',
-                'application',
-                'jointingSystems',
-                'protectionInternal',
-                'protectionExternal',
-            ];
+        if (sectionType === 'all') {
+            const sections = ['overview', 'product-details', 'application', 'jointing-systems', 'protection-internal', 'protection-external'];
 
             const allData: any = {};
-
-            // const heroSection = await this.bannerRepo.findOne({
-            //     where: {
-            //         page_name: category || 'ductile-iron-pipes',
-            //     },
-            // });
-
-            // allData.heroSection = heroSection;
 
             for (const section of sections) {
                 const response = await this.getData(section, id, category);
@@ -384,7 +489,7 @@ export class DuctileIronPipesService {
         }
 
         // ================= SINGLE SECTION =================
-        const repository = this.getRepository(normalizedSectionType);
+        const repository = this.getRepository(sectionType); // Use original sectionType
         
         // Build where clause with category
         const whereClause: any = {};
@@ -394,17 +499,15 @@ export class DuctileIronPipesService {
         }
         
         // Add category filter for sections that have it
-        if (category && !['productDetails'].includes(normalizedSectionType)) {
+        if (category && sectionType !== 'product-details') {
             whereClause.category = category;
         }
         
         let data = null;
         
         if (id) {
-            // Fetch by ID and optionally category
             data = await repository.findOne({ where: whereClause });
         } else {
-            // Fetch first record matching category
             const query: any = { take: 1 };
             if (Object.keys(whereClause).length > 0) {
                 query.where = whereClause;
@@ -425,7 +528,7 @@ export class DuctileIronPipesService {
         let parsedData = this.parseJsonFields(data);
 
         // Handle product details transformation
-        if (normalizedSectionType === 'productDetails') {
+        if (sectionType === 'product-details') {
             const transformed: any = {
                 id: parsedData.id,
                 title: parsedData.title,
