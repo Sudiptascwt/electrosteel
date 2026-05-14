@@ -12,6 +12,7 @@ import { ProtectionExternal } from '../../entity/protection-external.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 import { AllProducts } from 'src/entity/all_products.entity';
 import { Fac } from 'src/entity/paint_fac.entity';
+import { FlangePipe } from 'src/entity/flange-pipe.entity';
 
 @Module({
     imports: [
@@ -24,7 +25,8 @@ import { Fac } from 'src/entity/paint_fac.entity';
             ProtectionExternal,
             AllBanner,
             AllProducts,
-            Fac
+            Fac,
+            FlangePipe
         ]),
     ],
     controllers: [frontendProductController],

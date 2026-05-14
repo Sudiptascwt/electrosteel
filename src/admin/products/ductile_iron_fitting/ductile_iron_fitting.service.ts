@@ -164,17 +164,17 @@ export class DuctileIronFittingService {
         try {
             const repository = this.getRepository(sectionType);
 
-            const normalizedCategory = category.replace(/-/g, '_');
+            // const normalizedCategory = category.replace(/-/g, '_');
 
             // Application section - array records
             if (sectionType === 'application' && Array.isArray(data)) {
-            await repository.delete({ category: normalizedCategory });
+            await repository.delete({ category: category });
 
             const savedRecords = [];
 
             for (const item of data) {
                 const newRecord = repository.create({
-                category: normalizedCategory,
+                category: category,
                 title: item.title,
                 image1: item.image1,
                 image2: item.image2,
@@ -201,13 +201,13 @@ export class DuctileIronFittingService {
             existingRecord = await repository.findOne({
                 where: {
                 id: data.id,
-                category: normalizedCategory,
+                category: category,
                 },
             });
             } else {
             const records = await repository.find({
                 where: {
-                category: normalizedCategory,
+                category: category,
                 },
                 take: 1,
             });
@@ -217,7 +217,7 @@ export class DuctileIronFittingService {
 
             let mappedData = {
             ...data,
-            category: normalizedCategory,
+            category: category,
             };
 
             // Product details mapping
@@ -352,7 +352,7 @@ export class DuctileIronFittingService {
         if (sectionType === 'application') {
         const records = await repository.find({
             where: {
-            category: normalizedCategory,
+            category: category,
             },
             order: { id: 'ASC' },
         });
@@ -372,13 +372,13 @@ export class DuctileIronFittingService {
         data = await repository.findOne({
             where: {
             id,
-            category: normalizedCategory,
+            category: category,
             },
         });
         } else {
         const records = await repository.find({
             where: {
-            category: normalizedCategory,
+            category: category,
             },
             take: 1,
         });

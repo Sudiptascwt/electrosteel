@@ -169,32 +169,34 @@ export class frontendProductController {
 
   @Get(':sectionType')
   async getData(
-    @Param('sectionType') sectionType: string,
-    @Query('id') id?: string,
+      @Param('sectionType') sectionType: string,
+      @Query('id') id?: string,
+      @Query('category') category?: string,  // Add category as query param
   ) {
-    const validSections = [
-      'overview',
-      'productDetails',
-      'application',
-      'jointingSystems',
-      'protectionInternal',
-      'protectionExternal',
-      'ductile_iron_pipes',
-    ];
+      const validSections = [
+          'overview',
+          'productDetails',
+          'application',
+          'jointingSystems',
+          'protectionInternal',
+          'protectionExternal',
+          'ductile-iron-pipes',
+      ];
 
-    if (!validSections.includes(sectionType)) {
-      throw new BadRequestException(`Invalid section type: ${sectionType}`);
-    }
+      if (!validSections.includes(sectionType)) {
+          throw new BadRequestException(`Invalid section type: ${sectionType}`);
+      }
 
-    const numericId = id ? parseInt(id, 10) : undefined;
+      const numericId = id ? parseInt(id, 10) : undefined;
+      const categoryFilter = category || 'ductile-iron-pipes';  // Default category
 
-    if (sectionType === 'ductile_iron_pipes') {
-      return this.service.getData('all', numericId);
-    }
+      if (sectionType === 'ductile-iron-pipes') {
+          return this.service.getData('all', numericId, categoryFilter);
+      }
 
-    return this.service.getData(sectionType, numericId);
+      return this.service.getData(sectionType, numericId, categoryFilter);
   }
-
+  
   @Get('product/find-by-category/:category')
   async findBlogByCategoryGet(@Param('category') category: string) {
     try {
