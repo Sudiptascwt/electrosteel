@@ -2,12 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Investor } from '../../entity/investor.entity';
+import { NodalOfficer } from 'src/entity/nodal_officer.entity';
 
 @Injectable()
 export class InvestorService {
   constructor(
     @InjectRepository(Investor)
     private investorRepo: Repository<Investor>,
+    @InjectRepository(NodalOfficer)
+    private repo: Repository<NodalOfficer>,
   ) {}
   
     // GET BY YEAR OR TITLE
@@ -105,4 +108,19 @@ export class InvestorService {
             totalCount: results.length
         };
     }
+
+    async get(id?: number): Promise<any> {
+    if (id) {
+      const data = await this.repo.findOne({ where: { id } });
+      return {
+        message: `Nodal officer record fetched successfully`,
+        data: data,
+      };
+    }
+    const data = await this.repo.find();
+    return {
+      message: `Nodal officer records fetched successfully`,
+      data: data,
+    };
+  }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, IsInt, IsEnum, IsObject, IsArray } from 'class-validator';
 export class AllProductsDto {
 
     @IsString()
@@ -24,4 +24,17 @@ export class AllProductsDto {
 
     @IsString()
     video_link: string;
+
+    @IsObject()
+    @IsOptional()
+    table_headers?: any;
+
+    // Accept array for table_data
+    @IsArray()
+    @IsOptional()
+    table_data?: any[];
+
+    @IsArray()
+    @IsOptional()
+    table_data2?: any[];
 }

@@ -40,6 +40,7 @@ import { Reward } from 'src/entity/rewards.entity';
 import { Blogs } from 'src/entity/blogs.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 import { CommonTitle } from 'src/entity/common_titles.entity';
+import { globalPresence } from 'src/entity/global_presence.entity';
 
 @Injectable()
 export class AboutFrontendService {
@@ -153,7 +154,10 @@ export class AboutFrontendService {
         private readonly allBannerRepo: Repository<AllBanner>,
 
         @InjectRepository(CommonTitle)
-        private readonly CommonTitleRepository: Repository<CommonTitle>
+        private readonly CommonTitleRepository: Repository<CommonTitle>,
+        
+        @InjectRepository(globalPresence)
+        private officeRepository: Repository<globalPresence>,
 
     ) {}
 
@@ -677,5 +681,104 @@ export class AboutFrontendService {
         throw new NotFoundException(`Page with name "${page_name}" not found`);
         }
         return unit;
+    }
+
+    async getPrestigiousProject() {
+        const hero_data = await this.allBannerRepo.find({
+            where: { page_name: 'prestigious-project' }
+        })
+        const prestigious_project_section1 = await this.BlogsRepo.find({
+            where: { id:117, category: 'prestigious-project-section1' }
+        });
+        const prestigious_project_section2 = await this.BlogsRepo.find({
+            where: { id:119, category: 'prestigious-project-section2' }
+        });
+        const prestigious_project_section3 = await this.BlogsRepo.find({
+            where: { id:120, category: 'prestigious-project-section3' }
+        });
+        const prestigious_project_section4 = await this.BlogsRepo.find({
+            where: { id:124, category: 'prestigious-project-section4' }
+        });
+        const prestigious_project_section5 = await this.BlogsRepo.find({
+            where: { id:125, category: 'prestigious-project-section5' }
+        });
+        
+        if (!prestigious_project_section1) {
+        return {
+            status: false,
+            statusCode: 404,
+            message: 'No data not found',
+            data: null
+        };
+        }
+        
+        return {
+            status: true,
+            statusCode: 200,
+            message: 'Prestigious Project data fetched successfully',
+            data:{
+                hero_data:hero_data,
+                prestigious_project_sectionData:{
+                    prestigious_project_section1,
+                    prestigious_project_section2,
+                    prestigious_project_section3,
+                    prestigious_project_section4,
+                    prestigious_project_section5
+                }
+            } 
+        };
+    }
+    private parseJsonArray(jsonString: string | null): string[] {
+        if (!jsonString) return [];
+        try {
+        const parsed = JSON.parse(jsonString);
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+        return [parsed];
+        } catch (e) {
+        return [jsonString];
+        }
+    }
+
+    private parseJsonObject(jsonString: string | null): any {
+        if (!jsonString) return null;
+        try {
+        return JSON.parse(jsonString);
+        } catch (e) {
+        return jsonString;
+        }
+    }
+    async findByUniqueId(unique_id: string): Promise<any> {
+        const records = await this.officeRepository.find({ 
+        where: { unique_id },
+        order: {
+            direction: 'ASC',
+            city: 'ASC',
+        }
+        });
+        
+        if (!records || records.length === 0) {
+        throw new NotFoundException(`Data with unique_id "${unique_id}" not found`);
+        }
+        
+        // Get heading and sub_heading from first record (they are same for all)
+        const firstRecord = records[0];
+        
+        // Parse JSON fields for each record
+        const parsedData = records.map(record => ({
+        ...record,
+        address: this.parseJsonArray(record.address),
+        contact: this.parseJsonArray(record.contact),
+        properties: this.parseJsonObject(record.properties),
+        }));
+        
+        return {
+        unique_id: unique_id,
+        heading: firstRecord.heading,
+        sub_heading: firstRecord.sub_heading,
+        data: parsedData,
+        total: parsedData.length
+        };
     }
 }

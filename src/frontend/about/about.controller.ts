@@ -1,4 +1,4 @@
-import { BadRequestException, Controller,Get, HttpStatus, Param } from '@nestjs/common';
+import { BadRequestException, Controller,Get, HttpStatus, NotFoundException, Param } from '@nestjs/common';
 import { AboutFrontendService } from './about.service';
 
 @Controller('frontend/about')
@@ -83,6 +83,29 @@ export class AboutFrontendController {
           data,
         };
       } catch (error) {
+        throw new BadRequestException(error.message);
+      }
+    }
+
+  @Get('getPrestigiousProject')
+  async getPrestigiousProject() {
+    return this.AboutService.getPrestigiousProject();
+  }
+
+  @Get('office/unique/:unique_id')
+    async findByUniqueId(@Param('unique_id') unique_id: string) {
+      try {
+        const data = await this.AboutService.findByUniqueId(unique_id);
+        return {
+          status: true,
+          statusCode: HttpStatus.OK,
+          message: 'Global Presence data fetched successfully',
+          data,
+        };
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw error;
+        }
         throw new BadRequestException(error.message);
       }
     }

@@ -173,7 +173,7 @@ export class HomeService {
 
   private async getFacebookPosts(): Promise<any[]> {
     const pageId = '116394462296951';
-    const accessToken = 'EAAQ9ku8QN4MBRAQMoSXmZBDXdn54OwVPCGBkRZCmDuvH9yf5SNHEUr565bkD82itYB9vSJZB2ADRGD9q0AGbCOJfIuUIOGkZATxbbME21Vl04w0y4zmmZCUM8lIUHGh2CIXnNcwZCNS2mbnTXa2oMHoOEXqdcXSWK5yiYMryvkhhj0sOuFUsW3bDujYJPNJnAoHJysiIcT2a6Ujfkigx3DwFgZD';
+    const accessToken = process.env.facebook_access_token
     
     const url = `https://graph.facebook.com/v22.0/${pageId}?fields=posts{created_time,message,full_picture,permalink_url}&access_token=${accessToken}`;
     

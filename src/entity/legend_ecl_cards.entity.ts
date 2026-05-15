@@ -14,6 +14,9 @@ export class LegendEclCard {
     @Column({ type: 'varchar', length: 500, nullable: true })
     image: string;
 
+    @Column({ type: 'text' })
+    link: string;
+    
     @CreateDateColumn({ name: 'created_at', type: 'datetime' })
     createdAt: Date;
 

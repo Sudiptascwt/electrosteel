@@ -118,16 +118,43 @@ export class AllProductsController {
     }
   }
 
-  // DELETE - DELETE /AllProducts/:id
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  // // DELETE - DELETE /all-products/category/:category (MUST BE FIRST)
+  // @Delete('category/:category')
+  // async deleteByCategory(@Param('category') category: string) {
+  //   try {
+  //     await this.AllProductsService.deleteByCategory(category);
+  //     return {
+  //       status: true,
+  //       statusCode: HttpStatus.OK,
+  //       message: `Product(s) with category "${category}" deleted successfully`,
+  //     };
+  //   } catch (error) {
+  //     throw new BadRequestException(error.message);
+  //   }
+  // }
+
+  // DELETE - DELETE /all-products?id=123
+  // DELETE - DELETE /all-products?category=PaintOverview
+  @Delete()
+  async delete(@Query('id') id?: string, @Query('category') category?: string) {
     try {
-      await this.AllProductsService.delete(id);
-      return {
-        status: true,
-        statusCode: HttpStatus.OK,
-        message: 'Product deleted successfully',
-      };
+      if (category) {
+        await this.AllProductsService.deleteByCategory(category);
+        return {
+          status: true,
+          statusCode: HttpStatus.OK,
+          message: `Product(s) with category "${category}" deleted successfully`,
+        };
+      } else if (id) {
+        await this.AllProductsService.delete(parseInt(id));
+        return {
+          status: true,
+          statusCode: HttpStatus.OK,
+          message: 'Product deleted successfully',
+        };
+      } else {
+        throw new BadRequestException('Either id or category must be provided');
+      }
     } catch (error) {
       throw new BadRequestException(error.message);
     }

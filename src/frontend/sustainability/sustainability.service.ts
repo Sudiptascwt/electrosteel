@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { AllCertificate } from '../../entity/all_certificates.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 import { Blogs } from 'src/entity/blogs.entity';
@@ -23,7 +23,7 @@ export class sustainabilityService {
 
     // GET ALL PIPE ARTS WITH DETAILS
     async sustainAbilityHero() {
-        const hero =  await this.allBannerRepo.findOne({
+        const hero =  await this.allBannerRepo.find({
         where: { page_name: 'our-commitments-page' },
         });
         return {
@@ -41,8 +41,8 @@ export class sustainabilityService {
     } 
     async jalsadhanaData(): Promise<any> {
         try {
-            const heroData = await this.AllProductsRepo.findOne({ where: { category: 'jal-sadhana-hero' } });
-            const case2 = await this.AllProductsRepo.findOne({ where: { category: 'what-is-Jal-Sadhana' } });  
+            const heroData = await this.AllProductsRepo.find({ where: { category: 'jal-sadhana-hero' } });
+            const case2 = await this.AllProductsRepo.find({ where: { category: 'what-is-Jal-Sadhana' } });  
             const case3 = await this.blogRepo.find({
                 where: { category: 'jalSevakSaman' }
             });
@@ -160,48 +160,62 @@ export class sustainabilityService {
     }
 
     // Employee Welfare Data
-async employeeWelfareData(): Promise<any> {
-        try {
-            const heroData =  await this.allBannerRepo.findOne({
-                where: { page_name: 'employee-welfare' },
-            });
-            
-            const workplaceThatCares = await this.blogRepo.findOne({ 
-                where: { category: 'employee-welfare-section1' } 
-            });
-            
-            const caresList = await this.blogRepo.find({
-                where: { category: 'workPlaceCareListSustainability' },
-                order: { id: 'ASC' }
-            });
+    async employeeWelfareData(): Promise<any> {
+            try {
+                const heroData =  await this.allBannerRepo.find({
+                    where: { page_name: 'employee-welfare' },
+                });
+                
+                const workplaceThatCares = await this.blogRepo.find({ 
+                    where: { category: 'employee-welfare-section1' } 
+                });
+                
+                const caresList = await this.blogRepo.find({
+                    where: { category: 'workPlaceCareListSustainability' },
+                    order: { id: 'ASC' }
+                });
 
-            return {
-                status: true,
-                statusCode: 200,
-                message: 'Employee welfare data fetched successfully',
-                data: {
-                    heroData: this.deepParseJson(heroData),
-                    workplaceThatCares: this.deepParseJson(workplaceThatCares),
-                    caresList: this.deepParseJson(caresList)
-                }
-            };
-            
-        } catch (error) {
-            throw new Error(`Failed to fetch Employee Welfare data: ${error.message}`);
-        }
+                return {
+                    status: true,
+                    statusCode: 200,
+                    message: 'Employee welfare data fetched successfully',
+                    data: {
+                        heroData: this.deepParseJson(heroData),
+                        workplaceThatCares: this.deepParseJson(workplaceThatCares),
+                        caresList: this.deepParseJson(caresList)
+                    }
+                };
+                
+            } catch (error) {
+                throw new Error(`Failed to fetch Employee Welfare data: ${error.message}`);
+            }
     }
 
     // External Social Support Data
     async externalSocialSupportData(): Promise<any> {
         try {
-
-            const heroData =  await this.allBannerRepo.findOne({
+            const heroData = await this.allBannerRepo.find({
                 where: { page_name: 'external-social-support' },
             });
             
-            const topSection = await this.blogRepo.findOne({ 
-                where: { category: 'external-social-support-top' } 
+            const topSection = await this.AllProductsRepo.find({ 
+                where: { category: 'employee-social-sectionunique1' } 
             });
+            
+            // Find all categories that contain 'external-social-support'
+            const multi_section = await this.AllProductsRepo.find({ 
+                where: { 
+                    category: Like('external-social-support%') 
+                },
+                order: {
+                    category: 'ASC' 
+                }
+            });
+            
+            const sectionNumbers = multi_section.map(item => {
+                const match = item.category.match(/external-social-support(\d+)/);
+                return match ? parseInt(match[1]) : null;
+            }).filter(n => n !== null);
             
             return {
                 status: true,
@@ -210,6 +224,7 @@ async employeeWelfareData(): Promise<any> {
                 data: {
                     heroData: this.deepParseJson(heroData),
                     topSection: this.deepParseJson(topSection),
+                    multi_section: this.deepParseJson(multi_section)
                 }
             };
             
@@ -217,16 +232,15 @@ async employeeWelfareData(): Promise<any> {
             throw new Error(`Failed to fetch External Social Support data: ${error.message}`);
         }
     }
-
     // Our Commitments Data
     async ourCommitmentsData(): Promise<any> {
         try {
             const [heroData, sustainingImpactSection] = await Promise.all([
-                this.allBannerRepo.findOne({
+                this.allBannerRepo.find({
                     where: { page_name: 'our-commitments-page' },
                 }),
-                this.blogRepo.findOne({ 
-                    where: { category: 'our-commitments-page-section1' } 
+                this.blogRepo.find({ 
+                    where: { id:108, category: 'our-commitments-page-section1' } 
                 })
             ]);
 

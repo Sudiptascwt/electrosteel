@@ -29,6 +29,15 @@ export class AllProducts {
     @Column({ type: 'text', nullable: true })
     video_link: string;
 
+    @Column({ type: 'longtext', nullable: true })
+    table_headers: string;  // Store JSON string
+
+    @Column({ type: 'longtext', nullable: true })
+    table_data: string;  // Store JSON string
+
+    @Column({ type: 'longtext', nullable: true })
+    table_data2: string;  // Store JSON string
+
     @CreateDateColumn()
     created_at: Date;
 

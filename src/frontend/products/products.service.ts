@@ -1,7 +1,7 @@
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { OverviewDuctileIronPipes } from '../../entity/overview.entity';
 import { ProductDetails } from '../../entity/product-details.entity';
 import { Application } from '../../entity/application.entity';
@@ -55,7 +55,7 @@ export class frontendProductService {
     private parseJsonFields(data: any): any {
         if (!data) return null;
         const parsed = { ...data };
-        const jsonFields = ['image', 'tableData', 'productTable', 'listData', 'systems', 'table', 'desc', 'dimensionImage', 'tableExtraData'];
+        const jsonFields = ['image', 'tableData', 'productTable', 'listData', 'systems', 'table', 'desc', 'dimensionImage', 'tableExtraData', 'slider_images'];
         
         for (const field of jsonFields) {
             if (parsed[field] && typeof parsed[field] === 'string') {
@@ -1188,7 +1188,7 @@ export class frontendProductService {
             'currentManufacturingFacilitiesPaint',
         ];
 
-        // Fetch all categories from database
+        // Fetch all categories from database and parse JSON fields
         const results = await Promise.all(
             categories.map(async (category) => {
                 const data = await this.facRepository.findOne({ 
@@ -1201,31 +1201,133 @@ export class frontendProductService {
             })
         );
 
-        const hero =  await this.allBannerRepo.findOne({
-        where: { page_name: 'PaintHeroSection' },
+        // Fetch hero section
+        const hero = await this.allBannerRepo.findOne({
+            where: { page_name: 'PaintHeroSection' },
         });
+
+        // Fetch additional product categories
         const ElectrosteelLegacyofInnovation = await this.AllProductsRepo.findOne({
             where: { category: 'ElectrosteelLegacyofInnovation' },
-        })
+        });
+
         const PaintOverview = await this.AllProductsRepo.findOne({
             where: { category: 'PaintOverview' },
-        })
+        });
 
         const PaintTechnologyMantra = await this.AllProductsRepo.findOne({
             where: { category: 'PaintTechnologyMantra' },
-        })
+        });
+
+        // Parse JSON fields for additional data if needed
+        const parsedHero = hero ? await this.parseJsonFields(hero) : null;
+        const parsedLegacy = ElectrosteelLegacyofInnovation ? await this.parseJsonFields(ElectrosteelLegacyofInnovation) : null;
+        const parsedOverview = PaintOverview ? await this.parseJsonFields(PaintOverview) : null;
+        const parsedMantra = PaintTechnologyMantra ? await this.parseJsonFields(PaintTechnologyMantra) : null;
 
         return {
-            hero : hero,
-            ElectrosteelLegacyofInnovation,
-            PaintOverview,
-            PaintTechnologyMantra,
+            hero: parsedHero,
+            ElectrosteelLegacyofInnovation: parsedLegacy,
+            PaintOverview: parsedOverview,
+            PaintTechnologyMantra: parsedMantra,
             industrialPaintBusinessOverview: results.find(r => r.category === 'industrialPaintBusinessOverviewPaint')?.data || null,
             comprehensiveProductRange: results.find(r => r.category === 'comprehensiveProductRangePaint')?.data || null,
             testPerformedForPaintsAndPrimers: results.find(r => r.category === 'testPerformedForPaintsAndPrimersPaint')?.data || null,
             worldClassRawMaterialsAndGlobalApprovals: results.find(r => r.category === 'worldClassRawMaterialsAndGlobalApprovalsPaint')?.data || null,
             worldClassRnDLaboratory: results.find(r => r.category === 'worldClassRnDLaboratoryPaint')?.data || null,
             currentManufacturingFacilities: results.find(r => r.category === 'currentManufacturingFacilitiesPaint')?.data || null,
+        };
+    }
+// Shared deep parse function (add to your service)
+    private deepParseJson(obj: any): any {
+        if (!obj) return null;
+        
+        // If it's a string, try to parse it as JSON
+        if (typeof obj === 'string') {
+            try {
+                const parsed = JSON.parse(obj);
+                return this.deepParseJson(parsed);
+            } catch (e) {
+                return obj;
+            }
+        }
+        
+        // If it's an array, parse each item
+        if (Array.isArray(obj)) {
+            return obj.map(item => this.deepParseJson(item));
+        }
+        
+        // If it's an object, parse each value
+        if (typeof obj === 'object' && obj !== null) {
+            const result: any = {};
+            for (const key in obj) {
+                result[key] = this.deepParseJson(obj[key]);
+            }
+            return result;
+        }
+        
+        return obj;
+    }
+
+    async ductileJointingSytem(): Promise<any>{
+        const heroData = await this.allBannerRepo.find({
+            where: { page_name: 'diFittingsJointingSystemPage' },
+        });
+        
+        // Find all categories that contain 'external-social-support'
+        const multi_section = await this.AllProductsRepo.find({ 
+            where: { 
+                category: Like('diFittingsJointingSystemPage%') 
+            },
+            order: {
+                category: 'ASC' 
+            }
+        });
+        
+        const sectionNumbers = multi_section.map(item => {
+            const match = item.category.match(/external-social-support(\d+)/);
+            return match ? parseInt(match[1]) : null;
+        }).filter(n => n !== null);
+
+        return {
+            status: true,
+            statusCode: 200,
+            message: 'ductileJointingSytem data fetched successfully',
+            data: {
+                heroData: this.deepParseJson(heroData),
+                multi_section: this.deepParseJson(multi_section)
+            }
+        };
+    }
+
+    async dipipesJointingSystem(): Promise<any>{
+        const heroData = await this.allBannerRepo.find({
+            where: { page_name: 'dipipesJointingSystemPage' },
+        });
+        
+        // Find all categories that contain 'external-social-support'
+        const multi_section = await this.AllProductsRepo.find({ 
+            where: { 
+                category: Like('dipipesJointingSystemPage%') 
+            },
+            order: {
+                category: 'ASC' 
+            }
+        });
+        
+        const sectionNumbers = multi_section.map(item => {
+            const match = item.category.match(/external-social-support(\d+)/);
+            return match ? parseInt(match[1]) : null;
+        }).filter(n => n !== null);
+
+        return {
+            status: true,
+            statusCode: 200,
+            message: 'dipipesJointingSystem data fetched successfully',
+            data: {
+                heroData: this.deepParseJson(heroData),
+                multi_section: this.deepParseJson(multi_section)
+            }
         };
     }
 }

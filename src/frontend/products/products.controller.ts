@@ -12,6 +12,16 @@ import { frontendProductService } from './products.service';
 export class frontendProductController {
   constructor(private readonly service: frontendProductService) {}
 
+
+  @Get('ductileJointingSytem')
+    async ductileJointingSytem() {
+        return this.service.ductileJointingSytem();
+  }
+  @Get('dipipesJointingSystem')
+    async dipipesJointingSystem() {
+        return this.service.dipipesJointingSystem();
+  }
+
   @Get('other-products-all')
   async findProductsByCategory(
       @Query('category') category: string,
@@ -215,4 +225,5 @@ export class frontendProductController {
       throw new BadRequestException(error.message);
     }
   }
+
 }

@@ -45,6 +45,7 @@ import { Reward } from 'src/entity/rewards.entity';
 import { Blogs } from 'src/entity/blogs.entity';
 import { AllBanner } from 'src/entity/all_page_banner_image.entity';
 import { CommonTitle } from 'src/entity/common_titles.entity';
+import { globalPresence } from 'src/entity/global_presence.entity';
 
 @Module({
   imports: [
@@ -85,7 +86,8 @@ import { CommonTitle } from 'src/entity/common_titles.entity';
       Reward,
       Blogs,
       AllBanner,
-      CommonTitle
+      CommonTitle,
+      globalPresence
     ]),
   ],
   controllers: [AboutFrontendController],
